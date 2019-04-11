@@ -2,7 +2,7 @@
   "name": "react-ts-starter",
   "version": "1.0.0",
   "description": "Boiler plate for a react app with TypeScript among other things",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "start": "parcel index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,13 +14,16 @@
   "author": "ThunderDev",
   "license": "ISC",
   "dependencies": {
-    "react-dom": "^16.8.6",
-    "react": "^16.8.6"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.4.3"
   }
 }
