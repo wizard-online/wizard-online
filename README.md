@@ -1,2 +1,2 @@
-# react-ts-parcel
+# react-ts-starter
 React TypeScript and Parcel boilerplate
