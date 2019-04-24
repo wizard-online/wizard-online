@@ -10,7 +10,7 @@ A React boilerplate that includes the latest and greatest technologies **from th
 ```
 
 ###### Recommended
- [VS Code](https://code.visualstudio.com/) with EsLint extension
+ [VS Code](https://code.visualstudio.com/) with EsLint and Prettier extension
 
 #### Enabling ESLint on TS files in VSCode
 
@@ -31,3 +31,4 @@ To tell VSCode to run eslint on TypeScript files, you need to add the following 
 * [Parcel](https://parceljs.org/) blazing fast, zero configuration web application bundler
 * [React router](https://reacttraining.com/react-router/) declarative routing for React
 * [EsLint](https://eslint.org/) the pluggable linting utility for JavaScript and JSX
+* [Prettier](https://prettier.io/) opinionated code formatter

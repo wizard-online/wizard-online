@@ -4,7 +4,6 @@ import {HashRouter as Router} from 'react-router-dom';
 import Routes from './Routes';
 import Nav from './components/Nav';
 
-
 const App: FunctionComponent<{}> = (): ReactElement => (
   <Router>
     <React.Fragment>
