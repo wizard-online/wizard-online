@@ -1,16 +1,15 @@
-import * as React from 'react';
-import {FunctionComponent, ReactElement} from 'react';
-import {HashRouter as Router} from 'react-router-dom';
-import Routes from './Routes';
-import Nav from './components/Nav';
+import React from "react";
 
-const App: FunctionComponent<{}> = (): ReactElement => (
+import { HashRouter as Router } from "react-router-dom";
+import { Routes } from "./Routes";
+import { Nav } from "./components/Nav";
+
+export const App: React.FC<{}> = () => (
   <Router>
-    <React.Fragment>
+    <>
+      <h1>TEST TITLE</h1>
       <Nav />
       <Routes />
-    </React.Fragment>
+    </>
   </Router>
 );
-
-export default App;

@@ -1,8 +1,7 @@
-import * as React from 'react';
-import {FunctionComponent, ReactElement, Fragment} from 'react';
+import React from "react";
 
-const Home: FunctionComponent<{}> = (): ReactElement => (
-  <Fragment>
+export const Home: React.FC<{}> = () => (
+  <>
     <div>Welcome to the ultimate react boilerplate from the futur!</div>
     <ul>
       <li>React</li>
@@ -12,7 +11,5 @@ const Home: FunctionComponent<{}> = (): ReactElement => (
       <li>EsLint</li>
       <li>Prettier</li>
     </ul>
-  </Fragment>
+  </>
 );
-
-export default Home;

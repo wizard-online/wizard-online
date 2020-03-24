@@ -1,10 +1,7 @@
-import * as React from 'react';
-import {ReactElement, FunctionComponent} from 'react';
+import React from "react";
 
-const Contact: FunctionComponent<{}> = (): ReactElement => (
+export const Contact: React.FC<{}> = () => (
   <p>
     <a href="https://github.com/ThunderDev1">https://github.com/ThunderDev1</a>
   </p>
 );
-
-export default Contact;

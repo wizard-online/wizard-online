@@ -1,8 +1,7 @@
-import * as React from 'react';
-import {FunctionComponent, ReactElement} from 'react';
-import {Link} from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Nav: FunctionComponent<{}> = (): ReactElement => (
+export const Nav: React.FC<{}> = () => (
   <nav>
     <ul>
       <li>
@@ -14,5 +13,3 @@ const Nav: FunctionComponent<{}> = (): ReactElement => (
     </ul>
   </nav>
 );
-
-export default Nav;
