@@ -1,7 +1,7 @@
 {
-  "name": "react-ts-starter",
+  "name": "wizard-online",
   "version": "1.0.0",
-  "description": "Boiler plate for a react app with TypeScript among other things",
+  "description": "Online platform for playing the Wizard card game",
   "main": "index.tsx",
   "scripts": {
     "start": "parcel index.html",
@@ -11,8 +11,8 @@
     "react",
     "typescript"
   ],
-  "author": "ThunderDev",
-  "license": "ISC",
+  "author": "Jan Kirchner",
+  "license": "MIT",
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
