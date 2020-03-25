@@ -5,7 +5,6 @@ module.exports = {
     "@babel/react",
   ],
   plugins: [
-    "@babel/plugin-transform-runtime",
-    { corejs: 3, regenerator: true },
+    ["@babel/plugin-transform-runtime", { corejs: 3, regenerator: true }],
   ],
 };
