@@ -1,13 +1,14 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable consistent-return */
 import { Ctx, PhaseConfig } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { G } from "../G";
 
 export const predict: PhaseConfig = {
   moves: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    predictNumberOfTricks(g: G, ctx: Ctx, numberOfTricks: number): any {
+    predictNumberOfTricks(
+      g: G,
+      ctx: Ctx,
+      numberOfTricks: number
+    ): "INVALID_MOVE" | void {
       if (numberOfTricks < 0 || numberOfTricks > g.numCardsOnHand) {
         return INVALID_MOVE;
       }
@@ -24,8 +25,8 @@ export const predict: PhaseConfig = {
       if (isNotFirstRound && isLastPlayer && isTotalPredictionEven) {
         return INVALID_MOVE;
       }
+      // eslint-disable-next-line no-param-reassign
       g.score[parseInt(ctx.currentPlayer, 10)] = numberOfTricks;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ctx.events!.endTurn!();
     },
   },
