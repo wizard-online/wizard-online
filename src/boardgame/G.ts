@@ -8,9 +8,11 @@ export interface G {
   deck: Card[];
 }
 
-export const defaultG = (ctx: Ctx): G => ({
-  numCardsOnHand: 3,
-  score: Array(ctx.numPlayers).fill(null),
-  hands: Array(ctx.numPlayers).fill(null),
-  deck: generateCardDeck(),
-});
+export const defaultG = (ctx: Ctx): G => {
+  return {
+    numCardsOnHand: 3,
+    score: Array(ctx.numPlayers).fill(null),
+    hands: Array(ctx.numPlayers).fill(null),
+    deck: generateCardDeck(),
+  };
+};
