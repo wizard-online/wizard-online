@@ -11,19 +11,17 @@ export const predict: PhaseConfig = {
       if (numberOfTricks < 0 || numberOfTricks > g.numCardsOnHand) {
         return INVALID_MOVE;
       }
-      if (
-        // is not first round
-        g.numCardsOnHand > 1 &&
-        // is last player
+      const isNotFirstRound = g.numCardsOnHand > 1;
+      const isLastPlayer =
         g.score.filter(
           (score, i) => i !== parseInt(ctx.currentPlayer, 10) && score === null
-        ).length > 0 &&
-        // total predicted tricks equals no. of cards
+        ).length === 0;
+      const isTotalPredictionEven =
         [numberOfTricks, ...g.score].reduce(
           (sum, value) => (sum || 0) + (value || 0),
           0
-        ) === g.numCardsOnHand
-      ) {
+        ) === g.numCardsOnHand;
+      if (isNotFirstRound && isLastPlayer && isTotalPredictionEven) {
         return INVALID_MOVE;
       }
       g.score[parseInt(ctx.currentPlayer, 10)] = numberOfTricks;
