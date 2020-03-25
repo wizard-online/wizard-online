@@ -14,10 +14,10 @@
   "author": "Jan Kirchner",
   "license": "MIT",
   "dependencies": {
-    "boardgame.io": "^0.39.2",
-    "lodash": "^4.17.15",
     "@babel/runtime-corejs3": "^7.9.2",
+    "boardgame.io": "^0.39.2",
     "core-js": "^3.6.4",
+    "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
