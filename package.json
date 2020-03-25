@@ -14,12 +14,16 @@
   "author": "ThunderDev",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime-corejs3": "^7.9.2",
+    "core-js": "^3.6.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.0",
+    "regenerator-runtime": "^0.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.9.0",
