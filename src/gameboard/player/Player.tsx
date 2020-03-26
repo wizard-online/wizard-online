@@ -11,10 +11,12 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
 
-  const { phase } = gamestate.ctx;
+  const { phase, currentPlayer } = gamestate.ctx;
+  const isTurn = playerID === currentPlayer;
+  const playerTitle = <>Spieler: {playerID}</>;
   return (
     <Container>
-      Spieler: {playerID}
+      {isTurn ? <b>{playerTitle}</b> : playerTitle}
       {phase === "setup" && <PlayerOnSetup playerID={playerID} />}
       {phase === "bidding" && <PlayerOnBidding playerID={playerID} />}
       {phase === "playing" && <PlayerOnPlaying playerID={playerID} />}
@@ -23,5 +25,5 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
 };
 
 const Container = styled(Box)`
-  margin: 10px;
+  margin: 25px;
 `;
