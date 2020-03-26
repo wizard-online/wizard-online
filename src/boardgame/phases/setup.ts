@@ -2,7 +2,7 @@
 import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffle from "lodash/shuffle";
 
-import { G, isSetRound, isSetTrick, blankRound } from "../G";
+import { G, isSetRound, blankRound } from "../G";
 import { playersRound } from "../entities/players";
 import { Card } from "../entities/cards";
 
