@@ -4,6 +4,7 @@ import { setup } from "./boardgame/phases/setup";
 import { bidding } from "./boardgame/phases/bidding";
 import { play } from "./boardgame/phases/play";
 import { defaultG } from "./boardgame/G";
+import { WizardBoard } from "./gameboard/WizardBoard";
 
 const WizardGame = {
   name: "Wizard",
@@ -20,4 +21,8 @@ const WizardGame = {
   },
 };
 
-export const Game = Client({ game: WizardGame, numPlayers: 4 });
+export const Game = Client({
+  game: WizardGame,
+  board: WizardBoard,
+  numPlayers: 4,
+});
