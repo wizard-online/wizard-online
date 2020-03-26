@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { PhaseConfig, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import flatten from "lodash/flatten";
@@ -27,11 +28,9 @@ export const play: PhaseConfig = {
 
       // as first player, init trick
       if (!g.trick) {
-        // eslint-disable-next-line no-param-reassign
         g.trick = blankTrick();
       }
       if (!round.trickCount) {
-        // eslint-disable-next-line no-param-reassign
         round.trickCount = Array(5).fill(0);
       }
       // play card
@@ -57,21 +56,23 @@ export const play: PhaseConfig = {
     if (flatten(round.hands).length > 0) {
       throw Error("hands are not empty when attempting to end the round");
     }
-    // check if game is finished
-    const incNumCards = game.numCards + 1;
-    if (incNumCards * ctx.numPlayers > 60) {
-      ctx.events!.endGame!();
-    }
+
     // calc score
-    // eslint-disable-next-line no-param-reassign
     game.scorePad = updateScorePad(
       round.bids,
       round.trickCount,
       game.numCards,
       game.scorePad
     );
-    // eslint-disable-next-line no-param-reassign
-    game.numCards = incNumCards;
+    // check if game is finished
+    const incNumCards = game.numCards + 1;
+    if (incNumCards * ctx.numPlayers > 60) {
+      const finalScore = game.scorePad[game.scorePad.length - 1];
+      ctx.events!.endGame!(finalScore);
+    } else {
+      // next round with one card more
+      game.numCards = incNumCards;
+    }
   },
 };
 
@@ -95,6 +96,5 @@ function endTrick(g: G): void {
     round.trump?.suit || null
   );
   round.trickCount![parseInt(winnerPlayerId, 10)] += 1;
-  // eslint-disable-next-line no-param-reassign
   g.trick = null;
 }
