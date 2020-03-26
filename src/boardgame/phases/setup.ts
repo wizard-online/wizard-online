@@ -18,13 +18,11 @@ export const setup: PhaseConfig = {
       round!.deck = shuffle(round!.deck);
     },
     handout(g: G, ctx: Ctx) {
-      const { round, trick, game } = g;
+      const { round, game } = g;
       if (!isSetRound(round)) {
         throw Error("round is not set");
       }
-      if (!isSetTrick(trick)) {
-        throw Error("trick is not set");
-      }
+
       const players = playersRound(
         (parseInt(ctx.currentPlayer, 10) + 1) % ctx.numPlayers,
         ctx.numPlayers
@@ -42,10 +40,12 @@ export const setup: PhaseConfig = {
             hands[player].push(card);
           });
         });
+
       round.hands = hands;
       const trump = round.deck.pop();
       if (!trump) throw Error("deck seems to be empty");
       round.trump = trump;
+
       ctx.events!.endPhase!();
     },
   },
