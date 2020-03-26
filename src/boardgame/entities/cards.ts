@@ -1,19 +1,14 @@
 import flatten from "lodash/flatten";
 
-export enum CardSuit {
+export enum Suit {
   Blue = "BLUE",
   Red = "RED",
   Yellow = "YELLOW",
   Green = "GREEN",
 }
-export const allSuits = [
-  CardSuit.Blue,
-  CardSuit.Red,
-  CardSuit.Yellow,
-  CardSuit.Green,
-];
+export const allSuits = [Suit.Blue, Suit.Red, Suit.Yellow, Suit.Green];
 
-export enum CardRank {
+export enum Rank {
   One = 1,
   Two,
   Three,
@@ -31,44 +26,50 @@ export enum CardRank {
   Z = 26,
 }
 export const regularRanks = [
-  CardRank.One,
-  CardRank.Two,
-  CardRank.Three,
-  CardRank.Four,
-  CardRank.Five,
-  CardRank.Six,
-  CardRank.Seven,
-  CardRank.Eight,
-  CardRank.Nine,
-  CardRank.Ten,
-  CardRank.Eleven,
-  CardRank.Twelve,
-  CardRank.Thirteen,
+  Rank.One,
+  Rank.Two,
+  Rank.Three,
+  Rank.Four,
+  Rank.Five,
+  Rank.Six,
+  Rank.Seven,
+  Rank.Eight,
+  Rank.Nine,
+  Rank.Ten,
+  Rank.Eleven,
+  Rank.Twelve,
+  Rank.Thirteen,
 ];
-export const specialRanks = [CardRank.N, CardRank.Z];
+export const specialRanks = [Rank.N, Rank.Z];
 export const allRanks = [...regularRanks, ...specialRanks];
 
 export interface Card {
-  suit: CardSuit;
-  rank: CardRank;
+  suit: Suit;
+  rank: Rank;
 }
 
-export function isHigherThan(
+export function Card(suit: Suit, rank: Rank): Card {
+  return { suit, rank };
+}
+
+export function cardBeatsOther(
   card: Card,
   other: Card,
-  trumpSuit?: CardSuit | null,
-  leadSuit?: CardSuit
+  trumpSuit: Suit | null = null,
+  leadSuit: Suit | null = null
 ): boolean {
   // N is lower than all cards (also previously played Ns)
-  if (card.rank === CardRank.N) {
+  if (card.rank === Rank.N) {
     return false;
   }
-  // Z is higher than all cards but previously played Zs
-  if (card.rank === CardRank.Z) {
-    return other.rank !== CardRank.Z;
+  // always lose against Z
+  if (other.rank === Rank.Z) {
+    return false;
   }
-  // card is lower if it's no Z but other is
-  if (other.rank === CardRank.Z) return false;
+  // Z is higher than all cards but other Zs
+  if (card.rank === Rank.Z) {
+    return true;
+  }
   // => neither card is Z or N
 
   // cards of same suit
@@ -98,23 +99,29 @@ export function isHigherThan(
 
 export function getTrickWinner(
   cards: Card[],
-  trumpSuit: CardSuit | null
+  trumpSuit: Suit | null
 ): [number, Card] {
   if (cards.length < 2) {
     throw Error("too few cards");
   }
   const leadSuit = cards[0].suit;
-  const winnerIndex = cards.slice(1).reduce((winningIndex, card, cardIndex) => {
-    return isHigherThan(card, cards[winningIndex], trumpSuit, leadSuit)
-      ? cardIndex
-      : winningIndex;
+  const winnerIndex = cards.reduce((winningIndex, card, cardIndex) => {
+    // skip first card
+    if (cardIndex === 0) return 0;
+    const beaten = cardBeatsOther(
+      card,
+      cards[winningIndex],
+      trumpSuit,
+      leadSuit
+    );
+    return beaten ? cardIndex : winningIndex;
   }, 0);
   return [winnerIndex, cards[winnerIndex]];
 }
 
 export function canPlayCard(
   card: Card,
-  suitsInHand: CardSuit[],
+  suitsInHand: Suit[],
   leadCard: Card | null
 ): boolean {
   // as lead, every card can be played
@@ -122,15 +129,15 @@ export function canPlayCard(
     return true;
   }
   // Zs and Ns can always be played
-  if (card.rank === CardRank.N || card.rank === CardRank.Z) {
+  if (card.rank === Rank.N || card.rank === Rank.Z) {
     return true;
   }
   // Ns cannot be leading card
-  if (leadCard.rank === CardRank.N) {
+  if (leadCard.rank === Rank.N) {
     throw Error("N card cannot be leading card");
   }
   // if Z is leading card, every card can be played
-  if (leadCard.rank === CardRank.Z) {
+  if (leadCard.rank === Rank.Z) {
     return true;
   }
   // if lead suit is not in hand, every card can be played
@@ -148,17 +155,15 @@ export function playableCardsInHand(
   const suitsInHand = allSuits.filter((suit) =>
     hand.find(
       (card) =>
-        card.suit === suit &&
-        card.rank !== CardRank.N &&
-        card.rank !== CardRank.Z
+        card.suit === suit && card.rank !== Rank.N && card.rank !== Rank.Z
     )
   );
   return hand.map((card) => canPlayCard(card, suitsInHand, leadCard));
 }
 
-export function generateCardDeck(): Card[] {
+export function generateCardDeck(ranks: Rank[] = allRanks): Card[] {
   const cards = flatten(
-    allSuits.map((suit) => allRanks.map((rank) => ({ suit, rank })))
+    allSuits.map((suit) => ranks.map((rank) => ({ suit, rank })))
   );
 
   return cards;
