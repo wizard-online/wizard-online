@@ -6,6 +6,15 @@ export function updateScorePad(
   numCards: number,
   scorePad: RoundScore[]
 ): RoundScore[] {
+  return [...scorePad, calcRoundScore(bids, trickCount, numCards, scorePad)];
+}
+
+export function calcRoundScore(
+  bids: (number | null)[],
+  trickCount: number[],
+  numCards: number,
+  scorePad: RoundScore[]
+): RoundScore {
   const lastRoundScore = scorePad[scorePad.length - 1];
   const playerScores = bids.map((bid, i) => {
     if (bid === null) throw Error("unexpected bid null value");
@@ -18,11 +27,8 @@ export function updateScorePad(
     return { bid, tricks, score, total } as Score;
   });
 
-  return [
-    ...scorePad,
-    {
-      numCards,
-      playerScores,
-    },
-  ];
+  return {
+    numCards,
+    playerScores,
+  };
 }
