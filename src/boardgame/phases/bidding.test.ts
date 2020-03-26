@@ -28,6 +28,7 @@ function generate({
     deck: [],
     trick: null,
     trump: null,
+    lead: null,
   };
   return {
     g,

@@ -7,6 +7,7 @@ export interface G {
   hands: Card[][];
   trick: Card[] | null;
   trump: Card | null;
+  lead: Card | null;
   deck: Card[];
 }
 
@@ -17,6 +18,7 @@ export const defaultG = (ctx: Ctx): G => {
     hands: Array(ctx.numPlayers).fill(null),
     trick: null,
     trump: null,
+    lead: null,
     deck: generateCardDeck(),
   };
 };
