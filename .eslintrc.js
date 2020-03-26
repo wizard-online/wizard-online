@@ -48,5 +48,6 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "consistent-return": "off",
     "jest/expect-expect": ["error", { assertFunctionNames: ["expect*"] }],
+    "react/prop-types": "off",
   },
 };
