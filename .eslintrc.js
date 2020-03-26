@@ -47,5 +47,6 @@ module.exports = {
     "@typescript-eslint/no-throw-literal": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "consistent-return": "off",
+    "jest/expect-expect": ["error", { assertFunctionNames: ["expect*"] }],
   },
 };
