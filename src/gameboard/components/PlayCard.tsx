@@ -11,7 +11,7 @@ export interface PlayCardProps {
 }
 
 // css colors
-enum PlayCardColor {
+export enum PlayCardColor {
   Black = "black",
   Blue = "blue",
   Green = "green",
@@ -26,7 +26,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   onClick = () => {},
 }) => {
   if (!card) {
-    return <StaticCardBox>&#10060;</StaticCardBox>;
+    return <BacksideCardBox />;
   }
   const color = getColor(card);
   const label = getLabel(card);
@@ -55,6 +55,11 @@ const StaticCardBox = styled(Box)`
   width: 40px;
   height: 66px;
   text-shadow: 0 0 5px black;
+  background-color: beige;
+`;
+
+const BacksideCardBox = styled(StaticCardBox)`
+  background-color: darkslategrey;
 `;
 
 const PlayableCardBox = styled(StaticCardBox)`
@@ -73,6 +78,7 @@ const CardText = styled.span<{ color: PlayCardColor }>`
   color: ${({ color }) => color};
   font-weight: bold;
   font-size: 14px;
+  text-decoration: underline;
 `;
 
 function getColor({ rank, suit }: Card): PlayCardColor {

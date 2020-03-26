@@ -5,6 +5,7 @@ import { GameContext } from "../GameContext";
 import { PlayerProps } from "./Player.props";
 import { isValidBid } from "../../boardgame/util/bid";
 import { isSetRound } from "../../boardgame/G";
+import { PlayCard } from "../components/PlayCard";
 
 export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
@@ -25,6 +26,9 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const valid = isValidBid(bidValue, numCards, bids, currentPlayer);
   const isTurn = currentPlayer === playerID;
   const bidLabel = isTurn ? bidValue : bids[parseInt(playerID, 10)] ?? "_";
+
+  const cards = round.hands[parseInt(playerID, 10)];
+
   return (
     <Box>
       <Chip
@@ -61,10 +65,27 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
       ) : (
         <span>Warten auf Spieler {currentPlayer}</span>
       )}
+      <CardsContainer>
+        {cards.map((card) => (
+          <PlayingCardContainer key={`${card.suit}-${card.rank}`}>
+            <PlayCard card={isTurn ? card : null} interactive={false} />
+          </PlayingCardContainer>
+        ))}
+      </CardsContainer>
     </Box>
   );
 };
 
 const Field = styled(FormControl)`
   width: 300px;
+`;
+
+const CardsContainer = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const PlayingCardContainer = styled(Box)`
+  margin: 5px;
 `;
