@@ -33,6 +33,9 @@ export const setup: PhaseConfig = {
           });
         });
       g.hands = hands;
+      const trump = g.deck.pop();
+      if (!trump) throw Error("deck seems to be empty");
+      g.trump = trump;
       ctx.events!.endPhase!();
     },
   },

@@ -24,13 +24,23 @@ describe("handout", () => {
     });
   });
 
+  test("sets trump", () => {
+    const ctx = generateCtx();
+    const g = defaultG(ctx);
+
+    const expectedTrump =
+      g.deck[g.deck.length - g.numCardsOnHand * ctx.numPlayers - 1];
+    setup.moves!.handout(g, ctx);
+    expect(g.trump).toBe(expectedTrump);
+  });
+
   test("removes cards from deck when handing them out to players", () => {
     const ctx = generateCtx();
     const g = defaultG(ctx);
     const originalLength = g.deck.length;
     setup.moves!.handout(g, ctx);
     expect(g.deck.length).toBe(
-      originalLength - ctx.numPlayers * g.numCardsOnHand
+      originalLength - ctx.numPlayers * g.numCardsOnHand - 1
     );
   });
 
