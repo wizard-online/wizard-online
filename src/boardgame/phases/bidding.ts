@@ -35,5 +35,5 @@ export const bidding: PhaseConfig = {
     }
     return !round.bids.includes(null);
   },
-  next: "play",
+  next: "playing",
 };
