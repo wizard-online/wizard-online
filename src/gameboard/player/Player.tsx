@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box } from "@material-ui/core";
 import styled from "styled-components";
-
-export interface PlayerProps {
-  playerID: string;
-}
+import { GameContext } from "../GameContext";
+import { PlayerOnSetup } from "./PlayerOnSetup";
+import { PlayerProps } from "./Player.props";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
-  return <Container>Spieler: {playerID}</Container>;
+  const { gamestate } = useContext(GameContext);
+  if (!gamestate) return null;
+
+  const { phase } = gamestate.ctx;
+  return (
+    <Container>
+      Spieler: {playerID}
+      {phase === "setup" && <PlayerOnSetup playerID={playerID} />}
+    </Container>
+  );
 };
 
 const Container = styled(Box)`

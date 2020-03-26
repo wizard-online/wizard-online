@@ -6,9 +6,9 @@ import { GameContext } from "../GameContext";
 import { Player } from "./Player";
 
 export const PlayersContainer: React.FC = () => {
-  const { gamestate: boardgame } = useContext(GameContext);
-  if (!boardgame) return null;
-  const playerIDs = range(0, boardgame.ctx.numPlayers).map((id) =>
+  const { gamestate } = useContext(GameContext);
+  if (!gamestate) return null;
+  const playerIDs = range(0, gamestate.ctx.numPlayers).map((id) =>
     id.toString()
   );
   return (
