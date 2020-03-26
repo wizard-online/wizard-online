@@ -1,7 +1,9 @@
 import React from "react";
 import { Ctx } from "boardgame.io";
+import { Container } from "@material-ui/core";
 import { G } from "../boardgame/G";
 import { GameContext } from "./GameContext";
+import { HeaderBar } from "./header/HeaderBar";
 
 export interface WizardBoardProps extends G, Ctx {
   plugins: {
@@ -29,7 +31,10 @@ export const WizardBoard: React.FC<WizardBoardProps> = (
 ) => {
   return (
     <GameContext.Provider value={props}>
-      <p>{JSON.stringify(props)}</p>
+      <Container>
+        <HeaderBar />
+        <p>{JSON.stringify(props)}</p>
+      </Container>
     </GameContext.Provider>
   );
 };
