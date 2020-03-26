@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { GameContext } from "../GameContext";
 import { PlayerOnSetup } from "./PlayerOnSetup";
 import { PlayerProps } from "./Player.props";
+import { PlayerOnBidding } from "./PlayerOnBidding";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
@@ -14,6 +15,7 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
     <Container>
       Spieler: {playerID}
       {phase === "setup" && <PlayerOnSetup playerID={playerID} />}
+      {phase === "bidding" && <PlayerOnBidding playerID={playerID} />}
     </Container>
   );
 };
