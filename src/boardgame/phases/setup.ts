@@ -33,7 +33,7 @@ export const setup: PhaseConfig = {
           });
         });
       g.hands = hands;
-      if (ctx.events?.endPhase) ctx.events.endPhase();
+      ctx.events!.endPhase!();
     },
   },
   start: true,
