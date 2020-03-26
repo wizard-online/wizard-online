@@ -7,7 +7,7 @@ import { G, isSetRound, isSetTrick, blankTrick } from "../G";
 import { canPlayCard, getSuitsInHand, getTrickWinner } from "../entities/cards";
 import { updateScorePad } from "../util/score";
 
-export const play: PhaseConfig = {
+export const playing: PhaseConfig = {
   moves: {
     play(g: G, ctx: Ctx, cardIndex: number): void | "INVALID_MOVE" {
       const { round, trick } = g;
