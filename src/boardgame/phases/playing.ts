@@ -4,25 +4,28 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import flatten from "lodash/flatten";
 
 import { G, isSetRound, isSetTrick, blankTrick } from "../G";
-import { canPlayCard, getSuitsInHand, getTrickWinner } from "../entities/cards";
+import {
+  canPlayCard,
+  getSuitsInHand,
+  getTrickWinner,
+  Rank,
+} from "../entities/cards";
 import { updateScorePad } from "../util/score";
 
 export const playing: PhaseConfig = {
   moves: {
     play(g: G, ctx: Ctx, cardIndex: number): void | "INVALID_MOVE" {
-      const { round, trick } = g;
+      const { round } = g;
       if (!isSetRound(round)) {
         throw Error("round is not set");
       }
-      if (!isSetTrick(trick)) {
-        throw Error("trick is not set");
-      }
+
       const hand = round.hands[parseInt(ctx.currentPlayer, 10)];
       if (cardIndex < 0 || cardIndex >= hand.length) {
         return INVALID_MOVE;
       }
       const card = hand[cardIndex];
-      if (!canPlayCard(card, getSuitsInHand(hand), trick.lead)) {
+      if (!canPlayCard(card, getSuitsInHand(hand), g.trick?.lead || null)) {
         return INVALID_MOVE;
       }
 
@@ -30,12 +33,23 @@ export const playing: PhaseConfig = {
       if (!g.trick) {
         g.trick = blankTrick();
       }
+      const { trick } = g;
+      if (!isSetTrick(trick)) {
+        throw Error("trick is not set");
+      }
+      // set lead card (usually only first player, or first palyer after N)
+      if (!trick.lead && card.rank !== Rank.N) {
+        trick.lead = card;
+      }
+
       if (!round.trickCount) {
         round.trickCount = Array(5).fill(0);
       }
       // play card
       hand.splice(cardIndex, 1);
       trick.cards.push([card, ctx.currentPlayer]);
+      // pass turn to next player
+      ctx.events?.endTurn!();
       // as last player, find trick taker, increment trick count, and cleanup trick
       if (trick.cards.length === ctx.numPlayers) {
         endTrick(g);
