@@ -5,6 +5,7 @@ export interface G {
   numCardsOnHand: number;
   bids: Array<number | null>;
   hands: Card[][];
+  trick: Card[] | null;
   trump: Card | null;
   deck: Card[];
 }
@@ -14,6 +15,7 @@ export const defaultG = (ctx: Ctx): G => {
     numCardsOnHand: 3,
     bids: Array(ctx.numPlayers).fill(null),
     hands: Array(ctx.numPlayers).fill(null),
+    trick: null,
     trump: null,
     deck: generateCardDeck(),
   };

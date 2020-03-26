@@ -26,6 +26,7 @@ function generate({
     bids: score,
     hands: Array(ctx.numPlayers).fill(null),
     deck: [],
+    trick: null,
     trump: null,
   };
   return {
