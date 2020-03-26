@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { Ctx, PhaseConfig } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { G, isSetRound } from "../G";
@@ -28,7 +29,6 @@ export const bidding: PhaseConfig = {
       if (isNotFirstRound && isLastPlayer && isTotalPredictionEven) {
         return INVALID_MOVE;
       }
-      // eslint-disable-next-line no-param-reassign
       round.bids[parseInt(ctx.currentPlayer, 10)] = numberOfTricks;
       ctx.events!.endTurn!();
     },
