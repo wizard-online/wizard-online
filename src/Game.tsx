@@ -16,7 +16,7 @@ const WizardGame = {
 
   phases: {
     setup,
-    predict: bidding,
+    bidding,
     play,
   },
 };
