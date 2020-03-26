@@ -5,15 +5,16 @@ import styled from "styled-components";
 import { GameContext } from "../GameContext";
 
 export const HeaderBar: React.FC = () => {
-  const gameContext = useContext(GameContext);
+  const { gamestate: boardgame } = useContext(GameContext);
+  if (!boardgame) return null;
   return (
     <AppBar position="sticky">
       <Toolbar>
         <h1>Wizard Online</h1>
         <SpaceFill />
-        <InfoItem>PlayerId: {gameContext.ctx.currentPlayer}</InfoItem>
-        <InfoItem>Runde: {gameContext.G.game.numCards}</InfoItem>
-        <InfoItem>#Spieler: {gameContext.ctx.numPlayers}</InfoItem>
+        <InfoItem>PlayerId: {boardgame.ctx.currentPlayer}</InfoItem>
+        <InfoItem>Runde: {boardgame.G.game.numCards}</InfoItem>
+        <InfoItem>#Spieler: {boardgame.ctx.numPlayers}</InfoItem>
       </Toolbar>
     </AppBar>
   );

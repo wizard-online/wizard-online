@@ -1,39 +1,16 @@
 import React from "react";
-import { Ctx } from "boardgame.io";
 import { Container } from "@material-ui/core";
-import { G } from "../boardgame/G";
 import { GameContext } from "./GameContext";
 import { HeaderBar } from "./header/HeaderBar";
+import { PlayersContainer } from "./player/PlayersContainer";
+import { GameState } from "./GameState";
 
-export interface WizardBoardProps extends G, Ctx {
-  plugins: {
-    [pluginName: string]: {
-      data: object;
-    };
-  };
-  _undo: unknown[];
-  _redo: unknown[];
-  _stateID: number;
-  isActive: boolean;
-  log: unknown[];
-  isConnected: boolean;
-  gameID: string;
-  playerID: string | null;
-  credentials: null;
-  debug: boolean;
-  isMultiplayer: boolean;
-  moves: object;
-  events: object;
-}
-
-export const WizardBoard: React.FC<WizardBoardProps> = (
-  props: WizardBoardProps
-) => {
+export const WizardBoard: React.FC<GameState> = (props) => {
   return (
-    <GameContext.Provider value={props}>
+    <GameContext.Provider value={{ gamestate: props }}>
       <Container>
         <HeaderBar />
-        <p>{JSON.stringify(props)}</p>
+        <PlayersContainer />
       </Container>
     </GameContext.Provider>
   );
