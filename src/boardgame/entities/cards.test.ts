@@ -177,40 +177,45 @@ describe("cardBeatsOther", () => {
 });
 
 describe("getTrickWinner", () => {
+  interface TestData {
+    cards: [Card, string][];
+    trumpSuit: Suit;
+    winnerIndex: number;
+  }
   test("first Z wins", () => {
-    const testData = [
+    const testData: TestData[] = [
       {
         cards: [
-          Card(Suit.Blue, Rank.Z),
-          Card(Suit.Red, 13),
-          Card(Suit.Yellow, 8),
+          [Card(Suit.Blue, Rank.Z), "1"],
+          [Card(Suit.Red, 13), "2"],
+          [Card(Suit.Yellow, 8), "0"],
         ],
         trumpSuit: Suit.Yellow,
         winnerIndex: 0,
       },
       {
         cards: [
-          Card(Suit.Red, 13),
-          Card(Suit.Yellow, 8),
-          Card(Suit.Blue, Rank.Z),
+          [Card(Suit.Red, 13), "0"],
+          [Card(Suit.Yellow, 8), "1"],
+          [Card(Suit.Blue, Rank.Z), "2"],
         ],
         trumpSuit: Suit.Yellow,
         winnerIndex: 2,
       },
       {
         cards: [
-          Card(Suit.Red, 13),
-          Card(Suit.Yellow, Rank.Z),
-          Card(Suit.Blue, Rank.Z),
+          [Card(Suit.Red, 13), "2"],
+          [Card(Suit.Yellow, Rank.Z), "0"],
+          [Card(Suit.Blue, Rank.Z), "1"],
         ],
         trumpSuit: Suit.Red,
         winnerIndex: 1,
       },
       {
         cards: [
-          Card(Suit.Red, Rank.Z),
-          Card(Suit.Yellow, Rank.Z),
-          Card(Suit.Blue, Rank.Z),
+          [Card(Suit.Red, Rank.Z), "1"],
+          [Card(Suit.Yellow, Rank.Z), "2"],
+          [Card(Suit.Blue, Rank.Z), "0"],
         ],
         trumpSuit: Suit.Green,
         winnerIndex: 0,
@@ -218,68 +223,75 @@ describe("getTrickWinner", () => {
     ];
 
     testData.forEach(({ cards, trumpSuit, winnerIndex }) =>
-      expect(getTrickWinner(cards, trumpSuit)).toEqual([
-        winnerIndex,
-        cards[winnerIndex],
-      ])
+      expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
     );
   });
 
   test("first N wins if only Ns", () => {
-    const { cards, trumpSuit, winnerIndex } = {
+    const { cards, trumpSuit, winnerIndex }: TestData = {
       cards: [
-        Card(Suit.Red, Rank.N),
-        Card(Suit.Yellow, Rank.N),
-        Card(Suit.Blue, Rank.N),
+        [Card(Suit.Red, Rank.N), "2"],
+        [Card(Suit.Yellow, Rank.N), "0"],
+        [Card(Suit.Blue, Rank.N), "1"],
       ],
       trumpSuit: Suit.Green,
       winnerIndex: 0,
     };
-    expect(getTrickWinner(cards, trumpSuit)).toEqual([
-      winnerIndex,
-      cards[winnerIndex],
-    ]);
+    expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex]);
   });
 
   test("highest leading rank wins without trump and z", () => {
-    const data = [
+    const data: TestData[] = [
       {
-        cards: [Card(Suit.Red, 7), Card(Suit.Yellow, 13), Card(Suit.Red, 9)],
+        cards: [
+          [Card(Suit.Red, 7), "0"],
+          [Card(Suit.Yellow, 13), "1"],
+          [Card(Suit.Red, 9), "2"],
+        ],
         trumpSuit: Suit.Green,
         winnerIndex: 2,
       },
       {
-        cards: [Card(Suit.Blue, 3), Card(Suit.Blue, 2), Card(Suit.Red, 9)],
+        cards: [
+          [Card(Suit.Blue, 3), "1"],
+          [Card(Suit.Blue, 2), "2"],
+          [Card(Suit.Red, 9), "0"],
+        ],
         trumpSuit: Suit.Green,
         winnerIndex: 0,
       },
     ];
 
     data.forEach(({ cards, trumpSuit, winnerIndex }) =>
-      expect(getTrickWinner(cards, trumpSuit)).toEqual([
-        winnerIndex,
-        cards[winnerIndex],
-      ])
+      expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
     );
   });
 
   test("highest trump wins without z", () => {
-    const data = [
+    const data: TestData[] = [
       {
-        cards: [Card(Suit.Red, 7), Card(Suit.Green, 1), Card(Suit.Red, 9)],
+        cards: [
+          [Card(Suit.Red, 7), "2"],
+          [Card(Suit.Green, 1), "0"],
+          [Card(Suit.Red, 9), "1"],
+        ],
         trumpSuit: Suit.Green,
         winnerIndex: 1,
       },
       {
-        cards: [Card(Suit.Blue, 3), Card(Suit.Blue, 2), Card(Suit.Red, 9)],
+        cards: [
+          [Card(Suit.Blue, 3), "0"],
+          [Card(Suit.Blue, 2), "1"],
+          [Card(Suit.Red, 9), "2"],
+        ],
         trumpSuit: Suit.Blue,
         winnerIndex: 0,
       },
       {
         cards: [
-          Card(Suit.Green, 10),
-          Card(Suit.Blue, Rank.N),
-          Card(Suit.Blue, 9),
+          [Card(Suit.Green, 10), "1"],
+          [Card(Suit.Blue, Rank.N), "2"],
+          [Card(Suit.Blue, 9), "0"],
         ],
         trumpSuit: Suit.Blue,
         winnerIndex: 2,
@@ -287,10 +299,7 @@ describe("getTrickWinner", () => {
     ];
 
     data.forEach(({ cards, trumpSuit, winnerIndex }) =>
-      expect(getTrickWinner(cards, trumpSuit)).toEqual([
-        winnerIndex,
-        cards[winnerIndex],
-      ])
+      expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
     );
   });
 });

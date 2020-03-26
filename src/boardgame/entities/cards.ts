@@ -1,4 +1,5 @@
 import flatten from "lodash/flatten";
+import { PlayerID } from "boardgame.io";
 
 export enum Suit {
   Blue = "BLUE",
@@ -98,25 +99,29 @@ export function cardBeatsOther(
 }
 
 export function getTrickWinner(
-  cards: Card[],
+  cards: [Card, PlayerID][],
   trumpSuit: Suit | null
-): [number, Card] {
+): [Card, PlayerID] {
   if (cards.length < 2) {
     throw Error("too few cards");
   }
-  const leadSuit = cards[0].suit;
-  const winnerIndex = cards.reduce((winningIndex, card, cardIndex) => {
+  const leadSuit = cards[0][0].suit;
+  const winner = cards.reduce((winningCard, card, cardIndex) => {
     // skip first card
-    if (cardIndex === 0) return 0;
-    const beaten = cardBeatsOther(
-      card,
-      cards[winningIndex],
-      trumpSuit,
-      leadSuit
-    );
-    return beaten ? cardIndex : winningIndex;
-  }, 0);
-  return [winnerIndex, cards[winnerIndex]];
+    if (cardIndex === 0) return winningCard;
+    const beaten = cardBeatsOther(card[0], winningCard[0], trumpSuit, leadSuit);
+    return beaten ? card : winningCard;
+  }, cards[0]);
+  return winner;
+}
+
+export function getSuitsInHand(hand: Card[]): Suit[] {
+  return allSuits.filter((suit) =>
+    hand.find(
+      (card) =>
+        card.suit === suit && card.rank !== Rank.N && card.rank !== Rank.Z
+    )
+  );
 }
 
 export function canPlayCard(
@@ -152,12 +157,7 @@ export function playableCardsInHand(
   hand: Card[],
   leadCard: Card | null
 ): boolean[] {
-  const suitsInHand = allSuits.filter((suit) =>
-    hand.find(
-      (card) =>
-        card.suit === suit && card.rank !== Rank.N && card.rank !== Rank.Z
-    )
-  );
+  const suitsInHand = getSuitsInHand(hand);
   return hand.map((card) => canPlayCard(card, suitsInHand, leadCard));
 }
 

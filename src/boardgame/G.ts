@@ -1,11 +1,11 @@
-import { Ctx } from "boardgame.io";
+import { Ctx, PlayerID } from "boardgame.io";
 import { Card, generateCardDeck } from "./entities/cards";
 
 export interface G {
   numCardsOnHand: number;
   bids: Array<number | null>;
   hands: Card[][];
-  trick: Card[] | null;
+  trick: [Card, PlayerID][] | null;
   trump: Card | null;
   lead: Card | null;
   deck: Card[];
