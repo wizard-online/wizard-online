@@ -2,19 +2,39 @@
 import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffle from "lodash/shuffle";
 
-import { G } from "../G";
+import { G, isSetRound, isSetTrick } from "../G";
 import { playersRound } from "../entities/players";
 import { Card } from "../entities/cards";
 
 export const setup: PhaseConfig = {
-  onBegin(g: G) {
-    g.deck = shuffle(g.deck);
+  onBegin(g: G, ctx: Ctx) {
+    const { round, trick } = g;
+    if (!isSetRound(round)) {
+      throw Error("round is not set");
+    }
+    if (!isSetTrick(trick)) {
+      throw Error("trick is not set");
+    }
+    g.trick = null;
+    round.trickCount = Array(5).fill(null);
+    round.trump = null;
+    trick.lead = null;
+    round.bids = Array(ctx.numPlayers).fill(null);
+    round.hands = Array(ctx.numPlayers).fill(null);
+    round.deck = shuffle(round.deck);
   },
   moves: {
-    shuffle(g: G) {
-      g.deck = shuffle(g.deck);
+    shuffle({ round }: G) {
+      round!.deck = shuffle(round!.deck);
     },
     handout(g: G, ctx: Ctx) {
+      const { round, trick, game } = g;
+      if (!isSetRound(round)) {
+        throw Error("round is not set");
+      }
+      if (!isSetTrick(trick)) {
+        throw Error("trick is not set");
+      }
       const players = playersRound(
         (parseInt(ctx.currentPlayer, 10) + 1) % ctx.numPlayers,
         ctx.numPlayers
@@ -23,22 +43,22 @@ export const setup: PhaseConfig = {
       const hands = Array(ctx.numPlayers)
         .fill(0)
         .map<Card[]>(() => []);
-      Array(g.numCardsOnHand)
+      Array(game.numCards)
         .fill(0)
         .forEach(() => {
           players.forEach((player) => {
-            const card = g.deck.pop();
+            const card = round.deck.pop();
             if (!card) throw Error("deck seems to be empty");
             hands[player].push(card);
           });
         });
-      g.hands = hands;
-      const trump = g.deck.pop();
+      round.hands = hands;
+      const trump = round.deck.pop();
       if (!trump) throw Error("deck seems to be empty");
-      g.trump = trump;
+      round.trump = trump;
       ctx.events!.endPhase!();
     },
   },
   start: true,
-  next: "predict",
+  next: "bidding",
 };
