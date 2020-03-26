@@ -1,3 +1,4 @@
+import shuffle from "lodash/shuffle";
 import { Ctx, PlayerID } from "boardgame.io";
 import { Card, generateCardDeck } from "./entities/cards";
 
@@ -30,7 +31,19 @@ export function isSetRound(round: GRound | null): round is GRound {
 
 export interface GGame {
   numCards: number;
-  score: [number, number, number][][];
+  scorePad: RoundScore[];
+}
+
+export interface RoundScore {
+  numCards: number;
+  playerScores: Score[];
+}
+
+export interface Score {
+  bid: number;
+  tricks: number;
+  score: number;
+  total: number;
 }
 
 export const defaultG = (
@@ -40,7 +53,7 @@ export const defaultG = (
     setTrick = true,
   }: { setRound?: boolean; setTrick?: boolean } = {}
 ): G => {
-  const game = { numCards: 3, score: Array(ctx.numPlayers).fill([]) };
+  const game = { numCards: 3, scorePad: Array(ctx.numPlayers).fill([]) };
   const round = setRound ? blankRound(ctx) : null;
   const trick = setTrick ? blankTrick() : null;
   return {
@@ -56,7 +69,7 @@ export function blankRound(ctx: Ctx): GRound {
     hands: Array(ctx.numPlayers).fill([]),
     trickCount: Array(ctx.numPlayers).fill(0),
     trump: null,
-    deck: generateCardDeck(),
+    deck: shuffle(generateCardDeck()),
   };
 }
 

@@ -2,26 +2,16 @@
 import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffle from "lodash/shuffle";
 
-import { G, isSetRound, isSetTrick } from "../G";
+import { G, isSetRound, isSetTrick, blankRound } from "../G";
 import { playersRound } from "../entities/players";
 import { Card } from "../entities/cards";
 
 export const setup: PhaseConfig = {
   onBegin(g: G, ctx: Ctx) {
-    const { round, trick } = g;
-    if (!isSetRound(round)) {
-      throw Error("round is not set");
-    }
-    if (!isSetTrick(trick)) {
-      throw Error("trick is not set");
-    }
+    // delete trick
     g.trick = null;
-    round.trickCount = Array(5).fill(null);
-    round.trump = null;
-    trick.lead = null;
-    round.bids = Array(ctx.numPlayers).fill(null);
-    round.hands = Array(ctx.numPlayers).fill(null);
-    round.deck = shuffle(round.deck);
+    // reset round
+    g.round = blankRound(ctx);
   },
   moves: {
     shuffle({ round }: G) {

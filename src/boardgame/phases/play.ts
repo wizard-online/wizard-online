@@ -4,46 +4,7 @@ import flatten from "lodash/flatten";
 
 import { G, isSetRound, isSetTrick, blankTrick } from "../G";
 import { canPlayCard, getSuitsInHand, getTrickWinner } from "../entities/cards";
-
-function endTrick(g: G): void {
-  const { round, trick } = g;
-  if (!isSetRound(round)) {
-    throw Error("round is not set");
-  }
-  if (!isSetTrick(trick)) {
-    throw Error("trick is not set");
-  }
-
-  // check that all players have same amount of cards
-  if (!round.hands.every((hand) => hand.length === round.hands[0].length)) {
-    throw Error(
-      "players have not equal amount of cards at the end of the trick"
-    );
-  }
-  const [, winnerPlayerId] = getTrickWinner(
-    trick.cards,
-    round.trump?.suit || null
-  );
-  round.trickCount![parseInt(winnerPlayerId, 10)] += 1;
-  // eslint-disable-next-line no-param-reassign
-  g.trick = null;
-}
-
-function onEnd({ round, game }: G, ctx: Ctx): void {
-  if (!isSetRound(round)) {
-    throw Error("round is not set");
-  }
-  if (flatten(round.hands).length > 0) {
-    throw Error("hands are not empty when attempting to end the round");
-  }
-  // check if game is finished
-  const incNumCards = game.numCards + 1;
-  if (incNumCards * ctx.numPlayers > 60) {
-    ctx.events!.endGame!();
-  }
-  // eslint-disable-next-line no-param-reassign
-  game.numCards = incNumCards;
-}
+import { updateScorePad } from "../util/score";
 
 export const play: PhaseConfig = {
   moves: {
@@ -89,5 +50,51 @@ export const play: PhaseConfig = {
     return flatten(round.hands).length === 0;
   },
   next: "setup",
-  onEnd,
+  onEnd({ round, game }: G, ctx: Ctx): void {
+    if (!isSetRound(round)) {
+      throw Error("round is not set");
+    }
+    if (flatten(round.hands).length > 0) {
+      throw Error("hands are not empty when attempting to end the round");
+    }
+    // check if game is finished
+    const incNumCards = game.numCards + 1;
+    if (incNumCards * ctx.numPlayers > 60) {
+      ctx.events!.endGame!();
+    }
+    // calc score
+    // eslint-disable-next-line no-param-reassign
+    game.scorePad = updateScorePad(
+      round.bids,
+      round.trickCount,
+      game.numCards,
+      game.scorePad
+    );
+    // eslint-disable-next-line no-param-reassign
+    game.numCards = incNumCards;
+  },
 };
+
+function endTrick(g: G): void {
+  const { round, trick } = g;
+  if (!isSetRound(round)) {
+    throw Error("round is not set");
+  }
+  if (!isSetTrick(trick)) {
+    throw Error("trick is not set");
+  }
+
+  // check that all players have same amount of cards
+  if (!round.hands.every((hand) => hand.length === round.hands[0].length)) {
+    throw Error(
+      "players have not equal amount of cards at the end of the trick"
+    );
+  }
+  const [, winnerPlayerId] = getTrickWinner(
+    trick.cards,
+    round.trump?.suit || null
+  );
+  round.trickCount![parseInt(winnerPlayerId, 10)] += 1;
+  // eslint-disable-next-line no-param-reassign
+  g.trick = null;
+}

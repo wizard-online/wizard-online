@@ -3,7 +3,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 
 import { bidding } from "./bidding";
 import { G } from "../G";
-import { generateCtx } from "../ctx.util";
+import { generateCtx } from "../util/ctx.util";
 
 interface GenerateOptions {
   numPlayers?: number;
@@ -24,7 +24,7 @@ function generate({
   const g: G = {
     game: {
       numCards,
-      score: [],
+      scorePad: [],
     },
     round: {
       bids,
