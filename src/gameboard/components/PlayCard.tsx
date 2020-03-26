@@ -5,8 +5,8 @@ import { Card, Rank, Suit } from "../../boardgame/entities/cards";
 
 export interface PlayCardProps {
   card: Card | null;
-  interactive: boolean;
-  disabled: boolean;
+  interactive?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -31,12 +31,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   const color = getColor(card);
   const label = getLabel(card);
 
-  const cardContent = (
-    <CardText color={color}>
-      {label}
-      {interactive && "P"}
-    </CardText>
-  );
+  const cardContent = <CardText color={color}>{label}</CardText>;
 
   const guardedOnClick = (): void => {
     if (!disabled) onClick();
@@ -59,6 +54,7 @@ const StaticCardBox = styled(Box)`
   align-items: center;
   width: 40px;
   height: 66px;
+  text-shadow: 0 0 5px black;
 `;
 
 const PlayableCardBox = styled(StaticCardBox)`
