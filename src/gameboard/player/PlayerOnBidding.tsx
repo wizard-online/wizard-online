@@ -54,7 +54,7 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
               type="button"
               disabled={!valid}
             >
-              Ansagen
+              {bidValue} Stiche ansagen
             </Button>
           </Field>
         </form>
