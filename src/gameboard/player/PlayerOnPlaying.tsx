@@ -29,7 +29,8 @@ export const PlayerOnPlaying: React.FC<PlayerProps> = ({ playerID }) => {
         <PlayingCardContainer key={`${cards[i].suit}-${cards[i].rank}`}>
           <PlayCard
             card={card}
-            playable={isTurn && playableCards[i]}
+            interactive={isTurn}
+            disabled={!playableCards[i]}
             onClick={() => play(i)}
           />
         </PlayingCardContainer>

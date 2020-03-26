@@ -5,7 +5,8 @@ import { Card, Rank, Suit } from "../../boardgame/entities/cards";
 
 export interface PlayCardProps {
   card: Card | null;
-  playable: boolean;
+  interactive: boolean;
+  disabled: boolean;
   onClick?: () => void;
 }
 
@@ -20,7 +21,8 @@ enum PlayCardColor {
 
 export const PlayCard: React.FC<PlayCardProps> = ({
   card,
-  playable = true,
+  interactive = true,
+  disabled = false,
   onClick = () => {},
 }) => {
   if (!card) {
@@ -32,13 +34,20 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   const cardContent = (
     <CardText color={color}>
       {label}
-      {playable && "P"}
+      {interactive && "P"}
     </CardText>
   );
 
-  if (playable)
-    return <PlayableCardBox onClick={onClick}>{cardContent}</PlayableCardBox>;
-  return <NonPlayableCardBox>{cardContent}</NonPlayableCardBox>;
+  const guardedOnClick = (): void => {
+    if (!disabled) onClick();
+  };
+
+  if (interactive && !disabled)
+    return (
+      <PlayableCardBox onClick={guardedOnClick}>{cardContent}</PlayableCardBox>
+    );
+  if (disabled) return <NonPlayableCardBox>{cardContent}</NonPlayableCardBox>;
+  return <StaticCardBox>{cardContent}</StaticCardBox>;
 };
 
 const StaticCardBox = styled(Box)`
