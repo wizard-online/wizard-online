@@ -1,7 +1,7 @@
 import { Client } from "boardgame.io/react";
 
 import { setup } from "./boardgame/phases/setup";
-import { predict } from "./boardgame/phases/predict";
+import { bidding } from "./boardgame/phases/bidding";
 import { play } from "./boardgame/phases/play";
 import { defaultG } from "./boardgame/G";
 
@@ -15,7 +15,7 @@ const WizardGame = {
 
   phases: {
     setup,
-    predict,
+    predict: bidding,
     play,
   },
 };
