@@ -49,10 +49,11 @@ export const playing: PhaseConfig = {
       hand.splice(cardIndex, 1);
       trick.cards.push([card, ctx.currentPlayer]);
       // pass turn to next player
-      ctx.events?.endTurn!();
       // as last player, find trick taker, increment trick count, and cleanup trick
       if (trick.cards.length === ctx.numPlayers) {
-        endTrick(g);
+        endTrick(g, ctx);
+      } else {
+        ctx.events?.endTurn!();
       }
     },
   },
@@ -90,7 +91,7 @@ export const playing: PhaseConfig = {
   },
 };
 
-function endTrick(g: G): void {
+function endTrick(g: G, ctx: Ctx): void {
   const { round, trick } = g;
   if (!isSetRound(round)) {
     throw Error("round is not set");
@@ -111,4 +112,6 @@ function endTrick(g: G): void {
   );
   round.trickCount![parseInt(winnerPlayerId, 10)] += 1;
   g.trick = null;
+
+  ctx.events?.endTurn!({ next: winnerPlayerId });
 }
