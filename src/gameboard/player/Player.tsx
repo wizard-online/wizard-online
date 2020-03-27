@@ -17,7 +17,7 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const playerTitle = <>Spieler: {playerID}</>;
   return (
     <Container>
-      {isTurn ? <b>{playerTitle}</b> : playerTitle}
+      <PlayerTitle isTurn={isTurn}>{playerTitle}</PlayerTitle>
       <TrickLabel playerID={playerID} />
       {phase === "setup" && <PlayerOnSetup playerID={playerID} />}
       {phase === "bidding" && <PlayerOnBidding playerID={playerID} />}
@@ -28,4 +28,9 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
 
 const Container = styled(Box)`
   margin: 25px;
+`;
+
+const PlayerTitle = styled.h3<{ isTurn: boolean }>`
+  text-decoration: ${({ isTurn }) => (isTurn ? "underline" : "none")};
+  color: ${({ isTurn }) => (isTurn ? "darkred" : "inherit")};
 `;
