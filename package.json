@@ -6,7 +6,8 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "test": "jest"
+    "test": "jest",
+    "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\""
   },
   "keywords": [
     "react",
