@@ -55,6 +55,8 @@
     "jest": "^25.1.0",
     "parcel-bundler": "^1.12.3",
     "prettier": "^2.0.2",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "typescript": "^3.4.3"
   }
 }
