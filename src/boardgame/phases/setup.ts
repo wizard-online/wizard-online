@@ -18,7 +18,10 @@ export const setup: PhaseConfig = {
       // draw a dealer at the start of game
       g.game.dealer = random(0, ctx.numPlayers - 1).toString();
     } else {
-      g.game.dealer = (parseInt(g.game.dealer, 10) + 1).toString();
+      g.game.dealer = (
+        (parseInt(g.game.dealer, 10) + 1) %
+        ctx.numPlayers
+      ).toString();
     }
 
     // set dealer's turn
