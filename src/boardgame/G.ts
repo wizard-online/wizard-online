@@ -57,7 +57,7 @@ export const defaultG = (
   const game = {
     numCards: 3,
     dealer: "",
-    scorePad: Array(ctx.numPlayers).fill([]),
+    scorePad: [],
   };
   const round = setRound ? blankRound(ctx) : null;
   const trick = setTrick ? blankTrick() : null;
