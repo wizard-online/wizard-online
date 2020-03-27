@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Box } from "@material-ui/core";
-import { Suit } from "../../boardgame/entities/cards";
+import { Suit, Card } from "../../boardgame/entities/cards";
 import { PlayCard, PlayCardColor } from "../components/PlayCard";
 import { GameContext } from "../GameContext";
 import { isSetRound } from "../../boardgame/G";
@@ -16,8 +16,8 @@ export const Deck: React.FC = () => {
     throw Error("round is not set");
   }
 
-  const { trump } = round;
-  const color = getColor(trump?.suit);
+  const trump = round?.trump;
+  const color = getColor(trump);
   return (
     <Container>
       <DeckContainer trump={color}>
@@ -29,19 +29,22 @@ export const Deck: React.FC = () => {
 
 const Container = styled(Box)`
   margin: 25px;
-  transform: rotate(-90deg);
-  width: 80px;
-  height: 80px;
 `;
 
 const DeckContainer = styled(Box)<{ trump: string }>`
-  display: inline-block;
-  border: 2px solid ${({ trump }) => trump};
-  border-radius: 5px;
+  transform: rotate(-90deg);
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ trump }) => trump};
+  border-radius: 50%;
 `;
 
-function getColor(suit?: Suit): string {
-  switch (suit) {
+function getColor(trump?: Card | null): string {
+  if (!trump) return "lightgrey";
+  switch (trump.suit) {
     case Suit.Blue:
       return PlayCardColor.Blue;
     case Suit.Green:
