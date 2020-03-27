@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffle from "lodash/shuffle";
+import random from "lodash/random";
 
 import { G, isSetRound, blankRound } from "../G";
 import { playersRound } from "../entities/players";
@@ -12,6 +13,16 @@ export const setup: PhaseConfig = {
     g.trick = null;
     // reset round
     g.round = blankRound(ctx);
+    // set dealer
+    if (!g.game.dealer) {
+      // draw a dealer at the start of game
+      g.game.dealer = random(0, ctx.numPlayers - 1).toString();
+    } else {
+      g.game.dealer = (parseInt(g.game.dealer, 10) + 1).toString();
+    }
+
+    // set dealer's turn
+    // ctx.events!.endTurn!({ next: g.game.dealer });
   },
   moves: {
     shuffle({ round }: G) {
@@ -51,4 +62,14 @@ export const setup: PhaseConfig = {
   },
   start: true,
   next: "bidding",
+  turn: {
+    order: {
+      // returns playOrder index of dealer
+      first(g: G, ctx: Ctx) {
+        return ctx.playOrder.findIndex(
+          (playerID) => playerID === g.game.dealer
+        );
+      },
+    },
+  },
 };

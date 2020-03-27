@@ -31,6 +31,7 @@ export function isSetRound(round: GRound | null): round is GRound {
 
 export interface GGame {
   numCards: number;
+  dealer: string;
   scorePad: RoundScore[];
 }
 
@@ -53,7 +54,11 @@ export const defaultG = (
     setTrick = true,
   }: { setRound?: boolean; setTrick?: boolean } = {}
 ): G => {
-  const game = { numCards: 3, scorePad: Array(ctx.numPlayers).fill([]) };
+  const game = {
+    numCards: 3,
+    dealer: "",
+    scorePad: Array(ctx.numPlayers).fill([]),
+  };
   const round = setRound ? blankRound(ctx) : null;
   const trick = setTrick ? blankTrick() : null;
   return {
