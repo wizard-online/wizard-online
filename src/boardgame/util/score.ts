@@ -21,7 +21,7 @@ export function calcRoundScore(
     const tricks = trickCount[i];
     const diff = Math.abs(tricks - bid);
     const score = diff > 0 ? diff * -10 : 20 + bid * 10;
-    const oldTotal = lastRoundScore?.playerScores[i]?.total || 0;
+    const oldTotal = lastRoundScore?.playerScores?.[i]?.total || 0;
     const total = oldTotal + score;
 
     return { bid, tricks, score, total } as Score;
