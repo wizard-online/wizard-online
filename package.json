@@ -6,7 +6,10 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "test": "jest"
+    "test": "jest",
+    "lint": "yarn run lint:es && npm run lint:style",
+    "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
+    "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\""
   },
   "keywords": [
     "react",
@@ -16,13 +19,17 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime-corejs3": "^7.9.2",
+    "@material-ui/core": "^4.9.7",
     "boardgame.io": "^0.39.2",
     "core-js": "^3.6.4",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "regenerator-runtime": "^0.13.5"
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "regenerator-runtime": "^0.13.5",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -37,6 +44,8 @@
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
     "@types/react-router-dom": "^5.1.3",
+    "@types/redux-logger": "^3.0.7",
+    "@types/styled-components": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "babel-jest": "^25.1.0",
@@ -52,6 +61,10 @@
     "jest": "^25.1.0",
     "parcel-bundler": "^1.12.3",
     "prettier": "^2.0.2",
+    "stylelint": "^13.2.1",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
     "typescript": "^3.4.3"
   }
 }

@@ -1,9 +1,13 @@
 import { Client } from "boardgame.io/react";
 
+import logger from "redux-logger";
+import { applyMiddleware } from "redux";
+
 import { setup } from "./boardgame/phases/setup";
 import { bidding } from "./boardgame/phases/bidding";
-import { play } from "./boardgame/phases/play";
+import { playing } from "./boardgame/phases/playing";
 import { defaultG } from "./boardgame/G";
+import { WizardBoard } from "./gameboard/WizardBoard";
 
 const WizardGame = {
   name: "Wizard",
@@ -15,9 +19,14 @@ const WizardGame = {
 
   phases: {
     setup,
-    predict: bidding,
-    play,
+    bidding,
+    playing,
   },
 };
 
-export const Game = Client({ game: WizardGame, numPlayers: 4 });
+export const Game = Client({
+  game: WizardGame,
+  board: WizardBoard,
+  numPlayers: 4,
+  enhancer: applyMiddleware(logger),
+});

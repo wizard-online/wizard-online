@@ -1,40 +1,42 @@
 /* eslint-disable no-param-reassign */
 import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffle from "lodash/shuffle";
+import random from "lodash/random";
 
-import { G, isSetRound, isSetTrick } from "../G";
+import { G, isSetRound, blankRound } from "../G";
 import { playersRound } from "../entities/players";
 import { Card } from "../entities/cards";
 
 export const setup: PhaseConfig = {
   onBegin(g: G, ctx: Ctx) {
-    const { round, trick } = g;
-    if (!isSetRound(round)) {
-      throw Error("round is not set");
-    }
-    if (!isSetTrick(trick)) {
-      throw Error("trick is not set");
-    }
+    // delete trick
     g.trick = null;
-    round.trickCount = Array(5).fill(null);
-    round.trump = null;
-    trick.lead = null;
-    round.bids = Array(ctx.numPlayers).fill(null);
-    round.hands = Array(ctx.numPlayers).fill(null);
-    round.deck = shuffle(round.deck);
+    // reset round
+    g.round = blankRound(ctx);
+    // set dealer
+    if (!g.game.dealer) {
+      // draw a dealer at the start of game
+      g.game.dealer = random(0, ctx.numPlayers - 1).toString();
+    } else {
+      g.game.dealer = (
+        (parseInt(g.game.dealer, 10) + 1) %
+        ctx.numPlayers
+      ).toString();
+    }
+
+    // set dealer's turn
+    // ctx.events!.endTurn!({ next: g.game.dealer });
   },
   moves: {
     shuffle({ round }: G) {
       round!.deck = shuffle(round!.deck);
     },
     handout(g: G, ctx: Ctx) {
-      const { round, trick, game } = g;
+      const { round, game } = g;
       if (!isSetRound(round)) {
         throw Error("round is not set");
       }
-      if (!isSetTrick(trick)) {
-        throw Error("trick is not set");
-      }
+
       const players = playersRound(
         (parseInt(ctx.currentPlayer, 10) + 1) % ctx.numPlayers,
         ctx.numPlayers
@@ -52,13 +54,25 @@ export const setup: PhaseConfig = {
             hands[player].push(card);
           });
         });
+
       round.hands = hands;
       const trump = round.deck.pop();
       if (!trump) throw Error("deck seems to be empty");
       round.trump = trump;
+
       ctx.events!.endPhase!();
     },
   },
   start: true,
   next: "bidding",
+  turn: {
+    order: {
+      // returns playOrder index of dealer
+      first(g: G, ctx: Ctx) {
+        return ctx.playOrder.findIndex(
+          (playerID) => playerID === g.game.dealer
+        );
+      },
+    },
+  },
 };
