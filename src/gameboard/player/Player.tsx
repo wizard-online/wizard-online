@@ -6,6 +6,7 @@ import { PlayerOnSetup } from "./PlayerOnSetup";
 import { PlayerProps } from "./Player.props";
 import { PlayerOnBidding } from "./PlayerOnBidding";
 import { PlayerOnPlaying } from "./PlayerOnPlaying";
+import { TrickLabel } from "./TrickLabel";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
@@ -17,6 +18,7 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   return (
     <Container>
       {isTurn ? <b>{playerTitle}</b> : playerTitle}
+      <TrickLabel playerID={playerID} />
       {phase === "setup" && <PlayerOnSetup playerID={playerID} />}
       {phase === "bidding" && <PlayerOnBidding playerID={playerID} />}
       {phase === "playing" && <PlayerOnPlaying playerID={playerID} />}

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Box, FormControl, Button, Slider, Chip } from "@material-ui/core";
+import { Box, FormControl, Button, Slider } from "@material-ui/core";
 import styled from "styled-components";
 import { GameContext } from "../GameContext";
 import { PlayerProps } from "./Player.props";
@@ -25,18 +25,11 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const [bidValue, setBidValue] = useState(0);
   const valid = isValidBid(bidValue, numCards, bids, currentPlayer);
   const isTurn = currentPlayer === playerID;
-  const bidLabel = isTurn ? bidValue : bids[parseInt(playerID, 10)] ?? "_";
 
   const cards = round.hands[parseInt(playerID, 10)];
 
   return (
     <Box>
-      <Chip
-        label={bidLabel}
-        color={isTurn ? "primary" : "default"}
-        variant={bidLabel !== "_" && !isTurn ? "outlined" : "default"}
-        disabled={!valid}
-      />
       {isTurn ? (
         <form>
           <Field>

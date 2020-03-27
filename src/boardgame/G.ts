@@ -67,7 +67,7 @@ export function blankRound(ctx: Ctx): GRound {
   return {
     bids: Array(ctx.numPlayers).fill(null),
     hands: Array(ctx.numPlayers).fill([]),
-    trickCount: Array(ctx.numPlayers).fill(0),
+    trickCount: Array(ctx.numPlayers).fill(null),
     trump: null,
     deck: shuffle(generateCardDeck()),
   };

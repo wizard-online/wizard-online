@@ -57,6 +57,12 @@ export const playing: PhaseConfig = {
       }
     },
   },
+  onBegin({ round }: G, { numPlayers }: Ctx): void {
+    if (!isSetRound(round)) {
+      throw Error("round is not set");
+    }
+    round.trickCount = Array(numPlayers).fill(0);
+  },
   endIf({ round }: G) {
     if (!isSetRound(round)) {
       throw Error("round is not set");
