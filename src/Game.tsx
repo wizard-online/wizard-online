@@ -2,6 +2,7 @@ import { Client } from "boardgame.io/react";
 
 import logger from "redux-logger";
 import { applyMiddleware } from "redux";
+import { SocketIO } from 'boardgame.io/multiplayer'
 
 import { setup } from "./boardgame/phases/setup";
 import { bidding } from "./boardgame/phases/bidding";
@@ -28,5 +29,8 @@ export const Game = Client({
   game: WizardGame,
   board: WizardBoard,
   numPlayers: 4,
+  multiplayer: SocketIO({ server: 'http://localhost:8000' }),
   enhancer: applyMiddleware(logger),
 });
+
+export const Wizard = WizardGame
