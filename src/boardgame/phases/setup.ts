@@ -4,7 +4,7 @@ import shuffleUtil from "lodash/shuffle";
 import random from "lodash/random";
 
 import { G, isSetRound, blankRound } from "../G";
-import { playersRound } from "../entities/players";
+import { playersRound, NumPlayers } from "../entities/players";
 import { Card } from "../entities/cards";
 
 export function shuffle({ round }: G): void {
@@ -19,7 +19,7 @@ export function handout(g: G, ctx: Ctx): void {
 
   const players = playersRound(
     (Number.parseInt(ctx.currentPlayer, 10) + 1) % ctx.numPlayers,
-    ctx.numPlayers
+    ctx.numPlayers as NumPlayers
   );
 
   const hands = new Array(ctx.numPlayers).fill(0).map<Card[]>(() => []);
@@ -27,7 +27,7 @@ export function handout(g: G, ctx: Ctx): void {
     players.forEach((player) => {
       const card = round.deck.pop();
       if (!card) throw new Error("deck seems to be empty");
-      hands[player].push(card);
+      hands[Number.parseInt(player, 10)].push(card);
     });
   });
 
