@@ -57,7 +57,7 @@ export const defaultG = (
   const game = {
     numCards: 3,
     dealer: "",
-    scorePad: Array(ctx.numPlayers).fill([]),
+    scorePad: new Array(ctx.numPlayers).fill([]),
   };
   const round = setRound ? blankRound(ctx) : null;
   const trick = setTrick ? blankTrick() : null;
@@ -70,9 +70,9 @@ export const defaultG = (
 
 export function blankRound(ctx: Ctx): GRound {
   return {
-    bids: Array(ctx.numPlayers).fill(null),
-    hands: Array(ctx.numPlayers).fill([]),
-    trickCount: Array(ctx.numPlayers).fill(null),
+    bids: new Array(ctx.numPlayers).fill(null),
+    hands: new Array(ctx.numPlayers).fill([]),
+    trickCount: new Array(ctx.numPlayers).fill(null),
     trump: null,
     deck: shuffle(generateCardDeck()),
   };

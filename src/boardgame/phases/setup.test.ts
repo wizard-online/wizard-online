@@ -1,14 +1,14 @@
 import range from "lodash/range";
 import { generateCtx } from "../util/ctx.util";
 import { defaultG, G } from "../G";
-import { setup } from "./setup";
+import { shuffle, handout } from "./setup";
 
 describe("shuffle", () => {
   test("creates new deck", () => {
     const ctx = generateCtx();
     const g = defaultG(ctx);
     const originalDeck = g.round!.deck;
-    setup.moves!.shuffle(g, ctx);
+    shuffle(g);
     expect(g.round!.deck).not.toBe(originalDeck);
   });
 });
@@ -17,7 +17,7 @@ describe("handout", () => {
   test("gives each player the specified number of hand cards", () => {
     const ctx = generateCtx();
     const g = defaultG(ctx);
-    setup.moves!.handout(g, ctx);
+    handout(g, ctx);
     g.round!.hands.forEach((hand) => {
       expect(hand).toBeInstanceOf(Array);
       expect(hand.length).toBe(g.game.numCards);
@@ -31,7 +31,7 @@ describe("handout", () => {
     const expectedTrump = g.round!.deck[
       g.round!.deck.length - g.game.numCards * ctx.numPlayers - 1
     ];
-    setup.moves!.handout(g, ctx);
+    handout(g, ctx);
     expect(g.round!.trump).toBe(expectedTrump);
   });
 
@@ -39,7 +39,7 @@ describe("handout", () => {
     const ctx = generateCtx();
     const g = defaultG(ctx);
     const originalLength = g.round!.deck.length;
-    setup.moves!.handout(g, ctx);
+    handout(g, ctx);
     expect(g.round!.deck.length).toBe(
       originalLength - ctx.numPlayers * g.game.numCards - 1
     );
@@ -54,7 +54,7 @@ describe("handout", () => {
         g.round!.deck[g.round!.deck.length - 1 - ctx.numPlayers * cardI]
     );
 
-    setup.moves!.handout(g, ctx);
+    handout(g, ctx);
 
     expect(g.round!.hands[1]).toEqual(cardsPlayer1);
   });
@@ -68,7 +68,7 @@ describe("handout", () => {
       (_, index) => g.round!.deck[g.round!.deck.length - 1 - index]
     );
 
-    setup.moves!.handout(g, ctx);
+    handout(g, ctx);
 
     playerOrder.forEach((player, i) => {
       expect(g.round!.hands[player][0]).toBe(expectedFirstCardByPlayer[i]);
@@ -81,7 +81,7 @@ describe("handout", () => {
     const mockEndPhase = jest.fn();
     ctx.events!.endPhase = mockEndPhase;
 
-    setup.moves!.handout(g, ctx);
+    handout(g, ctx);
 
     expect(mockEndPhase).toBeCalled();
   });
