@@ -2,11 +2,13 @@ import { Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 
 import { bid } from "./bidding";
-import { G } from "../G";
+import { WizardState } from "../WizardState";
 import { generateCtx } from "../util/ctx.util";
+import { NumPlayers, PlayerID } from "../entities/players";
+import { Phase } from "./phase";
 
 interface GenerateOptions {
-  numPlayers?: number;
+  numPlayers?: NumPlayers;
   bids?: Array<number | null>;
   numCards?: number;
 }
@@ -15,18 +17,19 @@ function generate({
   numPlayers = 4,
   bids = new Array(numPlayers).fill(null),
   numCards = 3,
-}: GenerateOptions): { g: G; ctx: Ctx } {
-  const currentPlayer = bids.findIndex((e) => e === null);
+}: GenerateOptions): { g: WizardState; ctx: Ctx } {
+  const currentPlayer = bids.findIndex((e) => e === null) as PlayerID;
   const ctx: Ctx = generateCtx({
     turn: currentPlayer + 1,
     currentPlayer: currentPlayer.toString(),
   });
-  const g: G = {
-    game: {
-      numCards,
-      scorePad: [],
-      dealer: "",
-    },
+  const g: WizardState = {
+    numCards,
+    scorePad: [],
+    dealer: 0 as PlayerID,
+    numPlayers,
+    currentPlayer,
+    phase: Phase.Bidding,
     round: {
       bids,
       hands: new Array(ctx.numPlayers).fill(null),

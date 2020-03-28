@@ -4,18 +4,14 @@ import styled from "styled-components";
 import { GameContext } from "../GameContext";
 import { PlayerProps } from "./Player.props";
 import { isValidBid } from "../../boardgame/util/bid";
-import { isSetRound } from "../../boardgame/G";
+import { isSetRound } from "../../boardgame/WizardState";
 import { PlayCard } from "../components/PlayCard";
 
 export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
   const {
-    G: {
-      game: { numCards },
-      round,
-    },
-    ctx: { currentPlayer },
+    G: { numCards, currentPlayer, round },
     moves: { bid },
   } = gamestate;
   if (!isSetRound(round)) {
@@ -26,7 +22,7 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const valid = isValidBid(bidValue, numCards, bids, currentPlayer);
   const isTurn = currentPlayer === playerID;
 
-  const cards = round.hands[Number.parseInt(playerID, 10)];
+  const cards = round.hands[playerID];
 
   return (
     <Box>
