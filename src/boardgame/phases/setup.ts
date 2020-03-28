@@ -3,15 +3,15 @@ import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffleUtil from "lodash/shuffle";
 import random from "lodash/random";
 
-import { G, isSetRound, blankRound } from "../G";
+import { WizardState, isSetRound, blankRound } from "../G";
 import { playersRound, NumPlayers, PlayerID } from "../entities/players";
 import { Card } from "../entities/cards";
 
-export function shuffle({ round }: G): void {
+export function shuffle({ round }: WizardState): void {
   round!.deck = shuffleUtil(round!.deck);
 }
 
-export function handout(g: G, ctx: Ctx): void {
+export function handout(g: WizardState, ctx: Ctx): void {
   const {
     round,
     game: { numCards, numPlayers, currentPlayer },
@@ -42,7 +42,7 @@ export function handout(g: G, ctx: Ctx): void {
   ctx.events!.endPhase!();
 }
 
-function onBegin(g: G): void {
+function onBegin(g: WizardState): void {
   // delete trick
   g.trick = null;
   // reset round
@@ -56,7 +56,7 @@ function onBegin(g: G): void {
   }
 }
 
-function first(g: G, ctx: Ctx): number {
+function first(g: WizardState, ctx: Ctx): number {
   return ctx.playOrder.findIndex(
     (playerID) => playerID === g.game.dealer.toString()
   );

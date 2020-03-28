@@ -1,20 +1,20 @@
 /* eslint-disable no-param-reassign */
 import { Ctx } from "boardgame.io";
-import { defaultG, G } from "./G";
+import { defaultG, WizardState } from "./G";
 import { setup } from "./phases/setup";
 import { bidding } from "./phases/bidding";
 import { playing } from "./phases/playing";
 import { maxCards, PlayerID } from "./entities/players";
 
-function endIf({ game: { numCards, numPlayers } }: G): boolean {
+function endIf({ game: { numCards, numPlayers } }: WizardState): boolean {
   return numCards > maxCards(numPlayers);
 }
 
-function onEnd(g: G): void {
+function onEnd(g: WizardState): void {
   console.log("GAME ENDED", g.game.currentPlayer);
 }
 
-function onBeginTurn(g: G, ctx: Ctx): void {
+function onBeginTurn(g: WizardState, ctx: Ctx): void {
   g.game.currentPlayer = Number.parseInt(ctx.currentPlayer, 10) as PlayerID;
 }
 

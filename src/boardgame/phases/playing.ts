@@ -3,7 +3,7 @@ import { PhaseConfig, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import flatten from "lodash/flatten";
 
-import { G, isSetRound, isSetTrick, blankTrick } from "../G";
+import { WizardState, isSetRound, isSetTrick, blankTrick } from "../G";
 import {
   canPlayCard,
   getSuitsInHand,
@@ -14,7 +14,7 @@ import { updateScorePad } from "../util/score";
 
 export const playing: PhaseConfig = {
   moves: {
-    play(g: G, ctx: Ctx, cardIndex: number): void | "INVALID_MOVE" {
+    play(g: WizardState, ctx: Ctx, cardIndex: number): void | "INVALID_MOVE" {
       const { round } = g;
       if (!isSetRound(round)) {
         throw new Error("round is not set");
@@ -57,20 +57,20 @@ export const playing: PhaseConfig = {
       }
     },
   },
-  onBegin({ round }: G, { numPlayers }: Ctx): void {
+  onBegin({ round }: WizardState, { numPlayers }: Ctx): void {
     if (!isSetRound(round)) {
       throw new Error("round is not set");
     }
     round.trickCount = new Array(numPlayers).fill(0);
   },
-  endIf({ round }: G) {
+  endIf({ round }: WizardState) {
     if (!isSetRound(round)) {
       throw new Error("round is not set");
     }
     return flatten(round.hands).length === 0;
   },
   next: "setup",
-  onEnd({ round, game }: G, ctx: Ctx): void {
+  onEnd({ round, game }: WizardState, ctx: Ctx): void {
     if (!isSetRound(round)) {
       throw new Error("round is not set");
     }
@@ -97,7 +97,7 @@ export const playing: PhaseConfig = {
   },
 };
 
-function endTrick(g: G, ctx: Ctx): void {
+function endTrick(g: WizardState, ctx: Ctx): void {
   const { round, trick } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");

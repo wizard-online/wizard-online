@@ -1,6 +1,6 @@
 import range from "lodash/range";
 import { generateCtx } from "../util/ctx.util";
-import { defaultG, G } from "../G";
+import { defaultG, WizardState } from "../G";
 import { shuffle, handout } from "./setup";
 
 describe("shuffle", () => {
@@ -47,7 +47,7 @@ describe("handout", () => {
 
   test("distributes cards one by one", () => {
     const ctx = generateCtx();
-    const g: G = defaultG(ctx);
+    const g: WizardState = defaultG(ctx);
 
     const cardsPlayer1 = range(0, g.game.numCards).map(
       (cardI) =>
@@ -61,7 +61,7 @@ describe("handout", () => {
 
   test("distributes cards to players in correct order", () => {
     const ctx = generateCtx();
-    const g: G = defaultG(ctx);
+    const g: WizardState = defaultG(ctx);
 
     const playerOrder = [1, 2, 3, 0];
     const expectedFirstCardByPlayer = playerOrder.map(

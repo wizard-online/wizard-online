@@ -1,8 +1,8 @@
 import { State } from "boardgame.io";
-import { G } from "../boardgame/G";
+import { WizardState } from "../boardgame/G";
 
 export interface GameState extends State {
-  G: G;
+  G: WizardState;
   moves: {
     [move: string]: Function;
   };

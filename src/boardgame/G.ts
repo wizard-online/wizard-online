@@ -3,22 +3,24 @@ import { Ctx } from "boardgame.io";
 import { Card, generateCardDeck } from "./entities/cards";
 import { NumPlayers, PlayerID } from "./entities/players";
 
-export interface G {
-  game: GGame;
-  round: GRound | null;
-  trick: GTrick | null;
+export interface WizardState {
+  game: WizardGameState;
+  round: WizardRoundState | null;
+  trick: WizardTrickState | null;
 }
 
-export interface GTrick {
+export interface WizardTrickState {
   cards: [Card, PlayerID][];
   lead: Card | null;
 }
 
-export function isSetTrick(trick: GTrick | null): trick is GTrick {
+export function isSetTrick(
+  trick: WizardTrickState | null
+): trick is WizardTrickState {
   return !!trick;
 }
 
-export interface GRound {
+export interface WizardRoundState {
   bids: (number | null)[];
   hands: Card[][];
   trickCount: number[];
@@ -26,11 +28,13 @@ export interface GRound {
   deck: Card[];
 }
 
-export function isSetRound(round: GRound | null): round is GRound {
+export function isSetRound(
+  round: WizardRoundState | null
+): round is WizardRoundState {
   return !!round;
 }
 
-export interface GGame {
+export interface WizardGameState {
   numCards: number;
   dealer: PlayerID;
   currentPlayer: PlayerID;
@@ -56,7 +60,7 @@ export const defaultG = (
     setRound = true,
     setTrick = true,
   }: { setRound?: boolean; setTrick?: boolean } = {}
-): G => {
+): WizardState => {
   const numPlayers = ctx.numPlayers as NumPlayers;
   const game = {
     numCards: 3,
@@ -74,7 +78,7 @@ export const defaultG = (
   };
 };
 
-export function blankRound(numPlayers: NumPlayers): GRound {
+export function blankRound(numPlayers: NumPlayers): WizardRoundState {
   return {
     bids: new Array(numPlayers).fill(null),
     hands: new Array(numPlayers).fill([]),
@@ -84,7 +88,7 @@ export function blankRound(numPlayers: NumPlayers): GRound {
   };
 }
 
-export function blankTrick(): GTrick {
+export function blankTrick(): WizardTrickState {
   return {
     cards: [],
     lead: null,
