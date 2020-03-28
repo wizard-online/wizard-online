@@ -19,7 +19,7 @@ export const setup: PhaseConfig = {
       g.game.dealer = random(0, ctx.numPlayers - 1).toString();
     } else {
       g.game.dealer = (
-        (parseInt(g.game.dealer, 10) + 1) %
+        (Number.parseInt(g.game.dealer, 10) + 1) %
         ctx.numPlayers
       ).toString();
     }
@@ -34,30 +34,26 @@ export const setup: PhaseConfig = {
     handout(g: G, ctx: Ctx) {
       const { round, game } = g;
       if (!isSetRound(round)) {
-        throw Error("round is not set");
+        throw new Error("round is not set");
       }
 
       const players = playersRound(
-        (parseInt(ctx.currentPlayer, 10) + 1) % ctx.numPlayers,
+        (Number.parseInt(ctx.currentPlayer, 10) + 1) % ctx.numPlayers,
         ctx.numPlayers
       );
 
-      const hands = Array(ctx.numPlayers)
-        .fill(0)
-        .map<Card[]>(() => []);
-      Array(game.numCards)
-        .fill(0)
-        .forEach(() => {
-          players.forEach((player) => {
-            const card = round.deck.pop();
-            if (!card) throw Error("deck seems to be empty");
-            hands[player].push(card);
-          });
+      const hands = new Array(ctx.numPlayers).fill(0).map<Card[]>(() => []);
+      new Array(game.numCards).fill(0).forEach(() => {
+        players.forEach((player) => {
+          const card = round.deck.pop();
+          if (!card) throw new Error("deck seems to be empty");
+          hands[player].push(card);
         });
+      });
 
       round.hands = hands;
       const trump = round.deck.pop();
-      if (!trump) throw Error("deck seems to be empty");
+      if (!trump) throw new Error("deck seems to be empty");
       round.trump = trump;
 
       ctx.events!.endPhase!();

@@ -13,7 +13,7 @@ export const Deck: React.FC = () => {
     G: { round },
   } = gamestate;
   if (!isSetRound(round)) {
-    throw Error("round is not set");
+    throw new Error("round is not set");
   }
 
   const trump = round?.trump;

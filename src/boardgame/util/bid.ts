@@ -11,7 +11,7 @@ export function isValidBid(
   const isNotFirstRound = numCards > 1;
   const isLastPlayer =
     bids.filter(
-      (score, i) => i !== parseInt(currentPlayer, 10) && score === null
+      (score, i) => i !== Number.parseInt(currentPlayer, 10) && score === null
     ).length === 0;
   const isTotalPredictionEven =
     [bidValue, ...bids].reduce((sum, value) => (sum || 0) + (value || 0), 0) ===

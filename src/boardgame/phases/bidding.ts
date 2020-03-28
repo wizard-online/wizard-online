@@ -12,7 +12,7 @@ export const bidding: PhaseConfig = {
       numberOfTricks: number
     ): "INVALID_MOVE" | void {
       if (!isSetRound(round)) {
-        throw Error("round is not set");
+        throw new Error("round is not set");
       }
       if (
         !isValidBid(
@@ -25,13 +25,13 @@ export const bidding: PhaseConfig = {
         return INVALID_MOVE;
       }
 
-      round.bids[parseInt(ctx.currentPlayer, 10)] = numberOfTricks;
+      round.bids[Number.parseInt(ctx.currentPlayer, 10)] = numberOfTricks;
       ctx.events!.endTurn!();
     },
   },
   endIf({ round }: G) {
     if (!isSetRound(round)) {
-      throw Error("round is not set");
+      throw new Error("round is not set");
     }
     return !round.bids.includes(null);
   },

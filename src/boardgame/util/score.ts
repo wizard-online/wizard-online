@@ -17,7 +17,7 @@ export function calcRoundScore(
 ): RoundScore {
   const lastRoundScore = scorePad[scorePad.length - 1];
   const playerScores = bids.map((bid, i) => {
-    if (bid === null) throw Error("unexpected bid null value");
+    if (bid === null) throw new Error("unexpected bid null value");
     const tricks = trickCount[i];
     const diff = Math.abs(tricks - bid);
     const score = diff > 0 ? diff * -10 : 20 + bid * 10;

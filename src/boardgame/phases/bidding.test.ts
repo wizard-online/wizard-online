@@ -13,7 +13,7 @@ interface GenerateOptions {
 
 function generate({
   numPlayers = 4,
-  bids = Array(numPlayers).fill(null),
+  bids = new Array(numPlayers).fill(null),
   numCards = 3,
 }: GenerateOptions): { g: G; ctx: Ctx } {
   const currentPlayer = bids.findIndex((e) => e === null);
@@ -25,13 +25,14 @@ function generate({
     game: {
       numCards,
       scorePad: [],
+      dealer: "",
     },
     round: {
       bids,
-      hands: Array(ctx.numPlayers).fill(null),
+      hands: new Array(ctx.numPlayers).fill(null),
       deck: [],
       trump: null,
-      trickCount: Array(ctx.numPlayers).fill(0),
+      trickCount: new Array(ctx.numPlayers).fill(0),
     },
     trick: null,
   };
