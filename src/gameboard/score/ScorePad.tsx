@@ -54,7 +54,7 @@ export const ScorePad: React.FC = () => {
                           <b>{tricks}</b> Stiche gemacht
                         </p>
                         <p>
-                          <b>{score}</b> Punkte
+                          <b>{score}</b> Punkte in dieser Runde
                         </p>
                         <p>
                           <b>{total}</b> Punkte insgesamt
