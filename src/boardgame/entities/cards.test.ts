@@ -376,7 +376,9 @@ describe("playableCardsInHand", () => {
     ];
     const leadCard = Card(Suit.Yellow, Rank.Z);
 
-    expect(playableCardsInHand(hand, leadCard)).toEqual(Array(5).fill(true));
+    expect(playableCardsInHand(hand, leadCard)).toEqual(
+      new Array(5).fill(true)
+    );
   });
 
   test("error when N given as lead", () => {
@@ -401,7 +403,9 @@ describe("playableCardsInHand", () => {
     ];
     const leadCard = Card(Suit.Yellow, 11);
 
-    expect(playableCardsInHand(hand, leadCard)).toEqual(Array(5).fill(true));
+    expect(playableCardsInHand(hand, leadCard)).toEqual(
+      new Array(5).fill(true)
+    );
   });
 
   test("only lead, z, n playable if lead is not blank", () => {

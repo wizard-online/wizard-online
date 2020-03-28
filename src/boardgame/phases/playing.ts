@@ -17,10 +17,10 @@ export const playing: PhaseConfig = {
     play(g: G, ctx: Ctx, cardIndex: number): void | "INVALID_MOVE" {
       const { round } = g;
       if (!isSetRound(round)) {
-        throw Error("round is not set");
+        throw new Error("round is not set");
       }
 
-      const hand = round.hands[parseInt(ctx.currentPlayer, 10)];
+      const hand = round.hands[Number.parseInt(ctx.currentPlayer, 10)];
       if (cardIndex < 0 || cardIndex >= hand.length) {
         return INVALID_MOVE;
       }
@@ -35,7 +35,7 @@ export const playing: PhaseConfig = {
       }
       const { trick } = g;
       if (!isSetTrick(trick)) {
-        throw Error("trick is not set");
+        throw new Error("trick is not set");
       }
       // set lead card (usually only first player, or first palyer after N)
       if (!trick.lead && card.rank !== Rank.N) {
@@ -43,7 +43,7 @@ export const playing: PhaseConfig = {
       }
 
       if (!round.trickCount) {
-        round.trickCount = Array(5).fill(0);
+        round.trickCount = new Array(5).fill(0);
       }
       // play card
       hand.splice(cardIndex, 1);
@@ -59,23 +59,23 @@ export const playing: PhaseConfig = {
   },
   onBegin({ round }: G, { numPlayers }: Ctx): void {
     if (!isSetRound(round)) {
-      throw Error("round is not set");
+      throw new Error("round is not set");
     }
-    round.trickCount = Array(numPlayers).fill(0);
+    round.trickCount = new Array(numPlayers).fill(0);
   },
   endIf({ round }: G) {
     if (!isSetRound(round)) {
-      throw Error("round is not set");
+      throw new Error("round is not set");
     }
     return flatten(round.hands).length === 0;
   },
   next: "setup",
   onEnd({ round, game }: G, ctx: Ctx): void {
     if (!isSetRound(round)) {
-      throw Error("round is not set");
+      throw new Error("round is not set");
     }
     if (flatten(round.hands).length > 0) {
-      throw Error("hands are not empty when attempting to end the round");
+      throw new Error("hands are not empty when attempting to end the round");
     }
 
     // calc score
@@ -100,15 +100,15 @@ export const playing: PhaseConfig = {
 function endTrick(g: G, ctx: Ctx): void {
   const { round, trick } = g;
   if (!isSetRound(round)) {
-    throw Error("round is not set");
+    throw new Error("round is not set");
   }
   if (!isSetTrick(trick)) {
-    throw Error("trick is not set");
+    throw new Error("trick is not set");
   }
 
   // check that all players have same amount of cards
   if (!round.hands.every((hand) => hand.length === round.hands[0].length)) {
-    throw Error(
+    throw new Error(
       "players have not equal amount of cards at the end of the trick"
     );
   }
@@ -116,7 +116,7 @@ function endTrick(g: G, ctx: Ctx): void {
     trick.cards,
     round.trump?.suit || null
   );
-  round.trickCount![parseInt(winnerPlayerId, 10)] += 1;
+  round.trickCount![Number.parseInt(winnerPlayerId, 10)] += 1;
   g.trick = null;
 
   ctx.events?.endTurn!({ next: winnerPlayerId });
