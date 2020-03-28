@@ -130,7 +130,7 @@ export const generateDefaultWizardState = (
     // TODO: set numCards to 1
     numCards: 3,
     dealer: 0 as PlayerID,
-    scorePad: new Array(numPlayers).fill([]),
+    scorePad: [],
     numPlayers,
     currentPlayer: Number.parseInt(ctx.currentPlayer, 10) as PlayerID,
     phase: ctx.phase as Phase,
