@@ -7,7 +7,7 @@ export const PlayerOnSetup: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
 
-  const isTurn = gamestate.G.game.currentPlayer === playerID;
+  const isTurn = gamestate.G.currentPlayer === playerID;
   const { shuffle, handout } = gamestate.moves;
   return (
     <Box>

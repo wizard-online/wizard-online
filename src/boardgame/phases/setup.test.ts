@@ -1,12 +1,12 @@
 import range from "lodash/range";
 import { generateCtx } from "../util/ctx.util";
-import { defaultG, WizardState } from "../G";
+import { generateDefaultWizardState, WizardState } from "../WizardState";
 import { shuffle, handout } from "./setup";
 
 describe("shuffle", () => {
   test("creates new deck", () => {
     const ctx = generateCtx();
-    const g = defaultG(ctx);
+    const g = generateDefaultWizardState(ctx);
     const originalDeck = g.round!.deck;
     shuffle(g);
     expect(g.round!.deck).not.toBe(originalDeck);
@@ -16,20 +16,20 @@ describe("shuffle", () => {
 describe("handout", () => {
   test("gives each player the specified number of hand cards", () => {
     const ctx = generateCtx();
-    const g = defaultG(ctx);
+    const g = generateDefaultWizardState(ctx);
     handout(g, ctx);
     g.round!.hands.forEach((hand) => {
       expect(hand).toBeInstanceOf(Array);
-      expect(hand.length).toBe(g.game.numCards);
+      expect(hand.length).toBe(g.numCards);
     });
   });
 
   test("sets trump", () => {
     const ctx = generateCtx();
-    const g = defaultG(ctx);
+    const g = generateDefaultWizardState(ctx);
 
     const expectedTrump = g.round!.deck[
-      g.round!.deck.length - g.game.numCards * ctx.numPlayers - 1
+      g.round!.deck.length - g.numCards * ctx.numPlayers - 1
     ];
     handout(g, ctx);
     expect(g.round!.trump).toBe(expectedTrump);
@@ -37,19 +37,19 @@ describe("handout", () => {
 
   test("removes cards from deck when handing them out to players", () => {
     const ctx = generateCtx();
-    const g = defaultG(ctx);
+    const g = generateDefaultWizardState(ctx);
     const originalLength = g.round!.deck.length;
     handout(g, ctx);
     expect(g.round!.deck.length).toBe(
-      originalLength - ctx.numPlayers * g.game.numCards - 1
+      originalLength - ctx.numPlayers * g.numCards - 1
     );
   });
 
   test("distributes cards one by one", () => {
     const ctx = generateCtx();
-    const g: WizardState = defaultG(ctx);
+    const g: WizardState = generateDefaultWizardState(ctx);
 
-    const cardsPlayer1 = range(0, g.game.numCards).map(
+    const cardsPlayer1 = range(0, g.numCards).map(
       (cardI) =>
         g.round!.deck[g.round!.deck.length - 1 - ctx.numPlayers * cardI]
     );
@@ -61,7 +61,7 @@ describe("handout", () => {
 
   test("distributes cards to players in correct order", () => {
     const ctx = generateCtx();
-    const g: WizardState = defaultG(ctx);
+    const g: WizardState = generateDefaultWizardState(ctx);
 
     const playerOrder = [1, 2, 3, 0];
     const expectedFirstCardByPlayer = playerOrder.map(
@@ -77,7 +77,7 @@ describe("handout", () => {
 
   test("dispatches endPhase event", () => {
     const ctx = generateCtx();
-    const g = defaultG(ctx);
+    const g = generateDefaultWizardState(ctx);
     const mockEndPhase = jest.fn();
     ctx.events!.endPhase = mockEndPhase;
 

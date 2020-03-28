@@ -1,11 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { Ctx, PhaseConfig } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { WizardState, isSetRound } from "../G";
+import { WizardState, isSetRound } from "../WizardState";
 import { isValidBid } from "../util/bid";
+import { Phase } from "./phase";
 
 export function bid(
-  { round, game: { numCards, currentPlayer } }: WizardState,
+  { round, numCards, currentPlayer }: WizardState,
   ctx: Ctx,
   numberOfTricks: number
 ): "INVALID_MOVE" | void {
@@ -32,5 +33,5 @@ export const bidding: PhaseConfig = {
     bid,
   },
   endIf,
-  next: "playing",
+  next: Phase.Playing,
 };

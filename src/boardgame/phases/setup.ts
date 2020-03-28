@@ -3,19 +3,21 @@ import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffleUtil from "lodash/shuffle";
 import random from "lodash/random";
 
-import { WizardState, isSetRound, blankRound } from "../G";
+import {
+  WizardState,
+  isSetRound,
+  generateBlankRoundState,
+} from "../WizardState";
 import { playersRound, NumPlayers, PlayerID } from "../entities/players";
 import { Card } from "../entities/cards";
+import { Phase } from "./phase";
 
 export function shuffle({ round }: WizardState): void {
   round!.deck = shuffleUtil(round!.deck);
 }
 
 export function handout(g: WizardState, ctx: Ctx): void {
-  const {
-    round,
-    game: { numCards, numPlayers, currentPlayer },
-  } = g;
+  const { round, numCards, numPlayers, currentPlayer } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
@@ -46,19 +48,19 @@ function onBegin(g: WizardState): void {
   // delete trick
   g.trick = null;
   // reset round
-  g.round = blankRound(g.game.numPlayers);
+  g.round = generateBlankRoundState(g.numPlayers);
   // set dealer
-  if (!g.game.dealer) {
+  if (!g.dealer) {
     // draw a dealer at the start of game
-    g.game.dealer = random(0, g.game.numPlayers - 1) as PlayerID;
+    g.dealer = random(0, g.numPlayers - 1) as PlayerID;
   } else {
-    g.game.dealer = ((g.game.dealer + 1) % g.game.numPlayers) as PlayerID;
+    g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
   }
 }
 
 function first(g: WizardState, ctx: Ctx): number {
   return ctx.playOrder.findIndex(
-    (playerID) => playerID === g.game.dealer.toString()
+    (playerID) => playerID === g.dealer.toString()
   );
 }
 
@@ -69,7 +71,7 @@ export const setup: PhaseConfig = {
     handout,
   },
   start: true,
-  next: "bidding",
+  next: Phase.Bidding,
   turn: {
     order: {
       // returns playOrder index of dealer

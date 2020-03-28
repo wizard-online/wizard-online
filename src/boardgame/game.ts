@@ -1,35 +1,40 @@
 /* eslint-disable no-param-reassign */
 import { Ctx } from "boardgame.io";
-import { defaultG, WizardState } from "./G";
+import { generateDefaultWizardState, WizardState } from "./WizardState";
 import { setup } from "./phases/setup";
 import { bidding } from "./phases/bidding";
 import { playing } from "./phases/playing";
 import { maxCards, PlayerID } from "./entities/players";
+import { Phase } from "./phases/phase";
 
-function endIf({ game: { numCards, numPlayers } }: WizardState): boolean {
+function endIf({ numCards, numPlayers }: WizardState): boolean {
   return numCards > maxCards(numPlayers);
 }
 
 function onEnd(g: WizardState): void {
-  console.log("GAME ENDED", g.game.currentPlayer);
+  // TODO: handle game end
+  console.log("GAME ENDED", g.currentPlayer);
 }
 
 function onBeginTurn(g: WizardState, ctx: Ctx): void {
-  g.game.currentPlayer = Number.parseInt(ctx.currentPlayer, 10) as PlayerID;
+  // sync ctx.currentPlayer (string) to g.currentPlayer (number)
+  g.currentPlayer = Number.parseInt(ctx.currentPlayer, 10) as PlayerID;
+  // also sync phase to g
+  g.phase = ctx.phase as Phase;
 }
 
-export const game = {
+export const wizardGameConfig = {
   name: "Wizard",
   minPlayers: 3,
   maxPlayers: 6,
 
-  setup: defaultG,
+  setup: generateDefaultWizardState,
   turn: { onBegin: onBeginTurn },
 
   phases: {
-    setup,
-    bidding,
-    playing,
+    [Phase.Setup]: setup,
+    [Phase.Bidding]: bidding,
+    [Phase.Playing]: playing,
   },
   endIf,
   onEnd,

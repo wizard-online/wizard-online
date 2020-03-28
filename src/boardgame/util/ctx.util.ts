@@ -6,6 +6,7 @@ import {
   PlayerAPI,
   RandomAPI,
 } from "boardgame.io";
+import { Phase } from "../phases/phase";
 
 interface ActivePlayers {
   [playerID: string]: StageName;
@@ -19,7 +20,7 @@ interface CtxArgs {
   currentPlayer?: PlayerID;
   numMoves?: number;
   turn?: number;
-  phase?: string;
+  phase?: Phase;
   // enhanced by events plugin
   events?: EventsAPI;
   // enhanced by player plugin
@@ -35,7 +36,7 @@ const defaultCtx: Ctx = {
   numMoves: 0,
   playOrder: ["0", "1", "2", "3"],
   playOrderPos: 0,
-  phase: "setup",
+  phase: Phase.Setup,
   activePlayers: null,
   events: {
     endGame: () => {},

@@ -1,11 +1,11 @@
-import { RoundScore, Score } from "../G";
+import { ScoreRow, Score } from "../WizardState";
 
 export function updateScorePad(
   bids: (number | null)[],
   trickCount: number[],
   numCards: number,
-  scorePad: RoundScore[]
-): RoundScore[] {
+  scorePad: ScoreRow[]
+): ScoreRow[] {
   return [...scorePad, calcRoundScore(bids, trickCount, numCards, scorePad)];
 }
 
@@ -13,8 +13,8 @@ export function calcRoundScore(
   bids: (number | null)[],
   trickCount: number[],
   numCards: number,
-  scorePad: RoundScore[]
-): RoundScore {
+  scorePad: ScoreRow[]
+): ScoreRow {
   const lastRoundScore = scorePad[scorePad.length - 1];
   const playerScores = bids.map((bid, i) => {
     if (bid === null) throw new Error("unexpected bid null value");
