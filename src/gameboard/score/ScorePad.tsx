@@ -1,5 +1,13 @@
 import React, { useContext } from "react";
-import { TableContainer, Table, TableHead, TableCell } from "@material-ui/core";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableCell,
+  TableBody,
+  TableRow,
+  Tooltip,
+} from "@material-ui/core";
 import range from "lodash/range";
 import { GameContext } from "../GameContext";
 
@@ -8,7 +16,8 @@ export const ScorePad: React.FC = () => {
   if (!gamestate) return null;
   const {
     G: {
-      game: { scorePad },
+      game: { scorePad, numCards },
+      round,
     },
     ctx: { numPlayers },
   } = gamestate;
@@ -18,11 +27,62 @@ export const ScorePad: React.FC = () => {
     <TableContainer>
       <Table>
         <TableHead>
-          <TableCell>#</TableCell>
-          {playerIDs.map((playerID) => (
-            <TableCell>Spieler {playerID}</TableCell>
-          ))}
+          <TableRow>
+            <TableCell>#</TableCell>
+            {playerIDs.map((playerID) => (
+              <TableCell key={playerID}>Spieler {playerID}</TableCell>
+            ))}
+          </TableRow>
         </TableHead>
+        <TableBody>
+          {scorePad.map(({ numCards: n, playerScores }) => (
+            <TableRow key={n}>
+              <TableCell component="th" scope="row">
+                {n}
+              </TableCell>
+              {playerScores.map(({ bid, tricks, score, total }, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <TableCell key={i}>
+                  <Tooltip
+                    arrow
+                    title={
+                      <>
+                        <p>
+                          <b>{bid}</b> Stiche angesagt
+                        </p>
+                        <p>
+                          <b>{tricks}</b> Stiche gemacht
+                        </p>
+                        <p>
+                          <b>{score}</b> Punkte
+                        </p>
+                        <p>
+                          <b>{total}</b> Punkte insgesamt
+                        </p>
+                      </>
+                    }
+                  >
+                    <span>
+                      <b>{total}</b> | {bid}
+                    </span>
+                  </Tooltip>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+          <TableRow>
+            <TableCell component="th" scope="row">
+              {numCards}
+            </TableCell>
+            {round &&
+              round.bids.map((bid, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <TableCell key={i}>
+                  <span>__ | {bid ?? "_"}</span>
+                </TableCell>
+              ))}
+          </TableRow>
+        </TableBody>
       </Table>
     </TableContainer>
   );
