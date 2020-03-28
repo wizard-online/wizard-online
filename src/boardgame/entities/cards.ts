@@ -1,5 +1,5 @@
 import flatten from "lodash/flatten";
-import { PlayerID } from "boardgame.io";
+import { PlayerID } from "./players";
 
 export enum Suit {
   Blue = "BLUE",

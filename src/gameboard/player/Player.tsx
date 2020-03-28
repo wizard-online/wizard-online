@@ -7,21 +7,25 @@ import { PlayerProps } from "./Player.props";
 import { PlayerOnBidding } from "./PlayerOnBidding";
 import { PlayerOnPlaying } from "./PlayerOnPlaying";
 import { TrickLabel } from "./TrickLabel";
+import { Phase } from "../../boardgame/phases/phase";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
 
-  const { phase, currentPlayer } = gamestate.ctx;
+  const {
+    G: { currentPlayer },
+    ctx: { phase },
+  } = gamestate;
   const isTurn = playerID === currentPlayer;
   const playerTitle = <>Spieler: {playerID}</>;
   return (
     <Container>
       <PlayerTitle isTurn={isTurn}>{playerTitle}</PlayerTitle>
       <TrickLabel playerID={playerID} />
-      {phase === "setup" && <PlayerOnSetup playerID={playerID} />}
-      {phase === "bidding" && <PlayerOnBidding playerID={playerID} />}
-      {phase === "playing" && <PlayerOnPlaying playerID={playerID} />}
+      {phase === Phase.Setup && <PlayerOnSetup playerID={playerID} />}
+      {phase === Phase.Bidding && <PlayerOnBidding playerID={playerID} />}
+      {phase === Phase.Playing && <PlayerOnPlaying playerID={playerID} />}
     </Container>
   );
 };

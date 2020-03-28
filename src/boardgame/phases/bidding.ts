@@ -1,20 +1,19 @@
 /* eslint-disable no-param-reassign */
 import { Ctx, PhaseConfig } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { G, isSetRound } from "../G";
+import { WizardState, isSetRound } from "../WizardState";
 import { isValidBid } from "../util/bid";
+import { Phase } from "./phase";
 
 export function bid(
-  { round, game }: G,
+  { round, numCards, currentPlayer }: WizardState,
   ctx: Ctx,
   numberOfTricks: number
 ): "INVALID_MOVE" | void {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-  if (
-    !isValidBid(numberOfTricks, game.numCards, round.bids, ctx.currentPlayer)
-  ) {
+  if (!isValidBid(numberOfTricks, numCards, round.bids, currentPlayer)) {
     return INVALID_MOVE;
   }
 
@@ -22,7 +21,7 @@ export function bid(
   ctx.events!.endTurn!();
 }
 
-function endIf({ round }: G): boolean {
+function endIf({ round }: WizardState): boolean {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
@@ -34,5 +33,5 @@ export const bidding: PhaseConfig = {
     bid,
   },
   endIf,
-  next: "playing",
+  next: Phase.Playing,
 };
