@@ -1,5 +1,5 @@
 import flatten from "lodash/flatten";
-import { PlayerID } from "boardgame.io";
+import { PlayerID } from "./players";
 
 export enum Suit {
   Blue = "BLUE",
@@ -103,7 +103,7 @@ export function getTrickWinner(
   trumpSuit: Suit | null
 ): [Card, PlayerID] {
   if (cards.length < 2) {
-    throw Error("too few cards");
+    throw new Error("too few cards");
   }
   const leadSuit = cards[0][0].suit;
   const winner = cards.reduce((winningCard, card, cardIndex) => {
@@ -139,7 +139,7 @@ export function canPlayCard(
   }
   // Ns cannot be leading card
   if (leadCard.rank === Rank.N) {
-    throw Error("N card cannot be leading card");
+    throw new Error("N card cannot be leading card");
   }
   // if Z is leading card, every card can be played
   if (leadCard.rank === Rank.Z) {

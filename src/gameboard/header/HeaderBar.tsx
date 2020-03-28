@@ -12,10 +12,10 @@ export const HeaderBar: React.FC = () => {
       <Toolbar>
         <h1>Wizard Online</h1>
         <SpaceFill />
-        <InfoItem>Phase: {boardgame.ctx.phase}</InfoItem>
-        <InfoItem>PlayerId: {boardgame.ctx.currentPlayer}</InfoItem>
-        <InfoItem>Runde: {boardgame.G.game.numCards}</InfoItem>
-        <InfoItem>#Spieler: {boardgame.ctx.numPlayers}</InfoItem>
+        <InfoItem>Phase: {boardgame.G.phase}</InfoItem>
+        <InfoItem>PlayerId: {boardgame.G.currentPlayer}</InfoItem>
+        <InfoItem>Runde: {boardgame.G.numCards}</InfoItem>
+        <InfoItem>#Spieler: {boardgame.G.numPlayers}</InfoItem>
       </Toolbar>
     </AppBar>
   );

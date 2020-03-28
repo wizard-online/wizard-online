@@ -1,78 +1,81 @@
 /* eslint-disable no-param-reassign */
 import { PhaseConfig, Ctx } from "boardgame.io";
-import shuffle from "lodash/shuffle";
+import shuffleUtil from "lodash/shuffle";
 import random from "lodash/random";
 
-import { G, isSetRound, blankRound } from "../G";
-import { playersRound } from "../entities/players";
+import {
+  WizardState,
+  isSetRound,
+  generateBlankRoundState,
+} from "../WizardState";
+import { playersRound, NumPlayers, PlayerID } from "../entities/players";
 import { Card } from "../entities/cards";
+import { Phase } from "./phase";
+
+export function shuffle({ round }: WizardState): void {
+  round!.deck = shuffleUtil(round!.deck);
+}
+
+export function handout(g: WizardState, ctx: Ctx): void {
+  const { round, numCards, numPlayers, currentPlayer } = g;
+  if (!isSetRound(round)) {
+    throw new Error("round is not set");
+  }
+
+  const players = playersRound(
+    (currentPlayer + 1) % numPlayers,
+    numPlayers as NumPlayers
+  );
+
+  const hands = new Array(numPlayers).fill(0).map<Card[]>(() => []);
+  new Array(numCards).fill(0).forEach(() => {
+    players.forEach((player) => {
+      const card = round.deck.pop();
+      if (!card) throw new Error("deck seems to be empty");
+      hands[player].push(card);
+    });
+  });
+
+  round.hands = hands;
+  const trump = round.deck.pop();
+  if (!trump) throw new Error("deck seems to be empty");
+  round.trump = trump;
+
+  ctx.events!.endPhase!();
+}
+
+function onBegin(g: WizardState): void {
+  // delete trick
+  g.trick = null;
+  // reset round
+  g.round = generateBlankRoundState(g.numPlayers);
+  // set dealer
+  if (!g.dealer) {
+    // draw a dealer at the start of game
+    g.dealer = random(0, g.numPlayers - 1) as PlayerID;
+  } else {
+    g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
+  }
+}
+
+function first(g: WizardState, ctx: Ctx): number {
+  return ctx.playOrder.findIndex(
+    (playerID) => playerID === g.dealer.toString()
+  );
+}
 
 export const setup: PhaseConfig = {
-  onBegin(g: G, ctx: Ctx) {
-    // delete trick
-    g.trick = null;
-    // reset round
-    g.round = blankRound(ctx);
-    // set dealer
-    if (!g.game.dealer) {
-      // draw a dealer at the start of game
-      g.game.dealer = random(0, ctx.numPlayers - 1).toString();
-    } else {
-      g.game.dealer = (
-        (parseInt(g.game.dealer, 10) + 1) %
-        ctx.numPlayers
-      ).toString();
-    }
-
-    // set dealer's turn
-    // ctx.events!.endTurn!({ next: g.game.dealer });
-  },
+  onBegin,
   moves: {
-    shuffle({ round }: G) {
-      round!.deck = shuffle(round!.deck);
-    },
-    handout(g: G, ctx: Ctx) {
-      const { round, game } = g;
-      if (!isSetRound(round)) {
-        throw Error("round is not set");
-      }
-
-      const players = playersRound(
-        (parseInt(ctx.currentPlayer, 10) + 1) % ctx.numPlayers,
-        ctx.numPlayers
-      );
-
-      const hands = Array(ctx.numPlayers)
-        .fill(0)
-        .map<Card[]>(() => []);
-      Array(game.numCards)
-        .fill(0)
-        .forEach(() => {
-          players.forEach((player) => {
-            const card = round.deck.pop();
-            if (!card) throw Error("deck seems to be empty");
-            hands[player].push(card);
-          });
-        });
-
-      round.hands = hands;
-      const trump = round.deck.pop();
-      if (!trump) throw Error("deck seems to be empty");
-      round.trump = trump;
-
-      ctx.events!.endPhase!();
-    },
+    shuffle,
+    handout,
   },
   start: true,
-  next: "bidding",
+  next: Phase.Bidding,
   turn: {
     order: {
       // returns playOrder index of dealer
-      first(g: G, ctx: Ctx) {
-        return ctx.playOrder.findIndex(
-          (playerID) => playerID === g.game.dealer
-        );
-      },
+      first,
     },
   },
 };

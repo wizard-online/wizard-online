@@ -4,13 +4,12 @@ import range from "lodash/range";
 
 import { GameContext } from "../GameContext";
 import { Player } from "./Player";
+import { PlayerID } from "../../boardgame/entities/players";
 
 export const PlayersContainer: React.FC = () => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
-  const playerIDs = range(0, gamestate.ctx.numPlayers).map((id) =>
-    id.toString()
-  );
+  const playerIDs = range(0, gamestate.ctx.numPlayers) as PlayerID[];
   return (
     <Box>
       {playerIDs.map((playerID) => (

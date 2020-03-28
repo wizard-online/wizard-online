@@ -12,8 +12,8 @@ export const TrickLabel: React.FC<PlayerProps> = ({ playerID }) => {
     G: { round },
   } = gamestate;
 
-  const trickValue = round?.trickCount[parseInt(playerID, 10)];
-  const bidValue = round?.bids[parseInt(playerID, 10)];
+  const trickValue = round?.trickCount[playerID];
+  const bidValue = round?.bids[playerID];
 
   return (
     <Box>
