@@ -7,7 +7,7 @@ import { SocketIO } from 'boardgame.io/multiplayer'
 import { wizardGameConfig } from "./boardgame/game";
 import { WizardBoard } from "./gameboard/WizardBoard";
 
-export const Game = Client({
+export const WizardClient = Client({
   game: wizardGameConfig,
   board: WizardBoard,
   numPlayers: 4,
@@ -15,4 +15,3 @@ export const Game = Client({
   enhancer: applyMiddleware(logger),
 });
 
-export const Wizard = WizardGame

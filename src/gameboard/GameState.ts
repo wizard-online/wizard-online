@@ -6,4 +6,5 @@ export interface GameState extends State {
   moves: {
     [move: string]: Function;
   };
+  playerID: string
 }

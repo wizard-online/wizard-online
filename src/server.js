@@ -1,9 +1,8 @@
 import { Server } from 'boardgame.io/server';
-import { Wizard } from './Game';
+import { WizardGameConfig as Wizard} from './boardgame/game';
 
 const server = Server({
   games: [Wizard],
-
 });
 
 

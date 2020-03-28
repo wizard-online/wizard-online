@@ -10,18 +10,26 @@ import { TrickLabel } from "./TrickLabel";
 import { Phase } from "../../boardgame/phases/phase";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
-  const { gamestate } = useContext(GameContext);
+  const { gamestate , clientID} = useContext(GameContext);
   if (!gamestate) return null;
+
 
   const {
     G: { currentPlayer },
-    ctx: { phase },
+    ctx: { phase }
   } = gamestate;
-  const isTurn = playerID === currentPlayer;
+
+  console.log("CLIENT ID: " + clientID)
+  console.log("PLAYER ID: " + playerID)
+
+  
+  const isClient = playerID === clientID;
+  console.log("ISCLIENT: " + isClient)
+  //const isTurn = playerID === currentPlayer;
   const playerTitle = <>Spieler: {playerID}</>;
   return (
     <Container>
-      <PlayerTitle isTurn={isTurn}>{playerTitle}</PlayerTitle>
+      <PlayerTitle isClient={isClient}>{playerTitle}</PlayerTitle>
       <TrickLabel playerID={playerID} />
       {phase === Phase.Setup && <PlayerOnSetup playerID={playerID} />}
       {phase === Phase.Bidding && <PlayerOnBidding playerID={playerID} />}
@@ -34,7 +42,7 @@ const Container = styled(Box)`
   margin: 25px;
 `;
 
-const PlayerTitle = styled.h3<{ isTurn: boolean }>`
-  text-decoration: ${({ isTurn }) => (isTurn ? "underline" : "none")};
-  color: ${({ isTurn }) => (isTurn ? "darkred" : "inherit")};
+const PlayerTitle = styled.h3<{ isClient: boolean }>`
+  text-decoration: ${({ isClient }) => (isClient ? "underline" : "none")};
+  color: ${({ isClient }) => (isClient ? "darkred" : "inherit")};
 `;
