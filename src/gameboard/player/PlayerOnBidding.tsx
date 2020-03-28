@@ -12,10 +12,9 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   if (!gamestate) return null;
   const {
     G: {
-      game: { numCards },
+      game: { numCards, currentPlayer },
       round,
     },
-    ctx: { currentPlayer },
     moves: { bid },
   } = gamestate;
   if (!isSetRound(round)) {
@@ -26,7 +25,7 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const valid = isValidBid(bidValue, numCards, bids, currentPlayer);
   const isTurn = currentPlayer === playerID;
 
-  const cards = round.hands[Number.parseInt(playerID, 10)];
+  const cards = round.hands[playerID];
 
   return (
     <Box>

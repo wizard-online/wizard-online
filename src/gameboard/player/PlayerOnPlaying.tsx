@@ -11,15 +11,18 @@ export const PlayerOnPlaying: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
   const {
-    G: { round, trick },
-    ctx: { currentPlayer },
+    G: {
+      round,
+      trick,
+      game: { currentPlayer },
+    },
     moves: { play },
   } = gamestate;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
   const isTurn = currentPlayer === playerID;
-  const cards = round.hands[Number.parseInt(playerID, 10)];
+  const cards = round.hands[playerID];
   const visibleCards = cards.map((card) => (isTurn ? card : null));
   const playableCards = playableCardsInHand(cards, trick?.lead || null);
   return (

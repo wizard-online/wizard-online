@@ -1,8 +1,10 @@
+import { PlayerID } from "../entities/players";
+
 export function isValidBid(
   bidValue: number,
   numCards: number,
   bids: (number | null)[],
-  currentPlayer: string
+  currentPlayer: PlayerID
 ): boolean {
   if (bidValue < 0 || bidValue > numCards) {
     return false;
@@ -10,9 +12,8 @@ export function isValidBid(
 
   const isNotFirstRound = numCards > 1;
   const isLastPlayer =
-    bids.filter(
-      (score, i) => i !== Number.parseInt(currentPlayer, 10) && score === null
-    ).length === 0;
+    bids.filter((score, i) => i !== currentPlayer && score === null).length ===
+    0;
   const isTotalPredictionEven =
     [bidValue, ...bids].reduce((sum, value) => (sum || 0) + (value || 0), 0) ===
     numCards;

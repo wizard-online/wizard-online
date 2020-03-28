@@ -4,9 +4,10 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { bid } from "./bidding";
 import { G } from "../G";
 import { generateCtx } from "../util/ctx.util";
+import { NumPlayers, PlayerID } from "../entities/players";
 
 interface GenerateOptions {
-  numPlayers?: number;
+  numPlayers?: NumPlayers;
   bids?: Array<number | null>;
   numCards?: number;
 }
@@ -16,7 +17,7 @@ function generate({
   bids = new Array(numPlayers).fill(null),
   numCards = 3,
 }: GenerateOptions): { g: G; ctx: Ctx } {
-  const currentPlayer = bids.findIndex((e) => e === null);
+  const currentPlayer = bids.findIndex((e) => e === null) as PlayerID;
   const ctx: Ctx = generateCtx({
     turn: currentPlayer + 1,
     currentPlayer: currentPlayer.toString(),
@@ -25,7 +26,9 @@ function generate({
     game: {
       numCards,
       scorePad: [],
-      dealer: "",
+      dealer: 0 as PlayerID,
+      numPlayers,
+      currentPlayer,
     },
     round: {
       bids,

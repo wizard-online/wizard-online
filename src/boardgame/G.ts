@@ -1,6 +1,7 @@
 import shuffle from "lodash/shuffle";
-import { Ctx, PlayerID } from "boardgame.io";
+import { Ctx } from "boardgame.io";
 import { Card, generateCardDeck } from "./entities/cards";
+import { NumPlayers, PlayerID } from "./entities/players";
 
 export interface G {
   game: GGame;
@@ -31,8 +32,10 @@ export function isSetRound(round: GRound | null): round is GRound {
 
 export interface GGame {
   numCards: number;
-  dealer: string;
+  dealer: PlayerID;
+  currentPlayer: PlayerID;
   scorePad: RoundScore[];
+  numPlayers: NumPlayers;
 }
 
 export interface RoundScore {
@@ -54,12 +57,15 @@ export const defaultG = (
     setTrick = true,
   }: { setRound?: boolean; setTrick?: boolean } = {}
 ): G => {
+  const numPlayers = ctx.numPlayers as NumPlayers;
   const game = {
     numCards: 3,
-    dealer: "",
-    scorePad: new Array(ctx.numPlayers).fill([]),
+    dealer: 0 as PlayerID,
+    scorePad: new Array(numPlayers).fill([]),
+    numPlayers,
+    currentPlayer: Number.parseInt(ctx.currentPlayer, 10) as PlayerID,
   };
-  const round = setRound ? blankRound(ctx) : null;
+  const round = setRound ? blankRound(numPlayers) : null;
   const trick = setTrick ? blankTrick() : null;
   return {
     game,
@@ -68,11 +74,11 @@ export const defaultG = (
   };
 };
 
-export function blankRound(ctx: Ctx): GRound {
+export function blankRound(numPlayers: NumPlayers): GRound {
   return {
-    bids: new Array(ctx.numPlayers).fill(null),
-    hands: new Array(ctx.numPlayers).fill([]),
-    trickCount: new Array(ctx.numPlayers).fill(null),
+    bids: new Array(numPlayers).fill(null),
+    hands: new Array(numPlayers).fill([]),
+    trickCount: new Array(numPlayers).fill(null),
     trump: null,
     deck: shuffle(generateCardDeck()),
   };

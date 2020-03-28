@@ -5,16 +5,14 @@ import { G, isSetRound } from "../G";
 import { isValidBid } from "../util/bid";
 
 export function bid(
-  { round, game }: G,
+  { round, game: { numCards, currentPlayer } }: G,
   ctx: Ctx,
   numberOfTricks: number
 ): "INVALID_MOVE" | void {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-  if (
-    !isValidBid(numberOfTricks, game.numCards, round.bids, ctx.currentPlayer)
-  ) {
+  if (!isValidBid(numberOfTricks, numCards, round.bids, currentPlayer)) {
     return INVALID_MOVE;
   }
 

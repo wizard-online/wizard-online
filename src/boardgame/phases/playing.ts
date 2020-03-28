@@ -47,7 +47,7 @@ export const playing: PhaseConfig = {
       }
       // play card
       hand.splice(cardIndex, 1);
-      trick.cards.push([card, ctx.currentPlayer]);
+      trick.cards.push([card, g.game.currentPlayer]);
       // pass turn to next player
       // as last player, find trick taker, increment trick count, and cleanup trick
       if (trick.cards.length === ctx.numPlayers) {
@@ -116,8 +116,8 @@ function endTrick(g: G, ctx: Ctx): void {
     trick.cards,
     round.trump?.suit || null
   );
-  round.trickCount![Number.parseInt(winnerPlayerId, 10)] += 1;
+  round.trickCount![winnerPlayerId] += 1;
   g.trick = null;
 
-  ctx.events?.endTurn!({ next: winnerPlayerId });
+  ctx.events?.endTurn!({ next: winnerPlayerId.toString() });
 }

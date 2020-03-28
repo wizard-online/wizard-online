@@ -12,7 +12,12 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
 
-  const { phase, currentPlayer } = gamestate.ctx;
+  const {
+    G: {
+      game: { currentPlayer },
+    },
+    ctx: { phase },
+  } = gamestate;
   const isTurn = playerID === currentPlayer;
   const playerTitle = <>Spieler: {playerID}</>;
   return (
