@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Ctx } from "boardgame.io";
-import { NumPlayers } from "./boardgame/entities/players";
 
 declare module "boardgame.io" {
   export interface Ctx {
-    // overwrite numPlayers to limit it to 3 - 6
-    numPlayers: NumPlayers;
     // enhanced by events plugin
     events?: EventsAPI;
     // enhanced by player plugin
