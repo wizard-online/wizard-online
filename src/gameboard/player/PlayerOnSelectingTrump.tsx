@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import { GameContext } from "../GameContext";
-import { allSuits, Suit } from "../../boardgame/entities/cards";
+import { allSuits, Suit, getSuitLabel } from "../../boardgame/entities/cards";
 import { PlayCard, PlayCardColor } from "../components/PlayCard";
 import { PlayerProps } from "./Player.props";
 import { isSetRound } from "../../boardgame/WizardState";
@@ -46,7 +46,7 @@ export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
                 <FormControlLabel
                   value={suit}
                   control={<SuitColoredRadio suit={suit} />}
-                  label={suit}
+                  label={getSuitLabel(suit)}
                   key={suit}
                 />
               ))}
@@ -58,7 +58,7 @@ export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
                 disabled={!selectedSuit}
                 onClick={() => selectTrump(selectedSuit)}
               >
-                {selectedSuit} als Trumpf wählen
+                {getSuitLabel(selectedSuit)} als Trumpf wählen
               </Button>
             </FormControl>
           )}
