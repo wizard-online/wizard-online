@@ -49,12 +49,13 @@ export function handout(g: WizardState, ctx: Ctx): void {
     if (trumpCard?.rank === Rank.Z) {
       trumpSuit = undefined;
     }
+    trumpSuit = undefined; // TODO: remove line
     round.trump = { card: trumpCard, suit: trumpSuit };
   }
 
   // go to next phase
   if (trumpSuit === undefined) {
-    ctx.events!.endPhase!({ next: Phase.SelectingTrump });
+    ctx.events!.setPhase!(Phase.SelectingTrump);
   } else {
     ctx.events!.endPhase!();
   }

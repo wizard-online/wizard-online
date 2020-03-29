@@ -1,13 +1,28 @@
+/* eslint-disable no-param-reassign */
 import { Ctx, PhaseConfig } from "boardgame.io";
-import { WizardState } from "../WizardState";
-import { Suit } from "../entities/cards";
+import { INVALID_MOVE } from "boardgame.io/core";
+import { WizardState, isSetRound } from "../WizardState";
+import { Suit, allSuits } from "../entities/cards";
 import { Phase } from "./phase";
 
 export function selectTrump(
-  wizardState: WizardState,
+  { round }: WizardState,
   ctx: Ctx,
   suit: Suit
-): void {}
+): void | "INVALID_MOVE" {
+  if (!allSuits.includes(suit)) {
+    return INVALID_MOVE;
+  }
+  if (!isSetRound(round)) {
+    throw new Error("round is not set");
+  }
+
+  // set trump
+  round.trump.suit = suit;
+
+  // end phase
+  ctx.events!.endPhase!();
+}
 
 function first(g: WizardState, ctx: Ctx): number {
   return ctx.playOrder.findIndex(
