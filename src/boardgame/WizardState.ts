@@ -1,6 +1,6 @@
 import shuffle from "lodash/shuffle";
 import { Ctx } from "boardgame.io";
-import { Card, generateCardDeck } from "./entities/cards";
+import { Card, generateCardDeck, Suit } from "./entities/cards";
 import { NumPlayers, PlayerID } from "./entities/players";
 import { Phase } from "./phases/phase";
 import { ScorePad } from "./entities/score";
@@ -46,8 +46,22 @@ export interface WizardRoundState {
   bids: (number | null)[];
   hands: Card[][];
   trickCount: number[];
-  trump: Card | null;
+  trump: Trump;
   deck: Card[];
+}
+
+/**
+ * Describes the round's trump suit.
+ * card: contains the trump card if given (i.e. not in the last round)
+ * suit: contains the trump suit. This is redudant to the card's suit most of the time
+ * but serves for the case when the trump card is a Z and the dealer selects a trump suit.
+ *
+ * @export
+ * @interface Trump
+ */
+export interface Trump {
+  card: Card | null;
+  suit?: Suit | null;
 }
 
 /**
@@ -126,7 +140,7 @@ export function generateBlankRoundState(
     bids: new Array(numPlayers).fill(null),
     hands: new Array(numPlayers).fill([]),
     trickCount: new Array(numPlayers).fill(null),
-    trump: null,
+    trump: { card: null },
     deck: shuffle(generateCardDeck()),
   };
 }

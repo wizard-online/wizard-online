@@ -9,6 +9,28 @@ export enum Suit {
 }
 export const allSuits = [Suit.Blue, Suit.Red, Suit.Yellow, Suit.Green];
 
+export enum SuitLabel {
+  Blue = "Blau",
+  Red = "Rot",
+  Yellow = "Gelb",
+  Green = "Grün",
+}
+
+export function getSuitLabel(suit: Suit): SuitLabel {
+  switch (suit) {
+    case Suit.Blue:
+      return SuitLabel.Blue;
+    case Suit.Red:
+      return SuitLabel.Red;
+    case Suit.Yellow:
+      return SuitLabel.Yellow;
+    case Suit.Green:
+      return SuitLabel.Green;
+    default:
+      throw new Error(`given argument is not a suit: ${suit}`);
+  }
+}
+
 export enum Rank {
   One = 1,
   Two,

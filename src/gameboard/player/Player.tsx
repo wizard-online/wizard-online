@@ -8,6 +8,7 @@ import { PlayerOnBidding } from "./PlayerOnBidding";
 import { PlayerOnPlaying } from "./PlayerOnPlaying";
 import { TrickLabel } from "./TrickLabel";
 import { Phase } from "../../boardgame/phases/phase";
+import { PlayerOnSelectingTrump } from "./PlayerOnSelectingTrump";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
@@ -28,6 +29,9 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
       <PlayerTitle isClient={isClient}>{playerTitle}</PlayerTitle>
       <TrickLabel playerID={playerID} />
       {phase === Phase.Setup && <PlayerOnSetup playerID={playerID} />}
+      {phase === Phase.SelectingTrump && (
+        <PlayerOnSelectingTrump playerID={playerID} />
+      )}
       {phase === Phase.Bidding && <PlayerOnBidding playerID={playerID} />}
       {phase === Phase.Playing && <PlayerOnPlaying playerID={playerID} />}
     </Container>
