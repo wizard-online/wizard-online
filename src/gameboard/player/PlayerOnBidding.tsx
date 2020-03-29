@@ -12,7 +12,7 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   if (!gamestate) return null;
   const {
     G: { numCards, currentPlayer, round },
-    moves: { bid },
+    moves: { bid, sortCards },
   } = gamestate;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -22,34 +22,50 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const valid = isValidBid(bidValue, numCards, bids, currentPlayer);
   const isTurn = currentPlayer === playerID;
 
+  const [isHandSorted, setIsHandSorted] = useState(false);
+
   const cards = round.hands[playerID];
 
   return (
     <Box>
       {isTurn ? (
         <form>
-          <Field>
-            <Slider
-              value={bidValue}
-              onChange={(_, newValue) => setBidValue(newValue as number)}
-              step={1}
-              min={0}
-              max={numCards}
-              marks
-              valueLabelDisplay="auto"
-            />
-          </Field>
-          <Field>
+          <Row>
+            <Field>
+              <Slider
+                value={bidValue}
+                onChange={(_, newValue) => setBidValue(newValue as number)}
+                step={1}
+                min={0}
+                max={numCards}
+                marks
+                valueLabelDisplay="auto"
+              />
+            </Field>
+          </Row>
+          <Row>
+            <Button
+              onClick={() => {
+                sortCards();
+                setIsHandSorted(true);
+              }}
+              type="button"
+              disabled={isHandSorted}
+            >
+              Karten sortieren
+            </Button>
             <Button
               onClick={() => {
                 if (valid) bid(bidValue);
               }}
               type="button"
               disabled={!valid}
+              color="primary"
+              variant="contained"
             >
               {bidValue} Stiche ansagen
             </Button>
-          </Field>
+          </Row>
         </form>
       ) : (
         <span>Warten auf Spieler {currentPlayer}</span>
@@ -64,6 +80,12 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
     </Box>
   );
 };
+
+const Row = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0;
+`;
 
 const Field = styled(FormControl)`
   width: 300px;
