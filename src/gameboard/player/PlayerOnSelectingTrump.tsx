@@ -35,7 +35,7 @@ export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
       {isTurn && (
         <Form>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Wähle eine Trump-Farbe</FormLabel>
+            <FormLabel component="legend">Wähle eine Trumpf-Farbe</FormLabel>
             <RadioGroup
               row
               value={selectedSuit}
