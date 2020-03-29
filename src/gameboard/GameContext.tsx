@@ -4,7 +4,7 @@ import { PlayerID } from "../boardgame/entities/players";
 
 export interface AppState {
   gamestate?: GameState;
-  clientID: PlayerID;
+  clientID?: PlayerID;
 }
 
 export const GameContext = React.createContext<AppState>({});

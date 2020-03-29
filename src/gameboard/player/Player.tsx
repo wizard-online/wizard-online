@@ -15,16 +15,12 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
 
 
   const {
-    G: { currentPlayer },
+    //G: { currentPlayer },
     ctx: { phase }
   } = gamestate;
 
-  console.log("CLIENT ID: " + clientID)
-  console.log("PLAYER ID: " + playerID)
-
-  
   const isClient = playerID === clientID;
-  console.log("ISCLIENT: " + isClient)
+
   //const isTurn = playerID === currentPlayer;
   const playerTitle = <>Spieler: {playerID}</>;
   return (
