@@ -9,7 +9,7 @@ import {
   generateBlankRoundState,
 } from "../WizardState";
 import { playersRound, NumPlayers, PlayerID } from "../entities/players";
-import { Card } from "../entities/cards";
+import { Card, Rank, Suit } from "../entities/cards";
 import { Phase } from "./phase";
 
 export function shuffle({ round }: WizardState): void {
@@ -39,11 +39,25 @@ export function handout(g: WizardState, ctx: Ctx): void {
   round.hands = hands;
 
   // draw trump card
+  let trumpSuit: Suit | null | undefined;
   if (round.deck.length > 0) {
-    round.trump = round.deck.pop() ?? null;
+    const trumpCard = round.deck.pop() ?? null;
+    trumpSuit = trumpCard?.suit ?? null;
+    if (trumpCard?.rank === Rank.N) {
+      trumpSuit = null;
+    }
+    if (trumpCard?.rank === Rank.Z) {
+      trumpSuit = undefined;
+    }
+    round.trump = { card: trumpCard, suit: trumpSuit };
   }
 
-  ctx.events!.endPhase!();
+  // go to next phase
+  if (trumpSuit === undefined) {
+    ctx.events!.endPhase!({ next: Phase.SelectingTrump });
+  } else {
+    ctx.events!.endPhase!();
+  }
 }
 
 function onBegin(g: WizardState): void {
