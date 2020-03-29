@@ -6,6 +6,7 @@ import { bidding } from "./phases/bidding";
 import { playing } from "./phases/playing";
 import { maxCards, PlayerID } from "./entities/players";
 import { Phase } from "./phases/phase";
+import { selectingTrump } from "./phases/selecting-trump";
 
 function endIf({ numCards, numPlayers }: WizardState): boolean {
   return numCards > maxCards(numPlayers);
@@ -33,6 +34,7 @@ export const wizardGameConfig = {
 
   phases: {
     [Phase.Setup]: setup,
+    [Phase.SelectingTrump]: selectingTrump,
     [Phase.Bidding]: bidding,
     [Phase.Playing]: playing,
   },
