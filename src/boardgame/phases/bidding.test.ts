@@ -34,7 +34,7 @@ function generate({
       bids,
       hands: new Array(ctx.numPlayers).fill(null),
       deck: [],
-      trump: null,
+      trump: { card: null },
       trickCount: new Array(ctx.numPlayers).fill(0),
     },
     trick: null,
