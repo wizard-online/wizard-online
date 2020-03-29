@@ -9,7 +9,10 @@ export const Trick: React.FC = () => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
 
-  const { trick } = gamestate.G;
+  const {
+    wizardState: { trick },
+  } = gamestate;
+
   if (!isSetTrick(trick)) return null;
   const { cards } = trick;
 
