@@ -2,14 +2,16 @@
 import { PhaseConfig, Ctx } from "boardgame.io";
 import shuffleUtil from "lodash/shuffle";
 import random from "lodash/random";
+import groupBy from "lodash/groupBy";
 
+import flatten from "lodash/flatten";
 import {
   WizardState,
   isSetRound,
   generateBlankRoundState,
 } from "../WizardState";
 import { playersRound, NumPlayers, PlayerID } from "../entities/players";
-import { Card } from "../entities/cards";
+import { Card, Rank } from "../entities/cards";
 import { Phase } from "./phase";
 
 export function shuffle({ round }: WizardState): void {
@@ -27,6 +29,7 @@ export function handout(g: WizardState, ctx: Ctx): void {
     numPlayers as NumPlayers
   );
 
+  // handout cards to players
   const hands = new Array(numPlayers).fill(0).map<Card[]>(() => []);
   new Array(numCards).fill(0).forEach(() => {
     players.forEach((player) => {
@@ -35,12 +38,33 @@ export function handout(g: WizardState, ctx: Ctx): void {
       hands[player].push(card);
     });
   });
-
-  round.hands = hands;
+  // draw trump card
   if (round.deck.length > 0) {
-    const trump = round.deck.pop();
-    round.trump = trump ?? null;
+    round.trump = round.deck.pop() ?? null;
   }
+
+  // sort cards on each players hand
+  const sortedHands = hands.map((hand) => {
+    const groupedHand = groupBy(hand, (card) => {
+      if (card.rank === Rank.Z || card.rank === Rank.N) return card.rank;
+      return card.suit;
+    });
+
+    const sortedGroups = Object.entries(groupedHand)
+      .sort(([keyA, cardsA], [keyB, cardsB]) => {
+        // always sort N left and Z right
+        if (keyA === Rank.N.toString() || keyB === Rank.Z.toString()) return -1;
+        if (keyA === Rank.Z.toString() || keyB === Rank.Z.toString()) return 1;
+        // always sort trump beside Z
+        if (keyA === round.trump?.suit) return 1;
+        if (keyB === round.trump?.suit) return -1;
+        // sort by number of cards of color
+        return cardsA.length - cardsB.length;
+      })
+      .map(([, cardGroup]) => cardGroup.sort((a, b) => a.rank - b.rank));
+    return flatten(sortedGroups);
+  });
+  round.hands = sortedHands;
 
   ctx.events!.endPhase!();
 }

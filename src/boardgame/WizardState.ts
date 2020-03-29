@@ -104,7 +104,7 @@ export const generateDefaultWizardState = (
     round,
     trick,
     // TODO: set numCards to 1
-    numCards: 1,
+    numCards: 13,
     dealer: 0 as PlayerID,
     scorePad: [],
     numPlayers,
