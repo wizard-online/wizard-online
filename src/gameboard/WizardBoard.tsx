@@ -7,7 +7,9 @@ import { PlayersContainer } from "./player/PlayersContainer";
 import { Table } from "./table/Table";
 import { PlayerID } from "../boardgame/entities/players";
 import { WizardState } from "../boardgame/WizardState";
-import { GameState } from "./GameState";
+import { ScorePad } from "./score/ScorePad";
+import { FinalScoreModal } from "./gameover/FinalScoreModal";
+
 
 export const WizardBoard: React.FC<State> = ({
   G: wizardState,
@@ -28,7 +30,9 @@ export const WizardBoard: React.FC<State> = ({
         <HeaderBar />
         <Table />
         <PlayersContainer />
+        <ScorePad />
       </Container>
+      <FinalScoreModal />
     </GameContext.Provider>
   );
 };

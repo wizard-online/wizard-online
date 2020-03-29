@@ -27,6 +27,7 @@ export function handout(g: WizardState, ctx: Ctx): void {
     numPlayers as NumPlayers
   );
 
+  // handout cards to players
   const hands = new Array(numPlayers).fill(0).map<Card[]>(() => []);
   new Array(numCards).fill(0).forEach(() => {
     players.forEach((player) => {
@@ -35,11 +36,12 @@ export function handout(g: WizardState, ctx: Ctx): void {
       hands[player].push(card);
     });
   });
-
   round.hands = hands;
-  const trump = round.deck.pop();
-  if (!trump) throw new Error("deck seems to be empty");
-  round.trump = trump;
+
+  // draw trump card
+  if (round.deck.length > 0) {
+    round.trump = round.deck.pop() ?? null;
+  }
 
   ctx.events!.endPhase!();
 }
