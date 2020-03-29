@@ -49,7 +49,6 @@ export function handout(g: WizardState, ctx: Ctx): void {
     if (trumpCard?.rank === Rank.Z) {
       trumpSuit = undefined;
     }
-    trumpSuit = undefined; // TODO: remove line
     round.trump = { card: trumpCard, suit: trumpSuit };
   }
 
