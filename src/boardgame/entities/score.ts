@@ -1,4 +1,35 @@
-import { ScoreRow, Score } from "../WizardState";
+/**
+ * Describes the score pad aka "Block der Wahrheit"
+ * consisting of rows of player scores
+ *
+ * @export
+ */
+export type ScorePad = ScoreRow[];
+
+/**
+ * Describes one row in the score pad:
+ * Each's player score and bids for one specific round.
+ *
+ * @export
+ * @interface ScoreRow
+ */
+export interface ScoreRow {
+  numCards: number;
+  playerScores: Score[];
+}
+
+/**
+ * A score entry in the score pad for one player and one round.
+ *
+ * @export
+ * @interface Score
+ */
+export interface Score {
+  bid: number;
+  tricks: number;
+  score: number;
+  total: number;
+}
 
 export function updateScorePad(
   bids: (number | null)[],
@@ -32,3 +63,9 @@ export function calcRoundScore(
     playerScores,
   };
 }
+
+// export function getLeader(scorePad: ScorePad): number {
+//   if (!scorePad.length) throw new Error("cannot get leader of empty score pad");
+//   const latestRow = scorePad[scorePad.length - 1];
+//   return latestRow
+// }
