@@ -11,16 +11,12 @@ import { ScorePad } from "./score/ScorePad";
 import { FinalScoreModal } from "./gameover/FinalScoreModal";
 import { GameState } from "./GameState";
 
-export const WizardBoard: React.FC<State> = ({
-  G: wizardState,
-  playerID,
-  ...rest
-}) => {
+export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
   return (
     <GameContext.Provider
       value={{
         gamestate: {
-          wizardState: wizardState as WizardState,
+          wizardState: G as WizardState,
           clientID: PlayerID(playerID),
           ...rest,
         } as GameState,
