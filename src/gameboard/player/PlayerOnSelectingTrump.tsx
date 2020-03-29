@@ -33,10 +33,9 @@ export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
   return (
     <Box>
       {isTurn && (
-        <form>
-          <h5>Wähle eine Trump-Farbe</h5>
+        <Form>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Trump-Farbe</FormLabel>
+            <FormLabel component="legend">Wähle eine Trump-Farbe</FormLabel>
             <RadioGroup
               row
               value={selectedSuit}
@@ -52,17 +51,21 @@ export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
               ))}
             </RadioGroup>
           </FormControl>
-          {selectedSuit && (
-            <FormControl>
-              <Button
-                disabled={!selectedSuit}
-                onClick={() => selectTrump(selectedSuit)}
-              >
-                {getSuitLabel(selectedSuit)} als Trumpf wählen
-              </Button>
-            </FormControl>
-          )}
-        </form>
+          <ButtonContainer>
+            {selectedSuit && (
+              <FormControl>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  disabled={!selectedSuit}
+                  onClick={() => selectTrump(selectedSuit)}
+                >
+                  {getSuitLabel(selectedSuit)} als Trumpf wählen
+                </Button>
+              </FormControl>
+            )}
+          </ButtonContainer>
+        </Form>
       )}
       <CardsContainer>
         {cards.map((card) => (
@@ -74,6 +77,15 @@ export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
     </Box>
   );
 };
+
+const Form = styled.form`
+  margin: 20px 0;
+`;
+
+const ButtonContainer = styled(Box)`
+  height: 40px;
+  margin: 10px 0;
+`;
 
 const CardsContainer = styled(Box)`
   display: flex;
