@@ -28,13 +28,14 @@ export function sortCards({ currentPlayer, round }: WizardState): void {
   if (!round) return;
 
   const hand = round.hands[currentPlayer];
-  // sort cards on each players hand
+  // group cards by suit / N / Z
   const groupedHand = groupBy(hand, (card) => {
     if (card.rank === Rank.Z || card.rank === Rank.N) return card.rank;
     return card.suit;
   });
 
   const sortedGroups = Object.entries(groupedHand)
+    // sort groups in this order: [Ns, ... non-trump suits sorted by num card, trump suit, Zs]
     .sort(([keyA, cardsA], [keyB, cardsB]) => {
       // always sort N left and Z right
       if (keyA === Rank.N.toString() || keyB === Rank.Z.toString()) return -1;
@@ -45,6 +46,7 @@ export function sortCards({ currentPlayer, round }: WizardState): void {
       // sort by number of cards of color
       return cardsA.length - cardsB.length;
     })
+    // sort cards in each group by rank
     .map(([, cardGroup]) => cardGroup.sort((a, b) => a.rank - b.rank));
   // set sorted hand to state
   round.hands[currentPlayer] = flatten(sortedGroups);
