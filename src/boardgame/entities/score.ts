@@ -1,3 +1,5 @@
+import { PlayerID } from "./players";
+
 /**
  * Describes the score pad aka "Block der Wahrheit"
  * consisting of rows of player scores
@@ -64,8 +66,11 @@ export function calcRoundScore(
   };
 }
 
-// export function getLeader(scorePad: ScorePad): number {
-//   if (!scorePad.length) throw new Error("cannot get leader of empty score pad");
-//   const latestRow = scorePad[scorePad.length - 1];
-//   return latestRow
-// }
+export function getLeader(scorePad: ScorePad): PlayerID {
+  if (scorePad.length === 0)
+    throw new Error("cannot get leader of empty score pad");
+  const latestRow = scorePad[scorePad.length - 1];
+  return latestRow.playerScores.reduce((bestPlayerID, score, playerID, arr) => {
+    return score.total > arr[bestPlayerID].total ? playerID : bestPlayerID;
+  }, 0 as number) as PlayerID;
+}
