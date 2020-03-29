@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Ctx } from "boardgame.io";
+import { Ctx, State } from "boardgame.io";
 
 declare module "boardgame.io" {
   export interface Ctx {
@@ -9,6 +9,13 @@ declare module "boardgame.io" {
     player?: PlayerAPI;
     // enhanced by random plugin
     random?: RandomAPI;
+  }
+
+  export interface State {
+    moves: {
+      [move: string]: Function;
+    };
+    playerID: string;
   }
 
   export interface EventsAPI {

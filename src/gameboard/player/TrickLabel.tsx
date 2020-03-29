@@ -9,7 +9,7 @@ export const TrickLabel: React.FC<PlayerProps> = ({ playerID }) => {
   if (!gamestate) return null;
 
   const {
-    G: { round },
+    wizardState: { round },
   } = gamestate;
 
   const trickValue = round?.trickCount[playerID];

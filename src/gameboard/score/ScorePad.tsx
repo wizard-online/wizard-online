@@ -15,7 +15,7 @@ export const ScorePad: React.FC = () => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
   const {
-    G: { scorePad, numCards, round },
+    wizardState: { scorePad, numCards, round },
     ctx: { numPlayers },
   } = gamestate;
   const playerIDs = range(0, numPlayers).map((num) => num.toString());

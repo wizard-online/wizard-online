@@ -10,7 +10,7 @@ export const Deck: React.FC = () => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
   const {
-    G: { round },
+    wizardState: { round },
   } = gamestate;
   if (!isSetRound(round)) {
     throw new Error("round is not set");

@@ -4,10 +4,26 @@ A React boilerplate that includes the latest and greatest technologies **from th
 
 ## Getting started
 
+### Installation
+
 ```sh
 > git clone https://github.com/janKir/react-ts-parcel.git
 > cd react-ts-parcel
 > yarn
+```
+
+### Run in Development Mode
+
+Open two terminals and run the following commands.
+
+Run server in dev mode:
+
+```sh
+> yarn run dev-server
+```
+
+Run Application with:
+```sh
 > yarn start
 ```
 
