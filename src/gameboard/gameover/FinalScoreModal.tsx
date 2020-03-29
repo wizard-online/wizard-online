@@ -12,7 +12,7 @@ export const FinalScoreModal: React.FC = () => {
 
   const {
     ctx: { gameover },
-    G: { scorePad },
+    wizardState: { scorePad },
   } = gamestate;
   useEffect(() => {
     setShowModal(!!gameover);

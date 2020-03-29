@@ -9,7 +9,7 @@ import { PlayerID } from "../boardgame/entities/players";
 import { WizardState } from "../boardgame/WizardState";
 import { ScorePad } from "./score/ScorePad";
 import { FinalScoreModal } from "./gameover/FinalScoreModal";
-
+import { GameState } from "./GameState";
 
 export const WizardBoard: React.FC<State> = ({
   G: wizardState,

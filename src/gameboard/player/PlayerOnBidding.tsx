@@ -14,7 +14,7 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
     wizardState: { numCards, currentPlayer, round },
     moves: { bid, sortCards },
   } = gamestate;
-  
+
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
