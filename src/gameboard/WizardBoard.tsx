@@ -6,6 +6,7 @@ import { PlayersContainer } from "./player/PlayersContainer";
 import { GameState } from "./GameState";
 import { Table } from "./table/Table";
 import { ScorePad } from "./score/ScorePad";
+import { FinalScoreModal } from "./gameover/FinalScoreModal";
 
 export const WizardBoard: React.FC<GameState> = (props) => {
   return (
@@ -16,6 +17,7 @@ export const WizardBoard: React.FC<GameState> = (props) => {
         <PlayersContainer />
         <ScorePad />
       </Container>
+      <FinalScoreModal />
     </GameContext.Provider>
   );
 };

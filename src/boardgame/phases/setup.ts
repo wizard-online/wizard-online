@@ -37,9 +37,10 @@ export function handout(g: WizardState, ctx: Ctx): void {
   });
 
   round.hands = hands;
-  const trump = round.deck.pop();
-  if (!trump) throw new Error("deck seems to be empty");
-  round.trump = trump;
+  if (round.deck.length > 0) {
+    const trump = round.deck.pop();
+    round.trump = trump ?? null;
+  }
 
   ctx.events!.endPhase!();
 }

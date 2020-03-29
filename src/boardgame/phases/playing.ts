@@ -15,7 +15,7 @@ import {
   getTrickWinner,
   Rank,
 } from "../entities/cards";
-import { updateScorePad } from "../util/score";
+import { updateScorePad } from "../entities/score";
 import { Phase } from "./phase";
 
 export function play(

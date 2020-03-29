@@ -3,6 +3,7 @@ import { Ctx } from "boardgame.io";
 import { Card, generateCardDeck } from "./entities/cards";
 import { NumPlayers, PlayerID } from "./entities/players";
 import { Phase } from "./phases/phase";
+import { ScorePad } from "./entities/score";
 
 /**
  * Describes the Wizard game state used in the g object.
@@ -19,7 +20,7 @@ export interface WizardState {
   numCards: number;
   dealer: PlayerID;
   currentPlayer: PlayerID;
-  scorePad: ScoreRow[];
+  scorePad: ScorePad;
   numPlayers: NumPlayers;
   phase: Phase;
 }
@@ -80,31 +81,6 @@ export function isSetRound(
 }
 
 /**
- * Describes one row in the score pad:
- * Each's player score and bids for one specific round.
- *
- * @export
- * @interface ScoreRow
- */
-export interface ScoreRow {
-  numCards: number;
-  playerScores: Score[];
-}
-
-/**
- * A score entry in the score pad for one player and one round.
- *
- * @export
- * @interface Score
- */
-export interface Score {
-  bid: number;
-  tricks: number;
-  score: number;
-  total: number;
-}
-
-/**
  * Generates a WizardState with default values.
  *
  * @param {Ctx} ctx
@@ -128,7 +104,7 @@ export const generateDefaultWizardState = (
     round,
     trick,
     // TODO: set numCards to 1
-    numCards: 3,
+    numCards: 1,
     dealer: 0 as PlayerID,
     scorePad: [],
     numPlayers,
