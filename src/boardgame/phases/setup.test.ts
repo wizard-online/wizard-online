@@ -32,7 +32,7 @@ describe("handout", () => {
       g.round!.deck.length - g.numCards * ctx.numPlayers - 1
     ];
     handout(g, ctx);
-    expect(g.round!.trump).toBe(expectedTrump);
+    expect(g.round!.trump.card).toBe(expectedTrump);
   });
 
   test("removes cards from deck when handing them out to players", () => {
