@@ -10,18 +10,18 @@ import { TrickLabel } from "./TrickLabel";
 import { Phase } from "../../boardgame/phases/phase";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
-  const { gamestate , clientID} = useContext(GameContext);
+  const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
 
-
   const {
-    //G: { currentPlayer },
-    ctx: { phase }
+    // wizardState: { currentPlayer },
+    ctx: { phase },
+    clientID,
   } = gamestate;
 
   const isClient = playerID === clientID;
 
-  //const isTurn = playerID === currentPlayer;
+  // const isTurn = playerID === currentPlayer;
   const playerTitle = <>Spieler: {playerID}</>;
   return (
     <Container>

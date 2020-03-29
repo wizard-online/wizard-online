@@ -11,11 +11,11 @@ declare module "boardgame.io" {
     random?: RandomAPI;
   }
 
-  export interface State {    
+  export interface State {
     moves: {
       [move: string]: Function;
     };
-    playerID: string
+    playerID: string;
   }
 
   export interface EventsAPI {

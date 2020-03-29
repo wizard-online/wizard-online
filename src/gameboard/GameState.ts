@@ -4,6 +4,5 @@ import { PlayerID } from "../boardgame/entities/players";
 
 export interface GameState extends State {
   wizardState: WizardState;
-
   clientID: PlayerID;
 }

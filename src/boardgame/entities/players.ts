@@ -2,7 +2,9 @@ import range from "lodash/range";
 
 const deckSize = 60;
 export type PlayerID = 0 | 1 | 2 | 3 | 4 | 5;
-export function PlayerID(playerID: string): PlayerID { return parseInt(playerID,10) as PlayerID}
+export function PlayerID(playerID: string): PlayerID {
+  return Number.parseInt(playerID, 10) as PlayerID;
+}
 export type NumPlayers = 3 | 4 | 5 | 6;
 export type MaxCards = 10 | 12 | 15 | 20;
 
