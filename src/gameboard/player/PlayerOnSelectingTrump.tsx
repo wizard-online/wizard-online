@@ -19,7 +19,7 @@ export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
   const {
-    G: { round, currentPlayer },
+    wizardState: { round, currentPlayer },
     moves: { selectTrump },
   } = gamestate;
   if (!isSetRound(round)) {
