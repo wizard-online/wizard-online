@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Box } from "@material-ui/core";
-import { Suit, Card } from "../../boardgame/entities/cards";
+import { Suit } from "../../boardgame/entities/cards";
 import { PlayCard, PlayCardColor } from "../components/PlayCard";
 import { GameContext } from "../GameContext";
-import { isSetRound } from "../../boardgame/WizardState";
+import { isSetRound, Trump } from "../../boardgame/WizardState";
 
 export const Deck: React.FC = () => {
   const { gamestate } = useContext(GameContext);
@@ -21,7 +21,7 @@ export const Deck: React.FC = () => {
   return (
     <Container>
       <DeckContainer trump={color}>
-        <PlayCard card={trump || null} interactive={false} />
+        <PlayCard card={trump.card} interactive={false} />
       </DeckContainer>
     </Container>
   );
@@ -42,8 +42,7 @@ const DeckContainer = styled(Box)<{ trump: string }>`
   border-radius: 50%;
 `;
 
-function getColor(trump?: Card | null): string {
-  if (!trump) return "lightgrey";
+function getColor(trump: Trump): string {
   switch (trump.suit) {
     case Suit.Blue:
       return PlayCardColor.Blue;
@@ -53,8 +52,10 @@ function getColor(trump?: Card | null): string {
       return PlayCardColor.Red;
     case Suit.Yellow:
       return PlayCardColor.Yellow;
+    case null:
+      return PlayCardColor.Black;
     // fallback
     default:
-      return PlayCardColor.Black;
+      return "lightgrey";
   }
 }
