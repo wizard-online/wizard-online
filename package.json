@@ -10,13 +10,14 @@
     "type-check": "tsc --noEmit",
     "lint": "yarn run lint:es && yarn run lint:style",
     "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
-    "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\""
+    "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
+    "dev-server": "concurrently --kill-others -n \"parcel,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"parcel src/server.js --target node\" \"nodemon dist/server.js\""
   },
   "keywords": [
     "react",
     "typescript"
   ],
-  "author": "Jan Kirchner",
+  "author": "Jan Kirchner, Fredo :-)",
   "license": "MIT",
   "dependencies": {
     "@babel/runtime-corejs3": "^7.9.2",
@@ -32,6 +33,9 @@
     "redux-logger": "^3.0.6",
     "regenerator-runtime": "^0.13.5",
     "styled-components": "^5.0.1"
+  },
+  "engines": {
+    "node": ">=10"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -51,6 +55,7 @@
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "babel-jest": "^25.1.0",
+    "concurrently": "^5.1.0",
     "eslint": "6.8.0",
     "eslint-config-airbnb-typescript": "^7.2.0",
     "eslint-config-prettier": "^6.10.1",
@@ -63,6 +68,7 @@
     "eslint-plugin-react-hooks": "^2.5.0",
     "eslint-plugin-unicorn": "^18.0.1",
     "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
     "parcel-bundler": "^1.12.3",
     "prettier": "^2.0.2",
     "stylelint": "^13.2.1",

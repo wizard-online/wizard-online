@@ -14,14 +14,18 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   if (!gamestate) return null;
 
   const {
-    G: { currentPlayer },
+    // wizardState: { currentPlayer },
     ctx: { phase },
+    clientID,
   } = gamestate;
-  const isTurn = playerID === currentPlayer;
+
+  const isClient = playerID === clientID;
+
+  // const isTurn = playerID === currentPlayer;
   const playerTitle = <>Spieler: {playerID}</>;
   return (
     <Container>
-      <PlayerTitle isTurn={isTurn}>{playerTitle}</PlayerTitle>
+      <PlayerTitle isClient={isClient}>{playerTitle}</PlayerTitle>
       <TrickLabel playerID={playerID} />
       {phase === Phase.Setup && <PlayerOnSetup playerID={playerID} />}
       {phase === Phase.Bidding && <PlayerOnBidding playerID={playerID} />}
@@ -34,7 +38,7 @@ const Container = styled(Box)`
   margin: 25px;
 `;
 
-const PlayerTitle = styled.h3<{ isTurn: boolean }>`
-  text-decoration: ${({ isTurn }) => (isTurn ? "underline" : "none")};
-  color: ${({ isTurn }) => (isTurn ? "darkred" : "inherit")};
+const PlayerTitle = styled.h3<{ isClient: boolean }>`
+  text-decoration: ${({ isClient }) => (isClient ? "underline" : "none")};
+  color: ${({ isClient }) => (isClient ? "darkred" : "inherit")};
 `;

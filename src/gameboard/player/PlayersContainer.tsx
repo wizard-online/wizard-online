@@ -9,7 +9,7 @@ import { PlayerID } from "../../boardgame/entities/players";
 export const PlayersContainer: React.FC = () => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
-  const playerIDs = range(0, gamestate.ctx.numPlayers) as PlayerID[];
+  const playerIDs = range(0, gamestate.wizardState.numPlayers) as PlayerID[];
   return (
     <Box>
       {playerIDs.map((playerID) => (

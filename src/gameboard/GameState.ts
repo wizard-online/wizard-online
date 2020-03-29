@@ -1,9 +1,8 @@
 import { State } from "boardgame.io";
 import { WizardState } from "../boardgame/WizardState";
+import { PlayerID } from "../boardgame/entities/players";
 
 export interface GameState extends State {
-  G: WizardState;
-  moves: {
-    [move: string]: Function;
-  };
+  wizardState: WizardState;
+  clientID: PlayerID;
 }

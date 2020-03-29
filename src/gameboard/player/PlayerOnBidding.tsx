@@ -11,9 +11,10 @@ export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
   const {
-    G: { numCards, currentPlayer, round },
+    wizardState: { numCards, currentPlayer, round },
     moves: { bid, sortCards },
   } = gamestate;
+
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }

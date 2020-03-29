@@ -11,7 +11,7 @@ export const PlayerOnPlaying: React.FC<PlayerProps> = ({ playerID }) => {
   const { gamestate } = useContext(GameContext);
   if (!gamestate) return null;
   const {
-    G: { round, trick, currentPlayer },
+    wizardState: { round, trick, currentPlayer },
     moves: { play },
   } = gamestate;
   if (!isSetRound(round)) {
