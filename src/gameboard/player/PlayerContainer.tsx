@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@material-ui/core";
+import { Box, Card, CardContent } from "@material-ui/core";
 import styled from "styled-components";
 
 import { Phase } from "../../boardgame/phases/phase";
@@ -20,14 +20,18 @@ export const PlayerContainer: React.FC = () => {
   return (
     <Container>
       <Header playerID={clientID} isTurn={isTurn} isClient />
-      {round && (
-        <PlayerHand
-          cards={round.hands[clientID]}
-          isInteractive={isTurn && phase === Phase.Playing}
-          onClickCard={(i) => play(i)}
-          lead={trick?.lead}
-        />
-      )}
+      <Card>
+        <HandContainer>
+          {round && (
+            <PlayerHand
+              cards={round.hands[clientID]}
+              isInteractive={isTurn && phase === Phase.Playing}
+              onClickCard={(i) => play(i)}
+              lead={trick?.lead}
+            />
+          )}
+        </HandContainer>
+      </Card>
       <ActionsContainer
         isTurn={isTurn}
         phase={phase}
@@ -39,4 +43,8 @@ export const PlayerContainer: React.FC = () => {
 
 const Container = styled(Box)`
   margin: 25px 0;
+`;
+
+const HandContainer = styled(CardContent)`
+  min-height: 90px;
 `;
