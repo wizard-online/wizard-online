@@ -47,7 +47,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
 
 const StaticCardBox = styled(Box)`
   border: 1px solid grey;
-  border-radius: 5px;
+  border-radius: 7px;
   padding: 5px;
   display: flex;
   justify-content: center;
