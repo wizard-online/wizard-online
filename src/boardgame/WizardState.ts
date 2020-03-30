@@ -33,7 +33,7 @@ export interface WizardState {
  */
 export interface WizardTrickState {
   cards: [Card, PlayerID][];
-  lead: Card | null;
+  lead?: Card;
 }
 
 /**
@@ -154,6 +154,5 @@ export function generateBlankRoundState(
 export function generateBlankTrickState(): WizardTrickState {
   return {
     cards: [],
-    lead: null,
   };
 }
