@@ -8,7 +8,7 @@ import { PlayerHand } from "./PlayerHand";
 import { Header } from "./Header";
 import { ActionsContainer } from "./actions/ActionsContainer";
 
-export const Player: React.FC = () => {
+export const PlayerContainer: React.FC = () => {
   const {
     wizardState: { currentPlayer, phase, round, trick },
     clientID,

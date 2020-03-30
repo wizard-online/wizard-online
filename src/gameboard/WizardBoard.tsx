@@ -10,7 +10,7 @@ import { WizardState } from "../boardgame/WizardState";
 import { ScorePad } from "./score/ScorePad";
 import { FinalScoreModal } from "./gameover/FinalScoreModal";
 import { GameState } from "./GameState";
-import { Player } from "./player/Player";
+import { PlayerContainer } from "./player/PlayerContainer";
 
 export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
   return (
@@ -27,7 +27,7 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
         <HeaderBar />
         <OpponentsContainer />
         <Table />
-        <Player />
+        <PlayerContainer />
         <ScorePad />
       </Container>
       <FinalScoreModal />
