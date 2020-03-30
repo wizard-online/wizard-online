@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Box, Button } from "@material-ui/core";
 import { PlayerProps } from "./Player.props";
-import { GameContext } from "../GameContext";
+import { useGameState } from "../GameContext";
 
 export const PlayerOnSetup: React.FC<PlayerProps> = ({ playerID }) => {
-  const { gamestate } = useContext(GameContext);
-  if (!gamestate) return null;
-
-  const isTurn = gamestate.wizardState.currentPlayer === playerID;
-  const { shuffle, handout } = gamestate.moves;
+  const {
+    wizardState: { currentPlayer },
+    moves: { shuffle, handout },
+  } = useGameState();
+  const isTurn = currentPlayer === playerID;
   return (
     <Box>
       {isTurn ? (

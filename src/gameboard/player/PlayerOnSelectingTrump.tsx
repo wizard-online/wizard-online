@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   RadioGroup,
@@ -9,19 +9,17 @@ import {
   Button,
 } from "@material-ui/core";
 import styled from "styled-components";
-import { GameContext } from "../GameContext";
+import { useGameState } from "../GameContext";
 import { allSuits, Suit, getSuitLabel } from "../../boardgame/entities/cards";
 import { PlayCard, PlayCardColor } from "../components/PlayCard";
 import { PlayerProps } from "./Player.props";
 import { isSetRound } from "../../boardgame/WizardState";
 
 export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
-  const { gamestate } = useContext(GameContext);
-  if (!gamestate) return null;
   const {
     wizardState: { round, currentPlayer },
     moves: { selectTrump },
-  } = gamestate;
+  } = useGameState();
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }

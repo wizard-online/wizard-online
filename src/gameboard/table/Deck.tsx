@@ -1,17 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Box } from "@material-ui/core";
 import { Suit } from "../../boardgame/entities/cards";
 import { PlayCard, PlayCardColor } from "../components/PlayCard";
-import { GameContext } from "../GameContext";
+import { useGameState } from "../GameContext";
 import { isSetRound, Trump } from "../../boardgame/WizardState";
 
 export const Deck: React.FC = () => {
-  const { gamestate } = useContext(GameContext);
-  if (!gamestate) return null;
   const {
     wizardState: { round },
-  } = gamestate;
+  } = useGameState();
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
