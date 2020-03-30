@@ -9,21 +9,19 @@ import { PlayerOnPlaying } from "./PlayerOnPlaying";
 import { TrickLabel } from "./TrickLabel";
 import { Phase } from "../../boardgame/phases/phase";
 import { PlayerOnSelectingTrump } from "./PlayerOnSelectingTrump";
+import { PlayerHand } from "./PlayerHand";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const {
-    // wizardState: { currentPlayer },
-    ctx: { phase },
-    clientID,
+    wizardState: { currentPlayer, phase, round, trick },
+    moves: { play },
   } = useGameState();
 
-  const isClient = playerID === clientID;
+  const isTurn = playerID === currentPlayer;
 
-  // const isTurn = playerID === currentPlayer;
-  const playerTitle = <>Spieler: {playerID}</>;
   return (
     <Container>
-      <PlayerTitle isClient={isClient}>{playerTitle}</PlayerTitle>
+      <PlayerTitle isTurn={isTurn}>Spieler {playerID}</PlayerTitle>
       <TrickLabel playerID={playerID} />
       {phase === Phase.Setup && <PlayerOnSetup playerID={playerID} />}
       {phase === Phase.SelectingTrump && (
@@ -31,6 +29,14 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
       )}
       {phase === Phase.Bidding && <PlayerOnBidding playerID={playerID} />}
       {phase === Phase.Playing && <PlayerOnPlaying playerID={playerID} />}
+      {round && (
+        <PlayerHand
+          cards={round.hands[playerID]}
+          isInteractive={isTurn && phase === Phase.Playing}
+          onClickCard={(i) => play(i)}
+          lead={trick?.lead}
+        />
+      )}
     </Container>
   );
 };
@@ -39,7 +45,7 @@ const Container = styled(Box)`
   margin: 25px;
 `;
 
-const PlayerTitle = styled.h3<{ isClient: boolean }>`
-  text-decoration: ${({ isClient }) => (isClient ? "underline" : "none")};
-  color: ${({ isClient }) => (isClient ? "darkred" : "inherit")};
+const PlayerTitle = styled.h3<{ isTurn: boolean }>`
+  text-decoration: ${({ isTurn }) => (isTurn ? "underline" : "none")};
+  color: ${({ isTurn }) => (isTurn ? "darkred" : "inherit")};
 `;
