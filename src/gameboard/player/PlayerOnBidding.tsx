@@ -1,19 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Box, FormControl, Button, Slider } from "@material-ui/core";
 import styled from "styled-components";
-import { GameContext } from "../GameContext";
+import { useGameState } from "../GameContext";
 import { PlayerProps } from "./Player.props";
 import { isValidBid } from "../../boardgame/util/bid";
 import { isSetRound } from "../../boardgame/WizardState";
 import { PlayCard } from "../components/PlayCard";
 
 export const PlayerOnBidding: React.FC<PlayerProps> = ({ playerID }) => {
-  const { gamestate } = useContext(GameContext);
-  if (!gamestate) return null;
   const {
     wizardState: { numCards, currentPlayer, round },
     moves: { bid, sortCards },
-  } = gamestate;
+  } = useGameState();
 
   if (!isSetRound(round)) {
     throw new Error("round is not set");

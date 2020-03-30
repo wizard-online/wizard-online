@@ -1,16 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Box, Chip } from "@material-ui/core";
 import styled from "styled-components";
 import { PlayerProps } from "./Player.props";
-import { GameContext } from "../GameContext";
+import { useGameState } from "../GameContext";
 
 export const TrickLabel: React.FC<PlayerProps> = ({ playerID }) => {
-  const { gamestate } = useContext(GameContext);
-  if (!gamestate) return null;
-
   const {
     wizardState: { round },
-  } = gamestate;
+  } = useGameState();
 
   const trickValue = round?.trickCount[playerID];
   const bidValue = round?.bids[playerID];

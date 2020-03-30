@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   TableContainer,
   Table,
@@ -9,15 +9,13 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import range from "lodash/range";
-import { GameContext } from "../GameContext";
+import { useGameState } from "../GameContext";
 
 export const ScorePad: React.FC = () => {
-  const { gamestate } = useContext(GameContext);
-  if (!gamestate) return null;
   const {
     wizardState: { scorePad, numCards, round },
     ctx: { numPlayers },
-  } = gamestate;
+  } = useGameState();
   const playerIDs = range(0, numPlayers).map((num) => num.toString());
 
   return (

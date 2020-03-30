@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Box } from "@material-ui/core";
 import styled from "styled-components";
-import { GameContext } from "../GameContext";
+import { useGameState } from "../GameContext";
 import { PlayerOnSetup } from "./PlayerOnSetup";
 import { PlayerProps } from "./Player.props";
 import { PlayerOnBidding } from "./PlayerOnBidding";
@@ -11,14 +11,11 @@ import { Phase } from "../../boardgame/phases/phase";
 import { PlayerOnSelectingTrump } from "./PlayerOnSelectingTrump";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
-  const { gamestate } = useContext(GameContext);
-  if (!gamestate) return null;
-
   const {
     // wizardState: { currentPlayer },
     ctx: { phase },
     clientID,
-  } = gamestate;
+  } = useGameState();
 
   const isClient = playerID === clientID;
 
