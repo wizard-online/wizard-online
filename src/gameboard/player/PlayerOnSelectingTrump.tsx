@@ -11,106 +11,65 @@ import {
 import styled from "styled-components";
 import { useGameState } from "../GameContext";
 import { allSuits, Suit, getSuitLabel } from "../../boardgame/entities/cards";
-import { PlayCard, PlayCardColor } from "../components/PlayCard";
-import { PlayerProps } from "./Player.props";
+import { PlayCardColor } from "../components/PlayCard";
 import { isSetRound } from "../../boardgame/WizardState";
 
-export const PlayerOnSelectingTrump: React.FC<PlayerProps> = ({ playerID }) => {
+export const PlayerOnSelectingTrump: React.FC = () => {
   const {
-    wizardState: { round, currentPlayer },
+    wizardState: { round },
     moves: { selectTrump },
   } = useGameState();
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-  const isTurn = currentPlayer === playerID;
-  const cards = round.hands[playerID];
 
   const [selectedSuit, setSelectedSuit] = useState<Suit | null>(null);
 
   return (
-    <Box>
-      {isTurn && (
-        <Form>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Wähle eine Trumpf-Farbe</FormLabel>
-            <RadioGroup
-              row
-              value={selectedSuit}
-              onChange={(event) => setSelectedSuit(event.target.value as Suit)}
+    <form>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Wähle eine Trumpf-Farbe</FormLabel>
+        <RadioGroup
+          row
+          value={selectedSuit}
+          onChange={(event) => setSelectedSuit(event.target.value as Suit)}
+        >
+          {allSuits.map((suit) => (
+            <FormControlLabel
+              value={suit}
+              control={<SuitColoredRadio suit={suit} />}
+              label={getSuitLabel(suit)}
+              key={suit}
+            />
+          ))}
+        </RadioGroup>
+      </FormControl>
+      <ButtonContainer>
+        {selectedSuit && (
+          <FormControl>
+            <Button
+              color="primary"
+              variant="contained"
+              disabled={!selectedSuit}
+              onClick={() => selectTrump(selectedSuit)}
             >
-              {allSuits.map((suit) => (
-                <FormControlLabel
-                  value={suit}
-                  control={<SuitColoredRadio suit={suit} />}
-                  label={getSuitLabel(suit)}
-                  key={suit}
-                />
-              ))}
-            </RadioGroup>
+              {getSuitLabel(selectedSuit)} als Trumpf wählen
+            </Button>
           </FormControl>
-          <ButtonContainer>
-            {selectedSuit && (
-              <FormControl>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  disabled={!selectedSuit}
-                  onClick={() => selectTrump(selectedSuit)}
-                >
-                  {getSuitLabel(selectedSuit)} als Trumpf wählen
-                </Button>
-              </FormControl>
-            )}
-          </ButtonContainer>
-        </Form>
-      )}
-      <CardsContainer>
-        {cards.map((card) => (
-          <PlayingCardContainer key={`${card.suit}-${card.rank}`}>
-            <PlayCard card={isTurn ? card : null} interactive={false} />
-          </PlayingCardContainer>
-        ))}
-      </CardsContainer>
-    </Box>
+        )}
+      </ButtonContainer>
+    </form>
   );
 };
-
-const Form = styled.form`
-  margin: 20px 0;
-`;
 
 const ButtonContainer = styled(Box)`
   height: 40px;
   margin: 10px 0;
 `;
 
-const CardsContainer = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
-const PlayingCardContainer = styled(Box)`
-  margin: 5px;
-`;
-
-// const SuitColoredRadio = withStyles({
-//   root: {
-//     color: "pink",
-//     "&$checked": {
-//       color: "red",
-//     },
-//   },
-//   checked: {},
-// })((props) => <Radio color="default" {...props} />);
-
 const SuitColoredRadio = styled(Radio)<{ suit: Suit }>`
   &.MuiRadio-root {
     color: ${({ suit }) => getColor(suit)};
-    /* &.Mui-checked {
-      color: green;
-    } */
   }
 `;
 

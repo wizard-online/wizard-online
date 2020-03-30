@@ -4,13 +4,13 @@ import { State } from "boardgame.io";
 import { GameContext } from "./GameContext";
 import { HeaderBar } from "./header/HeaderBar";
 import { OpponentsContainer } from "./player/OpponentsContainer";
-import { PlayerContainer } from "./player/PlayerContainer";
 import { Table } from "./table/Table";
 import { PlayerID } from "../boardgame/entities/players";
 import { WizardState } from "../boardgame/WizardState";
 import { ScorePad } from "./score/ScorePad";
 import { FinalScoreModal } from "./gameover/FinalScoreModal";
 import { GameState } from "./GameState";
+import { Player } from "./player/Player";
 
 export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
   return (
@@ -27,7 +27,7 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
         <HeaderBar />
         <OpponentsContainer />
         <Table />
-        <PlayerContainer />
+        <Player />
         <ScorePad />
       </Container>
       <FinalScoreModal />

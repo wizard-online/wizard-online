@@ -1,10 +1,9 @@
 import React from "react";
-import { Box, Card, CardContent } from "@material-ui/core";
-import styled from "styled-components";
+import { Card, CardContent } from "@material-ui/core";
 import { useGameState } from "../GameContext";
 import { PlayerProps } from "./Player.props";
-import { TrickLabel } from "./TrickLabel";
 import { OpponentHand } from "./OpponentHand";
+import { Header } from "./Header";
 
 export const Opponent: React.FC<PlayerProps> = ({ playerID }) => {
   const {
@@ -15,33 +14,9 @@ export const Opponent: React.FC<PlayerProps> = ({ playerID }) => {
   return (
     <Card>
       <CardContent>
-        <Header>
-          <PlayerTitle isTurn={isTurn}>Spieler {playerID}</PlayerTitle>
-          <Spacer />
-          <TrickLabel playerID={playerID} />
-        </Header>
-
+        <Header playerID={playerID} isTurn={isTurn} />
         {round && <OpponentHand numCards={round.hands[playerID].length} />}
       </CardContent>
     </Card>
   );
 };
-
-const Header = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 15px 0;
-`;
-
-const Spacer = styled.div`
-  width: 10px;
-  flex-grow: 1;
-`;
-
-const PlayerTitle = styled.h3<{ isTurn: boolean }>`
-  margin: 0;
-  text-decoration: ${({ isTurn }) => (isTurn ? "underline" : "none")};
-  color: ${({ isTurn }) => (isTurn ? "darkred" : "inherit")};
-`;
