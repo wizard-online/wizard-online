@@ -25,8 +25,8 @@ export const OpponentsContainer: React.FC = () => {
   return (
     <Container>
       {opponentIDs.map((playerID) => (
-        <FlexOpponent>
-          <Opponent playerID={playerID} key={playerID} />
+        <FlexOpponent key={playerID}>
+          <Opponent playerID={playerID} />
         </FlexOpponent>
       ))}
     </Container>
