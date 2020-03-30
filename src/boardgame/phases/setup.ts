@@ -11,6 +11,7 @@ import {
 import { playersRound, NumPlayers, PlayerID } from "../entities/players";
 import { Card, Rank, Suit } from "../entities/cards";
 import { Phase } from "./phase";
+import { onBeginTurn } from "../turn";
 
 export function shuffle({ round }: WizardState): void {
   round!.deck = shuffleUtil(round!.deck);
@@ -93,5 +94,6 @@ export const setup: PhaseConfig = {
       // returns playOrder index of dealer
       first,
     },
+    onBegin: onBeginTurn,
   },
 };

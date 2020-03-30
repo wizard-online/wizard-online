@@ -4,6 +4,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { WizardState, isSetRound } from "../WizardState";
 import { Suit, allSuits } from "../entities/cards";
 import { Phase } from "./phase";
+import { onBeginTurn } from "../turn";
 
 export function selectTrump(
   { round }: WizardState,
@@ -40,5 +41,6 @@ export const selectingTrump: PhaseConfig = {
       // returns playOrder index of dealer
       first,
     },
+    onBegin: onBeginTurn,
   },
 };
