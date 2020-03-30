@@ -19,8 +19,7 @@ const TableContainer = styled(Box)`
   align-items: center;
   background-color: lightgreen;
   border-radius: 15px;
-  width: 100%;
   height: 150px;
-  margin: 25px;
+  margin: 25px 0;
   padding: 25px;
 `;
