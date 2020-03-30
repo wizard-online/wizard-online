@@ -1,14 +1,12 @@
 import React from "react";
 import { Box } from "@material-ui/core";
 import styled from "styled-components";
-import { useGameState } from "../GameContext";
-import { PlayerOnSetup } from "./PlayerOnSetup";
-import { PlayerOnBidding } from "./PlayerOnBidding";
-import { PlayerOnPlaying } from "./PlayerOnPlaying";
+
 import { Phase } from "../../boardgame/phases/phase";
-import { PlayerOnSelectingTrump } from "./PlayerOnSelectingTrump";
+import { useGameState } from "../GameContext";
 import { PlayerHand } from "./PlayerHand";
 import { Header } from "./Header";
+import { ActionsContainer } from "./actions/ActionsContainer";
 
 export const Player: React.FC = () => {
   const {
@@ -22,7 +20,6 @@ export const Player: React.FC = () => {
   return (
     <Container>
       <Header playerID={clientID} isTurn={isTurn} isClient />
-
       {round && (
         <PlayerHand
           cards={round.hands[clientID]}
@@ -31,27 +28,15 @@ export const Player: React.FC = () => {
           lead={trick?.lead}
         />
       )}
-      <ActionsContainer>
-        {isTurn ? (
-          <>
-            {phase === Phase.Setup && <PlayerOnSetup />}
-            {phase === Phase.SelectingTrump && <PlayerOnSelectingTrump />}
-            {phase === Phase.Bidding && <PlayerOnBidding />}
-            {phase === Phase.Playing && <PlayerOnPlaying />}
-          </>
-        ) : (
-          <span>Spieler {currentPlayer} ist am Zug</span>
-        )}
-      </ActionsContainer>
+      <ActionsContainer
+        isTurn={isTurn}
+        phase={phase}
+        currentPlayer={currentPlayer}
+      />
     </Container>
   );
 };
 
 const Container = styled(Box)`
   margin: 25px 0;
-`;
-
-const ActionsContainer = styled(Box)`
-  margin: 15px 0;
-  min-height: 100px;
 `;

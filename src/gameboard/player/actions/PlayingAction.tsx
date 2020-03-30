@@ -1,5 +1,5 @@
 import React from "react";
 
-export const PlayerOnPlaying: React.FC = () => {
+export const PlayingAction: React.FC = () => {
   return <>Spiele eine Karte</>;
 };

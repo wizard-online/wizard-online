@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-import { useGameState } from "../GameContext";
+import { useGameState } from "../../GameContext";
 
-export const PlayerOnSetup: React.FC = () => {
+export const SetupAction: React.FC = () => {
   const {
     moves: { shuffle, handout },
   } = useGameState();

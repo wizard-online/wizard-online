@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Box, FormControl, Button, Slider } from "@material-ui/core";
 import styled from "styled-components";
-import { useGameState } from "../GameContext";
-import { isValidBid } from "../../boardgame/util/bid";
-import { isSetRound } from "../../boardgame/WizardState";
+import { useGameState } from "../../GameContext";
+import { isValidBid } from "../../../boardgame/util/bid";
+import { isSetRound } from "../../../boardgame/WizardState";
 
-export const PlayerOnBidding: React.FC = () => {
+export const BiddingAction: React.FC = () => {
   const {
     wizardState: { numCards, currentPlayer, round },
     moves: { bid, sortCards },

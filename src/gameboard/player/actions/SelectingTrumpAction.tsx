@@ -9,12 +9,16 @@ import {
   Button,
 } from "@material-ui/core";
 import styled from "styled-components";
-import { useGameState } from "../GameContext";
-import { allSuits, Suit, getSuitLabel } from "../../boardgame/entities/cards";
-import { PlayCardColor } from "../components/PlayCard";
-import { isSetRound } from "../../boardgame/WizardState";
+import { useGameState } from "../../GameContext";
+import {
+  allSuits,
+  Suit,
+  getSuitLabel,
+} from "../../../boardgame/entities/cards";
+import { PlayCardColor } from "../../components/PlayCard";
+import { isSetRound } from "../../../boardgame/WizardState";
 
-export const PlayerOnSelectingTrump: React.FC = () => {
+export const SelectingTrumpAction: React.FC = () => {
   const {
     wizardState: { round },
     moves: { selectTrump },
