@@ -1,9 +1,10 @@
 import React from "react";
 import { Box } from "@material-ui/core";
 
+import styled from "styled-components";
 import { useGameState } from "../GameContext";
-import { Player } from "./Player";
 import { PlayerID } from "../../boardgame/entities/players";
+import { Opponent } from "./Opponent";
 
 export const OpponentsContainer: React.FC = () => {
   const {
@@ -22,10 +23,25 @@ export const OpponentsContainer: React.FC = () => {
   ].map((opponentID) => Number.parseInt(opponentID, 10) as PlayerID);
 
   return (
-    <Box>
+    <Container>
       {opponentIDs.map((playerID) => (
-        <Player playerID={playerID} key={playerID} />
+        <FlexOpponent>
+          <Opponent playerID={playerID} key={playerID} />
+        </FlexOpponent>
       ))}
-    </Box>
+    </Container>
   );
 };
+
+const Container = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+`;
+
+const FlexOpponent = styled(Box)`
+  flex-grow: 1;
+  margin: 15px;
+  min-width: 300px;
+`;
