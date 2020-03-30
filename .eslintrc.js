@@ -11,6 +11,7 @@ module.exports = {
   extends: [
     "plugin:@typescript-eslint/recommended",
     "airbnb-typescript", // use airbnb ruleset for typescript as base
+    "airbnb/hooks", // add lint rules for use of react hooks
     "plugin:jest/recommended", // use recommended jest rules
     "plugin:unicorn/recommended", // use recommended rules of unicorn ruleset
     "prettier", // eslint-config-prettier Turns off all rules that are unnecessary or might conflict with Prettier.
