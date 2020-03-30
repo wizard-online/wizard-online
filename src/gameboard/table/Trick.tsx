@@ -17,7 +17,7 @@ export const Trick: React.FC = () => {
     <>
       {cards.map(([card, playerID]) => (
         <PlayingCardContainer key={`${card.suit}-${card.rank}`}>
-          <Badge badgeContent={playerID} color="primary">
+          <Badge badgeContent={playerID.toString()} color="primary">
             <PlayCard card={card} interactive={false} />
           </Badge>
         </PlayingCardContainer>
