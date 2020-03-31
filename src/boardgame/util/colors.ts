@@ -17,7 +17,7 @@ export const cardColors: ColorSetCollection = {
     shadow: "#ffffff",
   },
   blue: {
-    background: "#5d80a6",
+    background: "#4f60b2",
     text: "#7179c1",
     outline: "#313a75",
   },
@@ -37,7 +37,7 @@ export const cardColors: ColorSetCollection = {
     outline: "#795a2b",
   },
   zn: {
-    background: "#b3a6c2",
+    background: "#aba8af",
     text: "#ffffff",
     outline: "#000000",
   },

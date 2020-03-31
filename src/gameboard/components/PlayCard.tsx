@@ -43,7 +43,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
       isDisabled={disabled}
       colorSet={colorSet}
     >
-      {label}
+      <span>{label}</span>
     </FronsideCardBox>
   );
 };
@@ -57,18 +57,15 @@ const StaticCardBox = styled(Box)`
   align-items: center;
   width: 40px;
   height: 66px;
-  text-shadow: 0 0 5px black;
-  background-color: beige;
   font-family: "Almendra", serif;
   font-weight: 700;
-  font-size: 24px;
 `;
 
 const BacksideCardBox = styled(StaticCardBox)`
   font-size: 15px;
   background-color: ${cardColors.back.background};
   color: ${cardColors.back.outline};
-  /* cool outline effect only supported with prefix */
+  /* text-outline effect only supported with prefix */
   -webkit-text-fill-color: ${cardColors.back.text};
   -webkit-text-stroke: 1px ${cardColors.back.outline};
   text-shadow: 0 0 8px ${cardColors.back.shadow};
@@ -79,15 +76,14 @@ const FronsideCardBox = styled(StaticCardBox)<{
   isPlayable: boolean;
   isDisabled: boolean;
 }>`
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
-  text-decoration: underline;
   /* colors */
   background-color: ${({ colorSet }) => colorSet.background};
   color: ${({ colorSet }) => colorSet.outline};
   /* cool outline effect only supported with prefix */
   -webkit-text-fill-color: ${({ colorSet }) => colorSet.text};
-  -webkit-text-stroke: 1px ${({ colorSet }) => colorSet.outline};
+  -webkit-text-stroke: 2px ${({ colorSet }) => colorSet.outline};
   ${({ isPlayable, isDisabled }) =>
     isPlayable && !isDisabled
       ? `cursor: pointer;
@@ -102,6 +98,9 @@ const FronsideCardBox = styled(StaticCardBox)<{
   background-color: #ffffff;
   `
       : ""}
+  & span {
+    border-bottom: 2px solid ${({ colorSet }) => colorSet.text};
+  }
 `;
 
 function getColor({ rank, suit }: Card): ColorSet {
