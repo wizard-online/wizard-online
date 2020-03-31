@@ -4,7 +4,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import groupBy from "lodash/groupBy";
 import flatten from "lodash/flatten";
 import { WizardState, isSetRound } from "../WizardState";
-import { isValidBid } from "../util/bid";
+import { isValidBid, getBidsMismatch } from "../util/bid";
 import { Phase } from "./phase";
 import { Rank } from "../entities/cards";
 
@@ -59,11 +59,22 @@ function endIf({ round }: WizardState): boolean {
   return !round.bids.includes(null);
 }
 
+function onEnd({ round, numCards }: WizardState): void {
+  if (!isSetRound(round)) {
+    throw new Error("round is not set");
+  }
+  if (round.bids.includes(null)) {
+    throw new Error("bids are not complete");
+  }
+  round.bidsMismatch = getBidsMismatch(round.bids as number[], numCards);
+}
+
 export const bidding: PhaseConfig = {
   moves: {
     bid,
     sortCards,
   },
   endIf,
+  onEnd,
   next: Phase.Playing,
 };
