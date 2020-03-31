@@ -2,9 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Box } from "@material-ui/core";
 import { Suit } from "../../boardgame/entities/cards";
-import { PlayCard, PlayCardColor } from "../components/PlayCard";
+import { PlayCard } from "../components/PlayCard";
 import { useGameState } from "../GameContext";
 import { isSetRound, Trump } from "../../boardgame/WizardState";
+import { cardColors, ColorSet } from "../../boardgame/util/colors";
 
 export const Deck: React.FC = () => {
   const {
@@ -18,8 +19,10 @@ export const Deck: React.FC = () => {
   const color = getColor(trump);
   return (
     <Container>
-      <DeckContainer trump={color}>
-        <PlayCard card={trump.card} interactive={false} />
+      <DeckContainer trump={color.text}>
+        <CardOutline trump={color.outline}>
+          <PlayCard card={trump.card} interactive={false} />
+        </CardOutline>
       </DeckContainer>
     </Container>
   );
@@ -39,21 +42,30 @@ const DeckContainer = styled(Box)<{ trump: string }>`
   background-color: ${({ trump }) => trump};
   border-radius: 50%;
 `;
+//
+const CardOutline = styled(Box)<{ trump: string }>`
+  border-radius: 7px;
+  box-shadow: -2px 2px 2px black;
+`;
 
-function getColor(trump: Trump): string {
+function getColor(trump: Trump): ColorSet {
   switch (trump.suit) {
     case Suit.Blue:
-      return PlayCardColor.Blue;
+      return cardColors.blue;
     case Suit.Green:
-      return PlayCardColor.Green;
+      return cardColors.green;
     case Suit.Red:
-      return PlayCardColor.Red;
+      return cardColors.red;
     case Suit.Yellow:
-      return PlayCardColor.Yellow;
+      return cardColors.yellow;
     case null:
-      return PlayCardColor.Black;
+      return cardColors.nz;
     // fallback
     default:
-      return "lightgrey";
+      return {
+        text: "lightgrey",
+        outline: "lightgrey",
+        background: "lightgrey",
+      };
   }
 }
