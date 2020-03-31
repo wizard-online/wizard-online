@@ -44,6 +44,7 @@ export interface WizardTrickState {
  */
 export interface WizardRoundState {
   bids: (number | null)[];
+  bidsMismatch?: number;
   hands: Card[][];
   trickCount: number[];
   trump: Trump;
