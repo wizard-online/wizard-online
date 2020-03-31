@@ -22,3 +22,7 @@ export function isValidBid(
   }
   return true;
 }
+
+export function getBidsMismatch(bids: number[], numCards: number): number {
+  return bids.reduce((a, b) => a + b, 0) - numCards;
+}
