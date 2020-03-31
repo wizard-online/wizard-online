@@ -18,7 +18,7 @@ export const cardColors: ColorSetCollection = {
   },
   blue: {
     background: "#4f60b2",
-    text: "#7179c1",
+    text: "#9094d4",
     outline: "#313a75",
   },
   green: {
@@ -27,9 +27,9 @@ export const cardColors: ColorSetCollection = {
     outline: "#2a6340",
   },
   red: {
-    background: "#bd5c39",
+    background: "#be5327",
     text: "#db7a33",
-    outline: "#a03c2c",
+    outline: "#93331b",
   },
   yellow: {
     background: "#b97011",
