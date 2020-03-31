@@ -4,4 +4,5 @@ module.exports = {
     "stylelint-config-styled-components",
     "stylelint-config-prettier",
   ],
+  ignoreFiles: ['.cache/**/*', 'dist/**/*']
 };
