@@ -11,7 +11,7 @@
     "lint": "yarn run lint:es && yarn run lint:style",
     "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
     "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
-    "dev-server": "concurrently --kill-others -n \"parcel,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"parcel src/server.js --target node\" \"nodemon dist/server.js\""
+    "dev-server": "concurrently --kill-others -n \"parcel,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"parcel src/server.js --target node\" \"nodemon dist/server.js -w dist\""
   },
   "keywords": [
     "react",
