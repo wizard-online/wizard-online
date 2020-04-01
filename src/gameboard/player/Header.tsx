@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Box } from "@material-ui/core";
 import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../boardgame/entities/players";
 import { colors } from "../util/colors";
@@ -27,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
   );
 };
 
-const Container = styled(Box)`
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

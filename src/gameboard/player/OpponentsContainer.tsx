@@ -1,7 +1,6 @@
 import React from "react";
-import { Box } from "@material-ui/core";
-
 import styled from "styled-components";
+
 import { useGameState } from "../GameContext";
 import { PlayerID } from "../../boardgame/entities/players";
 import { Opponent } from "./Opponent";
@@ -33,14 +32,14 @@ export const OpponentsContainer: React.FC = () => {
   );
 };
 
-const Container = styled(Box)`
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0 -15px;
 `;
 
-const FlexOpponent = styled(Box)`
+const FlexOpponent = styled.div`
   flex-grow: 1;
   margin: 15px;
   min-width: 300px;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Box,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -66,7 +65,7 @@ export const SelectingTrumpAction: React.FC = () => {
   );
 };
 
-const ButtonContainer = styled(Box)`
+const ButtonContainer = styled.div`
   height: 40px;
   margin: 10px 0;
 `;

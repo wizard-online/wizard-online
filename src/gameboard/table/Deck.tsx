@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Box } from "@material-ui/core";
 import { Suit } from "../../boardgame/entities/cards";
 import { PlayCard } from "../components/PlayCard";
 import { useGameState } from "../GameContext";
@@ -17,10 +16,11 @@ export const Deck: React.FC = () => {
 
   const trump = round?.trump;
   const color = getColor(trump);
+
   return (
     <Container>
       <DeckContainer trump={color.text}>
-        <CardOutline trump={color.outline}>
+        <CardOutline>
           <PlayCard card={trump.card} interactive={false} />
         </CardOutline>
       </DeckContainer>
@@ -28,11 +28,11 @@ export const Deck: React.FC = () => {
   );
 };
 
-const Container = styled(Box)`
+const Container = styled.div`
   margin: 25px;
 `;
 
-const DeckContainer = styled(Box)<{ trump: string }>`
+const DeckContainer = styled.div<{ trump: string }>`
   transform: rotate(-90deg);
   width: 100px;
   height: 100px;
@@ -42,8 +42,8 @@ const DeckContainer = styled(Box)<{ trump: string }>`
   background-color: ${({ trump }) => trump};
   border-radius: 50%;
 `;
-//
-const CardOutline = styled(Box)<{ trump: string }>`
+
+const CardOutline = styled.div`
   border-radius: 7px;
   box-shadow: -2px 2px 2px black;
 `;

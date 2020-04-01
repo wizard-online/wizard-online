@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Box } from "@material-ui/core";
 import { Trick } from "./Trick";
 import { Deck } from "./Deck";
 import { colors } from "../util/colors";
@@ -14,7 +13,7 @@ export const Table: React.FC = () => {
   );
 };
 
-const TableContainer = styled(Box)`
+const TableContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;

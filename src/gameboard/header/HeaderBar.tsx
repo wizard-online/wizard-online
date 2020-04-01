@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Box, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar } from "@material-ui/core";
 import styled from "styled-components";
 
 import { useGameState } from "../GameContext";
@@ -52,6 +52,6 @@ const SpaceFill = styled.div`
   flex-grow: 1;
 `;
 
-const InfoItem = styled(Box)`
+const InfoItem = styled.div`
   margin: 15px;
 `;

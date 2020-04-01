@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Box } from "@material-ui/core";
 import { cardColors, ColorSet, colors } from "../util/colors";
 import { Card, Rank, Suit } from "../../boardgame/entities/cards";
 
@@ -30,8 +29,8 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   return (
     <FronsideCardBox
       onClick={guardedOnClick}
-      isPlayable={interactive}
-      isDisabled={disabled}
+      isplayable={interactive}
+      isdisabled={disabled}
       colorSet={colorSet}
     >
       <span>{label}</span>
@@ -39,7 +38,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   );
 };
 
-const StaticCardBox = styled(Box)`
+const StaticCardBox = styled.div`
   border: 1px solid ${colors.grey};
   border-radius: 7px;
   padding: 5px;
@@ -65,8 +64,8 @@ const BacksideCardBox = styled(StaticCardBox)`
 
 const FronsideCardBox = styled(StaticCardBox)<{
   colorSet: ColorSet;
-  isPlayable: boolean;
-  isDisabled: boolean;
+  isplayable: boolean;
+  isdisabled: boolean;
 }>`
   font-size: 36px;
   font-weight: bold;
@@ -76,15 +75,15 @@ const FronsideCardBox = styled(StaticCardBox)<{
   /* cool outline effect only supported with prefix */
   -webkit-text-fill-color: ${({ colorSet }) => colorSet.text};
   -webkit-text-stroke: 2px ${({ colorSet }) => colorSet.outline};
-  ${({ isPlayable, isDisabled }) =>
-    isPlayable && !isDisabled
+  ${({ isplayable, isdisabled }) =>
+    isplayable && !isdisabled
       ? `cursor: pointer;
     transition: transform 0.3s;
     &:hover {
       transform: translate(0, -10px);
     }`
       : ""}
-  ${({ isDisabled }) =>
+  ${({ isdisabled: isDisabled }) =>
     isDisabled
       ? `
   background-color: #ffffff;

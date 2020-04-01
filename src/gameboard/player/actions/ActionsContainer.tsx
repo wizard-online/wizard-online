@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Box } from "@material-ui/core";
 import { Phase } from "../../../boardgame/phases/phase";
 import { SetupAction } from "./SetupAction";
 import { SelectingTrumpAction } from "./SelectingTrumpAction";
@@ -35,7 +34,7 @@ export const ActionsContainer: React.FC<ActionsContainerProps> = ({
   );
 };
 
-const Container = styled(Box)`
+const Container = styled.div`
   margin: 15px 0;
   min-height: 100px;
 `;
