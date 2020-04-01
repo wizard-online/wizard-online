@@ -2,7 +2,7 @@ import React from "react";
 import { Badge } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../GameContext";
-import { isSetTrick } from "../../boardgame/WizardState";
+import { isSetTrick } from "../../game/WizardState";
 import { PlayCard } from "../components/PlayCard";
 
 export const Trick: React.FC = () => {

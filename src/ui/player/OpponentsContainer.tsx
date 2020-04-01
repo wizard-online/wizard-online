@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { useGameState } from "../GameContext";
-import { PlayerID } from "../../boardgame/entities/players";
+import { PlayerID } from "../../game/entities/players";
 import { Opponent } from "./Opponent";
 
 export const OpponentsContainer: React.FC = () => {

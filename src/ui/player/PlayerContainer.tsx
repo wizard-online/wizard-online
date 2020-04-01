@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@material-ui/core";
 import styled from "styled-components";
 
-import { Phase } from "../../boardgame/phases/phase";
+import { Phase } from "../../game/phases/phase";
 import { useGameState } from "../GameContext";
 import { PlayerHand } from "./PlayerHand";
 import { Header } from "./Header";

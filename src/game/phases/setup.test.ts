@@ -80,7 +80,7 @@ describe("handout", () => {
     const g = generateDefaultWizardState(ctx);
     const mockEndPhase = jest.fn();
     ctx.events!.endPhase = mockEndPhase;
-
+    ctx.events!.setPhase = mockEndPhase;
     handout(g, ctx);
 
     expect(mockEndPhase).toBeCalled();

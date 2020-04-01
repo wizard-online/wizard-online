@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { cardColors, ColorSet, colors } from "../util/colors";
-import { Card, Rank, Suit } from "../../boardgame/entities/cards";
+import { Card, Rank, Suit } from "../../game/entities/cards";
 
 export interface PlayCardProps {
   card: Card | null;

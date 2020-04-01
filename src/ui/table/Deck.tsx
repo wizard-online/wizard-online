@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Suit } from "../../boardgame/entities/cards";
+import { Suit } from "../../game/entities/cards";
 import { PlayCard } from "../components/PlayCard";
 import { useGameState } from "../GameContext";
-import { isSetRound, Trump } from "../../boardgame/WizardState";
+import { isSetRound, Trump } from "../../game/WizardState";
 import { cardColors, ColorSet } from "../util/colors";
 
 export const Deck: React.FC = () => {

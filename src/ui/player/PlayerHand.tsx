@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Card, playableCardsInHand } from "../../boardgame/entities/cards";
+import { Card, playableCardsInHand } from "../../game/entities/cards";
 import { PlayCard } from "../components/PlayCard";
 
 export interface HandCardsProps {
