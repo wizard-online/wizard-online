@@ -15,8 +15,8 @@ import {
   Suit,
   getSuitLabel,
 } from "../../../boardgame/entities/cards";
-import { PlayCardColor } from "../../components/PlayCard";
 import { isSetRound } from "../../../boardgame/WizardState";
+import { colors } from "../../util/colors";
 
 export const SelectingTrumpAction: React.FC = () => {
   const {
@@ -77,18 +77,18 @@ const SuitColoredRadio = styled(Radio)<{ suit: Suit }>`
   }
 `;
 
-function getColor(suit: Suit): PlayCardColor {
+function getColor(suit: Suit): string {
   switch (suit) {
     case Suit.Blue:
-      return PlayCardColor.Blue;
+      return colors.blue.medium;
     case Suit.Green:
-      return PlayCardColor.Green;
+      return colors.green.medium;
     case Suit.Red:
-      return PlayCardColor.Red;
+      return colors.red.medium;
     case Suit.Yellow:
-      return PlayCardColor.Yellow;
+      return colors.yellow.medium;
     // fallback
     default:
-      return PlayCardColor.Black;
+      return colors.black;
   }
 }
