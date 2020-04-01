@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { TrickLabel } from "./TrickLabel";
-import { PlayerID } from "../../boardgame/entities/players";
+import { PlayerID } from "../../game/entities/players";
 import { colors } from "../util/colors";
 
 export interface HeaderProps {

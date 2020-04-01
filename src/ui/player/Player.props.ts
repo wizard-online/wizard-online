@@ -1,4 +1,4 @@
-import { PlayerID } from "../../boardgame/entities/players";
+import { PlayerID } from "../../game/entities/players";
 
 export interface PlayerProps {
   playerID: PlayerID;

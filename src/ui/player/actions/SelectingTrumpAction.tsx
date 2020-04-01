@@ -13,8 +13,8 @@ import {
   allSuits,
   Suit,
   getSuitLabel,
-} from "../../../boardgame/entities/cards";
-import { isSetRound } from "../../../boardgame/WizardState";
+} from "../../../game/entities/cards";
+import { isSetRound } from "../../../game/WizardState";
 import { colors } from "../../util/colors";
 
 export const SelectingTrumpAction: React.FC = () => {

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FormControl, Button, Slider } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../../GameContext";
-import { isValidBid } from "../../../boardgame/util/bid";
-import { isSetRound } from "../../../boardgame/WizardState";
+import { isValidBid } from "../../../game/util/bid";
+import { isSetRound } from "../../../game/WizardState";
 
 export const BiddingAction: React.FC = () => {
   const {

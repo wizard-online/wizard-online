@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Phase } from "../../../boardgame/phases/phase";
+import { Phase } from "../../../game/phases/phase";
 import { SetupAction } from "./SetupAction";
 import { SelectingTrumpAction } from "./SelectingTrumpAction";
 import { BiddingAction } from "./BiddingAction";
 import { PlayingAction } from "./PlayingAction";
-import { PlayerID } from "../../../boardgame/entities/players";
+import { PlayerID } from "../../../game/entities/players";
 
 export interface ActionsContainerProps {
   isTurn: boolean;
