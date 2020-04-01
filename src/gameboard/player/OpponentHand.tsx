@@ -1,7 +1,6 @@
 import React from "react";
 import range from "lodash/range";
 import styled from "styled-components";
-import { Box } from "@material-ui/core";
 import { PlayCard } from "../components/PlayCard";
 
 export interface OpponentHandProps {
@@ -21,14 +20,14 @@ export const OpponentHand: React.FC<OpponentHandProps> = ({ numCards }) => {
   );
 };
 
-const CardsContainer = styled(Box)`
+const CardsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   height: 90px;
 `;
 
-const PlayingCardContainer = styled(Box)`
+const PlayingCardContainer = styled.div`
   margin: 5px;
   width: 10px;
   overflow: visible;

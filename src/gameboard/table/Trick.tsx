@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Badge } from "@material-ui/core";
+import { Badge } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../GameContext";
 import { isSetTrick } from "../../boardgame/WizardState";
@@ -26,6 +26,6 @@ export const Trick: React.FC = () => {
   );
 };
 
-const PlayingCardContainer = styled(Box)`
+const PlayingCardContainer = styled.div`
   margin: 5px;
 `;

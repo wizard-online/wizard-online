@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Box } from "@material-ui/core";
-import { cardColors, ColorSet } from "../../boardgame/util/colors";
+import { cardColors, ColorSet, colors } from "../util/colors";
 import { Card, Rank, Suit } from "../../boardgame/entities/cards";
 
 export interface PlayCardProps {
@@ -9,15 +8,6 @@ export interface PlayCardProps {
   interactive?: boolean;
   disabled?: boolean;
   onClick?: () => void;
-}
-
-// css colors
-export enum PlayCardColor {
-  Black = "black",
-  Blue = "blue",
-  Green = "green",
-  Red = "red",
-  Yellow = "yellow",
 }
 
 export const PlayCard: React.FC<PlayCardProps> = ({
@@ -39,8 +29,8 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   return (
     <FronsideCardBox
       onClick={guardedOnClick}
-      isPlayable={interactive}
-      isDisabled={disabled}
+      isplayable={interactive}
+      isdisabled={disabled}
       colorSet={colorSet}
     >
       <span>{label}</span>
@@ -48,8 +38,8 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   );
 };
 
-const StaticCardBox = styled(Box)`
-  border: 1px solid grey;
+const StaticCardBox = styled.div`
+  border: 1px solid ${colors.grey};
   border-radius: 7px;
   padding: 5px;
   display: flex;
@@ -63,6 +53,7 @@ const StaticCardBox = styled(Box)`
 
 const BacksideCardBox = styled(StaticCardBox)`
   font-size: 15px;
+  font-style: italic;
   background-color: ${cardColors.back.background};
   color: ${cardColors.back.outline};
   /* text-outline effect only supported with prefix */
@@ -73,8 +64,8 @@ const BacksideCardBox = styled(StaticCardBox)`
 
 const FronsideCardBox = styled(StaticCardBox)<{
   colorSet: ColorSet;
-  isPlayable: boolean;
-  isDisabled: boolean;
+  isplayable: boolean;
+  isdisabled: boolean;
 }>`
   font-size: 36px;
   font-weight: bold;
@@ -84,15 +75,15 @@ const FronsideCardBox = styled(StaticCardBox)<{
   /* cool outline effect only supported with prefix */
   -webkit-text-fill-color: ${({ colorSet }) => colorSet.text};
   -webkit-text-stroke: 2px ${({ colorSet }) => colorSet.outline};
-  ${({ isPlayable, isDisabled }) =>
-    isPlayable && !isDisabled
+  ${({ isplayable, isdisabled }) =>
+    isplayable && !isdisabled
       ? `cursor: pointer;
     transition: transform 0.3s;
     &:hover {
       transform: translate(0, -10px);
     }`
       : ""}
-  ${({ isDisabled }) =>
+  ${({ isdisabled: isDisabled }) =>
     isDisabled
       ? `
   background-color: #ffffff;
