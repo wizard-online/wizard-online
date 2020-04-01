@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Box } from "@material-ui/core";
 import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../boardgame/entities/players";
+import { colors } from "../util/colors";
 
 export interface HeaderProps {
   playerID: PlayerID;
@@ -41,6 +42,12 @@ const Spacer = styled.div`
 
 const PlayerTitle = styled.h3<{ isTurn: boolean }>`
   margin: 0;
-  text-decoration: ${({ isTurn }) => (isTurn ? "underline" : "none")};
-  color: ${({ isTurn }) => (isTurn ? "darkred" : "inherit")};
+  ${({ isTurn }) =>
+    isTurn
+      ? `
+      text-decoration: underline;
+      color: ${colors.wizard.darker};
+      text-shadow: 0 0 3px ${colors.wizard.green};
+  `
+      : ""}
 `;
