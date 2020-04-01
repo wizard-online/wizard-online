@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Box } from "@material-ui/core";
-import { cardColors, ColorSet } from "../../boardgame/util/colors";
+import { cardColors, ColorSet, colors } from "../util/colors";
 import { Card, Rank, Suit } from "../../boardgame/entities/cards";
 
 export interface PlayCardProps {
@@ -9,15 +9,6 @@ export interface PlayCardProps {
   interactive?: boolean;
   disabled?: boolean;
   onClick?: () => void;
-}
-
-// css colors
-export enum PlayCardColor {
-  Black = "black",
-  Blue = "blue",
-  Green = "green",
-  Red = "red",
-  Yellow = "yellow",
 }
 
 export const PlayCard: React.FC<PlayCardProps> = ({
@@ -49,7 +40,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
 };
 
 const StaticCardBox = styled(Box)`
-  border: 1px solid grey;
+  border: 1px solid ${colors.grey};
   border-radius: 7px;
   padding: 5px;
   display: flex;
@@ -63,6 +54,7 @@ const StaticCardBox = styled(Box)`
 
 const BacksideCardBox = styled(StaticCardBox)`
   font-size: 15px;
+  font-style: italic;
   background-color: ${cardColors.back.background};
   color: ${cardColors.back.outline};
   /* text-outline effect only supported with prefix */
