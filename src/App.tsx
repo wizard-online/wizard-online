@@ -1,12 +1,13 @@
 import React from "react";
 
-import { WizardClient as GameClient } from "./Game";
+import { Lobby } from "boardgame.io/react";
+import { wizardGameConfig } from "./boardgame/game";
+import { WizardBoard } from "./gameboard/WizardBoard";
 
 export const App: React.FC<{}> = () => (
-  <>
-    <GameClient playerID="0" />
-    <GameClient playerID="1" />
-    <GameClient playerID="2" />
-    <GameClient playerID="3" />
-  </>
+  <Lobby
+    gameServer="http://localhost:8000"
+    lobbyServer="http://localhost:8000"
+    gameComponents={[{ game: wizardGameConfig, board: WizardBoard }]}
+  />
 );
