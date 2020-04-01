@@ -9,11 +9,7 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../../GameContext";
-import {
-  allSuits,
-  Suit,
-  getSuitLabel,
-} from "../../../game/entities/cards";
+import { allSuits, Suit, getSuitLabel } from "../../../game/entities/cards";
 import { isSetRound } from "../../../game/WizardState";
 import { colors } from "../../util/colors";
 
