@@ -1,5 +1,5 @@
 import React from "react";
-import { Chip } from "@material-ui/core";
+import { Box, Chip } from "@material-ui/core";
 import styled from "styled-components";
 import { PlayerProps } from "./Player.props";
 import { useGameState } from "../GameContext";
@@ -13,7 +13,7 @@ export const TrickLabel: React.FC<PlayerProps> = ({ playerID }) => {
   const bidValue = round?.bids[playerID];
 
   return (
-    <div>
+    <Box>
       <b>Stiche: </b>
       <Chip
         label={
@@ -25,7 +25,7 @@ export const TrickLabel: React.FC<PlayerProps> = ({ playerID }) => {
         }
         variant={bidValue !== null ? "outlined" : "default"}
       />
-    </div>
+    </Box>
   );
 };
 

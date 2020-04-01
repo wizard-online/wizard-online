@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -14,8 +15,8 @@ import {
   Suit,
   getSuitLabel,
 } from "../../../boardgame/entities/cards";
+import { PlayCardColor } from "../../components/PlayCard";
 import { isSetRound } from "../../../boardgame/WizardState";
-import { colors } from "../../util/colors";
 
 export const SelectingTrumpAction: React.FC = () => {
   const {
@@ -65,7 +66,7 @@ export const SelectingTrumpAction: React.FC = () => {
   );
 };
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled(Box)`
   height: 40px;
   margin: 10px 0;
 `;
@@ -76,18 +77,18 @@ const SuitColoredRadio = styled(Radio)<{ suit: Suit }>`
   }
 `;
 
-function getColor(suit: Suit): string {
+function getColor(suit: Suit): PlayCardColor {
   switch (suit) {
     case Suit.Blue:
-      return colors.blue.medium;
+      return PlayCardColor.Blue;
     case Suit.Green:
-      return colors.green.medium;
+      return PlayCardColor.Green;
     case Suit.Red:
-      return colors.red.medium;
+      return PlayCardColor.Red;
     case Suit.Yellow:
-      return colors.yellow.medium;
+      return PlayCardColor.Yellow;
     // fallback
     default:
-      return colors.black;
+      return PlayCardColor.Black;
   }
 }

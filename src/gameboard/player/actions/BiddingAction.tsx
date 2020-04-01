@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, Button, Slider } from "@material-ui/core";
+import { Box, FormControl, Button, Slider } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../../GameContext";
 import { isValidBid } from "../../../boardgame/util/bid";
@@ -62,7 +62,7 @@ export const BiddingAction: React.FC = () => {
   );
 };
 
-const Row = styled.div`
+const Row = styled(Box)`
   display: flex;
   flex-direction: row;
   margin: 10px 0;

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { Box } from "@material-ui/core";
 import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../boardgame/entities/players";
-import { colors } from "../util/colors";
 
 export interface HeaderProps {
   playerID: PlayerID;
@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled(Box)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -41,12 +41,6 @@ const Spacer = styled.div`
 
 const PlayerTitle = styled.h3<{ isTurn: boolean }>`
   margin: 0;
-  ${({ isTurn }) =>
-    isTurn
-      ? `
-      text-decoration: underline;
-      color: ${colors.wizard.darker};
-      text-shadow: 0 0 3px ${colors.wizard.green};
-  `
-      : ""}
+  text-decoration: ${({ isTurn }) => (isTurn ? "underline" : "none")};
+  color: ${({ isTurn }) => (isTurn ? "darkred" : "inherit")};
 `;

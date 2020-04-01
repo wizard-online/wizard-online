@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Box } from "@material-ui/core";
 import { Card, playableCardsInHand } from "../../boardgame/entities/cards";
 import { PlayCard } from "../components/PlayCard";
 
@@ -37,13 +38,13 @@ export const PlayerHand: React.FC<HandCardsProps> = ({
   );
 };
 
-const CardsContainer = styled.div`
+const CardsContainer = styled(Box)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 `;
 
-const PlayingCardContainer = styled.div`
+const PlayingCardContainer = styled(Box)`
   margin: 5px;
 `;
 

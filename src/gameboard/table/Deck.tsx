@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { Box } from "@material-ui/core";
 import { Suit } from "../../boardgame/entities/cards";
 import { PlayCard } from "../components/PlayCard";
 import { useGameState } from "../GameContext";
 import { isSetRound, Trump } from "../../boardgame/WizardState";
-import { cardColors, ColorSet } from "../util/colors";
+import { cardColors, ColorSet } from "../../boardgame/util/colors";
 
 export const Deck: React.FC = () => {
   const {
@@ -16,11 +17,10 @@ export const Deck: React.FC = () => {
 
   const trump = round?.trump;
   const color = getColor(trump);
-
   return (
     <Container>
       <DeckContainer trump={color.text}>
-        <CardOutline>
+        <CardOutline trump={color.outline}>
           <PlayCard card={trump.card} interactive={false} />
         </CardOutline>
       </DeckContainer>
@@ -28,11 +28,11 @@ export const Deck: React.FC = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled(Box)`
   margin: 25px;
 `;
 
-const DeckContainer = styled.div<{ trump: string }>`
+const DeckContainer = styled(Box)<{ trump: string }>`
   transform: rotate(-90deg);
   width: 100px;
   height: 100px;
@@ -42,14 +42,14 @@ const DeckContainer = styled.div<{ trump: string }>`
   background-color: ${({ trump }) => trump};
   border-radius: 50%;
 `;
-
-const CardOutline = styled.div`
+//
+const CardOutline = styled(Box)<{ trump: string }>`
   border-radius: 7px;
   box-shadow: -2px 2px 2px black;
 `;
 
-function getColor(trump?: Trump): ColorSet {
-  switch (trump?.suit) {
+function getColor(trump: Trump): ColorSet {
+  switch (trump.suit) {
     case Suit.Blue:
       return cardColors.blue;
     case Suit.Green:

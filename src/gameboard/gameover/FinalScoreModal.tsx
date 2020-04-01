@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogTitle, Box } from "@material-ui/core";
 import styled from "styled-components";
 import { ScorePad } from "../score/ScorePad";
 import { useGameState } from "../GameContext";
@@ -27,6 +27,6 @@ export const FinalScoreModal: React.FC = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled(Box)`
   margin: 25px;
 `;

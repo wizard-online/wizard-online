@@ -1,19 +1,18 @@
 import React from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Box, Toolbar } from "@material-ui/core";
 import styled from "styled-components";
 
 import { useGameState } from "../GameContext";
 import { maxCards } from "../../boardgame/entities/players";
-import { colors } from "../util/colors";
 
 export const HeaderBar: React.FC = () => {
   const {
     wizardState: { numCards, numPlayers, round },
   } = useGameState();
   return (
-    <StyledAppBar position="sticky">
+    <AppBar position="sticky">
       <Toolbar>
-        <PageTitle>Wizard Online</PageTitle>
+        <h1>Wizard Online</h1>
         <SpaceFill />
         {round && round.bidsMismatch !== undefined && (
           <InfoItem>
@@ -29,29 +28,14 @@ export const HeaderBar: React.FC = () => {
         </InfoItem>
         <InfoItem>{numPlayers} Spieler</InfoItem>
       </Toolbar>
-    </StyledAppBar>
+    </AppBar>
   );
 };
-
-const StyledAppBar = styled(AppBar)`
-  &.MuiAppBar-root {
-    background-color: ${colors.wizard.green};
-  }
-`;
-
-const PageTitle = styled.h1`
-  font-style: italic;
-  color: ${colors.white};
-  /* text-outline effect only supported with prefix */
-  -webkit-text-fill-color: ${colors.wizard.darker};
-  -webkit-text-stroke: 1.5px ${colors.wizard.green};
-  text-shadow: 0 0 12px ${colors.white};
-`;
 
 const SpaceFill = styled.div`
   flex-grow: 1;
 `;
 
-const InfoItem = styled.div`
+const InfoItem = styled(Box)`
   margin: 15px;
 `;

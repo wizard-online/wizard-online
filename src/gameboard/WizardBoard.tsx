@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, ThemeProvider } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { State } from "boardgame.io";
 import { GameContext } from "./GameContext";
 import { HeaderBar } from "./header/HeaderBar";
@@ -11,7 +11,6 @@ import { ScorePad } from "./score/ScorePad";
 import { FinalScoreModal } from "./gameover/FinalScoreModal";
 import { GameState } from "./GameState";
 import { PlayerContainer } from "./player/PlayerContainer";
-import { theme } from "./util/mui-theme";
 
 export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
   return (
@@ -24,16 +23,14 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
         } as GameState,
       }}
     >
-      <ThemeProvider theme={theme}>
-        <Container>
-          <HeaderBar />
-          <OpponentsContainer />
-          <Table />
-          <PlayerContainer />
-          <ScorePad />
-        </Container>
-        <FinalScoreModal />
-      </ThemeProvider>
+      <Container>
+        <HeaderBar />
+        <OpponentsContainer />
+        <Table />
+        <PlayerContainer />
+        <ScorePad />
+      </Container>
+      <FinalScoreModal />
     </GameContext.Provider>
   );
 };

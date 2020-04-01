@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent } from "@material-ui/core";
+import { Box, Card, CardContent } from "@material-ui/core";
 import styled from "styled-components";
 
 import { Phase } from "../../boardgame/phases/phase";
@@ -41,7 +41,7 @@ export const PlayerContainer: React.FC = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled(Box)`
   margin: 25px 0;
 `;
 
