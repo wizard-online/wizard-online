@@ -5,7 +5,7 @@ import { Suit } from "../../boardgame/entities/cards";
 import { PlayCard } from "../components/PlayCard";
 import { useGameState } from "../GameContext";
 import { isSetRound, Trump } from "../../boardgame/WizardState";
-import { cardColors, ColorSet } from "../../boardgame/util/colors";
+import { cardColors, ColorSet } from "../util/colors";
 
 export const Deck: React.FC = () => {
   const {
