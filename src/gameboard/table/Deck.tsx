@@ -48,8 +48,8 @@ const CardOutline = styled(Box)<{ trump: string }>`
   box-shadow: -2px 2px 2px black;
 `;
 
-function getColor(trump: Trump): ColorSet {
-  switch (trump.suit) {
+function getColor(trump?: Trump): ColorSet {
+  switch (trump?.suit) {
     case Suit.Blue:
       return cardColors.blue;
     case Suit.Green:

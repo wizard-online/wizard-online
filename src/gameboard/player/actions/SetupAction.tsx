@@ -9,7 +9,9 @@ export const SetupAction: React.FC = () => {
   return (
     <>
       <Button onClick={() => shuffle()}>Mischen</Button>
-      <Button onClick={() => handout()}>Austeilen</Button>
+      <Button onClick={() => handout()} color="primary" variant="contained">
+        Austeilen
+      </Button>
     </>
   );
 };
