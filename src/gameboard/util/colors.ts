@@ -13,6 +13,11 @@ export const colors = {
   white: "#ffffff",
   black: "#000000",
   grey: "#aba8af",
+  wood: {
+    light: "#deb887",
+    medium: "#cdaa7d",
+    dark: "#8b6914",
+  },
   wizard: {
     dark: "#090b08",
     darker: "#181100",
