@@ -3,8 +3,8 @@ import React from "react";
 import { Lobby, Client } from "boardgame.io/react";
 import { applyMiddleware } from "redux";
 import logger from "redux-logger";
-import { wizardGameConfig } from "./boardgame/game";
-import { WizardBoard } from "./gameboard/WizardBoard";
+import { wizardGameConfig } from "./game/game";
+import { WizardBoard } from "./ui/WizardBoard";
 
 // en-/disable console logging of redux actions
 const REDUX_LOGGER = false;
