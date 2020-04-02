@@ -1,11 +1,4 @@
-import {
-  Ctx,
-  PlayerID,
-  StageName,
-  EventsAPI,
-  PlayerAPI,
-  RandomAPI,
-} from "boardgame.io";
+import { Ctx, PlayerID, StageName, EventsAPI } from "boardgame.io";
 import { Phase } from "../phases/phase";
 
 interface ActivePlayers {
@@ -24,9 +17,11 @@ interface CtxArgs {
   // enhanced by events plugin
   events?: EventsAPI;
   // enhanced by player plugin
-  player?: PlayerAPI;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  player?: any;
   // enhanced by random plugin
-  random?: RandomAPI;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  random?: any;
 }
 
 const defaultCtx: Ctx = {

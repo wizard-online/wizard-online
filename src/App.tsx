@@ -1,12 +1,30 @@
 import React from "react";
 
-import { WizardClient as GameClient } from "./Game";
+import { Lobby, Client } from "boardgame.io/react";
+import { applyMiddleware } from "redux";
+import logger from "redux-logger";
+import { wizardGameConfig } from "./game/game";
+import { WizardBoard } from "./ui/WizardBoard";
+
+// en-/disable console logging of redux actions
+const REDUX_LOGGER = false;
 
 export const App: React.FC<{}> = () => (
-  <>
-    <GameClient playerID="0" />
-    <GameClient playerID="1" />
-    <GameClient playerID="2" />
-    <GameClient playerID="3" />
-  </>
+  <Lobby
+    gameServer="http://localhost:8000"
+    lobbyServer="http://localhost:8000"
+    gameComponents={[
+      {
+        game: wizardGameConfig,
+        board: WizardBoard,
+      },
+    ]}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    clientFactory={(opts: any) => {
+      return Client({
+        enhancer: REDUX_LOGGER ? applyMiddleware(logger) : undefined,
+        ...opts,
+      });
+    }}
+  />
 );

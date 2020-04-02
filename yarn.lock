@@ -1413,9 +1413,9 @@
   integrity sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=
 
 "@types/node@*":
-  version "12.12.31"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.31.tgz#d6b4f9645fee17f11319b508fb1001797425da51"
-  integrity sha512-T+wnJno8uh27G9c+1T+a1/WYCHzLeDqtsGJkoEdSp2X8RTh3oOCZQcUnjAx90CS8cmmADX51O0FI/tu9s0yssg==
+  version "13.9.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.8.tgz#09976420fc80a7a00bf40680c63815ed8c7616f4"
+  integrity sha512-1WgO8hsyHynlx7nhP1kr0OFzsgKz5XDQL+Lfc3b1Q3qIln/n8cKD4m09NJ0+P1Rq7Zgnc7N0+SsMnoD1rEb0kA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2103,9 +2103,9 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   integrity sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==
 
 boardgame.io@^0.39.2:
-  version "0.39.3"
-  resolved "https://registry.yarnpkg.com/boardgame.io/-/boardgame.io-0.39.3.tgz#af688f5a3e6f24363551b6044b48feaf4a6c47cd"
-  integrity sha512-VDrj95U2B1Uo47JrmlTSIuD12ntknL79RW/d84m8jbZBqeF54uIArxsYWuP7E3waYRSutJzqkP+GJicMj7hw5A==
+  version "0.39.4"
+  resolved "https://registry.yarnpkg.com/boardgame.io/-/boardgame.io-0.39.4.tgz#564f37ca93f87c04fe80b80504e672e05b8afdae"
+  integrity sha512-c/L5WAhs8+sgJzKq+ZD5lizQ57QH54eRkFAAhpUeZeqH7wojjTB4HjRuGDxid7SSoQtRlQpnlZLtjlJ+jjJOZg==
   dependencies:
     "@koa/cors" "^2.2.1"
     flatted "^0.2.3"
@@ -9565,9 +9565,9 @@ trough@^1.0.0:
   integrity sha512-rvuRbTarPXmMb79SmzEp8aqXNKcK+y0XaB298IXueQ8I2PsrATcPBCSPyK/dDNa2iWOhKlfNnOjdAOTBU/nkFA==
 
 ts-toolbelt@^6.3.6:
-  version "6.3.6"
-  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-6.3.6.tgz#2bde29106c013ed520c32f30e1248daf8fd4f5f9"
-  integrity sha512-eVzym+LyQodOCfyVyQDQ6FGYbO2Xf9Nc4dGLRKlKSUpAs+8qQWHG+grDiA3ciEuNPNZ0qJnNIYkdqBW1rCWuUA==
+  version "6.3.9"
+  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-6.3.9.tgz#eb629caf582b0f1f6cbe4515869fc3e79d46058b"
+  integrity sha512-nFT5av4YNp6A9pqn8LaDez59JOH17hJB/+I3/1ilJCzca2R58Tg+gLIEc+ADLAHoW9UJGMEFQa0gq8uekfvNfQ==
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.11.1"
