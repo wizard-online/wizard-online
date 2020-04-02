@@ -4,8 +4,8 @@ import logger from "redux-logger";
 import { applyMiddleware } from "redux";
 import { SocketIO } from "boardgame.io/multiplayer";
 
-import { wizardGameConfig } from "./boardgame/game";
-import { WizardBoard } from "./gameboard/WizardBoard";
+import { wizardGameConfig } from "./game/game";
+import { WizardBoard } from "./ui/WizardBoard";
 
 export const WizardClient = Client({
   game: wizardGameConfig,
