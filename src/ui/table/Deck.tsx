@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Suit } from "../../game/entities/cards";
 import { PlayCard } from "../components/PlayCard";
 import { useGameState } from "../GameContext";
-import { isSetRound, Trump } from "../../game/WizardState";
+import { isSetRound } from "../../game/WizardState";
 import { cardColors, ColorSet } from "../util/colors";
 
 export const Deck: React.FC = () => {
@@ -15,7 +15,7 @@ export const Deck: React.FC = () => {
   }
 
   const trump = round?.trump;
-  const color = getColor(trump);
+  const color = getColor(trump?.suit);
 
   return (
     <Container>
@@ -48,8 +48,8 @@ const CardOutline = styled.div`
   box-shadow: -2px 2px 2px black;
 `;
 
-function getColor(trump?: Trump): ColorSet {
-  switch (trump?.suit) {
+function getColor(suit: Suit | null | undefined): ColorSet {
+  switch (suit) {
     case Suit.Blue:
       return cardColors.blue;
     case Suit.Green:
@@ -59,7 +59,7 @@ function getColor(trump?: Trump): ColorSet {
     case Suit.Yellow:
       return cardColors.yellow;
     case null:
-      return cardColors.nz;
+      return cardColors.zn;
     // fallback
     default:
       return {
