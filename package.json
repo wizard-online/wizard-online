@@ -1,6 +1,6 @@
 {
   "name": "wizard-online",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "Online platform for playing the Wizard card game",
   "main": "index.tsx",
   "scripts": {
