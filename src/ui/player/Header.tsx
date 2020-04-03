@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../game/entities/players";
 import { colors } from "../util/colors";
+import { usePlayerName } from "../GameContext";
 
 export interface HeaderProps {
   playerID: PlayerID;
@@ -15,10 +16,12 @@ export const Header: React.FC<HeaderProps> = ({
   isTurn,
   isClient,
 }) => {
+  const playerName = usePlayerName(playerID);
+
   return (
     <Container>
       <PlayerTitle isTurn={isTurn} as={isClient ? "h1" : undefined}>
-        Spieler {playerID}
+        {playerName}
       </PlayerTitle>
       <Spacer />
       <TrickLabel playerID={playerID} />

@@ -3,7 +3,7 @@ import { generateDefaultWizardState, WizardState } from "./WizardState";
 import { setup } from "./phases/setup";
 import { bidding } from "./phases/bidding";
 import { playing } from "./phases/playing";
-import { maxCards } from "./entities/players";
+import { maxCards } from "./entities/players.utils";
 import { Phase } from "./phases/phase";
 import { selectingTrump } from "./phases/selecting-trump";
 import { onBeginTurn } from "./turn";

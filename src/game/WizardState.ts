@@ -1,9 +1,10 @@
 import shuffle from "lodash/shuffle";
 import { Ctx } from "boardgame.io";
-import { Card, generateCardDeck, Suit } from "./entities/cards";
+import { generateCardDeck } from "./entities/cards.utils";
 import { NumPlayers, PlayerID } from "./entities/players";
 import { Phase } from "./phases/phase";
 import { ScorePad } from "./entities/score";
+import { Card, Suit } from "./entities/cards";
 
 /**
  * Describes the Wizard game state used in the g object.

@@ -1,5 +1,16 @@
-import { PlayerID } from "../entities/players";
+import { PlayerID } from "./players";
 
+/**
+ * checks if a given bid amount is valid acording to previous bids.
+ * Only relevant for last player in bidding round.
+ *
+ * @export
+ * @param {number} bidValue
+ * @param {number} numCards
+ * @param {((number | null)[])} bids
+ * @param {PlayerID} currentPlayer
+ * @returns {boolean}
+ */
 export function isValidBid(
   bidValue: number,
   numCards: number,

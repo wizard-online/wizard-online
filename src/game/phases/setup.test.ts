@@ -1,5 +1,5 @@
 import range from "lodash/range";
-import { generateCtx } from "../util/ctx.util";
+import { generateCtx } from "../../test/utils/ctx";
 import { generateDefaultWizardState, WizardState } from "../WizardState";
 import { shuffle, handout } from "./setup";
 import { Suit, Rank } from "../entities/cards";
@@ -19,6 +19,7 @@ describe("handout", () => {
   test("gives each player the specified number of hand cards", () => {
     const ctx = generateCtx();
     const g = generateDefaultWizardState(ctx);
+
     handout(g, ctx);
     g.round!.hands.forEach((hand) => {
       expect(hand).toBeInstanceOf(Array);

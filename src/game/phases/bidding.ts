@@ -2,9 +2,9 @@
 import { Ctx, PhaseConfig } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { WizardState, isSetRound } from "../WizardState";
-import { isValidBid, getBidsMismatch } from "../util/bid";
+import { isValidBid, getBidsMismatch } from "../entities/bid.utils";
 import { Phase } from "./phase";
-import { sortHand } from "../entities/cards";
+import { sortHand } from "../entities/cards.utils";
 
 export function bid(
   { round, numCards, currentPlayer }: WizardState,

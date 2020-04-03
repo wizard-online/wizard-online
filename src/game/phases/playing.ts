@@ -13,10 +13,10 @@ import {
   canPlayCard,
   getSuitsInHand,
   getTrickWinner,
-  Rank,
-} from "../entities/cards";
-import { updateScorePad } from "../entities/score";
+} from "../entities/cards.utils";
+import { updateScorePad } from "../entities/score.utils";
 import { Phase } from "./phase";
+import { Rank } from "../entities/cards";
 
 export function play(
   g: WizardState,

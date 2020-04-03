@@ -6,6 +6,7 @@ import { SelectingTrumpAction } from "./SelectingTrumpAction";
 import { BiddingAction } from "./BiddingAction";
 import { PlayingAction } from "./PlayingAction";
 import { PlayerID } from "../../../game/entities/players";
+import { usePlayerName } from "../../GameContext";
 
 export interface ActionsContainerProps {
   isTurn: boolean;
@@ -18,6 +19,7 @@ export const ActionsContainer: React.FC<ActionsContainerProps> = ({
   phase,
   currentPlayer,
 }) => {
+  const currentPlayerName = usePlayerName(currentPlayer);
   return (
     <Container>
       {isTurn ? (
@@ -28,7 +30,7 @@ export const ActionsContainer: React.FC<ActionsContainerProps> = ({
           {phase === Phase.Playing && <PlayingAction />}
         </>
       ) : (
-        <span>Spieler {currentPlayer} ist am Zug</span>
+        <span>{currentPlayerName} ist am Zug</span>
       )}
     </Container>
   );
