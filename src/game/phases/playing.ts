@@ -38,7 +38,7 @@ export function play(
   }
 
   // as first player, init trick
-  if (!g.trick) {
+  if (!g.trick || g.trick.isComplete) {
     g.trick = generateBlankTrickState();
   }
   const { trick } = g;
@@ -59,13 +59,13 @@ export function play(
   // pass turn to next player
   // as last player, find trick taker, increment trick count, and cleanup trick
   if (trick.cards.length === ctx.numPlayers) {
-    trick.isComplete = true;
+    endTrick(g, ctx);
   } else {
     ctx.events?.endTurn!();
   }
 }
 
-function cleanupTrick(g: WizardState, ctx: Ctx): void | typeof INVALID_MOVE {
+function endTrick(g: WizardState, ctx: Ctx): void | typeof INVALID_MOVE {
   const { round, trick } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -73,6 +73,9 @@ function cleanupTrick(g: WizardState, ctx: Ctx): void | typeof INVALID_MOVE {
   if (!isSetTrick(trick)) {
     throw new Error("trick is not set");
   }
+
+  // mark trick is completed
+  trick.isComplete = true;
 
   // check that all players have same amount of cards
   if (!round.hands.every((hand) => hand.length === round.hands[0].length)) {
@@ -83,7 +86,6 @@ function cleanupTrick(g: WizardState, ctx: Ctx): void | typeof INVALID_MOVE {
     round.trump?.suit || null
   );
   round.trickCount![winnerPlayerId] += 1;
-  g.trick = null;
 
   ctx.events?.endTurn!({ next: winnerPlayerId.toString() });
 }
@@ -95,11 +97,11 @@ function onBegin({ round }: WizardState, { numPlayers }: Ctx): void {
   round.trickCount = new Array(numPlayers).fill(0);
 }
 
-function endIf({ round, trick }: WizardState): boolean {
+function endIf({ round }: WizardState): boolean {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-  return !trick && flatten(round.hands).length === 0;
+  return flatten(round.hands).length === 0;
 }
 
 function onEnd(g: WizardState, ctx: Ctx): void {
@@ -127,7 +129,6 @@ function onEnd(g: WizardState, ctx: Ctx): void {
 export const playing: PhaseConfig = {
   moves: {
     play,
-    cleanupTrick,
   },
   onBegin,
   endIf,

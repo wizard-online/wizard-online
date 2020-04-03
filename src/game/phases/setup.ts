@@ -14,8 +14,11 @@ import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";
 import { NumPlayers, PlayerID } from "../entities/players";
 
-export function shuffle({ round }: WizardState): void {
-  round!.deck = shuffleUtil(round!.deck);
+export function shuffle(wizardState: WizardState): void {
+  // delete deprecated trick
+  wizardState.trick = null;
+  // shuffle deck
+  wizardState.round!.deck = shuffleUtil(wizardState.round!.deck);
 }
 
 export function handout(g: WizardState, ctx: Ctx): void {
@@ -23,6 +26,9 @@ export function handout(g: WizardState, ctx: Ctx): void {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
+
+  // delete deprecated trick
+  g.trick = null;
 
   const players = playersRound(
     (currentPlayer + 1) % numPlayers,
@@ -66,8 +72,6 @@ export function handout(g: WizardState, ctx: Ctx): void {
 }
 
 function onBegin(g: WizardState): void {
-  // delete trick
-  g.trick = null;
   // reset round
   g.round = generateBlankRoundState(g.numPlayers);
   // set dealer
