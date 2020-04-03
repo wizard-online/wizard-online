@@ -40,9 +40,11 @@ export function handout(g: WizardState, ctx: Ctx): void {
   round.hands = hands;
 
   // draw trump card
-  let trumpSuit: Suit | null | undefined;
+  let trumpCard: Card | null = null;
+  let trumpSuit: Suit | null | undefined = null;
+
   if (round.deck.length > 0) {
-    const trumpCard = round.deck.pop() ?? null;
+    trumpCard = round.deck.pop() ?? null;
     trumpSuit = trumpCard?.suit ?? null;
     if (trumpCard?.rank === Rank.N) {
       trumpSuit = null;
@@ -50,8 +52,8 @@ export function handout(g: WizardState, ctx: Ctx): void {
     if (trumpCard?.rank === Rank.Z) {
       trumpSuit = undefined;
     }
-    round.trump = { card: trumpCard, suit: trumpSuit };
   }
+  round.trump = { card: trumpCard, suit: trumpSuit };
 
   // go to next phase
   if (trumpSuit === undefined) {
