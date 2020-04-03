@@ -1,5 +1,5 @@
 import { Ctx } from "boardgame.io";
-import { Phase } from "../phases/phase";
+import { Phase } from "../../game/phases/phase";
 
 const defaultCtx: Ctx = {
   numPlayers: 4,

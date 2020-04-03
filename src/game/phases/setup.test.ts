@@ -1,5 +1,5 @@
 import range from "lodash/range";
-import { generateCtx } from "../util/ctx";
+import { generateCtx } from "../../test/utils/ctx";
 import { generateDefaultWizardState, WizardState } from "../WizardState";
 import { shuffle, handout } from "./setup";
 import { Suit, Rank } from "../entities/cards";
