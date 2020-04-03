@@ -22,7 +22,7 @@ export function play(
   g: WizardState,
   ctx: Ctx,
   cardIndex: number
-): void | "INVALID_MOVE" {
+): void | typeof INVALID_MOVE {
   const { round } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -65,7 +65,7 @@ export function play(
   }
 }
 
-function cleanupTrick(g: WizardState, ctx: Ctx): void {
+function cleanupTrick(g: WizardState, ctx: Ctx): void | typeof INVALID_MOVE {
   const { round, trick } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -76,9 +76,7 @@ function cleanupTrick(g: WizardState, ctx: Ctx): void {
 
   // check that all players have same amount of cards
   if (!round.hands.every((hand) => hand.length === round.hands[0].length)) {
-    throw new Error(
-      "players have not equal amount of cards at the end of the trick"
-    );
+    return INVALID_MOVE;
   }
   const [, winnerPlayerId] = getTrickWinner(
     trick.cards,
