@@ -30,7 +30,11 @@ export const PlayerHand: React.FC<HandCardsProps> = ({
             card={card}
             interactive={isInteractive}
             disabled={playableCards && !playableCards[i]}
-            onClick={() => onClickCard(i)}
+            onClick={() => {
+              if (isInteractive) {
+                onClickCard(i);
+              }
+            }}
           />
         </PlayingCardContainer>
       ))}

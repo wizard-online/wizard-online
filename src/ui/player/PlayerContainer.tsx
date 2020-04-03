@@ -16,16 +16,15 @@ export const PlayerContainer: React.FC = () => {
   } = useGameState();
 
   const isTrickComplete = trick?.isComplete === true;
+  const isTurn = clientID === currentPlayer;
 
   useEffect(() => {
-    if (isTrickComplete) {
+    if (isTurn && isTrickComplete) {
       setTimeout(() => {
         cleanupTrick();
-      }, 3000);
+      }, 2000);
     }
-  }, [isTrickComplete, cleanupTrick]);
-
-  const isTurn = clientID === currentPlayer;
+  }, [isTrickComplete, isTurn, cleanupTrick]);
 
   return (
     <Container>
@@ -35,7 +34,9 @@ export const PlayerContainer: React.FC = () => {
           {round && (
             <PlayerHand
               cards={round.hands[clientID]}
-              isInteractive={isTurn && phase === Phase.Playing}
+              isInteractive={
+                isTurn && phase === Phase.Playing && !isTrickComplete
+              }
               onClickCard={(i) => play(i)}
               lead={trick?.lead}
             />
