@@ -59,13 +59,13 @@ export function play(
   // pass turn to next player
   // as last player, find trick taker, increment trick count, and cleanup trick
   if (trick.cards.length === ctx.numPlayers) {
-    endTrick(g, ctx);
+    trick.isComplete = true;
   } else {
     ctx.events?.endTurn!();
   }
 }
 
-function endTrick(g: WizardState, ctx: Ctx): void {
+function cleanupTrick(g: WizardState, ctx: Ctx): void {
   const { round, trick } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -97,11 +97,11 @@ function onBegin({ round }: WizardState, { numPlayers }: Ctx): void {
   round.trickCount = new Array(numPlayers).fill(0);
 }
 
-function endIf({ round }: WizardState): boolean {
+function endIf({ round, trick }: WizardState): boolean {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-  return flatten(round.hands).length === 0;
+  return !trick && flatten(round.hands).length === 0;
 }
 
 function onEnd(g: WizardState, ctx: Ctx): void {
@@ -129,6 +129,7 @@ function onEnd(g: WizardState, ctx: Ctx): void {
 export const playing: PhaseConfig = {
   moves: {
     play,
+    cleanupTrick,
   },
   onBegin,
   endIf,
