@@ -35,6 +35,7 @@ export interface WizardState {
 export interface WizardTrickState {
   cards: [Card, PlayerID][];
   lead?: Card;
+  isComplete?: boolean;
 }
 
 /**
