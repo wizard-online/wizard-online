@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Card, playableCardsInHand } from "../../game/entities/cards";
+import { playableCardsInHand } from "../../game/util/cards";
 import { PlayCard } from "../components/PlayCard";
+import { Card } from "../../game/entities/cards";
 
 export interface HandCardsProps {
   cards: (Card | null)[];

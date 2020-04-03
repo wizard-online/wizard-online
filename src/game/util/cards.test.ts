@@ -1,16 +1,13 @@
 import {
   generateCardDeck,
-  Suit,
-  Rank,
-  allSuits,
   cardBeatsOther,
-  Card,
   getTrickWinner,
   canPlayCard,
   playableCardsInHand,
   getLeadSuit,
 } from "./cards";
-import { PlayerID } from "./players";
+import { PlayerID } from "../entities/players";
+import { Rank, allSuits, Card, Suit } from "../entities/cards";
 
 describe("generateCardDeck", () => {
   test("contains 60 cards", () => {

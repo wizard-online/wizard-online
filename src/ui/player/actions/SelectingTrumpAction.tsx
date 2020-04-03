@@ -9,9 +9,10 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../../GameContext";
-import { allSuits, Suit, getSuitLabel } from "../../../game/entities/cards";
+import { getSuitLabel } from "../../../game/util/cards";
 import { isSetRound } from "../../../game/WizardState";
 import { colors } from "../../util/colors";
+import { allSuits, Suit } from "../../../game/entities/cards";
 
 export const SelectingTrumpAction: React.FC = () => {
   const {

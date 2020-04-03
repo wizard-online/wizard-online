@@ -10,13 +10,16 @@ import {
 } from "@material-ui/core";
 import range from "lodash/range";
 import { useGameState } from "../GameContext";
+import { getPlayerName } from "../../game/util/players";
+import { PlayerID } from "../../game/entities/players";
 
 export const ScorePad: React.FC = () => {
   const {
     wizardState: { scorePad, numCards, round },
     ctx: { numPlayers },
+    gameMetadata,
   } = useGameState();
-  const playerIDs = range(0, numPlayers).map((num) => num.toString());
+  const playerIDs = range(0, numPlayers) as PlayerID[];
 
   return (
     <TableContainer>
@@ -25,7 +28,9 @@ export const ScorePad: React.FC = () => {
           <TableRow>
             <TableCell>#</TableCell>
             {playerIDs.map((playerID) => (
-              <TableCell key={playerID}>Spieler {playerID}</TableCell>
+              <TableCell key={playerID}>
+                {getPlayerName(playerID, gameMetadata)}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>

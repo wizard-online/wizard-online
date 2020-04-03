@@ -8,10 +8,11 @@ import {
   isSetRound,
   generateBlankRoundState,
 } from "../WizardState";
-import { playersRound, NumPlayers, PlayerID } from "../entities/players";
+import { playersRound } from "../util/players";
 import { Card, Rank, Suit } from "../entities/cards";
 import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";
+import { NumPlayers, PlayerID } from "../entities/players";
 
 export function shuffle({ round }: WizardState): void {
   round!.deck = shuffleUtil(round!.deck);
@@ -33,6 +34,7 @@ export function handout(g: WizardState, ctx: Ctx): void {
   new Array(numCards).fill(0).forEach(() => {
     players.forEach((player) => {
       const card = round.deck.pop();
+
       if (!card) throw new Error("deck seems to be empty");
       hands[player].push(card);
     });

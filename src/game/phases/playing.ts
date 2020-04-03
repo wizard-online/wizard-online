@@ -9,14 +9,10 @@ import {
   isSetTrick,
   generateBlankTrickState,
 } from "../WizardState";
-import {
-  canPlayCard,
-  getSuitsInHand,
-  getTrickWinner,
-  Rank,
-} from "../entities/cards";
-import { updateScorePad } from "../entities/score";
+import { canPlayCard, getSuitsInHand, getTrickWinner } from "../util/cards";
+import { updateScorePad } from "../util/score";
 import { Phase } from "./phase";
+import { Rank } from "../entities/cards";
 
 export function play(
   g: WizardState,

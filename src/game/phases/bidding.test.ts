@@ -3,7 +3,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 
 import { bid } from "./bidding";
 import { WizardState } from "../WizardState";
-import { generateCtx } from "../util/ctx.util";
+import { generateCtx } from "../util/ctx";
 import { NumPlayers, PlayerID } from "../entities/players";
 import { Phase } from "./phase";
 

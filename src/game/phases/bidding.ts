@@ -4,7 +4,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { WizardState, isSetRound } from "../WizardState";
 import { isValidBid, getBidsMismatch } from "../util/bid";
 import { Phase } from "./phase";
-import { sortHand } from "../entities/cards";
+import { sortHand } from "../util/cards";
 
 export function bid(
   { round, numCards, currentPlayer }: WizardState,

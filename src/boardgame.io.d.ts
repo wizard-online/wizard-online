@@ -7,6 +7,12 @@ declare module "boardgame.io" {
       [move: string]: Function;
     };
     playerID: string;
+    gameMetadata: GameMetadatum[];
+  }
+
+  export interface GameMetadatum {
+    id: number;
+    name: string;
   }
 
   export interface EventsAPI {
