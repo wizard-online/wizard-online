@@ -1,4 +1,4 @@
-import { PlayerID } from "../entities/players";
+import { PlayerID } from "./players";
 
 /**
  * checks if a given bid amount is valid acording to previous bids.

@@ -8,7 +8,7 @@ import {
   isSetRound,
   generateBlankRoundState,
 } from "../WizardState";
-import { playersRound } from "../util/players";
+import { playersRound } from "../entities/players.utils";
 import { Card, Rank, Suit } from "../entities/cards";
 import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";

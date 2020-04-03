@@ -3,7 +3,7 @@ import { AppBar, Toolbar } from "@material-ui/core";
 import styled from "styled-components";
 
 import { useGameState } from "../GameContext";
-import { maxCards } from "../../game/util/players";
+import { maxCards } from "../../game/entities/players.utils";
 import { colors } from "../util/colors";
 
 export const HeaderBar: React.FC = () => {

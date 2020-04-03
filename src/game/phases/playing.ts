@@ -9,8 +9,12 @@ import {
   isSetTrick,
   generateBlankTrickState,
 } from "../WizardState";
-import { canPlayCard, getSuitsInHand, getTrickWinner } from "../util/cards";
-import { updateScorePad } from "../util/score";
+import {
+  canPlayCard,
+  getSuitsInHand,
+  getTrickWinner,
+} from "../entities/cards.utils";
+import { updateScorePad } from "../entities/score.utils";
 import { Phase } from "./phase";
 import { Rank } from "../entities/cards";
 

@@ -3,7 +3,7 @@ import { Dialog, DialogTitle } from "@material-ui/core";
 import styled from "styled-components";
 import { ScorePad } from "../score/ScorePad";
 import { useGameState } from "../GameContext";
-import { getLeader } from "../../game/util/score";
+import { getLeader } from "../../game/entities/score.utils";
 
 export const FinalScoreModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);

@@ -1,5 +1,5 @@
-import { ScoreRow, ScorePad, Score } from "../entities/score";
-import { PlayerID } from "../entities/players";
+import { ScoreRow, ScorePad, Score } from "./score";
+import { PlayerID } from "./players";
 
 export function updateScorePad(
   bids: (number | null)[],

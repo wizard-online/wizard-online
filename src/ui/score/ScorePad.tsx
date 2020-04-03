@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import range from "lodash/range";
 import { useGameState } from "../GameContext";
-import { getPlayerName } from "../../game/util/players";
+import { getPlayerName } from "../../game/entities/players.utils";
 import { PlayerID } from "../../game/entities/players";
 
 export const ScorePad: React.FC = () => {

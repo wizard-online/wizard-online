@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { GameState } from "./GameState";
-import { getPlayerName } from "../game/util/players";
+import { getPlayerName } from "../game/entities/players.utils";
 import { PlayerID } from "../game/entities/players";
 
 export interface AppState {

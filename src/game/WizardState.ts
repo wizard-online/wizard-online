@@ -1,6 +1,6 @@
 import shuffle from "lodash/shuffle";
 import { Ctx } from "boardgame.io";
-import { generateCardDeck } from "./util/cards";
+import { generateCardDeck } from "./entities/cards.utils";
 import { NumPlayers, PlayerID } from "./entities/players";
 import { Phase } from "./phases/phase";
 import { ScorePad } from "./entities/score";

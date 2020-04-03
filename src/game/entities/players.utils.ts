@@ -1,6 +1,6 @@
 import range from "lodash/range";
 import { GameMetadatum } from "boardgame.io";
-import { PlayerID, NumPlayers, MaxCards, DECKSIZE } from "../entities/players";
+import { PlayerID, NumPlayers, MaxCards, DECKSIZE } from "./players";
 
 export function maxCards(numPlayers: NumPlayers): MaxCards {
   return (DECKSIZE / numPlayers) as MaxCards;

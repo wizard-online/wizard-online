@@ -1,14 +1,7 @@
 import flatten from "lodash/flatten";
 import groupBy from "lodash/groupBy";
-import { PlayerID } from "../entities/players";
-import {
-  Suit,
-  SuitLabel,
-  Rank,
-  Card,
-  allSuits,
-  allRanks,
-} from "../entities/cards";
+import { PlayerID } from "./players";
+import { Suit, SuitLabel, Rank, Card, allSuits, allRanks } from "./cards";
 
 /**
  * gets the human-readable label for a given suit
