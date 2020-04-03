@@ -128,7 +128,7 @@ export function getTrickWinner(
   if (cards.length < 2) {
     throw new Error("too few cards");
   }
-  const leadSuit = cards[0][0].suit;
+  const leadSuit = getLeadSuit(cards.map(([card]) => card));
   const winner = cards.reduce((winningCard, card, cardIndex) => {
     // skip first card
     if (cardIndex === 0) return winningCard;
@@ -136,6 +136,27 @@ export function getTrickWinner(
     return beaten ? card : winningCard;
   }, cards[0]);
   return winner;
+}
+
+/**
+ * returns the lead suit of a given trick
+ *
+ * @export
+ * @param {Card[]} cards
+ * @returns {(Suit | null | undefined)} suit of lead card or null if all cards a Ns or undefined if lead card is Z
+ */
+export function getLeadSuit(cards: Card[]): Suit | null | undefined {
+  if (cards.length === 0) {
+    return null;
+  }
+  const leadCard = cards[0];
+  if (leadCard.rank === Rank.Z) {
+    return undefined;
+  }
+  if (leadCard.rank === Rank.N) {
+    return getLeadSuit(cards.slice(1));
+  }
+  return leadCard.suit;
 }
 
 export function getSuitsInHand(hand: Card[]): Suit[] {

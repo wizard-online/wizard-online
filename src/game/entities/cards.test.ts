@@ -8,6 +8,7 @@ import {
   getTrickWinner,
   canPlayCard,
   playableCardsInHand,
+  getLeadSuit,
 } from "./cards";
 import { PlayerID } from "./players";
 
@@ -485,5 +486,114 @@ describe("playableCardsInHand", () => {
       true,
       true,
     ]);
+  });
+});
+
+describe("getLeadSuit", () => {
+  test("returns suit of first card if it has regular rank", () => {
+    const testData = [
+      {
+        cards: [Card(Suit.Blue, 4), Card(Suit.Red, 9), Card(Suit.Red, 13)],
+        expected: Suit.Blue,
+      },
+      {
+        cards: [
+          Card(Suit.Green, 13),
+          Card(Suit.Red, Rank.Z),
+          Card(Suit.Red, 13),
+        ],
+        expected: Suit.Green,
+      },
+      {
+        cards: [
+          Card(Suit.Red, 1),
+          Card(Suit.Yellow, 1),
+          Card(Suit.Red, Rank.N),
+        ],
+        expected: Suit.Red,
+      },
+      {
+        cards: [
+          Card(Suit.Yellow, 4),
+          Card(Suit.Yellow, Rank.N),
+          Card(Suit.Red, 13),
+        ],
+        expected: Suit.Yellow,
+      },
+    ];
+
+    testData.forEach(({ cards, expected }) => {
+      expect(getLeadSuit(cards)).toBe(expected);
+    });
+  });
+
+  test("returns suit of first regular rank card if first card is N", () => {
+    const testData = [
+      {
+        cards: [Card(Suit.Blue, Rank.N), Card(Suit.Red, 9), Card(Suit.Red, 13)],
+        expected: Suit.Red,
+      },
+      {
+        cards: [
+          Card(Suit.Green, Rank.N),
+          Card(Suit.Red, Rank.N),
+          Card(Suit.Yellow, 4),
+          Card(Suit.Green, 13),
+        ],
+        expected: Suit.Yellow,
+      },
+    ];
+
+    testData.forEach(({ cards, expected }) => {
+      expect(getLeadSuit(cards)).toBe(expected);
+    });
+  });
+
+  test("retuns null if all cards are Ns", () => {
+    const testData = [
+      {
+        cards: [
+          Card(Suit.Blue, Rank.N),
+          Card(Suit.Red, Rank.N),
+          Card(Suit.Red, Rank.N),
+        ],
+      },
+      {
+        cards: [
+          Card(Suit.Green, Rank.N),
+          Card(Suit.Red, Rank.N),
+          Card(Suit.Yellow, Rank.N),
+          Card(Suit.Blue, Rank.N),
+        ],
+      },
+    ];
+
+    testData.forEach(({ cards }) => {
+      expect(getLeadSuit(cards)).toBeNull();
+    });
+  });
+
+  test("returns undefined if first card is Z", () => {
+    const testData = [
+      {
+        cards: [
+          Card(Suit.Blue, Rank.Z),
+          Card(Suit.Red, 13),
+          Card(Suit.Green, 4),
+        ],
+      },
+      {
+        cards: [
+          Card(Suit.Green, Rank.N),
+          Card(Suit.Red, Rank.Z),
+          Card(Suit.Yellow, 1),
+          Card(Suit.Blue, 7),
+        ],
+      },
+    ];
+
+    testData.forEach(({ cards }) => {
+      expect(getLeadSuit(cards)).toBeUndefined();
+    });
   });
 });
