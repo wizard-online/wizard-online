@@ -108,22 +108,31 @@ export function isSetRound(
 export const generateDefaultWizardState = (
   ctx: Ctx,
   {
-    setRound = true,
-    setTrick = true,
-  }: { setRound?: boolean; setTrick?: boolean } = {}
+    round: roundOptions,
+    trick: trickOptions,
+    ...options
+  }: Partial<WizardState> = {}
 ): WizardState => {
   const numPlayers = ctx.numPlayers as NumPlayers;
-  const round = setRound ? generateBlankRoundState(numPlayers) : null;
-  const trick = setTrick ? generateBlankTrickState() : null;
-  return {
-    round,
-    trick,
+  const round =
+    roundOptions !== null
+      ? generateBlankRoundState(numPlayers, roundOptions)
+      : null;
+  const trick =
+    trickOptions !== null ? generateBlankTrickState(trickOptions) : null;
+  const defaultValues = {
     numCards: 1,
     dealer: 0 as PlayerID,
     scorePad: [],
     numPlayers,
     currentPlayer: Number.parseInt(ctx.currentPlayer, 10) as PlayerID,
     phase: ctx.phase as Phase,
+  };
+  return {
+    ...defaultValues,
+    round,
+    trick,
+    ...options,
   };
 };
 
@@ -135,14 +144,19 @@ export const generateDefaultWizardState = (
  * @returns {WizardRoundState}
  */
 export function generateBlankRoundState(
-  numPlayers: NumPlayers
+  numPlayers: NumPlayers,
+  options: Partial<WizardRoundState> = {}
 ): WizardRoundState {
-  return {
+  const defaultValues = {
     bids: new Array(numPlayers).fill(null),
     hands: new Array(numPlayers).fill([]),
     trickCount: new Array(numPlayers).fill(null),
     trump: { card: null },
     deck: shuffle(generateCardDeck()),
+  };
+  return {
+    ...defaultValues,
+    ...options,
   };
 }
 
@@ -152,8 +166,14 @@ export function generateBlankRoundState(
  * @export
  * @returns {WizardTrickState}
  */
-export function generateBlankTrickState(): WizardTrickState {
-  return {
+export function generateBlankTrickState(
+  options: Partial<WizardTrickState> = {}
+): WizardTrickState {
+  const defaultValues = {
     cards: [],
+  };
+  return {
+    ...defaultValues,
+    ...options,
   };
 }
