@@ -8,6 +8,7 @@ import {
   getTrickWinner,
   canPlayCard,
   playableCardsInHand,
+  getLeadSuit,
 } from "./cards";
 import { PlayerID } from "./players";
 
@@ -228,19 +229,6 @@ describe("getTrickWinner", () => {
     );
   });
 
-  test("first N wins if only Ns", () => {
-    const { cards, trumpSuit, winnerIndex }: TestData = {
-      cards: [
-        [Card(Suit.Red, Rank.N), 2],
-        [Card(Suit.Yellow, Rank.N), 0],
-        [Card(Suit.Blue, Rank.N), 1],
-      ],
-      trumpSuit: Suit.Green,
-      winnerIndex: 0,
-    };
-    expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex]);
-  });
-
   test("highest leading rank wins without trump and z", () => {
     const data: TestData[] = [
       {
@@ -302,6 +290,78 @@ describe("getTrickWinner", () => {
     data.forEach(({ cards, trumpSuit, winnerIndex }) =>
       expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
     );
+  });
+
+  describe("on first card N", () => {
+    test("first N wins if only Ns", () => {
+      const { cards, trumpSuit, winnerIndex }: TestData = {
+        cards: [
+          [Card(Suit.Red, Rank.N), 2],
+          [Card(Suit.Yellow, Rank.N), 0],
+          [Card(Suit.Blue, Rank.N), 1],
+        ],
+        trumpSuit: Suit.Green,
+        winnerIndex: 0,
+      };
+      expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex]);
+    });
+
+    test("highest trump wins without z", () => {
+      const data: TestData[] = [
+        {
+          cards: [
+            [Card(Suit.Red, Rank.N), 3],
+            [Card(Suit.Green, 1), 0],
+            [Card(Suit.Red, 13), 1],
+            [Card(Suit.Green, 9), 2],
+          ],
+          trumpSuit: Suit.Green,
+          winnerIndex: 3,
+        },
+        {
+          cards: [
+            [Card(Suit.Blue, Rank.N), 0],
+            [Card(Suit.Blue, 2), 1],
+            [Card(Suit.Red, 9), 2],
+            [Card(Suit.Blue, 1), 3],
+          ],
+          trumpSuit: Suit.Blue,
+          winnerIndex: 1,
+        },
+      ];
+
+      data.forEach(({ cards, trumpSuit, winnerIndex }) =>
+        expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
+      );
+    });
+
+    test("highest leading rank wins without trump and z", () => {
+      const data: TestData[] = [
+        {
+          cards: [
+            [Card(Suit.Red, Rank.N), 0],
+            [Card(Suit.Yellow, 13), 1],
+            [Card(Suit.Red, 9), 2],
+          ],
+          trumpSuit: Suit.Green,
+          winnerIndex: 1,
+        },
+        {
+          cards: [
+            [Card(Suit.Blue, Rank.N), 2],
+            [Card(Suit.Blue, 2), 3],
+            [Card(Suit.Red, 9), 0],
+            [Card(Suit.Blue, 5), 1],
+          ],
+          trumpSuit: Suit.Green,
+          winnerIndex: 3,
+        },
+      ];
+
+      data.forEach(({ cards, trumpSuit, winnerIndex }) =>
+        expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
+      );
+    });
   });
 });
 
@@ -426,5 +486,114 @@ describe("playableCardsInHand", () => {
       true,
       true,
     ]);
+  });
+});
+
+describe("getLeadSuit", () => {
+  test("returns suit of first card if it has regular rank", () => {
+    const testData = [
+      {
+        cards: [Card(Suit.Blue, 4), Card(Suit.Red, 9), Card(Suit.Red, 13)],
+        expected: Suit.Blue,
+      },
+      {
+        cards: [
+          Card(Suit.Green, 13),
+          Card(Suit.Red, Rank.Z),
+          Card(Suit.Red, 13),
+        ],
+        expected: Suit.Green,
+      },
+      {
+        cards: [
+          Card(Suit.Red, 1),
+          Card(Suit.Yellow, 1),
+          Card(Suit.Red, Rank.N),
+        ],
+        expected: Suit.Red,
+      },
+      {
+        cards: [
+          Card(Suit.Yellow, 4),
+          Card(Suit.Yellow, Rank.N),
+          Card(Suit.Red, 13),
+        ],
+        expected: Suit.Yellow,
+      },
+    ];
+
+    testData.forEach(({ cards, expected }) => {
+      expect(getLeadSuit(cards)).toBe(expected);
+    });
+  });
+
+  test("returns suit of first regular rank card if first card is N", () => {
+    const testData = [
+      {
+        cards: [Card(Suit.Blue, Rank.N), Card(Suit.Red, 9), Card(Suit.Red, 13)],
+        expected: Suit.Red,
+      },
+      {
+        cards: [
+          Card(Suit.Green, Rank.N),
+          Card(Suit.Red, Rank.N),
+          Card(Suit.Yellow, 4),
+          Card(Suit.Green, 13),
+        ],
+        expected: Suit.Yellow,
+      },
+    ];
+
+    testData.forEach(({ cards, expected }) => {
+      expect(getLeadSuit(cards)).toBe(expected);
+    });
+  });
+
+  test("retuns null if all cards are Ns", () => {
+    const testData = [
+      {
+        cards: [
+          Card(Suit.Blue, Rank.N),
+          Card(Suit.Red, Rank.N),
+          Card(Suit.Red, Rank.N),
+        ],
+      },
+      {
+        cards: [
+          Card(Suit.Green, Rank.N),
+          Card(Suit.Red, Rank.N),
+          Card(Suit.Yellow, Rank.N),
+          Card(Suit.Blue, Rank.N),
+        ],
+      },
+    ];
+
+    testData.forEach(({ cards }) => {
+      expect(getLeadSuit(cards)).toBeNull();
+    });
+  });
+
+  test("returns undefined if first card is Z", () => {
+    const testData = [
+      {
+        cards: [
+          Card(Suit.Blue, Rank.Z),
+          Card(Suit.Red, 13),
+          Card(Suit.Green, 4),
+        ],
+      },
+      {
+        cards: [
+          Card(Suit.Green, Rank.N),
+          Card(Suit.Red, Rank.Z),
+          Card(Suit.Yellow, 1),
+          Card(Suit.Blue, 7),
+        ],
+      },
+    ];
+
+    testData.forEach(({ cards }) => {
+      expect(getLeadSuit(cards)).toBeUndefined();
+    });
   });
 });

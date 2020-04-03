@@ -33,7 +33,7 @@ export function play(
     return INVALID_MOVE;
   }
   const card = hand[cardIndex];
-  if (!canPlayCard(card, getSuitsInHand(hand), g.trick?.lead || null)) {
+  if (!canPlayCard(card, getSuitsInHand(hand), g.trick?.lead)) {
     return INVALID_MOVE;
   }
 

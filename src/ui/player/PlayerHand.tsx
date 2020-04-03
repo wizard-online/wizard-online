@@ -18,7 +18,7 @@ export const PlayerHand: React.FC<HandCardsProps> = ({
 }) => {
   const playableCards =
     isInteractive && !cards.includes(null)
-      ? playableCardsInHand(cards as Card[], lead || null)
+      ? playableCardsInHand(cards as Card[], lead)
       : undefined;
 
   return (

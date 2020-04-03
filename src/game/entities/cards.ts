@@ -72,10 +72,28 @@ export interface Card {
   rank: Rank;
 }
 
+/**
+ * quick factory to create card objects
+ *
+ * @export
+ * @param {Suit} suit
+ * @param {Rank} rank
+ * @returns {Card}
+ */
 export function Card(suit: Suit, rank: Rank): Card {
   return { suit, rank };
 }
 
+/**
+ * checks if a card wins over another card given specified trump and lead suits
+ *
+ * @export
+ * @param {Card} card card to check
+ * @param {Card} other card to be compared with
+ * @param {(Suit | null)} [trumpSuit=null] suit of the trump card
+ * @param {(Suit | null)} [leadSuit=null] suit of the lead card
+ * @returns {boolean}
+ */
 export function cardBeatsOther(
   card: Card,
   other: Card,
@@ -121,6 +139,14 @@ export function cardBeatsOther(
   return false;
 }
 
+/**
+ * gets the winner of a trick
+ *
+ * @export
+ * @param {[Card, PlayerID][]} cards
+ * @param {(Suit | null)} trumpSuit
+ * @returns {[Card, PlayerID]}
+ */
 export function getTrickWinner(
   cards: [Card, PlayerID][],
   trumpSuit: Suit | null
@@ -128,7 +154,7 @@ export function getTrickWinner(
   if (cards.length < 2) {
     throw new Error("too few cards");
   }
-  const leadSuit = cards[0][0].suit;
+  const leadSuit = getLeadSuit(cards.map(([card]) => card));
   const winner = cards.reduce((winningCard, card, cardIndex) => {
     // skip first card
     if (cardIndex === 0) return winningCard;
@@ -138,6 +164,34 @@ export function getTrickWinner(
   return winner;
 }
 
+/**
+ * gets the lead suit of a given trick
+ *
+ * @export
+ * @param {Card[]} cards
+ * @returns {(Suit | null | undefined)} suit of lead card or null if all cards a Ns or undefined if lead card is Z
+ */
+export function getLeadSuit(cards: Card[]): Suit | null | undefined {
+  if (cards.length === 0) {
+    return null;
+  }
+  const leadCard = cards[0];
+  if (leadCard.rank === Rank.Z) {
+    return undefined;
+  }
+  if (leadCard.rank === Rank.N) {
+    return getLeadSuit(cards.slice(1));
+  }
+  return leadCard.suit;
+}
+
+/**
+ * gets a list of all suits in a player's hand
+ *
+ * @export
+ * @param {Card[]} hand the player's hand
+ * @returns {Suit[]} set of suits in the player's hand
+ */
 export function getSuitsInHand(hand: Card[]): Suit[] {
   return allSuits.filter((suit) =>
     hand.find(
@@ -147,10 +201,19 @@ export function getSuitsInHand(hand: Card[]): Suit[] {
   );
 }
 
+/**
+ * checks if a specified card can be played given the available suits in the player's hand and the trick's lead card
+ *
+ * @export
+ * @param {Card} card card to be checked
+ * @param {Suit[]} suitsInHand set of suits in the players hand
+ * @param {(Card | null)} leadCard lead card or undefined if player is first in a trick
+ * @returns {boolean}
+ */
 export function canPlayCard(
   card: Card,
   suitsInHand: Suit[],
-  leadCard: Card | null
+  leadCard?: Card
 ): boolean {
   // as lead, every card can be played
   if (!leadCard) {
@@ -176,14 +239,26 @@ export function canPlayCard(
   return card.suit === leadCard.suit;
 }
 
-export function playableCardsInHand(
-  hand: Card[],
-  leadCard: Card | null
-): boolean[] {
+/**
+ * returns a boolean list of which cards in a player's hand are playable given a lead card
+ *
+ * @export
+ * @param {Card[]} hand
+ * @param {Card} [leadCard]
+ * @returns {boolean[]}
+ */
+export function playableCardsInHand(hand: Card[], leadCard?: Card): boolean[] {
   const suitsInHand = getSuitsInHand(hand);
   return hand.map((card) => canPlayCard(card, suitsInHand, leadCard));
 }
 
+/**
+ * generates a new card deck instance
+ *
+ * @export
+ * @param {Rank[]} [ranks=allRanks]
+ * @returns {Card[]}
+ */
 export function generateCardDeck(ranks: Rank[] = allRanks): Card[] {
   const cards = flatten(
     allSuits.map((suit) => ranks.map((rank) => ({ suit, rank })))
@@ -192,6 +267,18 @@ export function generateCardDeck(ranks: Rank[] = allRanks): Card[] {
   return cards;
 }
 
+/**
+ * sorts the cards in a hand by the following scheme:
+ * Ns come always to the left, Zs come always to the right
+ * trump cards come next to the Zs
+ * non-trump cards are sorted by the amount of cards of one suit
+ * cards of the same suit are sorted by their rank
+ *
+ * @export
+ * @param {Card[]} hand list of cards to be sorted
+ * @param {(Suit | null)} [trumpSuit]
+ * @returns {Card[]} the sorted cards
+ */
 export function sortHand(hand: Card[], trumpSuit?: Suit | null): Card[] {
   // group cards by suit / N / Z
   const groupedHand = groupBy(hand, (card) => {
