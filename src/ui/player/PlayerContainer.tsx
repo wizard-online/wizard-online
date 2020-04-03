@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent } from "@material-ui/core";
 import styled from "styled-components";
 
@@ -12,8 +12,18 @@ export const PlayerContainer: React.FC = () => {
   const {
     wizardState: { currentPlayer, phase, round, trick },
     clientID,
-    moves: { play },
+    moves: { play, cleanupTrick },
   } = useGameState();
+
+  const isTrickComplete = trick?.isComplete === true;
+
+  useEffect(() => {
+    if (isTrickComplete) {
+      setTimeout(() => {
+        cleanupTrick();
+      }, 3000);
+    }
+  }, [isTrickComplete, cleanupTrick]);
 
   const isTurn = clientID === currentPlayer;
 
