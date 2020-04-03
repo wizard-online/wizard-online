@@ -228,19 +228,6 @@ describe("getTrickWinner", () => {
     );
   });
 
-  test("first N wins if only Ns", () => {
-    const { cards, trumpSuit, winnerIndex }: TestData = {
-      cards: [
-        [Card(Suit.Red, Rank.N), 2],
-        [Card(Suit.Yellow, Rank.N), 0],
-        [Card(Suit.Blue, Rank.N), 1],
-      ],
-      trumpSuit: Suit.Green,
-      winnerIndex: 0,
-    };
-    expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex]);
-  });
-
   test("highest leading rank wins without trump and z", () => {
     const data: TestData[] = [
       {
@@ -302,6 +289,78 @@ describe("getTrickWinner", () => {
     data.forEach(({ cards, trumpSuit, winnerIndex }) =>
       expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
     );
+  });
+
+  describe("on first card N", () => {
+    test("first N wins if only Ns", () => {
+      const { cards, trumpSuit, winnerIndex }: TestData = {
+        cards: [
+          [Card(Suit.Red, Rank.N), 2],
+          [Card(Suit.Yellow, Rank.N), 0],
+          [Card(Suit.Blue, Rank.N), 1],
+        ],
+        trumpSuit: Suit.Green,
+        winnerIndex: 0,
+      };
+      expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex]);
+    });
+
+    test("highest trump wins without z", () => {
+      const data: TestData[] = [
+        {
+          cards: [
+            [Card(Suit.Red, Rank.N), 3],
+            [Card(Suit.Green, 1), 0],
+            [Card(Suit.Red, 13), 1],
+            [Card(Suit.Green, 9), 2],
+          ],
+          trumpSuit: Suit.Green,
+          winnerIndex: 3,
+        },
+        {
+          cards: [
+            [Card(Suit.Blue, Rank.N), 0],
+            [Card(Suit.Blue, 2), 1],
+            [Card(Suit.Red, 9), 2],
+            [Card(Suit.Blue, 1), 3],
+          ],
+          trumpSuit: Suit.Blue,
+          winnerIndex: 1,
+        },
+      ];
+
+      data.forEach(({ cards, trumpSuit, winnerIndex }) =>
+        expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
+      );
+    });
+
+    test("highest leading rank wins without trump and z", () => {
+      const data: TestData[] = [
+        {
+          cards: [
+            [Card(Suit.Red, Rank.N), 0],
+            [Card(Suit.Yellow, 13), 1],
+            [Card(Suit.Red, 9), 2],
+          ],
+          trumpSuit: Suit.Green,
+          winnerIndex: 1,
+        },
+        {
+          cards: [
+            [Card(Suit.Blue, Rank.N), 2],
+            [Card(Suit.Blue, 2), 3],
+            [Card(Suit.Red, 9), 0],
+            [Card(Suit.Blue, 5), 1],
+          ],
+          trumpSuit: Suit.Green,
+          winnerIndex: 3,
+        },
+      ];
+
+      data.forEach(({ cards, trumpSuit, winnerIndex }) =>
+        expect(getTrickWinner(cards, trumpSuit)).toEqual(cards[winnerIndex])
+      );
+    });
   });
 });
 
