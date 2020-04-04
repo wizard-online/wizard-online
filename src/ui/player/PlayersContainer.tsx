@@ -39,7 +39,7 @@ export const PlayersContainer: React.FC<PlayersContainerProps> = ({
   return (
     <Container>
       {usedPlayerIDs.map((playerID) => (
-        <FlexPlayer key={playerID}>
+        <FlexPlayer key={playerID} isClient={playerID === clientID}>
           <Player playerID={playerID} />
         </FlexPlayer>
       ))}
@@ -54,9 +54,9 @@ const Container = styled.div`
   margin: 0 -10px;
 `;
 
-const FlexPlayer = styled.div`
+const FlexPlayer = styled.div<{ isClient: boolean }>`
   flex-grow: 1;
   display: flex;
   margin: 10px;
-  min-width: 250px;
+  min-width: ${({ isClient }) => (isClient ? 450 : 250)}px;
 `;
