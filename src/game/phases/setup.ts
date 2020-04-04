@@ -61,6 +61,7 @@ export function handout(g: WizardState, ctx: Ctx): void {
       trumpSuit = undefined;
     }
   }
+
   round.trump = { card: trumpCard, suit: trumpSuit };
 
   // go to next phase

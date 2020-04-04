@@ -21,8 +21,20 @@ export const BiddingAction: React.FC = () => {
   const [isHandSorted, setIsHandSorted] = useState(false);
 
   return (
-    <form>
-      <Row>
+    <Row>
+      <RowElement>
+        <Button
+          onClick={() => {
+            sortCards();
+            setIsHandSorted(true);
+          }}
+          type="button"
+          disabled={isHandSorted}
+        >
+          Karten sortieren
+        </Button>
+      </RowElement>
+      <RowElement>
         <Field>
           <Slider
             value={bidValue}
@@ -34,18 +46,8 @@ export const BiddingAction: React.FC = () => {
             valueLabelDisplay="auto"
           />
         </Field>
-      </Row>
-      <Row>
-        <Button
-          onClick={() => {
-            sortCards();
-            setIsHandSorted(true);
-          }}
-          type="button"
-          disabled={isHandSorted}
-        >
-          Karten sortieren
-        </Button>
+      </RowElement>
+      <RowElement>
         <Button
           onClick={() => {
             if (valid) bid(bidValue);
@@ -55,17 +57,22 @@ export const BiddingAction: React.FC = () => {
           color="primary"
           variant="contained"
         >
-          {bidValue} Stiche ansagen
+          {bidValue} Stich{bidValue !== 1 && "e"} ansagen
         </Button>
-      </Row>
-    </form>
+      </RowElement>
+    </Row>
   );
 };
 
-const Row = styled.div`
+const Row = styled.form`
   display: flex;
   flex-direction: row;
-  margin: 10px 0;
+  margin: 0px -10px;
+  align-items: center;
+`;
+
+const RowElement = styled.div`
+  margin: 0 10px;
 `;
 
 const Field = styled(FormControl)`

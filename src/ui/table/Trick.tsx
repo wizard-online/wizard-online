@@ -25,7 +25,7 @@ export const Trick: React.FC = () => {
   }
 
   return (
-    <>
+    <Container>
       {cards.map(([card, playerID]) => (
         <PlayingCardContainer
           isWinning={playerID === winningPlayerID}
@@ -44,7 +44,7 @@ export const Trick: React.FC = () => {
           </Tooltip>
         </PlayingCardContainer>
       ))}
-    </>
+    </Container>
   );
 };
 
@@ -53,4 +53,9 @@ const PlayingCardContainer = styled.div<{ isWinning: boolean }>`
   border-radius: 7px;
   border: 2px solid
     ${({ isWinning }) => (isWinning ? colors.wizard.green : "transparent")};
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
 `;

@@ -11,7 +11,7 @@ export interface HandCardsProps {
   lead?: Card;
 }
 
-export const PlayerHand: React.FC<HandCardsProps> = ({
+export const ClientHand: React.FC<HandCardsProps> = ({
   cards,
   isInteractive,
   onClickCard = () => {},
