@@ -45,7 +45,7 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
 
 const StyledCard = styled(Card)`
   border: 1px solid ${colors.wizard.green};
-  min-width: 500px;
+  flex-grow: 1;
 `;
 
 const HandContainer = styled(CardContent)`

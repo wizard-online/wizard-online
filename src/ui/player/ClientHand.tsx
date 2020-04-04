@@ -42,6 +42,7 @@ const CardsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  min-width: 450px;
 `;
 
 const PlayingCardContainer = styled.div`
