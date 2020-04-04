@@ -18,19 +18,13 @@ export const Deck: React.FC = () => {
   const color = getColor(trump?.suit);
 
   return (
-    <Container>
-      <DeckContainer trump={color.text}>
-        <CardOutline>
-          <PlayCard card={trump.card} interactive={false} />
-        </CardOutline>
-      </DeckContainer>
-    </Container>
+    <DeckContainer trump={color.text}>
+      <CardOutline>
+        <PlayCard card={trump.card} interactive={false} />
+      </CardOutline>
+    </DeckContainer>
   );
 };
-
-const Container = styled.div`
-  margin: 25px;
-`;
 
 const DeckContainer = styled.div<{ trump: string }>`
   transform: rotate(-90deg);
@@ -41,6 +35,8 @@ const DeckContainer = styled.div<{ trump: string }>`
   align-items: center;
   background-color: ${({ trump }) => trump};
   border-radius: 50%;
+  margin-left: 25px;
+  margin-right: 25px;
 `;
 
 const CardOutline = styled.div`

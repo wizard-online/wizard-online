@@ -14,7 +14,7 @@ export const Trick: React.FC = () => {
   const { cards } = trick;
 
   return (
-    <>
+    <Container>
       {cards.map(([card, playerID]) => (
         <PlayingCardContainer key={`${card.suit}-${card.rank}`}>
           <Badge badgeContent={playerID.toString()} color="primary">
@@ -22,10 +22,15 @@ export const Trick: React.FC = () => {
           </Badge>
         </PlayingCardContainer>
       ))}
-    </>
+    </Container>
   );
 };
 
 const PlayingCardContainer = styled.div`
   margin: 5px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
 `;

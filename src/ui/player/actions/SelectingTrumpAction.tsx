@@ -26,10 +26,10 @@ export const SelectingTrumpAction: React.FC = () => {
   const [selectedSuit, setSelectedSuit] = useState<Suit | null>(null);
 
   return (
-    <form>
+    <Row>
       <FormControl component="fieldset">
         <FormLabel component="legend">Wähle eine Trumpf-Farbe</FormLabel>
-        <RadioGroup
+        <StyledRadioGroup
           row
           value={selectedSuit}
           onChange={(event) => setSelectedSuit(event.target.value as Suit)}
@@ -42,35 +42,39 @@ export const SelectingTrumpAction: React.FC = () => {
               key={suit}
             />
           ))}
-        </RadioGroup>
+        </StyledRadioGroup>
       </FormControl>
-      <ButtonContainer>
-        {selectedSuit && (
-          <FormControl>
-            <Button
-              color="primary"
-              variant="contained"
-              disabled={!selectedSuit}
-              onClick={() => selectTrump(selectedSuit)}
-            >
-              {getSuitLabel(selectedSuit)} als Trumpf wählen
-            </Button>
-          </FormControl>
-        )}
-      </ButtonContainer>
-    </form>
+      {selectedSuit && (
+        <FormControl>
+          <Button
+            color="primary"
+            variant="contained"
+            disabled={!selectedSuit}
+            onClick={() => selectTrump(selectedSuit)}
+          >
+            {getSuitLabel(selectedSuit)} als Trumpf wählen
+          </Button>
+        </FormControl>
+      )}
+    </Row>
   );
 };
 
-const ButtonContainer = styled.div`
-  height: 40px;
-  margin: 10px 0;
+const Row = styled.form`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-top: 10px;
 `;
 
 const SuitColoredRadio = styled(Radio)<{ suit: Suit }>`
   &.MuiRadio-root {
     color: ${({ suit }) => getColor(suit)};
   }
+`;
+
+const StyledRadioGroup = styled(RadioGroup)`
+  margin-bottom: -3px;
 `;
 
 function getColor(suit: Suit): string {

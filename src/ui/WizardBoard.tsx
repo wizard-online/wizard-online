@@ -3,14 +3,13 @@ import { Container, ThemeProvider } from "@material-ui/core";
 import { State } from "boardgame.io";
 import { GameContext } from "./GameContext";
 import { HeaderBar } from "./header/HeaderBar";
-import { OpponentsContainer } from "./player/OpponentsContainer";
+import { PlayersContainer } from "./player/PlayersContainer";
 import { Table } from "./table/Table";
 import { PlayerID } from "../game/entities/players";
 import { WizardState } from "../game/WizardState";
 import { ScorePad } from "./score/ScorePad";
 import { FinalScoreModal } from "./gameover/FinalScoreModal";
 import { GameState } from "./GameState";
-import { PlayerContainer } from "./player/PlayerContainer";
 import { theme } from "./util/mui-theme";
 
 export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
@@ -27,9 +26,9 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
       <ThemeProvider theme={theme}>
         <Container>
           <HeaderBar />
-          <OpponentsContainer />
+          <PlayersContainer upper />
           <Table />
-          <PlayerContainer />
+          <PlayersContainer />
           <ScorePad />
         </Container>
         <FinalScoreModal />
