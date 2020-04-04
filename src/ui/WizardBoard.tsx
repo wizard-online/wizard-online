@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, ThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core";
 import { State } from "boardgame.io";
 import styled from "styled-components";
 import { GameContext } from "./GameContext";
