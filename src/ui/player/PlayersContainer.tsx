@@ -56,6 +56,7 @@ const Container = styled.div`
 
 const FlexPlayer = styled.div`
   flex-grow: 1;
+  display: flex;
   margin: 10px;
   min-width: 250px;
 `;
