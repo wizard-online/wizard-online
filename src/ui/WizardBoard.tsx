@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, ThemeProvider } from "@material-ui/core";
 import { State } from "boardgame.io";
+import styled from "styled-components";
 import { GameContext } from "./GameContext";
 import { HeaderBar } from "./header/HeaderBar";
 import { PlayersContainer } from "./player/PlayersContainer";
@@ -24,15 +25,20 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
       }}
     >
       <ThemeProvider theme={theme}>
-        <Container>
+        <BoardContainer>
           <HeaderBar />
           <PlayersContainer upper />
           <Table />
           <PlayersContainer />
           <ScorePad />
-        </Container>
+        </BoardContainer>
         <FinalScoreModal />
       </ThemeProvider>
     </GameContext.Provider>
   );
 };
+
+const BoardContainer = styled.div`
+  min-width: 1000px;
+  max-width: 1400px;
+`;
