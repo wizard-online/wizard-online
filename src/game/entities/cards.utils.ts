@@ -92,8 +92,8 @@ export function getTrickWinner(
   cards: [Card, PlayerID][],
   trumpSuit: Suit | null
 ): [Card, PlayerID] {
-  if (cards.length < 2) {
-    throw new Error("too few cards");
+  if (cards.length === 0) {
+    throw new Error("expected non-empty array of cards");
   }
   const leadSuit = getLeadSuit(cards.map(([card]) => card));
   const winner = cards.reduce((winningCard, card, cardIndex) => {
