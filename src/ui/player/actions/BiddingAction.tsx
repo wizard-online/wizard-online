@@ -57,7 +57,7 @@ export const BiddingAction: React.FC = () => {
           color="primary"
           variant="contained"
         >
-          {bidValue} Stiche ansagen
+          {bidValue} Stich{bidValue !== 1 && "e"} ansagen
         </Button>
       </RowElement>
     </Row>
@@ -67,7 +67,8 @@ export const BiddingAction: React.FC = () => {
 const Row = styled.form`
   display: flex;
   flex-direction: row;
-  margin: 10px -10px;
+  margin: 0px -10px;
+  align-items: center;
 `;
 
 const RowElement = styled.div`

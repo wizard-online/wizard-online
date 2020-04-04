@@ -69,4 +69,5 @@ const TurnInfoClient = styled.span`
 
 const SpaceFill = styled.div`
   flex-grow: 1;
+  margin: 0 3px;
 `;
