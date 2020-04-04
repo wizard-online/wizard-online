@@ -27,6 +27,7 @@
     "@sentry/browser": "^5.15.4",
     "boardgame.io": "^0.39.2",
     "core-js": "^3.6.4",
+    "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
