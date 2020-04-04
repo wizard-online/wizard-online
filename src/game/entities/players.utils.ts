@@ -33,11 +33,18 @@ export function playersRound(
  */
 export function getPlayerName(
   playerID: PlayerID,
-  gameMetadata: GameMetadatum[]
+  gameMetadata: GameMetadatum[],
+  truncate = 0
 ): string {
   const playerMetadata = gameMetadata.find(({ id }) => id === playerID);
+  let name: string;
   if (!playerMetadata || !playerMetadata.name) {
-    return playerID.toString();
+    name = playerID.toString();
+  } else {
+    name = playerMetadata.name;
   }
-  return playerMetadata.name;
+  if (truncate > 0 && name.length > truncate) {
+    name = `${name.slice(0, truncate)}...`;
+  }
+  return name;
 }

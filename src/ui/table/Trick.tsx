@@ -1,33 +1,58 @@
 import React from "react";
-import { Badge } from "@material-ui/core";
+import { Badge, Tooltip } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../GameContext";
-import { isSetTrick } from "../../game/WizardState";
+import { isSetTrick, isSetRound } from "../../game/WizardState";
 import { PlayCard } from "../components/PlayCard";
+import { getPlayerName } from "../../game/entities/players.utils";
+import { getTrickWinner } from "../../game/entities/cards.utils";
+import { colors } from "../util/colors";
+import { PlayerID } from "../../game/entities/players";
 
 export const Trick: React.FC = () => {
   const {
-    wizardState: { trick },
+    wizardState: { trick, round },
+    gameMetadata,
   } = useGameState();
 
-  if (!isSetTrick(trick)) return null;
+  if (!isSetTrick(trick) || !isSetRound(round)) return null;
   const { cards } = trick;
+
+  let winningPlayerID: PlayerID;
+  if (cards.length > 0) {
+    const [, trickWinner] = getTrickWinner(cards, round?.trump.suit || null);
+    winningPlayerID = trickWinner;
+  }
 
   return (
     <Container>
       {cards.map(([card, playerID]) => (
-        <PlayingCardContainer key={`${card.suit}-${card.rank}`}>
-          <Badge badgeContent={playerID.toString()} color="primary">
-            <PlayCard card={card} interactive={false} />
-          </Badge>
+        <PlayingCardContainer
+          isWinning={playerID === winningPlayerID}
+          key={`${card.suit}-${card.rank}`}
+        >
+          <Tooltip
+            title={getPlayerName(playerID, gameMetadata)}
+            placement="bottom"
+          >
+            <Badge
+              badgeContent={getPlayerName(playerID, gameMetadata, 7)}
+              color="primary"
+            >
+              <PlayCard card={card} interactive={false} />
+            </Badge>
+          </Tooltip>
         </PlayingCardContainer>
       ))}
     </Container>
   );
 };
 
-const PlayingCardContainer = styled.div`
-  margin: 5px;
+const PlayingCardContainer = styled.div<{ isWinning: boolean }>`
+  margin: 10px;
+  border-radius: 7px;
+  border: 2px solid
+    ${({ isWinning }) => (isWinning ? colors.wizard.green : "transparent")};
 `;
 
 const Container = styled.div`
