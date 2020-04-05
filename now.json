@@ -1,8 +1,0 @@
-{
-  "build": {
-    "env": {
-      "API_URL": "@wizard_api_url",
-      "SENTRY_DSN": "@wizard_sentry_dsn"
-    }
-  }
-}
