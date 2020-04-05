@@ -15,20 +15,17 @@ import { onBeginTurn } from "../turn";
 import { NumPlayers, PlayerID } from "../entities/players";
 
 export function shuffle(wizardState: WizardState): void {
-  // delete deprecated trick
-  wizardState.trick = null;
+  setupRound(wizardState);
   // shuffle deck
   wizardState.round!.deck = shuffleUtil(wizardState.round!.deck);
 }
 
-export function handout(g: WizardState, ctx: Ctx): void {
-  const { round, numCards, numPlayers, currentPlayer } = g;
+export function handout(wizardState: WizardState, ctx: Ctx): void {
+  setupRound(wizardState);
+  const { round, numCards, numPlayers, currentPlayer } = wizardState;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-
-  // delete deprecated trick
-  g.trick = null;
 
   const players = playersRound(
     (currentPlayer + 1) % numPlayers,
@@ -72,9 +69,16 @@ export function handout(g: WizardState, ctx: Ctx): void {
   }
 }
 
+function setupRound(wizardState: WizardState): void {
+  // setup (or reset) round
+  if (!wizardState.round || wizardState.trick) {
+    wizardState.round = generateBlankRoundState(wizardState.numPlayers);
+  }
+  // reset trick
+  wizardState.trick = null;
+}
+
 function onBegin(g: WizardState): void {
-  // reset round
-  g.round = generateBlankRoundState(g.numPlayers);
   // set dealer
   if (!g.dealer) {
     // draw a dealer at the start of game
