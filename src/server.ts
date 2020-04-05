@@ -12,7 +12,10 @@ const server = Server({
 // eslint-disable-next-line no-console
 try {
   // eslint-disable-next-line no-console
-  server.run(8000, () => console.log("server running..."));
+  server.run(Number.parseInt(process.env.PORT || "8000", 10), () =>
+    // eslint-disable-next-line no-console
+    console.log("server running...")
+  );
 } catch (error) {
   // eslint-disable-next-line no-console
   console.log(error);
