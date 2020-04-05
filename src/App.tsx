@@ -13,8 +13,8 @@ const REDUX_LOGGER = false;
 export const App: React.FC<{}> = () => (
   <StyledLobby>
     <Lobby
-      gameServer="https://wizard-online.herokuapp.com"
-      lobbyServer="https://wizard-online.herokuapp.com"
+      gameServer={process.env.API_URL}
+      lobbyServer={process.env.API_URL}
       gameComponents={[
         {
           game: wizardGameConfig,
