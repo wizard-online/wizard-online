@@ -27,6 +27,10 @@ export function play(
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
+  // as first player, init trick
+  if (!g.trick || g.trick.isComplete) {
+    g.trick = generateBlankTrickState();
+  }
 
   const hand = round.hands[Number.parseInt(ctx.currentPlayer, 10)];
   if (cardIndex < 0 || cardIndex >= hand.length) {
@@ -37,10 +41,6 @@ export function play(
     return INVALID_MOVE;
   }
 
-  // as first player, init trick
-  if (!g.trick || g.trick.isComplete) {
-    g.trick = generateBlankTrickState();
-  }
   const { trick } = g;
   if (!isSetTrick(trick)) {
     throw new Error("trick is not set");

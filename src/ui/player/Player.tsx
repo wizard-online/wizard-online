@@ -32,7 +32,7 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
                 cards={round.hands[clientID]}
                 isInteractive={isTurn && phase === Phase.Playing}
                 onClickCard={(i) => play(i)}
-                lead={trick?.lead}
+                lead={trick?.isComplete ? undefined : trick?.lead}
               />
             ) : (
               <OpponentHand numCards={round.hands[playerID].length} />
