@@ -11,6 +11,9 @@ The famous trick-taking card game for quarantine time and more!
 > yarn
 ```
 
+Create a `.env` file and set the environment variables.
+You can copy the template from `.env.template.txt`.
+
 ## Run in Development Mode
 
 Open two terminals and run the following commands.
