@@ -1,7 +1,7 @@
 import range from "lodash/range";
 import { generateCtx } from "../../test/utils/ctx";
 import { generateDefaultWizardState, WizardState } from "../WizardState";
-import { shuffle, handout } from "./setup";
+import { shuffleMove, handoutMove } from "./setup";
 import { Suit, Rank } from "../entities/cards";
 import { Phase } from "./phase";
 
@@ -10,7 +10,7 @@ describe("shuffle", () => {
     const ctx = generateCtx();
     const g = generateDefaultWizardState(ctx);
     const originalDeck = g.round!.deck;
-    shuffle(g);
+    shuffleMove(g);
     expect(g.round!.deck).not.toBe(originalDeck);
   });
 });
@@ -20,7 +20,7 @@ describe("handout", () => {
     const ctx = generateCtx();
     const g = generateDefaultWizardState(ctx);
 
-    handout(g, ctx);
+    handoutMove(g, ctx);
     g.round!.hands.forEach((hand) => {
       expect(hand).toBeInstanceOf(Array);
       expect(hand.length).toBe(g.numCards);
@@ -34,7 +34,7 @@ describe("handout", () => {
     const expectedTrump = g.round!.deck[
       g.round!.deck.length - g.numCards * ctx.numPlayers - 1
     ];
-    handout(g, ctx);
+    handoutMove(g, ctx);
     expect(g.round!.trump.card).toBe(expectedTrump);
   });
 
@@ -62,7 +62,7 @@ describe("handout", () => {
       const g = generateDefaultWizardState(ctx);
       const trumpIndex = g.round!.deck.length - g.numCards * ctx.numPlayers - 1;
       g.round!.deck[trumpIndex] = { suit, rank };
-      handout(g, ctx);
+      handoutMove(g, ctx);
       expect(g.round!.trump.suit).toBe(suit);
     });
   });
@@ -73,7 +73,7 @@ describe("handout", () => {
     const trumpIndex = g.round!.deck.length - g.numCards * ctx.numPlayers - 1;
 
     g.round!.deck[trumpIndex] = { suit: Suit.Blue, rank: Rank.Z };
-    handout(g, ctx);
+    handoutMove(g, ctx);
     expect(g.round!.trump.suit).toBeUndefined();
   });
 
@@ -84,7 +84,7 @@ describe("handout", () => {
 
     g.round!.deck[trumpIndex] = { suit: Suit.Blue, rank: Rank.Z };
     ctx.events!.setPhase = jest.fn();
-    handout(g, ctx);
+    handoutMove(g, ctx);
     expect(ctx.events!.setPhase).toBeCalledWith(Phase.SelectingTrump);
   });
 
@@ -94,14 +94,14 @@ describe("handout", () => {
     const trumpIndex = g.round!.deck.length - g.numCards * ctx.numPlayers - 1;
 
     g.round!.deck[trumpIndex] = { suit: Suit.Yellow, rank: Rank.N };
-    handout(g, ctx);
+    handoutMove(g, ctx);
     expect(g.round!.trump.suit).toBeNull();
   });
 
   test("sets trumpCard and trumpSuit to null in final round", () => {
     const ctx = generateCtx({ numPlayers: 4 });
     const g = generateDefaultWizardState(ctx, { numCards: 15 });
-    handout(g, ctx);
+    handoutMove(g, ctx);
     expect(g.round!.trump.card).toBeNull();
     expect(g.round!.trump.suit).toBeNull();
   });
@@ -110,7 +110,7 @@ describe("handout", () => {
     const ctx = generateCtx();
     const g = generateDefaultWizardState(ctx);
     const originalLength = g.round!.deck.length;
-    handout(g, ctx);
+    handoutMove(g, ctx);
     expect(g.round!.deck.length).toBe(
       originalLength - ctx.numPlayers * g.numCards - 1
     );
@@ -125,7 +125,7 @@ describe("handout", () => {
         g.round!.deck[g.round!.deck.length - 1 - ctx.numPlayers * cardI]
     );
 
-    handout(g, ctx);
+    handoutMove(g, ctx);
 
     expect(g.round!.hands[1]).toEqual(cardsPlayer1);
   });
@@ -139,7 +139,7 @@ describe("handout", () => {
       (_, index) => g.round!.deck[g.round!.deck.length - 1 - index]
     );
 
-    handout(g, ctx);
+    handoutMove(g, ctx);
 
     playerOrder.forEach((player, i) => {
       expect(g.round!.hands[player][0]).toBe(expectedFirstCardByPlayer[i]);
@@ -152,7 +152,7 @@ describe("handout", () => {
     const mockEndPhase = jest.fn();
     ctx.events!.endPhase = mockEndPhase;
     ctx.events!.setPhase = mockEndPhase;
-    handout(g, ctx);
+    handoutMove(g, ctx);
 
     expect(mockEndPhase).toBeCalled();
   });
