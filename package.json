@@ -1,18 +1,20 @@
 {
   "name": "wizard-online",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "Online platform for playing the Wizard card game",
   "main": "index.tsx",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html",
+    "start": "parcel index.html -d dist/app",
+    "build:app": "parcel build index.html -d dist/app",
+    "build:server": "parcel build src/server.ts --target node -d dist/server",
+    "heroku-postbuild": "yarn run build:server",
     "test": "jest",
     "type-check": "tsc --noEmit",
     "lint": "yarn run lint:es && yarn run lint:style",
     "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
     "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
-    "server:watch": "parcel src/server.ts --target node",
-    "server:serve": "nodemon dist/server.js -w dist",
+    "server:watch": "parcel src/server.ts --target node -d dist/server",
+    "server:serve": "nodemon dist/server/server.js -w dist/server",
     "dev-server": "concurrently --kill-others -n \"parcel,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"yarn run server:watch\" \"yarn run server:serve\""
   },
   "keywords": [
@@ -24,8 +26,11 @@
   "dependencies": {
     "@babel/runtime-corejs3": "^7.9.2",
     "@material-ui/core": "^4.9.7",
+    "@sentry/browser": "^5.15.4",
+    "@sentry/node": "^5.15.4",
     "boardgame.io": "^0.39.2",
     "core-js": "^3.6.4",
+    "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
