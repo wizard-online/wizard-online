@@ -14,14 +14,12 @@ import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";
 import { NumPlayers, PlayerID } from "../entities/players";
 
-export function shuffle(wizardState: WizardState): void {
-  setupRound(wizardState);
+export function shuffleMove(wizardState: WizardState): void {
   // shuffle deck
   wizardState.round!.deck = shuffleUtil(wizardState.round!.deck);
 }
 
-export function handout(wizardState: WizardState, ctx: Ctx): void {
-  setupRound(wizardState);
+export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
   const { round, numCards, numPlayers, currentPlayer } = wizardState;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -92,6 +90,16 @@ function first(g: WizardState, ctx: Ctx): number {
   return ctx.playOrder.findIndex(
     (playerID) => playerID === g.dealer.toString()
   );
+}
+
+function shuffle(wizardState: WizardState): void {
+  setupRound(wizardState);
+  shuffleMove(wizardState);
+}
+
+function handout(wizardState: WizardState, ctx: Ctx): void {
+  setupRound(wizardState);
+  handoutMove(wizardState, ctx);
 }
 
 export const setup: PhaseConfig = {
