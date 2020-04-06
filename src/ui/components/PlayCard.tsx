@@ -24,7 +24,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   const label = getRankLabel(card);
 
   const guardedOnClick = (): void => {
-    if (!disabled) onClick();
+    if (interactive && !disabled) onClick();
   };
 
   return (
