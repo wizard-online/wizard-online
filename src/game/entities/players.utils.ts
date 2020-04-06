@@ -36,7 +36,7 @@ export function getPlayerName(
   gameMetadata: GameMetadatum[],
   truncate = 0
 ): string {
-  const playerMetadata = gameMetadata.find(({ id }) => id === playerID);
+  const playerMetadata = (gameMetadata ?? []).find(({ id }) => id === playerID);
   let name: string;
   if (!playerMetadata || !playerMetadata.name) {
     name = playerID.toString();
