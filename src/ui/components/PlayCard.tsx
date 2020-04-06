@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { cardColors, ColorSet, colors } from "../util/colors";
 import { Card, Rank, Suit } from "../../game/entities/cards";
+import { getCardLabel, getRankLabel } from "../../game/entities/cards.utils";
 
 export interface PlayCardProps {
   card: Card | null;
@@ -20,7 +21,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
     return <BacksideCardBox>Wizard</BacksideCardBox>;
   }
   const colorSet = getColor(card);
-  const label = getLabel(card);
+  const label = getRankLabel(card);
 
   const guardedOnClick = (): void => {
     if (!disabled) onClick();
@@ -32,6 +33,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
       isplayable={interactive}
       isdisabled={disabled}
       colorSet={colorSet}
+      aria-label={getCardLabel(card)}
     >
       <span>{label}</span>
     </FronsideCardBox>
@@ -110,16 +112,5 @@ function getColor({ rank, suit }: Card): ColorSet {
     // fallback
     default:
       return cardColors.zn;
-  }
-}
-
-function getLabel({ rank }: Card): string {
-  switch (rank) {
-    case Rank.Z:
-      return "Z";
-    case Rank.N:
-      return "N";
-    default:
-      return rank.toString();
   }
 }

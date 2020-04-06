@@ -4,28 +4,6 @@ import { PlayerID } from "./players";
 import { Suit, SuitLabel, Rank, Card, allSuits, allRanks } from "./cards";
 
 /**
- * gets the human-readable label for a given suit
- *
- * @export
- * @param {Suit} suit
- * @returns {SuitLabel}
- */
-export function getSuitLabel(suit: Suit): SuitLabel {
-  switch (suit) {
-    case Suit.Blue:
-      return SuitLabel.Blue;
-    case Suit.Red:
-      return SuitLabel.Red;
-    case Suit.Yellow:
-      return SuitLabel.Yellow;
-    case Suit.Green:
-      return SuitLabel.Green;
-    default:
-      throw new Error(`given argument is not a suit: ${suit}`);
-  }
-}
-
-/**
  * checks if a card wins over another card given specified trump and lead suits
  *
  * @export
@@ -243,4 +221,50 @@ export function sortHand(hand: Card[], trumpSuit?: Suit | null): Card[] {
     .map(([, cardGroup]) => cardGroup.sort((a, b) => a.rank - b.rank));
   // set sorted hand to state
   return flatten(sortedGroups);
+}
+
+/**
+ * gets the human-readable label for a given suit
+ *
+ * @export
+ * @param {Suit} suit
+ * @returns {SuitLabel}
+ */
+export function getSuitLabel(suit: Suit): SuitLabel {
+  switch (suit) {
+    case Suit.Blue:
+      return SuitLabel.Blue;
+    case Suit.Red:
+      return SuitLabel.Red;
+    case Suit.Yellow:
+      return SuitLabel.Yellow;
+    case Suit.Green:
+      return SuitLabel.Green;
+    default:
+      throw new Error(`given argument is not a suit: ${suit}`);
+  }
+}
+
+export function getRankLabel({ rank }: Card): string {
+  switch (rank) {
+    case Rank.Z:
+      return "Z";
+    case Rank.N:
+      return "N";
+    default:
+      return rank.toString();
+  }
+}
+
+export function getCardLabel(card: Card): string {
+  const rankLabel = getRankLabel(card);
+  switch (card.rank) {
+    case Rank.Z:
+    case Rank.N:
+      return rankLabel;
+    default: {
+      const suitLabel = getSuitLabel(card.suit);
+      return `${suitLabel} ${rankLabel}`;
+    }
+  }
 }
