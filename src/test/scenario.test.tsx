@@ -9,6 +9,8 @@ import {
   act,
   fireEvent,
   getByLabelText,
+  getByRole,
+  getByTestId,
 } from "@testing-library/react";
 
 import { Client } from "boardgame.io/react";
@@ -71,6 +73,22 @@ function handoutMove(playerID: PlayerID): void {
   fireEvent.click(handoutButton);
 }
 
+function bidSelectMove(playerID: PlayerID, bid: number): void {
+  const bidSlider = getByLabelText(clients[playerID], /stiche ansagen/i);
+  bidSlider.focus();
+  // reset slider value
+  fireEvent.keyDown(document.activeElement!, { key: "Home" });
+  // press right arrow key {bid} times
+  range(0, bid).forEach(() => {
+    fireEvent.keyDown(document.activeElement!, { key: "ArrowRight" });
+  });
+}
+
+function bidSubmitMove(playerID: PlayerID): void {
+  const bidSubmitButton = getByText(clients[playerID], /ansagen/i);
+  fireEvent.click(bidSubmitButton);
+}
+
 function playMove(playerID: PlayerID, card: Card): void {
   const cardButton = getByLabelText(clients[playerID], getCardLabel(card));
   expect(cardButton).toBeInTheDocument();
@@ -106,6 +124,17 @@ function initScenarioDeck({
       });
   });
   return deck;
+}
+
+function testIsTurn(playerID: PlayerID, numPlayers: number): void {
+  range(0, numPlayers)
+    .filter((pID) => pID !== playerID)
+    .forEach((pID) => {
+      expect(
+        queryByText(clients[pID], /du bist am zug/i)
+      ).not.toBeInTheDocument();
+    });
+  expect(queryByText(clients[playerID], /du bist am zug/i)).toBeInTheDocument();
 }
 
 function testDealer({ dealer, numPlayers }: RoundScenario): void {
@@ -149,10 +178,6 @@ test("4 four players game", () => {
   };
   // player 2 ist dealer
   act(() => {
-    // expect(queryByText(clients[2], /du bist am zug/i)).toBeInTheDocument();
-    // expect(queryByText(clients[0], /du bist am zug/i)).not.toBeInTheDocument();
-    // expect(queryByText(clients[1], /du bist am zug/i)).not.toBeInTheDocument();
-    // expect(queryByText(clients[3], /du bist am zug/i)).not.toBeInTheDocument();
     testDealer(round1Scenario);
 
     const deck = initScenarioDeck(round1Scenario);
@@ -165,12 +190,16 @@ test("4 four players game", () => {
     // handout
     handoutMove(round1Scenario.dealer);
   });
+  // bid player 3
   act(() => {
     testCorrectHandout(round1Scenario);
-    playMove(3, round1Scenario.hands[3][0]);
-    // expect(
-    //   getByLabelText(clients[3], getCardLabel(round1Scenario.hands[3][0]))
-    // ).not.toBeInTheDocument();
+    bidSelectMove(3, 1);
+  });
+  act(() => {
+    bidSubmitMove(3);
+  });
+  act(() => {
+    testIsTurn(0, round1Scenario.numPlayers);
   });
 });
 
