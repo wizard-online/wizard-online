@@ -124,7 +124,7 @@ export const generateDefaultWizardState = (
     trickOptions !== null ? generateBlankTrickState(trickOptions) : null;
   const defaultValues = {
     numCards: 1,
-    dealer: 0 as PlayerID,
+    dealer: -1 as PlayerID,
     scorePad: [],
     numPlayers,
     currentPlayer: Number.parseInt(ctx.currentPlayer, 10) as PlayerID,
