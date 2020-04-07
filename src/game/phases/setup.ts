@@ -78,7 +78,7 @@ function setupRound(wizardState: WizardState): void {
 
 function onBegin(g: WizardState): void {
   // set dealer
-  if (!g.dealer) {
+  if (Number.isNaN(g.dealer)) {
     // draw a dealer at the start of game
     g.dealer = random(0, g.numPlayers - 1) as PlayerID;
   } else {
