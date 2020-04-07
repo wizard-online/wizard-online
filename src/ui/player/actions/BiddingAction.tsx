@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FormControl, Button, Slider } from "@material-ui/core";
 import styled from "styled-components";
+import range from "lodash/range";
 import { useGameState } from "../../GameContext";
 import { isValidBid } from "../../../game/entities/bid.utils";
 import { isSetRound } from "../../../game/WizardState";
@@ -19,6 +20,11 @@ export const BiddingAction: React.FC = () => {
   const valid = isValidBid(bidValue, numCards, bids, currentPlayer);
 
   const [isHandSorted, setIsHandSorted] = useState(false);
+
+  const marks = range(0, numCards + 1).map((value) => ({
+    value,
+    label: value.toString(),
+  }));
 
   return (
     <Row>
@@ -42,7 +48,7 @@ export const BiddingAction: React.FC = () => {
             step={1}
             min={0}
             max={numCards}
-            marks
+            marks={marks}
             valueLabelDisplay="auto"
           />
         </Field>
