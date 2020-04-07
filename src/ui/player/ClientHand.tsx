@@ -23,7 +23,7 @@ export const ClientHand: React.FC<HandCardsProps> = ({
       : undefined;
 
   return (
-    <CardsContainer className="client-hand">
+    <CardsContainer data-testid="client-hand">
       {cards.map((card, i) => (
         <PlayingCardContainer key={cardKey(card, i)}>
           <PlayCard

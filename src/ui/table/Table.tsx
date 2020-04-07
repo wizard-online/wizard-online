@@ -17,7 +17,7 @@ export const Table: React.FC = () => {
 
   return (
     <TableContainer>
-      <PlayRow>
+      <PlayRow data-testid="table-play">
         <Deck />
         <Trick />
         <SpaceFill />
