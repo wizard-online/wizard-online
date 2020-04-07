@@ -6,11 +6,12 @@ import {
   prettyDOM,
   getByText,
   queryByText,
-  act,
   fireEvent,
   getByLabelText,
   getByRole,
   getByTestId,
+  queryByLabelText,
+  queryByTestId,
 } from "@testing-library/react";
 
 import { Client } from "boardgame.io/react";
@@ -89,28 +90,48 @@ function bidSubmitMove(playerID: PlayerID): void {
   fireEvent.click(bidSubmitButton);
 }
 
+function bidMove(playerID: PlayerID, bid: number, numPlayers: number): void {
+  testIsTurn(playerID, numPlayers);
+  bidSelectMove(playerID, bid);
+  testBidSelect(playerID, bid);
+  bidSubmitMove(playerID);
+}
+
 function playMove(playerID: PlayerID, card: Card): void {
   const cardButton = getByLabelText(clients[playerID], getCardLabel(card));
   expect(cardButton).toBeInTheDocument();
   fireEvent.click(cardButton);
+  // test card removed from hand
+  const clientHand = getByTestId(clients[playerID], "client-hand");
+  expect(
+    queryByLabelText(clientHand, getCardLabel(card))
+  ).not.toBeInTheDocument();
+  // test card added on table
+  const tablePlay = getByTestId(clients[playerID], "table-play");
+  expect(queryByLabelText(tablePlay, getCardLabel(card))).toBeInTheDocument();
 }
 
 interface RoundScenario {
   numPlayers: NumPlayers;
   numCards: number;
-  hands: {
-    [playerID: number]: Card[];
+  moves: {
+    [playerID: number]: PlayerMoves;
   };
   dealer: PlayerID;
   trumpCard: Card;
   trumpSuit?: Suit;
 }
 
+interface PlayerMoves {
+  bid: number;
+  play: Card[];
+}
+
 function initScenarioDeck({
   numPlayers,
   numCards,
   dealer,
-  hands,
+  moves,
   trumpCard,
 }: RoundScenario): Card[] {
   const deck: Card[] = [];
@@ -120,7 +141,7 @@ function initScenarioDeck({
       .map((x) => (dealer + x + 1) % numPlayers)
       .reverse()
       .forEach((playerID) => {
-        deck.push(hands[playerID][cardIndex]);
+        deck.push(moves[playerID].play[cardIndex]);
       });
   });
   return deck;
@@ -148,9 +169,9 @@ function testDealer({ dealer, numPlayers }: RoundScenario): void {
   expect(queryByText(clients[dealer], /du bist am zug/i)).toBeInTheDocument();
 }
 
-function testCorrectHandout({ hands }: RoundScenario): void {
-  Object.entries(hands).forEach(([playerID, hand]) => {
-    hand.forEach((card) => {
+function testCorrectHandout({ moves }: RoundScenario): void {
+  Object.entries(moves).forEach(([playerID, playerMoves]) => {
+    playerMoves.play.forEach((card) => {
       expect(
         getByLabelText(
           clients[Number.parseInt(playerID, 10)],
@@ -161,61 +182,69 @@ function testCorrectHandout({ hands }: RoundScenario): void {
   });
 }
 
+function testBidSelect(playerID: PlayerID, bid: number): void {
+  const bidSlider = getByLabelText(clients[playerID], /stiche ansagen/i);
+  expect(bidSlider.getAttribute("aria-valuenow")).toBe(bid.toString());
+}
+
+function getTurnOrder(leader: PlayerID, numPlayers: number): PlayerID[] {
+  return range(0, numPlayers).map(
+    (id) => (id + leader) % numPlayers
+  ) as PlayerID[];
+}
+
+function nextPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
+  return ((currentPlayer + 1) % numPlayers) as PlayerID;
+}
+
+function doRound(
+  leader: PlayerID,
+  numPlayers: number,
+  action: (playerID: PlayerID) => void
+): void {
+  getTurnOrder(leader, numPlayers).forEach(action);
+}
+
 test("4 four players game", () => {
   // Round 1
-
   const round1Scenario: RoundScenario = {
     numPlayers: 4,
     numCards: 1,
     dealer: 2,
-    hands: {
-      0: [Card(Suit.Red, 7)],
-      1: [Card(Suit.Blue, 3)],
-      2: [Card(Suit.Red, 9)],
-      3: [Card(Suit.Green, 11)],
+    moves: {
+      0: { bid: 1, play: [Card(Suit.Red, 7)] },
+      1: { bid: 0, play: [Card(Suit.Blue, 3)] },
+      2: { bid: 0, play: [Card(Suit.Red, 9)] },
+      3: { bid: 1, play: [Card(Suit.Green, 11)] },
     },
     trumpCard: Card(Suit.Blue, 4),
   };
+  const { numPlayers } = round1Scenario;
+  let currentPlayer: PlayerID = round1Scenario.dealer;
   // player 2 ist dealer
-  act(() => {
-    testDealer(round1Scenario);
+  testDealer(round1Scenario);
 
-    const deck = initScenarioDeck(round1Scenario);
-    shuffleMock.mockReturnValue(deck);
+  const deck = initScenarioDeck(round1Scenario);
+  shuffleMock.mockReturnValue(deck);
 
-    // shuffle deck
-    shuffleMove(round1Scenario.dealer);
+  // shuffle deck
+  shuffleMove(currentPlayer);
+
+  // handout
+  handoutMove(currentPlayer);
+  currentPlayer = nextPlayer(currentPlayer, numPlayers);
+  testCorrectHandout(round1Scenario);
+
+  // do bidding round
+  doRound(currentPlayer, numPlayers, (playerID) => {
+    const { bid } = round1Scenario.moves[playerID];
+    bidMove(playerID, bid, numPlayers);
   });
-  act(() => {
-    // handout
-    handoutMove(round1Scenario.dealer);
-  });
-  // bid player 3
-  act(() => {
-    testCorrectHandout(round1Scenario);
-    bidSelectMove(3, 1);
-  });
-  act(() => {
-    bidSubmitMove(3);
-  });
-  act(() => {
-    testIsTurn(0, round1Scenario.numPlayers);
-  });
+  testIsTurn(3, round1Scenario.numPlayers);
+
+  // do playing
+  doRound(currentPlayer, numPlayers, (playerID) =>
+    playMove(playerID, round1Scenario.moves[playerID].play[0])
+  );
+  testIsTurn(3, round1Scenario.numPlayers);
 });
-
-// test("initial dealer", () => {
-//   const a = getByText(clients[2], /du bist am zug/i);
-//   console.log(prettyDOM(document.body));
-
-//   expect(getByText(clients[2], /du bist am zug/i)).toBeInTheDocument();
-//   expect(queryByText(clients[0], /du bist am zug/i)).not.toBeInTheDocument();
-//   expect(queryByText(clients[1], /du bist am zug/i)).not.toBeInTheDocument();
-//   expect(queryByText(clients[3], /du bist am zug/i)).not.toBeInTheDocument();
-// });
-// describe("round 1", () => {
-//   // TODO: make dealer selection deterministic
-//   // TODO: make deck shuffle deterministic
-//   test("dealer", () => {
-
-//   });
-// });
