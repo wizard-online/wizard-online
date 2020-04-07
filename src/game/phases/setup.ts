@@ -78,11 +78,11 @@ function setupRound(wizardState: WizardState): void {
 
 function onBegin(g: WizardState): void {
   // set dealer
-  if (!g.dealer) {
+  if (g.dealer >= 0) {
+    g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
+  } else {
     // draw a dealer at the start of game
     g.dealer = random(0, g.numPlayers - 1) as PlayerID;
-  } else {
-    g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
   }
 }
 
