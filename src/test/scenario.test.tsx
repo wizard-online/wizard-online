@@ -29,14 +29,7 @@ import { WizardBoard } from "../ui/WizardBoard";
 import { Suit, Card, Rank } from "../game/entities/cards";
 import { getCardLabel } from "../game/entities/cards.utils";
 import { PlayerID, NumPlayers } from "../game/entities/players";
-
-const C = Card;
-const B = Suit.Blue;
-const G = Suit.Green;
-const R = Suit.Red;
-const Y = Suit.Yellow;
-const { N } = Rank;
-const { Z } = Rank;
+import { scenario, RoundScenario } from "./scenario.data";
 
 jest.mock("lodash/random");
 jest.mock("lodash/shuffle");
@@ -125,29 +118,11 @@ function playMove(playerID: PlayerID, card: Card): void {
   ).not.toBeInTheDocument();
 }
 
-interface RoundScenario {
-  numPlayers: NumPlayers;
-  numCards: number;
-  moves: {
-    [playerID: number]: PlayerMoves;
-  };
-  dealer: PlayerID;
-  trumpCard: Card;
-  trumpSuit?: Suit;
-}
-
-interface PlayerMoves {
-  bid: number;
-  play: Card[];
-}
-
-function initScenarioDeck({
-  numPlayers,
-  numCards,
-  dealer,
-  moves,
-  trumpCard,
-}: RoundScenario): Card[] {
+function initScenarioDeck(
+  numPlayers: number,
+  dealer: PlayerID,
+  { numCards, moves, trumpCard }: RoundScenario
+): Card[] {
   const deck: Card[] = [];
   deck.push(trumpCard);
   range(0, numCards).forEach((cardIndex) => {
@@ -165,33 +140,11 @@ function testIsTurn(playerID: PlayerID, numPlayers: number): void {
   range(0, numPlayers)
     .filter((pID) => pID !== playerID)
     .forEach((pID) => {
-      try {
-        expect(
-          queryByText(clients[pID], /du bist am zug/i)
-        ).not.toBeInTheDocument();
-      } catch (error) {
-        console.log(playerID, pID);
-        console.log(prettyDOM(clients[pID]));
-        throw new Error(error);
-      }
+      expect(
+        queryByText(clients[pID], /du bist am zug/i)
+      ).not.toBeInTheDocument();
     });
   expect(queryByText(clients[playerID], /du bist am zug/i)).toBeInTheDocument();
-}
-
-function testDealer({ dealer, numPlayers }: RoundScenario): void {
-  range(0, numPlayers)
-    .filter((playerID) => playerID !== dealer)
-    .forEach((playerID) => {
-      try {
-        expect(
-          queryByText(clients[playerID], /du bist am zug/i)
-        ).not.toBeInTheDocument();
-      } catch (error) {
-        console.log(dealer, playerID, numPlayers);
-        throw new Error(error);
-      }
-    });
-  expect(queryByText(clients[dealer], /du bist am zug/i)).toBeInTheDocument();
 }
 
 function testCorrectHandout({ moves }: RoundScenario): void {
@@ -222,6 +175,10 @@ function nextPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
   return ((currentPlayer + 1) % numPlayers) as PlayerID;
 }
 
+function previousPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
+  return ((currentPlayer + numPlayers - 1) % numPlayers) as PlayerID;
+}
+
 function doRound(
   leader: PlayerID,
   numPlayers: number,
@@ -230,69 +187,46 @@ function doRound(
   getTurnOrder(leader, numPlayers).forEach(action);
 }
 
-const round1Scenario: RoundScenario = {
-  numPlayers: 4,
-  numCards: 1,
-  dealer: 0,
-  moves: {
-    0: { bid: 0, play: [C(Y, 7)] },
-    1: { bid: 1, play: [C(R, 5)] },
-    2: { bid: 0, play: [C(R, 12)] },
-    3: { bid: 0, play: [C(G, 10)] },
-  },
-  trumpCard: C(B, N),
-};
-const { numPlayers } = round1Scenario;
-let currentPlayer: PlayerID = round1Scenario.dealer;
+const { numPlayers, firstDealer, rounds } = scenario;
+let currentDealer: PlayerID = previousPlayer(firstDealer, numPlayers);
+let currentPlayer: PlayerID;
 
-// Round 1
-test("dealer is set correctly", () => {
-  // player 0 ist dealer
-  testDealer(round1Scenario);
-});
+rounds.forEach((round) => {
+  const { numCards, moves } = round;
+  describe(`Round ${numCards}`, () => {
+    test("dealer is set correctly", () => {
+      currentDealer = nextPlayer(currentDealer, numPlayers);
+      currentPlayer = currentDealer;
+      // player 0 ist dealer
+      testIsTurn(currentDealer, numPlayers);
+    });
+    test("handout", () => {
+      const deck = initScenarioDeck(numPlayers, currentDealer, round);
+      shuffleMock.mockReturnValue(deck);
+      // shuffle deck
+      shuffleMove(currentPlayer);
 
-test("4 four players game", () => {
-  console.log(prettyDOM(renderResult.container));
+      // handout
+      handoutMove(currentPlayer);
+      testCorrectHandout(round);
+    });
+    test("bidding", () => {
+      currentPlayer = nextPlayer(currentPlayer, numPlayers);
 
-  const deck = initScenarioDeck(round1Scenario);
-  shuffleMock.mockReturnValue(deck);
+      // do bidding round
+      doRound(currentPlayer, numPlayers, (playerID) => {
+        const { bid } = moves[playerID];
+        bidMove(playerID, bid, numPlayers);
+      });
+      testIsTurn(currentPlayer, numPlayers);
+    });
+    test("playing", () => {
+      // do playing
+      doRound(currentPlayer, numPlayers, (playerID) => {
+        playMove(playerID, moves[playerID].play[0]);
+      });
 
-  // shuffle deck
-  shuffleMove(currentPlayer);
-
-  // handout
-  handoutMove(currentPlayer);
-  testCorrectHandout(round1Scenario);
-
-  currentPlayer = nextPlayer(currentPlayer, numPlayers);
-
-  // do bidding round
-  doRound(currentPlayer, numPlayers, (playerID) => {
-    const { bid } = round1Scenario.moves[playerID];
-    bidMove(playerID, bid, numPlayers);
+      testIsTurn(currentPlayer, numPlayers);
+    });
   });
-  testIsTurn(currentPlayer, round1Scenario.numPlayers);
-
-  // do playing
-  doRound(currentPlayer, numPlayers, (playerID) => {
-    playMove(playerID, round1Scenario.moves[playerID].play[0]);
-    console.log(
-      `played player ${playerID}, card: ${round1Scenario.moves[playerID].play[0]}`
-    );
-  });
-
-  // round 2
-  const round2Scenario: RoundScenario = {
-    numPlayers: 4,
-    numCards: 2,
-    dealer: 3,
-    moves: {
-      0: { bid: 1, play: [C(R, 7)] },
-      1: { bid: 0, play: [C(B, 3)] },
-      2: { bid: 0, play: [C(R, 9)] },
-      3: { bid: 1, play: [C(G, 11)] },
-    },
-    trumpCard: C(B, 4),
-  };
-  testIsTurn(currentPlayer, numPlayers);
 });
