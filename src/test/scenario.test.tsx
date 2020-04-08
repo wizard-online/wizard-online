@@ -1,5 +1,7 @@
 /* eslint-disable jest/expect-expect */
 import React from "react";
+// import from "@testing-library/react/pure" to prevent automatic dom cleanup after each test
+// https://github.com/testing-library/testing-library-docs/blob/master/docs/react-testing-library/setup.md#skipping-auto-cleanup
 import {
   render,
   RenderResult,
@@ -13,7 +15,7 @@ import {
   queryByLabelText,
   queryByTestId,
   act,
-} from "@testing-library/react";
+} from "@testing-library/react/pure";
 
 import { Client } from "boardgame.io/react";
 import { Local } from "boardgame.io/multiplayer";
@@ -228,24 +230,29 @@ function doRound(
   getTurnOrder(leader, numPlayers).forEach(action);
 }
 
-test("4 four players game", () => {
-  // Round 1
-  const round1Scenario: RoundScenario = {
-    numPlayers: 4,
-    numCards: 1,
-    dealer: 0,
-    moves: {
-      0: { bid: 0, play: [C(Y, 7)] },
-      1: { bid: 1, play: [C(R, 5)] },
-      2: { bid: 0, play: [C(R, 12)] },
-      3: { bid: 0, play: [C(G, 10)] },
-    },
-    trumpCard: C(B, N),
-  };
-  const { numPlayers } = round1Scenario;
-  let currentPlayer: PlayerID = round1Scenario.dealer;
-  // player 2 ist dealer
+const round1Scenario: RoundScenario = {
+  numPlayers: 4,
+  numCards: 1,
+  dealer: 0,
+  moves: {
+    0: { bid: 0, play: [C(Y, 7)] },
+    1: { bid: 1, play: [C(R, 5)] },
+    2: { bid: 0, play: [C(R, 12)] },
+    3: { bid: 0, play: [C(G, 10)] },
+  },
+  trumpCard: C(B, N),
+};
+const { numPlayers } = round1Scenario;
+let currentPlayer: PlayerID = round1Scenario.dealer;
+
+// Round 1
+test("dealer is set correctly", () => {
+  // player 0 ist dealer
   testDealer(round1Scenario);
+});
+
+test("4 four players game", () => {
+  console.log(prettyDOM(renderResult.container));
 
   const deck = initScenarioDeck(round1Scenario);
   shuffleMock.mockReturnValue(deck);
