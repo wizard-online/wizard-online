@@ -22,7 +22,7 @@ export const Table: React.FC = () => {
         <Trick />
         <SpaceFill />
       </PlayRow>
-      <InfoRow>
+      <InfoRow data-testid="table-info">
         {isTurn && <ActionsContainer phase={phase} />}
         <SpaceFill />
         {isTurn ? (
