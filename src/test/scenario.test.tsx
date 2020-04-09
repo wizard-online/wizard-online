@@ -27,7 +27,7 @@ import range from "lodash/range";
 import { wizardGameConfig } from "../game/game";
 import { WizardBoard } from "../ui/WizardBoard";
 import { Suit, Card, Rank } from "../game/entities/cards";
-import { getCardLabel } from "../game/entities/cards.utils";
+import { getCardLabel, getSuitLabel } from "../game/entities/cards.utils";
 import { PlayerID, NumPlayers } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
 
@@ -48,7 +48,7 @@ let renderResult: RenderResult;
 let clients: HTMLElement[];
 beforeAll(() => {
   // mock initial dealer selection
-  randomMock.mockReturnValue(0);
+  randomMock.mockReturnValue(scenario.firstDealer);
   shuffleMock.mockReturnValue([]);
 
   const ids = [0, 1, 2, 3];
@@ -76,6 +76,14 @@ function handoutMove(playerID: PlayerID): void {
   const handoutButton = getByText(clients[playerID], /austeilen/i);
   expect(handoutButton).toBeInTheDocument();
   fireEvent.click(handoutButton);
+}
+
+function selectTrumpMove(playerID: PlayerID, trumpSuit: Suit): void {
+  const trumpLabel = getSuitLabel(trumpSuit);
+  const suitSelect = getByText(clients[playerID], trumpLabel);
+  fireEvent.click(suitSelect);
+  const submitSuitButton = getByText(clients[playerID], /trumpf wählen/i);
+  fireEvent.click(submitSuitButton);
 }
 
 function bidSelectMove(playerID: PlayerID, bid: number): void {
@@ -124,7 +132,9 @@ function initScenarioDeck(
   { numCards, moves, trumpCard }: RoundScenario
 ): Card[] {
   const deck: Card[] = [];
-  deck.push(trumpCard);
+  if (trumpCard) {
+    deck.push(trumpCard);
+  }
   range(0, numCards).forEach((cardIndex) => {
     range(0, numPlayers)
       .map((x) => (dealer + x + 1) % numPlayers)
@@ -140,9 +150,16 @@ function testIsTurn(playerID: PlayerID, numPlayers: number): void {
   range(0, numPlayers)
     .filter((pID) => pID !== playerID)
     .forEach((pID) => {
-      expect(
-        queryByText(clients[pID], /du bist am zug/i)
-      ).not.toBeInTheDocument();
+      try {
+        expect(
+          queryByText(clients[pID], /du bist am zug/i)
+        ).not.toBeInTheDocument();
+      } catch (error) {
+        console.log(
+          `expected to be the turn of player ${playerID}, but found player ${pID}`
+        );
+        throw new Error(error);
+      }
     });
   expect(queryByText(clients[playerID], /du bist am zug/i)).toBeInTheDocument();
 }
@@ -188,14 +205,19 @@ function doRound(
 }
 
 const { numPlayers, firstDealer, rounds } = scenario;
-let currentDealer: PlayerID = previousPlayer(firstDealer, numPlayers);
+let descriptionPlayer: PlayerID = firstDealer;
+let currentDealer: PlayerID;
 let currentPlayer: PlayerID;
 
 rounds.forEach((round) => {
-  const { numCards, moves } = round;
+  const { numCards, moves, trumpSuit, trickWinners } = round;
   describe(`Round ${numCards}`, () => {
-    test("dealer is set correctly", () => {
-      currentDealer = nextPlayer(currentDealer, numPlayers);
+    test(`player ${descriptionPlayer} is dealer`, () => {
+      if (currentDealer >= 0) {
+        currentDealer = nextPlayer(currentDealer, numPlayers);
+      } else {
+        currentDealer = firstDealer;
+      }
       currentPlayer = currentDealer;
       // player 0 ist dealer
       testIsTurn(currentDealer, numPlayers);
@@ -210,9 +232,19 @@ rounds.forEach((round) => {
       handoutMove(currentPlayer);
       testCorrectHandout(round);
     });
-    test("bidding", () => {
+    if (trumpSuit) {
+      test("select trump", () => {
+        selectTrumpMove(currentPlayer, trumpSuit);
+      });
+    }
+    // go to next player after dealer
+    descriptionPlayer += 1;
+    test(`player ${descriptionPlayer + 1} is at first bidding turn`, () => {
       currentPlayer = nextPlayer(currentPlayer, numPlayers);
-
+      console.log(currentPlayer);
+      testIsTurn(currentPlayer, numPlayers);
+    });
+    test("bidding", () => {
       // do bidding round
       doRound(currentPlayer, numPlayers, (playerID) => {
         const { bid } = moves[playerID];
@@ -220,13 +252,17 @@ rounds.forEach((round) => {
       });
       testIsTurn(currentPlayer, numPlayers);
     });
-    test("playing", () => {
-      // do playing
-      doRound(currentPlayer, numPlayers, (playerID) => {
-        playMove(playerID, moves[playerID].play[0]);
+    range(0, numCards).forEach((cardIndex) => {
+      test(`playing card ${cardIndex}`, () => {
+        if (cardIndex > 0) {
+          currentPlayer = trickWinners[cardIndex - 1];
+        }
+        // do playing
+        doRound(currentPlayer, numPlayers, (playerID) => {
+          playMove(playerID, moves[playerID].play[cardIndex]);
+        });
+        testIsTurn(currentPlayer, numPlayers);
       });
-
-      testIsTurn(currentPlayer, numPlayers);
     });
   });
 });
