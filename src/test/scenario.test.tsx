@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable jest/expect-expect */
 import React from "react";
 // import from "@testing-library/react/pure" to prevent automatic dom cleanup after each test
@@ -5,16 +6,12 @@ import React from "react";
 import {
   render,
   RenderResult,
-  prettyDOM,
   getByText,
   queryByText,
   fireEvent,
   getByLabelText,
-  getByRole,
   getByTestId,
-  queryByLabelText,
   queryByTestId,
-  act,
 } from "@testing-library/react/pure";
 
 import { Client } from "boardgame.io/react";
@@ -26,13 +23,9 @@ import shuffle from "lodash/shuffle";
 import range from "lodash/range";
 import { wizardGameConfig } from "../game/game";
 import { WizardBoard } from "../ui/WizardBoard";
-import { Suit, Card, Rank } from "../game/entities/cards";
-import {
-  getCardLabel,
-  getSuitLabel,
-  getCardId,
-} from "../game/entities/cards.utils";
-import { PlayerID, NumPlayers } from "../game/entities/players";
+import { Suit, Card } from "../game/entities/cards";
+import { getSuitLabel, getCardId } from "../game/entities/cards.utils";
+import { PlayerID } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
 
 jest.mock("lodash/random");
@@ -201,10 +194,6 @@ function nextPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
   return ((currentPlayer + 1) % numPlayers) as PlayerID;
 }
 
-function previousPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
-  return ((currentPlayer + numPlayers - 1) % numPlayers) as PlayerID;
-}
-
 function doRound(
   leader: PlayerID,
   numPlayers: number,
@@ -271,6 +260,7 @@ rounds.forEach((round) => {
       });
     });
     // if (numCards * numPlayers < 60) {
+    // eslint-disable-next-line jest/no-commented-out-tests
     //   test("final score modal is not shown during game", () => {
     //     range(0, numPlayers).forEach((playerID) => {
     //       expect(
@@ -279,6 +269,7 @@ rounds.forEach((round) => {
     //     });
     //   });
     // } else {
+    // eslint-disable-next-line jest/no-commented-out-tests
     //   test("final score modal is shown after game", () => {
     //     range(0, numPlayers).forEach((playerID) => {
     //       expect(
