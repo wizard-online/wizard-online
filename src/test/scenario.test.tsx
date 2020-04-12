@@ -12,6 +12,7 @@ import {
   getByLabelText,
   getByTestId,
   queryByTestId,
+  queryAllByTestId,
 } from "@testing-library/react/pure";
 
 import { Client } from "boardgame.io/react";
@@ -259,24 +260,22 @@ rounds.forEach((round) => {
         currentPlayer = trickWinners[cardIndex];
       });
     });
-    // if (numCards * numPlayers < 60) {
-    // eslint-disable-next-line jest/no-commented-out-tests
-    //   test("final score modal is not shown during game", () => {
-    //     range(0, numPlayers).forEach((playerID) => {
-    //       expect(
-    //         queryByTestId(clients[playerID], "final-score")
-    //       ).not.toBeInTheDocument();
-    //     });
-    //   });
-    // } else {
-    // eslint-disable-next-line jest/no-commented-out-tests
-    //   test("final score modal is shown after game", () => {
-    //     range(0, numPlayers).forEach((playerID) => {
-    //       expect(
-    //         queryByTestId(clients[playerID], "final-score")
-    //       ).toBeInTheDocument();
-    //     });
-    //   });
-    // }
+    if (numCards * numPlayers < 60) {
+      test("final score modal is not shown during game", () => {
+        range(0, numPlayers).forEach((playerID) => {
+          expect(
+            queryByTestId(clients[playerID], "final-score")
+          ).not.toBeInTheDocument();
+        });
+      });
+    } else {
+      test("final score modal is shown after game", () => {
+        const finalScoreModals = queryAllByTestId(document.body, "final-score");
+        expect(finalScoreModals).toHaveLength(numPlayers);
+        finalScoreModals.forEach((modal) => {
+          expect(modal).toBeInTheDocument();
+        });
+      });
+    }
   });
 });
