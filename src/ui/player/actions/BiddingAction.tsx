@@ -50,6 +50,7 @@ export const BiddingAction: React.FC = () => {
             max={numCards}
             marks={marks}
             valueLabelDisplay="auto"
+            aria-label="Stiche ansagen"
           />
         </Field>
       </RowElement>

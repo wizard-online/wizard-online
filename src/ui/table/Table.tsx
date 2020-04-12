@@ -17,12 +17,12 @@ export const Table: React.FC = () => {
 
   return (
     <TableContainer>
-      <PlayRow>
+      <PlayRow data-testid="table-play">
         <Deck />
         <Trick />
         <SpaceFill />
       </PlayRow>
-      <InfoRow>
+      <InfoRow data-testid="table-info">
         {isTurn && <ActionsContainer phase={phase} />}
         <SpaceFill />
         {isTurn ? (
