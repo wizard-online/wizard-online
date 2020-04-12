@@ -23,13 +23,11 @@ import shuffle from "lodash/shuffle";
 
 import range from "lodash/range";
 import { Server } from "boardgame.io/server";
-import { Ctx } from "boardgame.io";
 import { wizardGameConfig } from "../game/game";
 import { WizardBoard } from "../ui/WizardBoard";
 import { PlayerID } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
 import { Card, Suit } from "../game/entities/cards";
-import { generateDefaultWizardState } from "../game/WizardState";
 import { getCardId, getSuitLabel } from "../game/entities/cards.utils";
 
 jest.mock("lodash/random");
@@ -228,14 +226,6 @@ function getTurnOrder(leader: PlayerID, numPlayers: number): PlayerID[] {
 
 function nextPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
   return ((currentPlayer + 1) % numPlayers) as PlayerID;
-}
-
-async function doRound(
-  leader: PlayerID,
-  numPlayers: number,
-  action: (playerID: PlayerID) => Promise<void>
-): Promise<void> {
-  await Promise.all(getTurnOrder(leader, numPlayers).map(action));
 }
 
 async function sleep(ms = 500): Promise<void> {
