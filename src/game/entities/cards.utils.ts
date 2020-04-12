@@ -31,6 +31,10 @@ export function cardBeatsOther(
   if (card.rank === Rank.Z) {
     return true;
   }
+  // all cards win against Ns (except for an N)
+  if (other.rank === Rank.N) {
+    return true;
+  }
   // => neither card is Z or N
 
   // cards of same suit
