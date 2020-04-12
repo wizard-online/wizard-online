@@ -353,6 +353,17 @@ describe("getTrickWinner", () => {
           trumpSuit: Suit.Green,
           winnerIndex: 3,
         },
+        // N card is of trump suit
+        {
+          cards: [
+            [Card(Suit.Green, Rank.N), 2],
+            [Card(Suit.Blue, 2), 3],
+            [Card(Suit.Red, 9), 0],
+            [Card(Suit.Blue, 5), 1],
+          ],
+          trumpSuit: Suit.Green,
+          winnerIndex: 3,
+        },
       ];
 
       data.forEach(({ cards, trumpSuit, winnerIndex }) =>
