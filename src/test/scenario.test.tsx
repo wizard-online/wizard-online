@@ -254,14 +254,12 @@ rounds.forEach((round) => {
     });
     range(0, numCards).forEach((cardIndex) => {
       test(`playing card ${cardIndex}`, () => {
-        if (cardIndex > 0) {
-          currentPlayer = trickWinners[cardIndex - 1];
-        }
+        testIsTurn(currentPlayer, numPlayers);
         // do playing
         doRound(currentPlayer, numPlayers, (playerID) => {
           playMove(playerID, moves[playerID].play[cardIndex]);
         });
-        testIsTurn(currentPlayer, numPlayers);
+        currentPlayer = trickWinners[cardIndex];
       });
     });
   });
