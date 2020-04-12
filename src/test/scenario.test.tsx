@@ -270,5 +270,22 @@ rounds.forEach((round) => {
         currentPlayer = trickWinners[cardIndex];
       });
     });
+    // if (numCards * numPlayers < 60) {
+    //   test("final score modal is not shown during game", () => {
+    //     range(0, numPlayers).forEach((playerID) => {
+    //       expect(
+    //         queryByTestId(clients[playerID], "final-score")
+    //       ).not.toBeInTheDocument();
+    //     });
+    //   });
+    // } else {
+    //   test("final score modal is shown after game", () => {
+    //     range(0, numPlayers).forEach((playerID) => {
+    //       expect(
+    //         queryByTestId(clients[playerID], "final-score")
+    //       ).toBeInTheDocument();
+    //     });
+    //   });
+    // }
   });
 });
