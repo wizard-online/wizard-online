@@ -56,30 +56,41 @@ export const scenario: GameScenario = {
       trumpCard: C(G, 1),
       trickWinners: [2, 1],
     },
+    {
+      numCards: 3,
+      moves: {
+        0: { bid: 1, play: [C(Y, 13), C(B, 1), C(R, 4)] },
+        1: { bid: 1, play: [C(Y, 7), C(Y, 2), C(R, Z)] },
+        2: { bid: 0, play: [C(Y, 3), C(R, 10), C(R, 3)] },
+        3: { bid: 0, play: [C(R, 11), C(B, 10), C(B, 2)] },
+      },
+      trumpCard: C(G, 9),
+      trickWinners: [0, 3, 1],
+    },
+    {
+      numCards: 4,
+      moves: {
+        0: { bid: 2, play: [C(R, 9), C(G, 1), C(Y, Z), C(R, 5)] },
+        1: { bid: 1, play: [C(R, 2), C(G, 2), C(G, 8), C(B, Z)] },
+        2: { bid: 1, play: [C(G, 3), C(G, 10), C(G, 9), C(B, 11)] },
+        3: { bid: 1, play: [C(R, 3), C(Y, 10), C(R, 1), C(Y, 11)] },
+      },
+      trumpCard: C(Y, 5),
+      trickWinners: [0, 3, 0, 1],
+    },
+    {
+      numCards: 5,
+      moves: {
+        0: { bid: 3, play: [C(R, Z), C(R, 12), C(Y, N), C(B, Z), C(R, 5)] },
+        1: { bid: 2, play: [C(G, 2), C(R, 13), C(Y, 13), C(Y, 3), C(G, 4)] },
+        2: { bid: 2, play: [C(G, 7), C(Y, 2), C(G, Z), C(Y, 11), C(B, 2)] },
+        3: { bid: 0, play: [C(G, 8), C(R, 9), C(Y, 1), C(R, 7), C(R, N)] },
+      },
+      trumpCard: C(G, 1),
+      trickWinners: [0, 1, 2, 0, 1],
+    },
     // {
-    //   numCards: 3,
-    //   moves: {
-    //     0: { bid: 1, play: [C(Y, 13), C(B, 1), C(R, 4)] },
-    //     1: { bid: 1, play: [C(Y, 7), C(Y, 2), C(R, Z)] },
-    //     2: { bid: 0, play: [C(Y, 3), C(R, 10), C(R, 3)] },
-    //     3: { bid: 0, play: [C(R, 11), C(B, 10), C(B, 2)] },
-    //   },
-    //   trumpCard: C(G, 9),
-    //   trickWinners: [0, 3, 1],
-    // },
-    // {
-    //   numCards: 4,
-    //   moves: {
-    //     0: { bid: 2, play: [C(R, 9), C(G, 1), C(Y, Z), C(R, 5)] },
-    //     1: { bid: 1, play: [C(R, 2), C(G, 2), C(G, 8), C(B, Z)] },
-    //     2: { bid: 1, play: [C(G, 3), C(G, 10), C(G, 9), C(B, 11)] },
-    //     3: { bid: 1, play: [C(R, 3), C(Y, 10), C(R, 1), C(Y, 11)] },
-    //   },
-    //   trumpCard: C(Y, 5),
-    //   trickWinners: [0, 3, 0, 1],
-    // },
-    // {
-    //   numCards: 5,
+    //   numCards: 6,
     //   moves: {
     //     0: {
     //       bid: 1,
@@ -100,17 +111,6 @@ export const scenario: GameScenario = {
     //   },
     //   trumpCard: C(R, 1),
     //   trickWinners: [1, 1, 1, 3, 1, 0],
-    // },
-    // {
-    //   numCards: 6,
-    //   moves: {
-    //     0: { bid: 3, play: [C(R, Z), C(R, 12), C(Y, N), C(B, Z), C(R, 5)] },
-    //     1: { bid: 2, play: [C(G, 2), C(R, 13), C(Y, 13), C(Y, 3), C(G, 4)] },
-    //     2: { bid: 2, play: [C(G, 7), C(Y, 2), C(G, Z), C(Y, 11), C(B, 2)] },
-    //     3: { bid: 0, play: [C(G, 8), C(R, 9), C(Y, 1), C(R, 7), C(R, N)] },
-    //   },
-    //   trumpCard: C(G, 1),
-    //   trickWinners: [0, 1, 2, 0, 1],
     // },
     // {
     //   numCards: 7,
@@ -764,14 +764,14 @@ export const scenario: GameScenario = {
 // ################################
 // ######### TEMPLATE #############
 // ################################
-const template = {
-  numCards: 0,
-  moves: {
-    0: { bid: 0, play: [] },
-    1: { bid: 0, play: [] },
-    2: { bid: 0, play: [] },
-    3: { bid: 0, play: [] },
-  },
-  trumpCard: null,
-  trickWinners: [],
-};
+// const template = {
+//   numCards: 0,
+//   moves: {
+//     0: { bid: 0, play: [] },
+//     1: { bid: 0, play: [] },
+//     2: { bid: 0, play: [] },
+//     3: { bid: 0, play: [] },
+//   },
+//   trumpCard: null,
+//   trickWinners: [],
+// };
