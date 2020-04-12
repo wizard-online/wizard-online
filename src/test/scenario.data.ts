@@ -89,29 +89,29 @@ export const scenario: GameScenario = {
       trumpCard: C(G, 1),
       trickWinners: [0, 1, 2, 0, 1],
     },
-    // {
-    //   numCards: 6,
-    //   moves: {
-    //     0: {
-    //       bid: 1,
-    //       play: [C(R, 11), C(Y, 3), C(R, N), C(B, 6), C(G, 13), C(G, 9)],
-    //     },
-    //     1: {
-    //       bid: 4,
-    //       play: [C(G, Z), C(Y, 12), C(B, 12), C(R, 3), C(B, Z), C(B, 8)],
-    //     },
-    //     2: {
-    //       bid: 0,
-    //       play: [C(R, 2), C(B, 9), C(G, 8), C(G, 5), C(G, 3), C(Y, 7)],
-    //     },
-    //     3: {
-    //       bid: 1,
-    //       play: [C(R, 8), C(Y, 1), C(B, 4), C(R, 7), C(Y, N), C(G, N)],
-    //     },
-    //   },
-    //   trumpCard: C(R, 1),
-    //   trickWinners: [1, 1, 1, 3, 1, 0],
-    // },
+    {
+      numCards: 6,
+      moves: {
+        0: {
+          bid: 1,
+          play: [C(R, 11), C(Y, 3), C(R, N), C(B, 6), C(G, 13), C(G, 9)],
+        },
+        1: {
+          bid: 3,
+          play: [C(G, Z), C(Y, 12), C(B, 12), C(R, 3), C(B, Z), C(B, 8)],
+        },
+        2: {
+          bid: 0,
+          play: [C(R, 2), C(Y, 7), C(B, 9), C(G, 8), C(G, 5), C(G, 3)],
+        },
+        3: {
+          bid: 1,
+          play: [C(R, 8), C(Y, 1), C(B, 4), C(R, 7), C(Y, N), C(G, N)],
+        },
+      },
+      trumpCard: C(R, 1),
+      trickWinners: [1, 1, 1, 3, 1, 0],
+    },
     // {
     //   numCards: 7,
     //   moves: {
