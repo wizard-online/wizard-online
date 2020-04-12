@@ -27,7 +27,11 @@ import range from "lodash/range";
 import { wizardGameConfig } from "../game/game";
 import { WizardBoard } from "../ui/WizardBoard";
 import { Suit, Card, Rank } from "../game/entities/cards";
-import { getCardLabel, getSuitLabel } from "../game/entities/cards.utils";
+import {
+  getCardLabel,
+  getSuitLabel,
+  getCardId,
+} from "../game/entities/cards.utils";
 import { PlayerID, NumPlayers } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
 
@@ -110,20 +114,17 @@ function bidMove(playerID: PlayerID, bid: number, numPlayers: number): void {
 }
 
 function playMove(playerID: PlayerID, card: Card): void {
-  const cardButton = getByLabelText(clients[playerID], getCardLabel(card));
+  const cardTestId = getCardId(card);
+  const cardButton = getByTestId(clients[playerID], cardTestId);
   expect(cardButton).toBeInTheDocument();
   fireEvent.click(cardButton);
   // test card removed from hand
   const clientHand = getByTestId(clients[playerID], "client-hand");
-  expect(
-    queryByLabelText(clientHand, getCardLabel(card))
-  ).not.toBeInTheDocument();
+  expect(queryByTestId(clientHand, cardTestId)).not.toBeInTheDocument();
   // test card added on table
   const tablePlay = getByTestId(clients[playerID], "table-play");
-  expect(queryByLabelText(tablePlay, getCardLabel(card))).toBeInTheDocument();
-  expect(
-    queryByLabelText(clientHand, getCardLabel(card))
-  ).not.toBeInTheDocument();
+  expect(getByTestId(tablePlay, cardTestId)).toBeInTheDocument();
+  expect(queryByTestId(clientHand, cardTestId)).not.toBeInTheDocument();
 }
 
 function initScenarioDeck(
@@ -167,12 +168,20 @@ function testIsTurn(playerID: PlayerID, numPlayers: number): void {
 function testCorrectHandout({ moves }: RoundScenario): void {
   Object.entries(moves).forEach(([playerID, playerMoves]) => {
     playerMoves.play.forEach((card) => {
-      expect(
-        getByLabelText(
-          clients[Number.parseInt(playerID, 10)],
-          getCardLabel(card)
-        )
-      ).toBeInTheDocument();
+      try {
+        expect(
+          queryByTestId(clients[Number.parseInt(playerID, 10)], getCardId(card))
+        ).toBeInTheDocument();
+      } catch (error) {
+        // console.log(
+        //   prettyDOM(
+        //     clients[Number.parseInt(playerID, 10)].querySelector(
+        //       '[data-testid="client-hand"]'
+        //     ) ?? undefined
+        //   )
+        // );
+        throw new Error(error);
+      }
     });
   });
 }
@@ -238,10 +247,9 @@ rounds.forEach((round) => {
       });
     }
     // go to next player after dealer
-    descriptionPlayer += 1;
-    test(`player ${descriptionPlayer + 1} is at first bidding turn`, () => {
+    descriptionPlayer = nextPlayer(descriptionPlayer, numPlayers);
+    test(`player ${descriptionPlayer} is at first bidding turn`, () => {
       currentPlayer = nextPlayer(currentPlayer, numPlayers);
-      console.log(currentPlayer);
       testIsTurn(currentPlayer, numPlayers);
     });
     test("bidding", () => {
