@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { cardColors, ColorSet, colors } from "../util/colors";
 import { Card, Rank, Suit } from "../../game/entities/cards";
-import { getCardLabel, getRankLabel } from "../../game/entities/cards.utils";
+import {
+  getCardLabel,
+  getRankLabel,
+  getCardId,
+} from "../../game/entities/cards.utils";
 
 export interface PlayCardProps {
   card: Card | null;
@@ -34,6 +38,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
       isdisabled={disabled}
       colorSet={colorSet}
       aria-label={getCardLabel(card)}
+      data-testid={getCardId(card)}
     >
       <span>{label}</span>
     </FronsideCardBox>

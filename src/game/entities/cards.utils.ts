@@ -268,3 +268,9 @@ export function getCardLabel(card: Card): string {
     }
   }
 }
+
+export function getCardId(card: Card): string {
+  const rankLabel = getRankLabel(card);
+  const suitLabel = getSuitLabel(card.suit);
+  return `${suitLabel} ${rankLabel}`;
+}
