@@ -49,5 +49,5 @@ const StyledCard = styled(Card)`
 `;
 
 const HandContainer = styled.div`
-  min-height: 90px;
+  min-height: 81px;
 `;
