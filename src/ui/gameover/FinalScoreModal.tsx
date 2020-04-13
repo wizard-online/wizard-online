@@ -19,7 +19,7 @@ export const FinalScoreModal: React.FC = () => {
   const winner = showModal ? getLeader(scorePad) : "";
   return (
     <Dialog open={showModal}>
-      <Container>
+      <Container data-testid="final-score">
         <DialogTitle>Spieler {winner} gewinnt!</DialogTitle>
         <ScorePad />
       </Container>

@@ -16,37 +16,66 @@ import {
 } from "@testing-library/react/pure";
 
 import { Client } from "boardgame.io/react";
-import { Local } from "boardgame.io/multiplayer";
+import { SocketIO } from "boardgame.io/multiplayer";
 
 import random from "lodash/random";
 import shuffle from "lodash/shuffle";
 
 import range from "lodash/range";
-import { wizardGameConfig } from "../game/game";
-import { WizardBoard } from "../ui/WizardBoard";
-import { Suit, Card } from "../game/entities/cards";
-import { getSuitLabel, getCardId } from "../game/entities/cards.utils";
-import { PlayerID } from "../game/entities/players";
-import { scenario, RoundScenario } from "./scenario.data";
+import { Server } from "boardgame.io/server";
+import { Ctx } from "boardgame.io";
+import { wizardGameConfig } from "../../game/game";
+import { WizardBoard } from "../../ui/WizardBoard";
+import { PlayerID } from "../../game/entities/players";
+import { scenario, RoundScenario } from "../scenario.data";
+import { Card, Suit } from "../../game/entities/cards";
+import { getCardId, getSuitLabel } from "../../game/entities/cards.utils";
+import { generateDefaultWizardState } from "../../game/WizardState";
 
 jest.mock("lodash/random");
 jest.mock("lodash/shuffle");
 const randomMock = random as jest.Mock;
 const shuffleMock = shuffle as jest.Mock;
 
+const serverScenarioGameConfig = {
+  ...wizardGameConfig,
+  setup(ctx: Ctx) {
+    return {
+      ...generateDefaultWizardState(ctx),
+      numCards: 14,
+    };
+  },
+};
+
 const WizardClient = Client({
-  game: wizardGameConfig,
+  game: serverScenarioGameConfig,
   board: WizardBoard,
   numPlayers: 4,
-  multiplayer: Local(),
+  multiplayer: SocketIO({ server: "localhost:8000" }),
   debug: false,
+});
+
+const server = Server({
+  games: [serverScenarioGameConfig],
+});
+
+let runningServer: unknown;
+
+beforeAll(async () => {
+  runningServer = await server.run(8000, () =>
+    console.log("server running on 8000")
+  );
+});
+
+afterAll(() => {
+  server.kill(runningServer);
 });
 
 let renderResult: RenderResult;
 let clients: HTMLElement[];
 beforeAll(() => {
   // mock initial dealer selection
-  randomMock.mockReturnValue(scenario.firstDealer);
+  randomMock.mockReturnValue(3);
   shuffleMock.mockReturnValue([]);
 
   const ids = [0, 1, 2, 3];
@@ -100,18 +129,29 @@ function bidSubmitMove(playerID: PlayerID): void {
   fireEvent.click(bidSubmitButton);
 }
 
-function bidMove(playerID: PlayerID, bid: number, numPlayers: number): void {
+async function bidMove(
+  playerID: PlayerID,
+  bid: number,
+  numPlayers: number
+): Promise<void> {
+  await sleep();
+
   testIsTurn(playerID, numPlayers);
   bidSelectMove(playerID, bid);
+  await sleep();
+
   testBidSelect(playerID, bid);
   bidSubmitMove(playerID);
 }
 
-function playMove(playerID: PlayerID, card: Card): void {
+async function playMove(playerID: PlayerID, card: Card): Promise<void> {
+  await sleep();
   const cardTestId = getCardId(card);
   const cardButton = getByTestId(clients[playerID], cardTestId);
   expect(cardButton).toBeInTheDocument();
   fireEvent.click(cardButton);
+  await sleep();
+
   // test card removed from hand
   const clientHand = getByTestId(clients[playerID], "client-hand");
   expect(queryByTestId(clientHand, cardTestId)).not.toBeInTheDocument();
@@ -195,71 +235,101 @@ function nextPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
   return ((currentPlayer + 1) % numPlayers) as PlayerID;
 }
 
-function doRound(
-  leader: PlayerID,
-  numPlayers: number,
-  action: (playerID: PlayerID) => void
-): void {
-  getTurnOrder(leader, numPlayers).forEach(action);
+async function sleep(ms = 500): Promise<void> {
+  await new Promise((r) => setTimeout(r, ms));
 }
 
-const { numPlayers, firstDealer, rounds } = scenario;
-let descriptionPlayer: PlayerID = firstDealer;
+const { numPlayers, rounds } = scenario;
+let descriptionPlayer: PlayerID = 3;
 let currentDealer: PlayerID;
 let currentPlayer: PlayerID;
 
-rounds.forEach((round) => {
+test("setup", async () => {
+  await sleep(2000);
+
+  range(0, numPlayers).forEach((playerID) => {
+    expect(
+      queryByText(clients[playerID], /connecting/i)
+    ).not.toBeInTheDocument();
+  });
+});
+
+rounds.slice(-2).forEach((round) => {
   const { numCards, moves, trumpSuit, trickWinners } = round;
   describe(`Round ${numCards}`, () => {
-    test(`player ${descriptionPlayer} is dealer`, () => {
+    test(`player ${descriptionPlayer} is dealer`, async () => {
       if (currentDealer >= 0) {
         currentDealer = nextPlayer(currentDealer, numPlayers);
       } else {
-        currentDealer = firstDealer;
+        currentDealer = 3;
       }
       currentPlayer = currentDealer;
+
+      await sleep();
+
       // player 0 ist dealer
       testIsTurn(currentDealer, numPlayers);
     });
-    test("handout", () => {
+    test("handout", async () => {
       const deck = initScenarioDeck(numPlayers, currentDealer, round);
       shuffleMock.mockReturnValue(deck);
       // shuffle deck
       shuffleMove(currentPlayer);
 
+      await sleep();
+
       // handout
       handoutMove(currentPlayer);
+
+      await sleep();
+
       testCorrectHandout(round);
     });
     if (trumpSuit) {
-      test("select trump", () => {
+      test("select trump", async () => {
+        await sleep();
         selectTrumpMove(currentPlayer, trumpSuit);
       });
     }
     // go to next player after dealer
     descriptionPlayer = nextPlayer(descriptionPlayer, numPlayers);
-    test(`player ${descriptionPlayer} is at first bidding turn`, () => {
+    test(`player ${descriptionPlayer} is at first bidding turn`, async () => {
       currentPlayer = nextPlayer(currentPlayer, numPlayers);
+      await sleep();
+
       testIsTurn(currentPlayer, numPlayers);
     });
-    test("bidding", () => {
-      // do bidding round
-      doRound(currentPlayer, numPlayers, (playerID) => {
-        const { bid } = moves[playerID];
-        bidMove(playerID, bid, numPlayers);
-      });
-      testIsTurn(currentPlayer, numPlayers);
-    });
-    range(0, numCards).forEach((cardIndex) => {
-      test(`playing card ${cardIndex}`, () => {
-        testIsTurn(currentPlayer, numPlayers);
-        // do playing
-        doRound(currentPlayer, numPlayers, (playerID) => {
-          playMove(playerID, moves[playerID].play[cardIndex]);
+    // bidding
+    getTurnOrder(descriptionPlayer, numPlayers).forEach(
+      (descriptionPlayerID) => {
+        test(`bidding player ${descriptionPlayerID}`, async () => {
+          testIsTurn(currentPlayer, numPlayers);
+          const { bid } = moves[currentPlayer];
+          await bidMove(currentPlayer, bid, numPlayers);
+          await sleep();
+          currentPlayer = nextPlayer(currentPlayer, numPlayers);
         });
-        currentPlayer = trickWinners[cardIndex];
-      });
+      }
+    );
+    // playing
+
+    range(0, numCards).forEach((cardIndex) => {
+      getTurnOrder(descriptionPlayer, numPlayers).forEach(
+        (descriptionPlayerID, index) => {
+          test(`playing card ${cardIndex} player ${descriptionPlayerID}`, async () => {
+            testIsTurn(currentPlayer, numPlayers);
+            await playMove(currentPlayer, moves[currentPlayer].play[cardIndex]);
+            await sleep();
+            if (index + 1 < numPlayers) {
+              currentPlayer = nextPlayer(currentPlayer, numPlayers);
+            } else {
+              currentPlayer = trickWinners[cardIndex];
+            }
+          });
+        }
+      );
     });
+
     if (numCards * numPlayers < 60) {
       test("final score modal is not shown during game", () => {
         range(0, numPlayers).forEach((playerID) => {

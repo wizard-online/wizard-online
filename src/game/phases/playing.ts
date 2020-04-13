@@ -106,7 +106,7 @@ function endIf({ round }: WizardState): boolean {
   return flatten(round.hands).length === 0;
 }
 
-function onEnd(g: WizardState, ctx: Ctx): void {
+function onEnd(g: WizardState): void {
   const { round, numCards, scorePad } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -119,13 +119,7 @@ function onEnd(g: WizardState, ctx: Ctx): void {
   g.scorePad = updateScorePad(round.bids, round.trickCount, numCards, scorePad);
   // check if game is finished
   const incNumCards = numCards + 1;
-  if (incNumCards * ctx.numPlayers > 60) {
-    const finalScore = scorePad[scorePad.length - 1];
-    ctx.events!.endGame!(finalScore);
-  } else {
-    // next round with one card more
-    g.numCards = incNumCards;
-  }
+  g.numCards = incNumCards;
 }
 
 export const playing: PhaseConfig = {
