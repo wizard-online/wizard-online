@@ -117,9 +117,10 @@ function onEnd(g: WizardState): void {
 
   // calc score
   g.scorePad = updateScorePad(round.bids, round.trickCount, numCards, scorePad);
-  // check if game is finished
-  const incNumCards = numCards + 1;
-  g.numCards = incNumCards;
+  // mark current round complete
+  round.isComplete = true;
+  // increment round
+  g.numCards = numCards + 1;
 }
 
 export const playing: PhaseConfig = {
