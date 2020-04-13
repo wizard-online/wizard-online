@@ -1,7 +1,7 @@
 declare module "boardgame.io/server" {
   export interface Server {
-    run(port: number, onStart: () => void): Promise<any>;
-    kill(args: any): void;
+    run(port: number, onStart: () => void): Promise<unknown>;
+    kill(args: unknown): void;
   }
   export function Server(options: object): Server;
 }
