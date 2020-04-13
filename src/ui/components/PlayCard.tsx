@@ -52,8 +52,9 @@ const StaticCardBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 66px;
+  box-sizing: border-box;
+  width: 46px;
+  height: 71px;
   font-family: "Almendra", serif;
   font-weight: 700;
 `;

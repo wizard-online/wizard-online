@@ -1,9 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../game/entities/players";
-import { colors } from "../util/colors";
 import { usePlayerName } from "../GameContext";
+import { Blinker } from "../components/Blinker";
 
 export interface HeaderProps {
   playerID: PlayerID;
@@ -22,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
     <Container>
       <PlayerTitle isTurn={isTurn} as={isClient ? "h1" : undefined}>
         {playerName}
+        {isClient && <Blinker on={isTurn} />}
       </PlayerTitle>
       <Spacer />
       <TrickLabel playerID={playerID} />
@@ -34,7 +35,6 @@ const Container = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 15px 0;
 `;
 
 const Spacer = styled.div`
@@ -46,10 +46,8 @@ const PlayerTitle = styled.h3<{ isTurn: boolean }>`
   margin: 0;
   ${({ isTurn }) =>
     isTurn
-      ? `
-      text-decoration: underline;
-      color: ${colors.wizard.darker};
-      text-shadow: 0 0 3px ${colors.wizard.green};
-  `
+      ? css`
+          text-decoration: underline;
+        `
       : ""}
 `;
