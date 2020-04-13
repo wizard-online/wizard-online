@@ -51,6 +51,7 @@ export interface WizardRoundState {
   trickCount: number[];
   trump: Trump;
   deck: Card[];
+  isComplete?: boolean;
 }
 
 /**
