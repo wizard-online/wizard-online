@@ -106,7 +106,7 @@ function endIf({ round }: WizardState): boolean {
   return flatten(round.hands).length === 0;
 }
 
-function onEnd(g: WizardState, ctx: Ctx): void {
+function onEnd(g: WizardState): void {
   const { round, numCards, scorePad } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
