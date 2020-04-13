@@ -1,8 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../game/entities/players";
-import { colors } from "../util/colors";
 import { usePlayerName } from "../GameContext";
 import { Blinker } from "../components/Blinker";
 
@@ -47,10 +46,8 @@ const PlayerTitle = styled.h3<{ isTurn: boolean }>`
   margin: 0;
   ${({ isTurn }) =>
     isTurn
-      ? `
-      text-decoration: underline;
-      color: ${colors.wizard.darker};
-      text-shadow: 0 0 3px ${colors.wizard.green};
-  `
+      ? css`
+          text-decoration: underline;
+        `
       : ""}
 `;

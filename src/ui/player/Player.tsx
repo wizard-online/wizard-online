@@ -23,29 +23,36 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
 
   return (
     <StyledCard>
-      <CardContent>
-        <Header playerID={playerID} isTurn={isTurn} isClient={isClient} />
-        <HandContainer>
-          {round &&
-            (isClient ? (
-              <ClientHand
-                cards={round.hands[clientID]}
-                isInteractive={isTurn && phase === Phase.Playing}
-                onClickCard={(i) => play(i)}
-                lead={trick?.isComplete ? undefined : trick?.lead}
-              />
-            ) : (
-              <OpponentHand numCards={round.hands[playerID].length} />
-            ))}
-        </HandContainer>
-      </CardContent>
+      <PlayerContainer isTurn={isTurn}>
+        <CardContent>
+          <Header playerID={playerID} isTurn={isTurn} isClient={isClient} />
+          <HandContainer>
+            {round &&
+              (isClient ? (
+                <ClientHand
+                  cards={round.hands[clientID]}
+                  isInteractive={isTurn && phase === Phase.Playing}
+                  onClickCard={(i) => play(i)}
+                  lead={trick?.isComplete ? undefined : trick?.lead}
+                />
+              ) : (
+                <OpponentHand numCards={round.hands[playerID].length} />
+              ))}
+          </HandContainer>
+        </CardContent>
+      </PlayerContainer>
     </StyledCard>
   );
 };
 
 const StyledCard = styled(Card)`
-  border: 1px solid ${colors.wizard.green};
   flex-grow: 1;
+`;
+
+const PlayerContainer = styled.div<{ isTurn: boolean }>`
+  border: 1px solid
+    ${({ isTurn }) => (isTurn ? colors.red.medium : colors.wizard.green)};
+  border-radius: 4px;
 `;
 
 const HandContainer = styled.div`

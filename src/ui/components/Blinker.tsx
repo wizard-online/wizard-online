@@ -7,7 +7,7 @@ export interface BlinkerProps {
 }
 
 export const Blinker: React.FC<BlinkerProps> = ({ on }) => {
-  return <BlinkContainer on={on} />;
+  return <BlinkContainer isBlinking={on} />;
 };
 
 const blinking = keyframes`
@@ -17,9 +17,9 @@ const blinking = keyframes`
   75% {background-color: ${colors.yellow.light}}
 `;
 
-const BlinkContainer = styled.div<{ on: boolean }>`
-  animation: ${({ on }) =>
-    on
+const BlinkContainer = styled.div<{ isBlinking: boolean }>`
+  animation: ${({ isBlinking }) =>
+    isBlinking
       ? css`
           ${blinking} 3s infinite
         `
