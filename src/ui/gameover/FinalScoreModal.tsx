@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogTitle, Button } from "@material-ui/core";
 import styled from "styled-components";
 import { ScorePad } from "../score/ScorePad";
-import { useGameState } from "../GameContext";
+import { useGameState, usePlayerName } from "../GameContext";
 import { getLeader } from "../../game/entities/score.utils";
+import { PlayerID } from "../../game/entities/players";
 
 export const FinalScoreModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -16,17 +17,47 @@ export const FinalScoreModal: React.FC = () => {
     setShowModal(!!gameover);
   }, [gameover]);
 
-  const winner = showModal ? getLeader(scorePad) : "";
   return (
     <Dialog open={showModal}>
-      <Container data-testid="final-score">
-        <DialogTitle>Spieler {winner} gewinnt!</DialogTitle>
-        <ScorePad />
-      </Container>
+      {showModal && <FinalScoreModalContent winnerID={getLeader(scorePad)} />}
     </Dialog>
+  );
+};
+
+interface FinalScoreModalContentProps {
+  winnerID: PlayerID;
+}
+
+const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
+  winnerID,
+}) => {
+  const winnerName = usePlayerName(winnerID);
+  return (
+    <Container data-testid="final-score">
+      <DialogTitle>{winnerName} gewinnt!</DialogTitle>
+      <ScorePad />
+      <ActionContainer>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            const exitButtonElement = document.querySelector(
+              "#game-exit button"
+            ) as HTMLElement | null;
+            exitButtonElement?.click();
+          }}
+        >
+          Zur Lobby
+        </Button>
+      </ActionContainer>
+    </Container>
   );
 };
 
 const Container = styled.div`
   margin: 25px;
+`;
+
+const ActionContainer = styled.div`
+  margin: 15px 0;
 `;
