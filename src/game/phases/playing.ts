@@ -99,11 +99,10 @@ function onBegin({ round }: WizardState, { numPlayers }: Ctx): void {
   round.trickCount = new Array(numPlayers).fill(0);
 }
 
-function endIf({ round, numCards }: WizardState): boolean {
+function endIf({ round }: WizardState): boolean {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-  // return round!.trickCount.reduce((a, b) => a + b, 0) >= numCards;
   return flatten(round.hands).length === 0;
 }
 
