@@ -13,6 +13,7 @@ import {
   getByTestId,
   queryByTestId,
   queryAllByTestId,
+  prettyDOM,
 } from "@testing-library/react/pure";
 
 import { Client } from "boardgame.io/react";
@@ -23,25 +24,32 @@ import shuffle from "lodash/shuffle";
 
 import range from "lodash/range";
 import { Server } from "boardgame.io/server";
+import { Ctx } from "boardgame.io";
 import { wizardGameConfig } from "../game/game";
 import { WizardBoard } from "../ui/WizardBoard";
 import { PlayerID } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
 import { Card, Suit } from "../game/entities/cards";
 import { getCardId, getSuitLabel } from "../game/entities/cards.utils";
+import { generateDefaultWizardState } from "../game/WizardState";
 
 jest.mock("lodash/random");
 jest.mock("lodash/shuffle");
 const randomMock = random as jest.Mock;
 const shuffleMock = shuffle as jest.Mock;
 
-const WizardClient = Client({
-  game: {
-    ...wizardGameConfig,
-    // setup(ctx: Ctx) {
-    //   return { ...generateDefaultWizardState(ctx), numCards: 15 };
-    // },
+const serverScenarioGameConfig = {
+  ...wizardGameConfig,
+  setup(ctx: Ctx) {
+    return {
+      ...generateDefaultWizardState(ctx),
+      numCards: 14,
+    };
   },
+};
+
+const WizardClient = Client({
+  game: serverScenarioGameConfig,
   board: WizardBoard,
   numPlayers: 4,
   multiplayer: SocketIO({ server: "localhost:8000" }),
@@ -49,7 +57,7 @@ const WizardClient = Client({
 });
 
 const server = Server({
-  games: [wizardGameConfig],
+  games: [serverScenarioGameConfig],
 });
 
 let runningServer: any;
@@ -68,7 +76,7 @@ let renderResult: RenderResult;
 let clients: HTMLElement[];
 beforeAll(() => {
   // mock initial dealer selection
-  randomMock.mockReturnValue(scenario.firstDealer);
+  randomMock.mockReturnValue(3);
   shuffleMock.mockReturnValue([]);
 
   const ids = [0, 1, 2, 3];
@@ -233,7 +241,7 @@ async function sleep(ms = 500): Promise<void> {
 }
 
 const { numPlayers, firstDealer, rounds } = scenario;
-let descriptionPlayer: PlayerID = firstDealer;
+let descriptionPlayer: PlayerID = 3;
 let currentDealer: PlayerID;
 let currentPlayer: PlayerID;
 
@@ -247,14 +255,14 @@ test("setup", async () => {
   });
 });
 
-rounds.forEach((round) => {
+rounds.slice(-2).forEach((round) => {
   const { numCards, moves, trumpSuit, trickWinners } = round;
   describe(`Round ${numCards}`, () => {
     test(`player ${descriptionPlayer} is dealer`, async () => {
       if (currentDealer >= 0) {
         currentDealer = nextPlayer(currentDealer, numPlayers);
       } else {
-        currentDealer = firstDealer;
+        currentDealer = 3;
       }
       currentPlayer = currentDealer;
 
