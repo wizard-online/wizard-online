@@ -13,7 +13,6 @@ import {
   getByTestId,
   queryByTestId,
   queryAllByTestId,
-  prettyDOM,
 } from "@testing-library/react/pure";
 
 import { Client } from "boardgame.io/react";
@@ -25,13 +24,13 @@ import shuffle from "lodash/shuffle";
 import range from "lodash/range";
 import { Server } from "boardgame.io/server";
 import { Ctx } from "boardgame.io";
-import { wizardGameConfig } from "../game/game";
-import { WizardBoard } from "../ui/WizardBoard";
-import { PlayerID } from "../game/entities/players";
-import { scenario, RoundScenario } from "./scenario.data";
-import { Card, Suit } from "../game/entities/cards";
-import { getCardId, getSuitLabel } from "../game/entities/cards.utils";
-import { generateDefaultWizardState } from "../game/WizardState";
+import { wizardGameConfig } from "../../game/game";
+import { WizardBoard } from "../../ui/WizardBoard";
+import { PlayerID } from "../../game/entities/players";
+import { scenario, RoundScenario } from "../scenario.data";
+import { Card, Suit } from "../../game/entities/cards";
+import { getCardId, getSuitLabel } from "../../game/entities/cards.utils";
+import { generateDefaultWizardState } from "../../game/WizardState";
 
 jest.mock("lodash/random");
 jest.mock("lodash/shuffle");
@@ -60,7 +59,7 @@ const server = Server({
   games: [serverScenarioGameConfig],
 });
 
-let runningServer: any;
+let runningServer: unknown;
 
 beforeAll(async () => {
   runningServer = await server.run(8000, () =>
@@ -240,7 +239,7 @@ async function sleep(ms = 500): Promise<void> {
   await new Promise((r) => setTimeout(r, ms));
 }
 
-const { numPlayers, firstDealer, rounds } = scenario;
+const { numPlayers, rounds } = scenario;
 let descriptionPlayer: PlayerID = 3;
 let currentDealer: PlayerID;
 let currentPlayer: PlayerID;
