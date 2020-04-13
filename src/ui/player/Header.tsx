@@ -34,7 +34,6 @@ const Container = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 15px 0;
 `;
 
 const Spacer = styled.div`

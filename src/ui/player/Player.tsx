@@ -48,6 +48,6 @@ const StyledCard = styled(Card)`
   flex-grow: 1;
 `;
 
-const HandContainer = styled(CardContent)`
+const HandContainer = styled.div`
   min-height: 90px;
 `;
