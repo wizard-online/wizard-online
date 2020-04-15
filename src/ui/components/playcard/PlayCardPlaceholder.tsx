@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { playCardBaseStyles } from "./playcard.styles";
+import { colors } from "../../util/colors";
 
 export const PlayCardPlaceholder: React.FC = ({ children }) => {
   return <PlaceholderContainer>{children}</PlaceholderContainer>;
@@ -8,4 +9,5 @@ export const PlayCardPlaceholder: React.FC = ({ children }) => {
 
 const PlaceholderContainer = styled.div`
   ${playCardBaseStyles}
+  background-color: ${colors.lightgrey};
 `;

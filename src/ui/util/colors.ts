@@ -13,6 +13,7 @@ export const colors = {
   white: "#ffffff",
   black: "#000000",
   grey: "#aba8af",
+  lightgrey: "#eeeeee",
   wood: {
     light: "#deb887",
     medium: "#cdaa7d",

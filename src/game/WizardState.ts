@@ -64,7 +64,7 @@ export interface WizardRoundState {
  * @interface Trump
  */
 export interface Trump {
-  card: Card | null;
+  card: Card | null | undefined;
   suit?: Suit | null;
 }
 
