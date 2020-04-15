@@ -8,6 +8,8 @@ import { getPlayerName } from "../../game/entities/players.utils";
 import { getTrickWinner } from "../../game/entities/cards.utils";
 import { colors } from "../util/colors";
 import { PlayerID } from "../../game/entities/players";
+import { checkTrickCard } from "../../game/entities/trick.utils";
+import { TrickCard } from "../../game/entities/trick";
 
 export const Trick: React.FC = () => {
   const {
@@ -17,10 +19,15 @@ export const Trick: React.FC = () => {
 
   if (!isSetTrick(trick) || !isSetRound(round)) return null;
   const { cards } = trick;
-
   let winningPlayerID: PlayerID;
-  if (cards.length > 0) {
-    const [, trickWinner] = getTrickWinner(cards, round?.trump.suit || null);
+  const playedCardsInTrick = cards.filter((optTrickCard) =>
+    checkTrickCard(optTrickCard)
+  ) as TrickCard[];
+  if (playedCardsInTrick.length > 0) {
+    const [, trickWinner] = getTrickWinner(
+      playedCardsInTrick,
+      round?.trump.suit || null
+    );
     winningPlayerID = trickWinner;
   }
 
@@ -29,7 +36,7 @@ export const Trick: React.FC = () => {
       {cards.map(([card, playerID]) => (
         <PlayingCardContainer
           isWinning={playerID === winningPlayerID}
-          key={`${card.suit}-${card.rank}`}
+          key={playerID}
         >
           <Tooltip
             title={getPlayerName(playerID, gameMetadata)}

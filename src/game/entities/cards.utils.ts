@@ -2,6 +2,8 @@ import flatten from "lodash/flatten";
 import groupBy from "lodash/groupBy";
 import { PlayerID } from "./players";
 import { Suit, SuitLabel, Rank, Card, allSuits, allRanks } from "./cards";
+import { checkTrickCards } from "./trick.utils";
+import { TrickCard } from "./trick";
 
 /**
  * checks if a card wins over another card given specified trump and lead suits
@@ -71,11 +73,14 @@ export function cardBeatsOther(
  * @returns {[Card, PlayerID]}
  */
 export function getTrickWinner(
-  cards: [Card, PlayerID][],
+  cards: TrickCard[],
   trumpSuit: Suit | null
 ): [Card, PlayerID] {
   if (cards.length === 0) {
     throw new Error("expected non-empty array of cards");
+  }
+  if (!checkTrickCards(cards)) {
+    throw new Error("expected no undefined cards");
   }
   const leadSuit = getLeadSuit(cards.map(([card]) => card));
   const winner = cards.reduce((winningCard, card, cardIndex) => {
