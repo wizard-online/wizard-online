@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { cardColors, ColorSet, colors } from "../util/colors";
 import { Card, Rank, Suit } from "../../game/entities/cards";
 import {
@@ -70,11 +70,13 @@ const BacksideCardBox = styled(StaticCardBox)`
   text-shadow: 0 0 8px ${cardColors.back.shadow};
 `;
 
-const FronsideCardBox = styled(StaticCardBox)<{
+interface FrontsideCardBoxProps {
   colorSet: ColorSet;
   isplayable: boolean;
   isdisabled: boolean;
-}>`
+}
+
+const FronsideCardBox = styled(StaticCardBox)<FrontsideCardBoxProps>`
   font-size: 36px;
   font-weight: bold;
   /* colors */
@@ -85,17 +87,19 @@ const FronsideCardBox = styled(StaticCardBox)<{
   -webkit-text-stroke: 2px ${({ colorSet }) => colorSet.outline};
   ${({ isplayable, isdisabled }) =>
     isplayable && !isdisabled
-      ? `cursor: pointer;
-    transition: transform 0.3s;
-    &:hover {
-      transform: translate(0, -10px);
-    }`
+      ? css`
+          cursor: pointer;
+          transition: transform 0.3s;
+          &:hover {
+            transform: translate(0, -10px);
+          }
+        `
       : ""}
   ${({ isdisabled: isDisabled }) =>
     isDisabled
-      ? `
-  background-color: #ffffff;
-  `
+      ? css`
+          background-color: #ffffff;
+        `
       : ""}
   & span {
     border-bottom: 2px solid ${({ colorSet }) => colorSet.text};
