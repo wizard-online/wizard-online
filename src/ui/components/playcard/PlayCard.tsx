@@ -1,12 +1,12 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { cardColors, ColorSet, colors } from "../util/colors";
-import { Card, Rank, Suit } from "../../game/entities/cards";
+import { cardColors, ColorSet, colors } from "../../util/colors";
+import { Card, Rank, Suit } from "../../../game/entities/cards";
 import {
   getCardLabel,
   getRankLabel,
   getCardId,
-} from "../../game/entities/cards.utils";
+} from "../../../game/entities/cards.utils";
 
 export interface PlayCardProps {
   card: Card | null;

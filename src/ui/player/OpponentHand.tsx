@@ -1,7 +1,7 @@
 import React from "react";
 import range from "lodash/range";
 import styled from "styled-components";
-import { PlayCard } from "../components/PlayCard";
+import { PlayCard } from "../components/playcard/PlayCard";
 
 export interface OpponentHandProps {
   numCards: number;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { playableCardsInHand } from "../../game/entities/cards.utils";
-import { PlayCard } from "../components/PlayCard";
+import { PlayCard } from "../components/playcard/PlayCard";
 import { Card } from "../../game/entities/cards";
 
 export interface HandCardsProps {

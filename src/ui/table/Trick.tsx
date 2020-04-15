@@ -3,7 +3,7 @@ import { Badge, Tooltip } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../GameContext";
 import { isSetTrick, isSetRound } from "../../game/WizardState";
-import { PlayCard } from "../components/PlayCard";
+import { PlayCard } from "../components/playcard/PlayCard";
 import { getPlayerName } from "../../game/entities/players.utils";
 import { getTrickWinner } from "../../game/entities/cards.utils";
 import { colors } from "../util/colors";

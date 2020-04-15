@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Suit } from "../../game/entities/cards";
-import { PlayCard } from "../components/PlayCard";
+import { PlayCard } from "../components/playcard/PlayCard";
 import { useGameState } from "../GameContext";
 import { isSetRound } from "../../game/WizardState";
 import { cardColors, ColorSet } from "../util/colors";
