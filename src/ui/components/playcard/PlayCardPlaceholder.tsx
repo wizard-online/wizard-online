@@ -10,4 +10,5 @@ export const PlayCardPlaceholder: React.FC = ({ children }) => {
 const PlaceholderContainer = styled.div`
   ${playCardBaseStyles}
   background-color: ${colors.lightgrey};
+  opacity: .6;
 `;
