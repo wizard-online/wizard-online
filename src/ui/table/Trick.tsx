@@ -24,26 +24,26 @@ export const Trick: React.FC = () => {
     checkTrickCard(optTrickCard)
   ) as TrickCard[];
   if (playedCardsInTrick.length > 0) {
-    const [, trickWinner] = getTrickWinner(
+    const { player } = getTrickWinner(
       playedCardsInTrick,
       round?.trump.suit || null
     );
-    winningPlayerID = trickWinner;
+    winningPlayerID = player;
   }
 
   return (
     <Container>
-      {cards.map(([card, playerID]) => (
+      {cards.map(({ card, player }) => (
         <PlayingCardContainer
-          isWinning={playerID === winningPlayerID}
-          key={playerID}
+          isWinning={player === winningPlayerID}
+          key={player}
         >
           <Tooltip
-            title={getPlayerName(playerID, gameMetadata)}
+            title={getPlayerName(player, gameMetadata)}
             placement="bottom"
           >
             <Badge
-              badgeContent={getPlayerName(playerID, gameMetadata, 7)}
+              badgeContent={getPlayerName(player, gameMetadata, 7)}
               color="primary"
             >
               <PlayCard card={card} interactive={false} />

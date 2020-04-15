@@ -1,6 +1,5 @@
 import flatten from "lodash/flatten";
 import groupBy from "lodash/groupBy";
-import { PlayerID } from "./players";
 import { Suit, SuitLabel, Rank, Card, allSuits, allRanks } from "./cards";
 import { checkTrickCards } from "./trick.utils";
 import { TrickCard } from "./trick";
@@ -75,19 +74,24 @@ export function cardBeatsOther(
 export function getTrickWinner(
   cards: TrickCard[],
   trumpSuit: Suit | null
-): [Card, PlayerID] {
+): TrickCard {
   if (cards.length === 0) {
     throw new Error("expected non-empty array of cards");
   }
   if (!checkTrickCards(cards)) {
     throw new Error("expected no undefined cards");
   }
-  const leadSuit = getLeadSuit(cards.map(([card]) => card));
-  const winner = cards.reduce((winningCard, card, cardIndex) => {
+  const leadSuit = getLeadSuit(cards.map(({ card }) => card));
+  const winner = cards.reduce((winningCard, trickCard, cardIndex) => {
     // skip first card
     if (cardIndex === 0) return winningCard;
-    const beaten = cardBeatsOther(card[0], winningCard[0], trumpSuit, leadSuit);
-    return beaten ? card : winningCard;
+    const beaten = cardBeatsOther(
+      trickCard.card,
+      winningCard.card,
+      trumpSuit,
+      leadSuit
+    );
+    return beaten ? trickCard : winningCard;
   }, cards[0]);
   return winner;
 }

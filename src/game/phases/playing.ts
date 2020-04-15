@@ -33,7 +33,7 @@ export function play(
   // as first player, init trick
   if (!g.trick || g.trick.isComplete) {
     const trickPlayerOrder = playersRound(g.currentPlayer, g.numPlayers).map(
-      (playerID) => [undefined, playerID] as OptionalTrickCard
+      (playerID) => ({ player: playerID } as OptionalTrickCard)
     );
     g.trick = generateBlankTrickState({ cards: trickPlayerOrder });
   }
@@ -42,8 +42,8 @@ export function play(
   if (cardIndex < 0 || cardIndex >= hand.length) {
     return INVALID_MOVE;
   }
-  const card = hand[cardIndex];
-  if (!canPlayCard(card, getSuitsInHand(hand), g.trick?.lead)) {
+  const cardPlayed = hand[cardIndex];
+  if (!canPlayCard(cardPlayed, getSuitsInHand(hand), g.trick?.lead)) {
     return INVALID_MOVE;
   }
 
@@ -52,8 +52,8 @@ export function play(
     throw new Error("trick is not set");
   }
   // set lead card (usually only first player, or first palyer after N)
-  if (!trick.lead && card.rank !== Rank.N) {
-    trick.lead = card;
+  if (!trick.lead && cardPlayed.rank !== Rank.N) {
+    trick.lead = cardPlayed;
   }
 
   if (!round.trickCount) {
@@ -62,15 +62,15 @@ export function play(
   // play card
   hand.splice(cardIndex, 1);
   const trickPlayerIndex = trick.cards.findIndex(
-    ([, playerID]) => playerID === g.currentPlayer
+    ({ player }) => player === g.currentPlayer
   );
   if (!(trickPlayerIndex >= 0)) {
     throw new Error("current player does not exist in the trick");
   }
-  trick.cards[trickPlayerIndex][0] = card;
+  trick.cards[trickPlayerIndex].card = cardPlayed;
   // pass turn to next player
   // as last player, find trick taker, increment trick count, and cleanup trick
-  if (trick.cards.filter(([crd]) => !crd).length === 0) {
+  if (trick.cards.filter(({ card }) => !card).length === 0) {
     endTrick(g, ctx);
   } else {
     ctx.events?.endTurn!();
@@ -98,13 +98,10 @@ function endTrick(g: WizardState, ctx: Ctx): void {
       "players have not equal amount of cards at the end of the trick"
     );
   }
-  const [, winnerPlayerId] = getTrickWinner(
-    trick.cards,
-    round.trump?.suit || null
-  );
-  round.trickCount![winnerPlayerId] += 1;
+  const { player } = getTrickWinner(trick.cards, round.trump?.suit || null);
+  round.trickCount![player] += 1;
 
-  ctx.events?.endTurn!({ next: winnerPlayerId.toString() });
+  ctx.events?.endTurn!({ next: player.toString() });
 }
 
 function onBegin({ round }: WizardState, { numPlayers }: Ctx): void {

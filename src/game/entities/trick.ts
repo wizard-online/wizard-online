@@ -1,5 +1,10 @@
 import { PlayerID } from "./players";
 import { Card } from "./cards";
 
-export type OptionalTrickCard = [Card | undefined, PlayerID];
-export type TrickCard = [Card, PlayerID];
+export interface OptionalTrickCard {
+  card: Card | undefined;
+  player: PlayerID;
+}
+export interface TrickCard extends OptionalTrickCard {
+  card: Card;
+}

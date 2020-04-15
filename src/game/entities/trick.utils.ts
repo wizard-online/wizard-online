@@ -3,7 +3,7 @@ import { OptionalTrickCard, TrickCard } from "./trick";
 export function checkTrickCard(
   optionalTrickCard: OptionalTrickCard
 ): optionalTrickCard is TrickCard {
-  return !!optionalTrickCard[0];
+  return !!optionalTrickCard.card;
 }
 
 export function checkTrickCards(

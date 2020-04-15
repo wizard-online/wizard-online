@@ -8,6 +8,14 @@ import {
 } from "./cards.utils";
 import { PlayerID } from "./players";
 import { Rank, allSuits, Card, Suit } from "./cards";
+import { TrickCard } from "./trick";
+
+function tc(suit: Suit, rank: Rank, player: PlayerID): TrickCard {
+  return {
+    card: { suit, rank },
+    player,
+  };
+}
 
 describe("generateCardDeck", () => {
   test("contains 60 cards", () => {
@@ -176,8 +184,14 @@ describe("cardBeatsOther", () => {
 });
 
 describe("getTrickWinner", () => {
+  const B = Suit.Blue;
+  const G = Suit.Green;
+  const R = Suit.Red;
+  const Y = Suit.Yellow;
+  const { N, Z } = Rank;
+
   interface TestData {
-    cards: [Card, PlayerID][];
+    cards: TrickCard[];
     trumpSuit: Suit;
     winnerIndex: number;
   }
@@ -185,36 +199,36 @@ describe("getTrickWinner", () => {
     const testData: TestData[] = [
       {
         cards: [
-          [Card(Suit.Blue, Rank.Z), 1],
-          [Card(Suit.Red, 13), 2],
-          [Card(Suit.Yellow, 8), 0],
+          tc(B, Z, 1), // [Card(Suit.Blue, Rank.Z), 1],
+          tc(R, 13, 2), // [Card(Suit.Red, 13), 2],
+          tc(Y, 8, 0), // [Card(Suit.Yellow, 8), 0],
         ],
         trumpSuit: Suit.Yellow,
         winnerIndex: 0,
       },
       {
         cards: [
-          [Card(Suit.Red, 13), 0],
-          [Card(Suit.Yellow, 8), 1],
-          [Card(Suit.Blue, Rank.Z), 2],
+          tc(R, 13, 0), // [Card(Suit.Red, 13), 0],
+          tc(Y, 8, 1), // [Card(Suit.Yellow, 8), 1],
+          tc(B, Z, 2), // [Card(Suit.Blue, Rank.Z), 2],
         ],
         trumpSuit: Suit.Yellow,
         winnerIndex: 2,
       },
       {
         cards: [
-          [Card(Suit.Red, 13), 2],
-          [Card(Suit.Yellow, Rank.Z), 0],
-          [Card(Suit.Blue, Rank.Z), 1],
+          tc(R, 13, 2), // [Card(Suit.Red, 13), 2],
+          tc(Y, Z, 0), // [Card(Suit.Yellow, Rank.Z), 0],
+          tc(B, Z, 1), // [Card(Suit.Blue, Rank.Z), 1],
         ],
         trumpSuit: Suit.Red,
         winnerIndex: 1,
       },
       {
         cards: [
-          [Card(Suit.Red, Rank.Z), 1],
-          [Card(Suit.Yellow, Rank.Z), 2],
-          [Card(Suit.Blue, Rank.Z), 0],
+          tc(R, Z, 1), // [Card(Suit.Red, Rank.Z), 1],
+          tc(Y, Z, 2), // [Card(Suit.Yellow, Rank.Z), 2],
+          tc(B, Z, 0), // [Card(Suit.Blue, Rank.Z), 0],
         ],
         trumpSuit: Suit.Green,
         winnerIndex: 0,
@@ -230,18 +244,18 @@ describe("getTrickWinner", () => {
     const data: TestData[] = [
       {
         cards: [
-          [Card(Suit.Red, 7), 0],
-          [Card(Suit.Yellow, 13), 1],
-          [Card(Suit.Red, 9), 2],
+          tc(R, 7, 0), // [Card(Suit.Red, 7), 0],
+          tc(Y, 13, 1), // [Card(Suit.Yellow, 13), 1],
+          tc(R, 9, 2), // [Card(Suit.Red, 9), 2],
         ],
         trumpSuit: Suit.Green,
         winnerIndex: 2,
       },
       {
         cards: [
-          [Card(Suit.Blue, 3), 1],
-          [Card(Suit.Blue, 2), 2],
-          [Card(Suit.Red, 9), 0],
+          tc(B, 3, 1), // [Card(Suit.Blue, 3), 1],
+          tc(B, 2, 2), // [Card(Suit.Blue, 2), 2],
+          tc(R, 9, 0), // [Card(Suit.Red, 9), 0],
         ],
         trumpSuit: Suit.Green,
         winnerIndex: 0,
@@ -257,27 +271,27 @@ describe("getTrickWinner", () => {
     const data: TestData[] = [
       {
         cards: [
-          [Card(Suit.Red, 7), 2],
-          [Card(Suit.Green, 1), 0],
-          [Card(Suit.Red, 9), 1],
+          tc(R, 7, 2), // [Card(Suit.Red, 7), 2],
+          tc(G, 1, 0), // [Card(Suit.Green, 1), 0],
+          tc(R, 9, 1), // [Card(Suit.Red, 9), 1],
         ],
         trumpSuit: Suit.Green,
         winnerIndex: 1,
       },
       {
         cards: [
-          [Card(Suit.Blue, 3), 0],
-          [Card(Suit.Blue, 2), 1],
-          [Card(Suit.Red, 9), 2],
+          tc(B, 3, 0), // [Card(Suit.Blue, 3), 0],
+          tc(B, 2, 1), // [Card(Suit.Blue, 2), 1],
+          tc(R, 9, 2), // [Card(Suit.Red, 9), 2],
         ],
         trumpSuit: Suit.Blue,
         winnerIndex: 0,
       },
       {
         cards: [
-          [Card(Suit.Green, 10), 1],
-          [Card(Suit.Blue, Rank.N), 2],
-          [Card(Suit.Blue, 9), 0],
+          tc(G, 10, 1), // [Card(Suit.Green, 10), 1],
+          tc(B, N, 2), // [Card(Suit.Blue, Rank.N), 2],
+          tc(B, 9, 0), // [Card(Suit.Blue, 9), 0],
         ],
         trumpSuit: Suit.Blue,
         winnerIndex: 2,
@@ -293,9 +307,9 @@ describe("getTrickWinner", () => {
     test("first N wins if only Ns", () => {
       const { cards, trumpSuit, winnerIndex }: TestData = {
         cards: [
-          [Card(Suit.Red, Rank.N), 2],
-          [Card(Suit.Yellow, Rank.N), 0],
-          [Card(Suit.Blue, Rank.N), 1],
+          tc(R, N, 2), // [Card(Suit.Red, Rank.N), 2],
+          tc(Y, N, 0), // [Card(Suit.Yellow, Rank.N), 0],
+          tc(B, N, 1), // [Card(Suit.Blue, Rank.N), 1],
         ],
         trumpSuit: Suit.Green,
         winnerIndex: 0,
@@ -307,20 +321,20 @@ describe("getTrickWinner", () => {
       const data: TestData[] = [
         {
           cards: [
-            [Card(Suit.Red, Rank.N), 3],
-            [Card(Suit.Green, 1), 0],
-            [Card(Suit.Red, 13), 1],
-            [Card(Suit.Green, 9), 2],
+            tc(R, N, 3), // [Card(Suit.Red, Rank.N), 3],
+            tc(G, 1, 0), // [Card(Suit.Green, 1), 0],
+            tc(R, 13, 1), // [Card(Suit.Red, 13), 1],
+            tc(G, 9, 2), // [Card(Suit.Green, 9), 2],
           ],
           trumpSuit: Suit.Green,
           winnerIndex: 3,
         },
         {
           cards: [
-            [Card(Suit.Blue, Rank.N), 0],
-            [Card(Suit.Blue, 2), 1],
-            [Card(Suit.Red, 9), 2],
-            [Card(Suit.Blue, 1), 3],
+            tc(B, N, 0), // [Card(Suit.Blue, Rank.N), 0],
+            tc(B, 2, 1), // [Card(Suit.Blue, 2), 1],
+            tc(R, 9, 2), // [Card(Suit.Red, 9), 2],
+            tc(B, 1, 3), // [Card(Suit.Blue, 1), 3],
           ],
           trumpSuit: Suit.Blue,
           winnerIndex: 1,
@@ -336,19 +350,19 @@ describe("getTrickWinner", () => {
       const data: TestData[] = [
         {
           cards: [
-            [Card(Suit.Red, Rank.N), 0],
-            [Card(Suit.Yellow, 13), 1],
-            [Card(Suit.Red, 9), 2],
+            tc(R, N, 0), // [Card(Suit.Red, Rank.N), 0],
+            tc(Y, 13, 1), // [Card(Suit.Yellow, 13), 1],
+            tc(R, 9, 2), // [Card(Suit.Red, 9), 2],
           ],
           trumpSuit: Suit.Green,
           winnerIndex: 1,
         },
         {
           cards: [
-            [Card(Suit.Blue, Rank.N), 2],
-            [Card(Suit.Blue, 2), 3],
-            [Card(Suit.Red, 9), 0],
-            [Card(Suit.Blue, 5), 1],
+            tc(B, N, 2), // [Card(Suit.Blue, Rank.N), 2],
+            tc(B, 2, 3), // [Card(Suit.Blue, 2), 3],
+            tc(R, 9, 0), // [Card(Suit.Red, 9), 0],
+            tc(B, 5, 1), // [Card(Suit.Blue, 5), 1],
           ],
           trumpSuit: Suit.Green,
           winnerIndex: 3,
@@ -356,10 +370,10 @@ describe("getTrickWinner", () => {
         // N card is of trump suit
         {
           cards: [
-            [Card(Suit.Green, Rank.N), 2],
-            [Card(Suit.Blue, 2), 3],
-            [Card(Suit.Red, 9), 0],
-            [Card(Suit.Blue, 5), 1],
+            tc(G, N, 2), // [Card(Suit.Green, Rank.N), 2],
+            tc(B, 2, 3), // [Card(Suit.Blue, 2), 3],
+            tc(R, 9, 0), // [Card(Suit.Red, 9), 0],
+            tc(B, 5, 1), // [Card(Suit.Blue, 5), 1],
           ],
           trumpSuit: Suit.Green,
           winnerIndex: 3,
