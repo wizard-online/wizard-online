@@ -5,7 +5,6 @@ import { isSetTrick, isSetRound } from "../../game/WizardState";
 import { PlayCard } from "../components/playcard/PlayCard";
 import { getPlayerName } from "../../game/entities/players.utils";
 import { getTrickWinner } from "../../game/entities/cards.utils";
-import { colors } from "../util/colors";
 import { PlayerID } from "../../game/entities/players";
 import { checkTrickCard } from "../../game/entities/trick.utils";
 import { TrickCard } from "../../game/entities/trick";
@@ -34,21 +33,17 @@ export const Trick: React.FC = () => {
   return (
     <Container>
       {cards.map(({ card, player }) => (
-        <TrickCardBox player={getPlayerName(player, gameMetadata)} key={player}>
-          <PlayingCardOutline isWinning={player === winningPlayerID}>
-            <PlayCard card={card} interactive={false} />
-          </PlayingCardOutline>
+        <TrickCardBox
+          player={getPlayerName(player, gameMetadata)}
+          isWinning={player === winningPlayerID}
+          key={player}
+        >
+          <PlayCard card={card} interactive={false} />
         </TrickCardBox>
       ))}
     </Container>
   );
 };
-
-const PlayingCardOutline = styled.div<{ isWinning: boolean }>`
-  border-radius: 7px;
-  border: 2px solid
-    ${({ isWinning }) => (isWinning ? colors.wizard.green : "transparent")};
-`;
 
 const Container = styled.div`
   display: flex;

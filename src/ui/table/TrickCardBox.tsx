@@ -4,14 +4,18 @@ import { colors } from "../util/colors";
 
 export interface TrickCardProps {
   player: string;
+  isWinning?: boolean;
 }
 
 export const TrickCardBox: React.FC<TrickCardProps> = ({
   player,
   children,
+  isWinning = false,
 }) => {
+  const outlineColor = isWinning ? colors.wizard.green : "transparent";
+
   return (
-    <Container>
+    <Container outlineColor={outlineColor}>
       {children}
       <Spacer />
       <PlayerBox>{player}</PlayerBox>
@@ -19,7 +23,7 @@ export const TrickCardBox: React.FC<TrickCardProps> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ outlineColor: string }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -29,6 +33,7 @@ const Container = styled.div`
   margin: 0 5px;
   padding: 8px 10px;
   background-color: ${colors.lightTransparentGrey};
+  border: 2px solid ${({ outlineColor }) => outlineColor};
   border-radius: 7px;
 `;
 
