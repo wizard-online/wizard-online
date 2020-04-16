@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Trick } from "./Trick";
 import { Deck } from "./Deck";
 import { colors } from "../util/colors";
 import { ActionsContainer } from "../player/actions/ActionsContainer";
 import { useGameState, usePlayerName } from "../GameContext";
+import { TableRound } from "./TableRound";
 
 export const Table: React.FC = () => {
   const {
@@ -19,7 +19,7 @@ export const Table: React.FC = () => {
     <TableContainer>
       <PlayRow data-testid="table-play">
         <Deck />
-        <Trick />
+        <TableRound />
       </PlayRow>
       <InfoRow data-testid="table-info">
         {isTurn && <ActionsContainer phase={phase} />}

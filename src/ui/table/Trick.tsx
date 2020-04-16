@@ -16,7 +16,8 @@ export const Trick: React.FC = () => {
     gameMetadata,
   } = useGameState();
 
-  if (!isSetTrick(trick) || !isSetRound(round)) return null;
+  if (!isSetTrick(trick) || !isSetRound(round))
+    return <span>Round or trick is null</span>;
   const { cards } = trick;
   let winningPlayerID: PlayerID;
   const playedCardsInTrick = cards.filter((optTrickCard) =>
