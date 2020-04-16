@@ -1,5 +1,4 @@
 import React from "react";
-import { Badge, Tooltip } from "@material-ui/core";
 import styled from "styled-components";
 import { useGameState } from "../GameContext";
 import { isSetTrick, isSetRound } from "../../game/WizardState";
@@ -10,6 +9,7 @@ import { colors } from "../util/colors";
 import { PlayerID } from "../../game/entities/players";
 import { checkTrickCard } from "../../game/entities/trick.utils";
 import { TrickCard } from "../../game/entities/trick";
+import { TrickCardBox } from "./TrickCardBox";
 
 export const Trick: React.FC = () => {
   const {
@@ -34,29 +34,17 @@ export const Trick: React.FC = () => {
   return (
     <Container>
       {cards.map(({ card, player }) => (
-        <PlayingCardContainer
-          isWinning={player === winningPlayerID}
-          key={player}
-        >
-          <Tooltip
-            title={getPlayerName(player, gameMetadata)}
-            placement="bottom"
-          >
-            <Badge
-              badgeContent={getPlayerName(player, gameMetadata, 7)}
-              color="primary"
-            >
-              <PlayCard card={card} interactive={false} />
-            </Badge>
-          </Tooltip>
-        </PlayingCardContainer>
+        <TrickCardBox player={getPlayerName(player, gameMetadata)} key={player}>
+          <PlayingCardOutline isWinning={player === winningPlayerID}>
+            <PlayCard card={card} interactive={false} />
+          </PlayingCardOutline>
+        </TrickCardBox>
       ))}
     </Container>
   );
 };
 
-const PlayingCardContainer = styled.div<{ isWinning: boolean }>`
-  margin: 10px;
+const PlayingCardOutline = styled.div<{ isWinning: boolean }>`
   border-radius: 7px;
   border: 2px solid
     ${({ isWinning }) => (isWinning ? colors.wizard.green : "transparent")};
@@ -65,4 +53,5 @@ const PlayingCardContainer = styled.div<{ isWinning: boolean }>`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
 `;

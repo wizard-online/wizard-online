@@ -20,7 +20,6 @@ export const Table: React.FC = () => {
       <PlayRow data-testid="table-play">
         <Deck />
         <Trick />
-        <SpaceFill />
       </PlayRow>
       <InfoRow data-testid="table-info">
         {isTurn && <ActionsContainer phase={phase} />}
@@ -50,6 +49,8 @@ const PlayRow = styled.div`
   align-items: center;
   border-bottom: 1px solid ${colors.wood.dark};
   padding-bottom: 25px;
+  min-height: 140px;
+  box-sizing: border-box;
 `;
 
 const InfoRow = styled.div`
