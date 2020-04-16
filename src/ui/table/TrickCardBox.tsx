@@ -26,10 +26,10 @@ export const TrickCardBox: React.FC<TrickCardProps> = ({
 const Container = styled.div<{ outlineColor: string }>`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   flex-grow: 1;
   max-width: 150px;
+  height: 95px;
   margin: 0 5px;
   padding: 8px 10px;
   background-color: ${colors.lightTransparentGrey};
@@ -39,6 +39,7 @@ const Container = styled.div<{ outlineColor: string }>`
 
 const Spacer = styled.div`
   margin: 3px 0;
+  flex-grow: 1;
 `;
 
 const PlayerBox = styled.div`
