@@ -23,7 +23,9 @@ export const BiddingAction: React.FC = () => {
 
   const marks = range(0, numCards + 1).map((value) => ({
     value,
-    label: value.toString(),
+    label: isValidBid(value, numCards, bids, currentPlayer)
+      ? value.toString()
+      : "❌",
   }));
 
   return (
