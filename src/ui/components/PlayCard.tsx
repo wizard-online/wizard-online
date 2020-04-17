@@ -78,7 +78,7 @@ const FronsideCardBox = styled(StaticCardBox)<{
   font-size: 36px;
   font-weight: bold;
   /* colors */
-  background-color: ${({ colorSet }) => colorSet.background};
+  background: ${({ colorSet }) => colorSet.background};
   color: ${({ colorSet }) => colorSet.outline};
   /* cool outline effect only supported with prefix */
   -webkit-text-fill-color: ${({ colorSet }) => colorSet.text};
