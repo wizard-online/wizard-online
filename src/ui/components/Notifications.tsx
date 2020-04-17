@@ -1,6 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Snackbar, SnackbarCloseReason } from "@material-ui/core";
 import random from "lodash/random";
+import { useGameState } from "../GameContext";
+import { getTrickWinner } from "../../game/entities/cards.utils";
+import { getPlayerName } from "../../game/entities/players.utils";
+import { GameEvent } from "../util/game-events";
 
 interface Notification {
   message: string;
@@ -11,6 +15,29 @@ interface NotificationWithKey extends Notification {
 }
 
 export const Notifications: React.FC = () => {
+  const { gameMetadata } = useGameState();
+
+  useEffect(() => {
+    const handleTrickComplete = (): void => {
+      console.log("trick completed!");
+    };
+    const handleRoundComplete = (): void => {
+      console.log("round completed!");
+    };
+    document.addEventListener(GameEvent.TrickComplete, handleTrickComplete);
+    document.addEventListener(GameEvent.RoundComplete, handleRoundComplete);
+    return () => {
+      document.removeEventListener(
+        GameEvent.TrickComplete,
+        handleTrickComplete
+      );
+      document.removeEventListener(
+        GameEvent.RoundComplete,
+        handleRoundComplete
+      );
+    };
+  }, []);
+
   const [show, setShow] = useState(false);
   const [notification, setNotification] = useState<Notification | undefined>(
     undefined

@@ -12,6 +12,8 @@ import { ScorePad } from "./score/ScorePad";
 import { FinalScoreModal } from "./gameover/FinalScoreModal";
 import { GameState } from "./GameState";
 import { theme } from "./util/mui-theme";
+import { Notifications } from "./components/Notifications";
+import { GameEventDispatcher } from "./components/GameEventsDispatcher";
 
 export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
   return (
@@ -24,9 +26,12 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
         } as GameState,
       }}
     >
+      <GameEventDispatcher />
       <ThemeProvider theme={theme}>
         <BoardContainer>
           <HeaderBar />
+          <Notifications />
+
           <PlayersContainer upper />
           <Table />
           <PlayersContainer />
