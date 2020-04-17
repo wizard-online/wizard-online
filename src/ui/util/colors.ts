@@ -73,7 +73,7 @@ export const cardColors: ColorSetCollection = {
     outline: colors.yellow.dark,
   },
   zn: {
-    background: `radial-gradient(circle, ${colors.grey} 50%, ${colors.wizard.dark} 100%)`, // colors.grey,
+    background: `radial-gradient(circle, ${colors.grey} 50%, ${colors.wizard.dark} 100%)`,
     text: colors.white,
     outline: colors.black,
   },
