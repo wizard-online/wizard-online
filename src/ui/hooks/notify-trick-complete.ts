@@ -25,7 +25,7 @@ export function useNotifyTrickComplete(): void {
           message = `${trickWinnerName} gewinnt den Stich!`;
         }
 
-        notify({ message });
+        notify({ message, icon: "info" });
       }
     },
     [notify]
