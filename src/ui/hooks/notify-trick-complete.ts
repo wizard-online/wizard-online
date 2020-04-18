@@ -5,23 +5,24 @@ import { useNotify } from "../NotificationsProvider";
 import { getPlayerName } from "../../game/entities/players.utils";
 import { useGameEventHandler } from "./game-event-handler";
 import { GameState } from "../GameState";
+import { checkTrickCard } from "../../game/entities/trick.utils";
 
 export function useNotifyTrickComplete(): void {
   const notify = useNotify();
 
   const handleTrickComplete = useCallback(
     ({ wizardState: { round, trick }, gameMetadata, clientID }: GameState) => {
-      const trickCards = trick?.cards;
+      const trickCards = trick?.cards.filter(checkTrickCard);
       const trumpSuit = round?.trump.suit ?? null;
 
       if (trickCards) {
-        const [, trickWinner] = getTrickWinner(trickCards, trumpSuit);
+        const { player } = getTrickWinner(trickCards, trumpSuit);
         let message: string;
 
-        if (trickWinner === clientID) {
+        if (player === clientID) {
           message = "Du gewinnst den Stich!";
         } else {
-          const trickWinnerName = getPlayerName(trickWinner, gameMetadata);
+          const trickWinnerName = getPlayerName(player, gameMetadata);
           message = `${trickWinnerName} gewinnt den Stich!`;
         }
 
