@@ -1,33 +1,35 @@
 import { useCallback } from "react";
 import { GameEvent } from "../util/game-events";
-// import { useGameState } from "../GameContext";
-// import { getTrickWinner } from "../../game/entities/cards.utils";
+import { getTrickWinner } from "../../game/entities/cards.utils";
 import { useNotify } from "../NotificationsProvider";
-// import { getPlayerName } from "../../game/entities/players.utils";
+import { getPlayerName } from "../../game/entities/players.utils";
 import { useGameEventHandler } from "./game-event-handler";
+import { GameState } from "../GameState";
 
 export function useNotifyTrickComplete(): void {
-  // const {
-  //   wizardState: { round, trick },
-  //   gameMetadata,
-  // } = useGameState();
   const notify = useNotify();
 
-  // const handleTrickComplete = useCallback(() => {
-  //   console.log("trick completed!");
-  //   if (round && trick) {
-  //     const [, trickWinner] = getTrickWinner(
-  //       trick.cards,
-  //       round.trump.suit ?? null
-  //     );
-  //     const trickWinnerName = getPlayerName(trickWinner, gameMetadata);
-  //     notify({ message: `${trickWinnerName} gewinnt den Stich!` });
-  //   }
-  // }, [round, trick, gameMetadata, notify]);
-  const handleTrickComplete = useCallback(() => {
-    console.log("trick complete!");
-    notify({ message: "trick complete!" });
-  }, [notify]);
+  const handleTrickComplete = useCallback(
+    ({ wizardState: { round, trick }, gameMetadata, clientID }: GameState) => {
+      const trickCards = trick?.cards;
+      const trumpSuit = round?.trump.suit ?? null;
+
+      if (trickCards) {
+        const [, trickWinner] = getTrickWinner(trickCards, trumpSuit);
+        let message: string;
+
+        if (trickWinner === clientID) {
+          message = "Du gewinnst den Stich!";
+        } else {
+          const trickWinnerName = getPlayerName(trickWinner, gameMetadata);
+          message = `${trickWinnerName} gewinnt den Stich!`;
+        }
+
+        notify({ message });
+      }
+    },
+    [notify]
+  );
 
   useGameEventHandler(GameEvent.TrickComplete, handleTrickComplete);
 }
