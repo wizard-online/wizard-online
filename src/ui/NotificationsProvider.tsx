@@ -1,8 +1,11 @@
 import React, { useState, useRef, useCallback, useContext } from "react";
-import { Snackbar, SnackbarCloseReason } from "@material-ui/core";
+import { Snackbar, SnackbarCloseReason, Icon } from "@material-ui/core";
+import styled from "styled-components";
+import { colors } from "./util/colors";
 
 export interface Notification {
-  message: string;
+  message: string | JSX.Element;
+  icon?: string;
 }
 interface NotificationWithKey extends Notification {
   key: number;
@@ -58,11 +61,41 @@ export const NotificationsProvider: React.FC = ({ children }) => {
           setShow(false);
         }}
         onExited={processQueue}
-        message={notification ? notification.message : undefined}
-      />
+      >
+        <NotificationContainer>
+          {notification?.icon && (
+            <NotificationIcon>{notification?.icon}</NotificationIcon>
+          )}
+          <NotificationMessage>{notification?.message}</NotificationMessage>
+        </NotificationContainer>
+      </Snackbar>
     </NotificationsContext.Provider>
   );
 };
+
+const NotificationContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 288px;
+  max-width: 500px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.43;
+  border-radius: 4px;
+  letter-spacing: 0.01071em;
+  background-color: ${colors.wizard.dark};
+  color: ${colors.white};
+`;
+
+const NotificationIcon = styled(Icon)`
+  margin: 5px;
+`;
+
+const NotificationMessage = styled.div`
+  padding: 8px 0;
+`;
 
 export function useNotify(): Notify {
   const notificationsContext = useContext(NotificationsContext);

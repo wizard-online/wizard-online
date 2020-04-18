@@ -13,12 +13,14 @@ export function useNotifyRoundComplete(): void {
         const { numCards, playerScores } = scorePad[scorePad.length - 1];
 
         let message = `Runde ${numCards} beendet.`;
+        let icon;
         if (clientID >= 0) {
           const { score } = playerScores[clientID];
           message += ` ${score} Punkte.`;
+          icon = score > 0 ? "check" : "highlight_off";
         }
 
-        notify({ message });
+        notify({ message, icon });
       }
     },
     [notify]
