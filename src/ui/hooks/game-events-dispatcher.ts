@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useGameState } from "../GameContext";
 import { GameEvent } from "../util/game-events";
 
-export const GameEventDispatcher: React.FC = () => {
+export function useGameEventsDispatcher(): void {
   const {
     wizardState: { round, trick },
   } = useGameState();
@@ -22,7 +22,4 @@ export const GameEventDispatcher: React.FC = () => {
       document.dispatchEvent(new Event(GameEvent.RoundComplete));
     }
   }, [roundIsComplete]);
-
-  // do not render anything
-  return null;
-};
+}

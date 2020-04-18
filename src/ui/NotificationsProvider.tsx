@@ -1,0 +1,74 @@
+import React, { useState, useRef, useCallback, useContext } from "react";
+import { Snackbar, SnackbarCloseReason } from "@material-ui/core";
+
+export interface Notification {
+  message: string;
+}
+interface NotificationWithKey extends Notification {
+  key: number;
+}
+
+export type Notify = (notification: Notification) => void;
+
+export interface NotificationsProviderContext {
+  notify: Notify;
+}
+
+export const NotificationsContext = React.createContext<
+  NotificationsProviderContext | undefined
+>(undefined);
+
+export const NotificationsProvider: React.FC = ({ children }) => {
+  const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState<Notification | undefined>(
+    undefined
+  );
+  const queue = useRef<NotificationWithKey[]>([]);
+
+  const processQueue = useCallback((): void => {
+    if (queue.current.length > 0) {
+      setNotification(queue.current.shift());
+      setShow(true);
+    }
+  }, []);
+
+  const notify = useCallback(
+    (newNotification: Notification): void => {
+      queue.current.push({ ...newNotification, key: new Date().getTime() });
+      if (show) {
+        setShow(false);
+      } else {
+        processQueue();
+      }
+    },
+    [processQueue, show]
+  );
+
+  return (
+    <NotificationsContext.Provider value={{ notify }}>
+      {children}
+      <Snackbar
+        open={show}
+        autoHideDuration={5000}
+        // eslint-disable-next-line no-empty-pattern
+        onClose={({}, reason: SnackbarCloseReason) => {
+          if (reason === "clickaway") {
+            return;
+          }
+          setShow(false);
+        }}
+        onExited={processQueue}
+        message={notification ? notification.message : undefined}
+      />
+    </NotificationsContext.Provider>
+  );
+};
+
+export function useNotify(): Notify {
+  const notificationsContext = useContext(NotificationsContext);
+  if (!notificationsContext)
+    throw new Error(
+      "useNotify hook is called outside the scope of NotificationProvider"
+    );
+  return notificationsContext.notify;
+}
