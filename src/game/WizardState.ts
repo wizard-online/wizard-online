@@ -5,6 +5,7 @@ import { NumPlayers, PlayerID } from "./entities/players";
 import { Phase } from "./phases/phase";
 import { ScorePad } from "./entities/score";
 import { Card, Suit } from "./entities/cards";
+import { OptionalTrickCard } from "./entities/trick";
 
 /**
  * Describes the Wizard game state used in the g object.
@@ -33,7 +34,7 @@ export interface WizardState {
  * @interface WizardTrickState
  */
 export interface WizardTrickState {
-  cards: [Card, PlayerID][];
+  cards: OptionalTrickCard[];
   lead?: Card;
   isComplete?: boolean;
 }
@@ -64,7 +65,7 @@ export interface WizardRoundState {
  * @interface Trump
  */
 export interface Trump {
-  card: Card | null;
+  card: Card | null | undefined;
   suit?: Suit | null;
 }
 

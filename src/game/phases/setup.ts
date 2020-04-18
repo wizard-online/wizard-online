@@ -43,11 +43,11 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
   round.hands = hands;
 
   // draw trump card
-  let trumpCard: Card | null = null;
+  let trumpCard: Card | undefined;
   let trumpSuit: Suit | null | undefined = null;
 
   if (round.deck.length > 0) {
-    trumpCard = round.deck.pop() ?? null;
+    trumpCard = round.deck.pop() ?? undefined;
     trumpSuit = trumpCard?.suit ?? null;
     if (trumpCard?.rank === Rank.N) {
       trumpSuit = null;

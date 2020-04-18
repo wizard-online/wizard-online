@@ -13,6 +13,8 @@ export const colors = {
   white: "#ffffff",
   black: "#000000",
   grey: "#aba8af",
+  lightgrey: "#eeeeee",
+  lightTransparentGrey: "rgba(255, 255, 255, 0.3)",
   wood: {
     light: "#deb887",
     medium: "#cdaa7d",

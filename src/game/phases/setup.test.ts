@@ -102,7 +102,7 @@ describe("handout", () => {
     const ctx = generateCtx({ numPlayers: 4 });
     const g = generateDefaultWizardState(ctx, { numCards: 15 });
     handoutMove(g, ctx);
-    expect(g.round!.trump.card).toBeNull();
+    expect(g.round!.trump.card).toBeUndefined();
     expect(g.round!.trump.suit).toBeNull();
   });
 

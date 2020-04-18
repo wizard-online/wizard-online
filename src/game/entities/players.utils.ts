@@ -24,6 +24,21 @@ export function playersRound(
 }
 
 /**
+ * Gets the next player in the round.
+ *
+ * @export
+ * @param {PlayerID} currentPlayer current player
+ * @param {NumPlayers} numPlayers total number of players in roudn
+ * @returns {PlayerID} next player in round
+ */
+export function nextPlayer(
+  currentPlayer: PlayerID,
+  numPlayers: NumPlayers
+): PlayerID {
+  return ((currentPlayer + 1) % numPlayers) as PlayerID;
+}
+
+/**
  * Gets the name for a given playerID. If no name is found, the playerID is converted to a string.
  *
  * @export
