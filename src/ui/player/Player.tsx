@@ -47,11 +47,15 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
 
 const StyledCard = styled(Card)`
   flex-grow: 1;
+  display: flex;
 `;
 
 const PlayerContainer = styled.div<{ isTurn: boolean }>`
-  border: 1px solid
-    ${({ isTurn }) => (isTurn ? colors.red.medium : colors.wizard.green)};
+  flex-grow: 1;
+  border-style: solid;
+  border-width: ${({ isTurn }) => (isTurn ? `2px` : `1px`)};
+  border-color: ${({ isTurn }) =>
+    isTurn ? colors.red.medium : colors.wizard.green};
   border-radius: 4px;
 `;
 
