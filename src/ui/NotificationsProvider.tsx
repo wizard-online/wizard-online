@@ -90,7 +90,7 @@ const NotificationContainer = styled.div`
 `;
 
 const NotificationIcon = styled(Icon)`
-  margin: 5px;
+  margin-right: 10px;
 `;
 
 const NotificationMessage = styled.div`
