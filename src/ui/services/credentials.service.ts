@@ -27,7 +27,7 @@ function cleanStore(store: CredentialsStore): CredentialsStore {
   }, {} as CredentialsStore);
 }
 
-function addToStore(
+export function addToStore(
   store: CredentialsStore,
   key: string,
   credentials: string
