@@ -1,7 +1,7 @@
 import differenceInDays from "date-fns/differenceInDays";
 import flow from "lodash/fp/flow";
 
-const storageKey = "wizard-credentials";
+export const storageKey = "wizard-credentials";
 
 interface CredentialsStore {
   [key: string]: Credentials;
