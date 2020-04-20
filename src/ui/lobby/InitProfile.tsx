@@ -5,6 +5,7 @@ import {
   Select,
   InputLabel,
   MenuItem,
+  Button,
 } from "@material-ui/core";
 import styled from "styled-components";
 import {
@@ -34,6 +35,11 @@ export const InitProfile: React.FC = () => {
               ))}
             </Select>
           </FormControl>
+        </FormField>
+        <FormField>
+          <Button type="submit" variant="contained" color="primary">
+            Los geht&apos;s!
+          </Button>
         </FormField>
       </Form>
     </div>
