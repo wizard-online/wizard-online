@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Select, MenuItem, Button } from "@material-ui/core";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 import { NumPlayers } from "../../game/entities/players";
 import { createGame } from "../services/api.service";
 import { Form } from "../components/Form";
 
 export const CreateGame: React.FC = () => {
+  const history = useHistory();
   const [numPlayers, setNumPlayers] = useState<NumPlayers>(3);
   return (
     <div>
@@ -14,8 +16,7 @@ export const CreateGame: React.FC = () => {
         <Form
           onSubmit={async () => {
             const gameID = await createGame(numPlayers);
-            console.log("created game", gameID);
-            // TODO: implement routing to game component
+            history.push(`/game/${gameID}`);
           }}
         >
           <FieldContainer>

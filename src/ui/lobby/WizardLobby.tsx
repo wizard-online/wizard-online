@@ -1,9 +1,11 @@
 import React from "react";
 import { AppBar, Toolbar } from "@material-ui/core";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import styled from "styled-components";
 import { InitProfile } from "./InitProfile";
 import { CreateGame } from "./CreateGame";
 import { useProfile } from "../ProfileProvider";
+import { EnterGame } from "./EnterGame";
 
 export const WizardLobby: React.FC = () => {
   const { profile } = useProfile();
@@ -16,11 +18,23 @@ export const WizardLobby: React.FC = () => {
       <AppBar>
         <Toolbar>Hallo {name}!</Toolbar>
       </AppBar>
+      <AppBarSpacer />
       <Switch>
-        <Route path="/">
+        <Route exact path="/">
           <CreateGame />
+        </Route>
+        <Route path="/game/:gameID">
+          <EnterGame />
+        </Route>
+        <Route path="*">
+          <Redirect to="/" />
         </Route>
       </Switch>
     </div>
   );
 };
+
+const AppBarSpacer = styled.div`
+  height: 64px;
+  margin-bottom: 5px;
+`;
