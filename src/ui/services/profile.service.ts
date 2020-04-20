@@ -4,7 +4,7 @@ export const storageKey = "wizard-profile";
 
 export interface ProfileStore {
   name: string;
-  handOrderPreference: HandOrderPreference;
+  handOrderPreference?: HandOrderPreference;
 }
 
 export enum HandOrderPreference {
