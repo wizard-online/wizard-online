@@ -1,43 +1,37 @@
-import React from "react";
-import {
-  TextField,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-  Button,
-} from "@material-ui/core";
+import React, { useState } from "react";
+import { TextField, Button } from "@material-ui/core";
 import styled from "styled-components";
-import {
-  handOrderPreferences,
-  getHandOrderPreferenceLabel,
-} from "../services/profile.service";
+import { setProfile } from "../services/profile.service";
 
 export const InitProfile: React.FC = () => {
+  const [name, setName] = useState("");
   return (
     <div>
       <h1>Willkommen bei Wizzzzard Online</h1>
       <p>Du kannst gleich loslegen!</p>
-      <Form>
+      <Form
+        onSubmit={(event) => {
+          setProfile({ name });
+          event.preventDefault();
+        }}
+      >
         <h3>Spieler-Name</h3>
         <FormField>
-          <TextField label="Name" required fullWidth />
-        </FormField>
-        <h3>Persönliche Voreinstellungen</h3>
-        <FormField>
-          <FormControl fullWidth>
-            <InputLabel>Handkarten-Sortierung</InputLabel>
-            <Select value={null} onChange={() => {}}>
-              {handOrderPreferences.map((handOrderPreference) => (
-                <MenuItem value={handOrderPreference}>
-                  {getHandOrderPreferenceLabel(handOrderPreference)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <TextField
+            label="Name"
+            required
+            fullWidth
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
         </FormField>
         <FormField>
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={!name}
+          >
             Los geht&apos;s!
           </Button>
         </FormField>
