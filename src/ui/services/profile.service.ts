@@ -20,12 +20,21 @@ export function getProfile(): ProfileStore | null {
   )();
 }
 
+export function setProfile(profile: ProfileStore): void {
+  localStorage.setItem(storageKey, JSON.stringify(profile));
+}
+
 export function updateProfile(changes: Partial<ProfileStore>): void {
   flow(
     () => localStorage.getItem(storageKey),
-    (value) => value ?? "{}",
+    (value) => {
+      if (!value) {
+        throw new Error("cannot update profile if it is undefined");
+      }
+      return value;
+    },
     JSON.parse,
-    (store) => ({ ...store, changes }),
+    (store) => ({ ...store, ...changes }),
     JSON.stringify,
     (value) => localStorage.setItem(storageKey, value)
   )();
