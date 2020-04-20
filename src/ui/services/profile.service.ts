@@ -12,6 +12,24 @@ export enum HandOrderPreference {
   Sorted = "sorted",
 }
 
+export const handOrderPreferences = [
+  HandOrderPreference.None,
+  HandOrderPreference.Sorted,
+];
+
+export function getHandOrderPreferenceLabel(
+  handOrderPreference: HandOrderPreference
+): string {
+  switch (handOrderPreference) {
+    case HandOrderPreference.None:
+      return "Nicht sortieren";
+    case HandOrderPreference.Sorted:
+      return "Sortieren";
+    default:
+      return "";
+  }
+}
+
 export function getProfile(): ProfileStore | null {
   return flow(
     () => localStorage.getItem(storageKey),
