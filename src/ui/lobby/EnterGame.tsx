@@ -18,9 +18,10 @@ import {
 
 interface EnterGameProps {
   gameID: string;
+  startGame(): void;
 }
 
-export const EnterGame: React.FC<EnterGameProps> = ({ gameID }) => {
+export const EnterGame: React.FC<EnterGameProps> = ({ gameID, startGame }) => {
   const history = useHistory();
   const { name: playerName } = useProfile();
   const [game, setGame] = useState<GameRoom | undefined>();
@@ -50,6 +51,10 @@ export const EnterGame: React.FC<EnterGameProps> = ({ gameID }) => {
   }
 
   const freeChairs = game.players.filter((player) => !player.name);
+
+  if (credentialsState && freeChairs.length === 0) {
+    startGame();
+  }
 
   return (
     <div>

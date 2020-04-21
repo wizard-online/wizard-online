@@ -1,15 +1,13 @@
-import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { EnterGame } from "./EnterGame";
 
 export const GameContainer: React.FC = () => {
-  const history = useHistory();
-  const { gameID } = useParams();
+  const { gameID } = useParams<{ gameID: string }>();
+  const [playing, setPlaying] = useState(false);
 
-  // redirect to start page if param is missing
-  if (!gameID) {
-    history.replace("/");
-    return null;
+  if (playing) {
+    return <div>Playing...</div>;
   }
-  return <EnterGame gameID={gameID} />;
+  return <EnterGame gameID={gameID} startGame={() => setPlaying(true)} />;
 };
