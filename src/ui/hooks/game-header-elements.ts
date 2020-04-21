@@ -1,10 +1,8 @@
-import React from "react";
-
 import { useGameState } from "../GameContext";
+import { useHeaderElement } from "../header/HeaderElementsProvider";
 import { maxCards } from "../../game/entities/players.utils";
-import { useHeaderElement } from "./HeaderElementsProvider";
 
-export const HeaderBar: React.FC = () => {
+export function useGameHeaderElements(): void {
   const {
     wizardState: { numCards, numPlayers, round },
   } = useGameState();
@@ -20,6 +18,4 @@ export const HeaderBar: React.FC = () => {
       ${round.bidsMismatch === 0 ? "(ausgeglichen)" : ""}`
       : ""
   );
-
-  return null;
-};
+}
