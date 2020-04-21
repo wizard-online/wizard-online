@@ -1,46 +1,27 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect } from "react";
 import { Button } from "@material-ui/core";
-import random from "lodash/random";
-import { useHistory } from "react-router-dom";
-import {
-  getGame,
-  GameRoom,
-  joinGame,
-  leaveGame,
-} from "../services/api.service";
-import { useProfile } from "../ProfileProvider";
-import {
-  setCredentials,
-  getCredentials,
-  Credentials,
-  unsetCredentials,
-} from "../services/credentials.service";
+import { GameRoom } from "../services/api.service";
 
 interface EnterGameProps {
   gameID: string;
-  startGame(): void;
+  game?: GameRoom;
+  joined?: boolean;
+  fetchGame(): void;
+  onEnterGame(): void;
+  canEnterGame: boolean;
+  onLeaveGame(): void;
 }
 
-export const EnterGame: React.FC<EnterGameProps> = ({ gameID, startGame }) => {
-  const history = useHistory();
-  const { name: playerName } = useProfile();
-  const [game, setGame] = useState<GameRoom | undefined>();
-  const [credentialsState, setCredentialsState] = useState<
-    Credentials | undefined
-  >();
-
-  const fetchGame = useCallback(async () => {
-    try {
-      const gameResponse = await getGame(gameID!);
-      setGame(gameResponse);
-      setCredentialsState(getCredentials(gameID));
-    } catch (error) {
-      history.replace("/");
-    }
-  }, [gameID, history]);
-
+export const EnterGame: React.FC<EnterGameProps> = ({
+  gameID,
+  game,
+  joined,
+  fetchGame,
+  onEnterGame,
+  canEnterGame,
+  onLeaveGame,
+}) => {
   useEffect(() => {
-    fetchGame();
     const intervalID = setInterval(fetchGame, 1000);
     return () => clearInterval(intervalID);
   }, [fetchGame]);
@@ -48,12 +29,6 @@ export const EnterGame: React.FC<EnterGameProps> = ({ gameID, startGame }) => {
   // show loading screen until game is available
   if (!game) {
     return <div>Lade das Spiel...</div>;
-  }
-
-  const freeSeats = game.players.filter((player) => !player.name);
-
-  if (credentialsState && freeSeats.length === 0) {
-    startGame();
   }
 
   return (
@@ -68,36 +43,13 @@ export const EnterGame: React.FC<EnterGameProps> = ({ gameID, startGame }) => {
         ))}
       </ul>
       <div>
-        {!credentialsState && (
-          <Button
-            onClick={async () => {
-              const { id } = freeSeats[random(freeSeats.length)];
-              const newCredentials = await joinGame(gameID, id, playerName);
-              setCredentials(gameID, id, newCredentials);
-              fetchGame();
-            }}
-            disabled={!freeSeats.length}
-          >
+        {joined ? (
+          <Button onClick={onLeaveGame}>Spiel verlassen</Button>
+        ) : (
+          <Button onClick={onEnterGame} disabled={!canEnterGame}>
             Spiel beitreten
           </Button>
         )}
-        {credentialsState && freeSeats.length > 0 && (
-          <Button
-            onClick={async () => {
-              await leaveGame(
-                gameID,
-                credentialsState.playerID,
-                credentialsState.credentials
-              );
-              unsetCredentials(gameID);
-              fetchGame();
-            }}
-            disabled={!freeSeats.length}
-          >
-            Spiel verlassen
-          </Button>
-        )}
-        {credentialsState && freeSeats.length === 0 && <div>Playing!</div>}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ type GameID = string;
 type PlayerCredentials = string;
 export interface GameRoom {
   roomID: GameID;
-  players: { id: string; name: string }[];
+  players: { id: PlayerID; name: string }[];
   setupData?: unknown;
 }
 

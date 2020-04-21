@@ -1,5 +1,6 @@
 import differenceInDays from "date-fns/differenceInDays";
 import flow from "lodash/fp/flow";
+import { PlayerID } from "../../game/entities/players";
 
 export const storageKey = "wizard-credentials";
 
@@ -8,7 +9,7 @@ export interface CredentialsStore {
 }
 
 export interface Credentials {
-  playerID: string;
+  playerID: PlayerID;
   credentials: string;
   timestamp: number;
 }
@@ -27,7 +28,7 @@ function cleanStore(store: CredentialsStore): CredentialsStore {
 export function addToStore(
   store: CredentialsStore,
   gameID: string,
-  playerID: string,
+  playerID: PlayerID,
   credentials: string
 ): CredentialsStore {
   return {
@@ -44,15 +45,13 @@ export function removeFromStore(
   store: CredentialsStore,
   gameID: string
 ): CredentialsStore {
-  return {
-    ...store,
-    [gameID]: undefined,
-  };
+  const { [gameID]: removedCredential, ...rest } = store;
+  return rest;
 }
 
 export function setCredentials(
   gameID: string,
-  playerID: string,
+  playerID: PlayerID,
   credentials: string
 ): void {
   flow(

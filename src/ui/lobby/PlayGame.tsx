@@ -1,9 +1,10 @@
 import React from "react";
 import { WizardClient } from "../../WizardClient";
+import { PlayerID } from "../../game/entities/players";
 
 export interface PlayGameProps {
   gameID: string;
-  playerID: string;
+  playerID: PlayerID;
   credentials: string;
 }
 
@@ -18,7 +19,7 @@ export const PlayGame: React.FC<PlayGameProps> = ({
       <div>
         <WizardClient
           gameID={gameID}
-          playerID={playerID}
+          playerID={playerID.toString()}
           credentials={credentials}
         />
       </div>
