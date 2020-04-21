@@ -59,7 +59,8 @@ export const GameContainer: React.FC = () => {
         />
       );
     }
-    return <div>Spiel zuschauen</div>;
+    // spectate game
+    return <PlayGame gameID={gameID} />;
   }
 
   return (
