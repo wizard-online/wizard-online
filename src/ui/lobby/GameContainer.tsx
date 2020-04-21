@@ -51,7 +51,6 @@ export const GameContainer: React.FC = () => {
     const credentialsStore = getCredentials(gameID);
     if (credentialsStore) {
       const { playerID, credentials } = credentialsStore;
-      console.log(credentialsStore);
       return (
         <PlayGame
           gameID={gameID}
@@ -69,10 +68,8 @@ export const GameContainer: React.FC = () => {
       fetchGame={fetchGame}
       onEnterGame={async () => {
         const seatIndex = random(freeSeats.length - 1);
-        console.log(seatIndex);
         const { id } = freeSeats[seatIndex];
-        console.log(id);
-        const newCredentials = await joinGame(gameID, id.toString(), name);
+        const newCredentials = await joinGame(gameID, id, name);
         setCredentials(gameID, id, newCredentials);
         fetchGame();
       }}

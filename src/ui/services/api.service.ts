@@ -30,11 +30,11 @@ export function createGame(
 
 export function joinGame(
   gameID: GameID,
-  playerID: string,
+  playerID: PlayerID,
   playerName: string
 ): Promise<PlayerCredentials> {
   return post(`/games/${name}/${gameID}/join`, {
-    playerID,
+    playerID: playerID.toString(),
     playerName,
   })
     .then((response) => response.json())
@@ -43,11 +43,11 @@ export function joinGame(
 
 export function leaveGame(
   gameID: GameID,
-  playerID: PlayerID | string,
+  playerID: PlayerID,
   credentials: PlayerCredentials
 ): Promise<Response> {
   return post(`/games/${name}/${gameID}/leave`, {
-    playerID,
+    playerID: playerID.toString(),
     credentials,
   });
 }
