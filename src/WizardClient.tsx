@@ -7,5 +7,8 @@ import { WizardBoard } from "./ui/WizardBoard";
 export const WizardClient = Client({
   game: wizardGameConfig,
   board: WizardBoard,
-  multiplayer: SocketIO({ server: "http://localhost:8000" }),
+  multiplayer: SocketIO({ server: process.env.API_URL }),
+  debug:
+    process.env.NODE_ENV === "development" &&
+    process.env.BOARDGAME_DEBUG === "true",
 });
