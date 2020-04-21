@@ -1,13 +1,19 @@
 import React from "react";
+import { ThemeProvider } from "@material-ui/core";
 
-import { BrowserRouter } from "react-router-dom";
 import { WizardLobby } from "./ui/lobby/WizardLobby";
 import { ProfileProvider } from "./ui/ProfileProvider";
+import { TopBar } from "./ui/lobby/TopBar";
+import { theme } from "./ui/util/mui-theme";
+import { HeaderElementsProvider } from "./ui/header/HeaderElementsProvider";
 
 export const App: React.FC<{}> = () => (
-  <BrowserRouter>
+  <ThemeProvider theme={theme}>
     <ProfileProvider>
-      <WizardLobby />
+      <HeaderElementsProvider>
+        <TopBar />
+        <WizardLobby />
+      </HeaderElementsProvider>
     </ProfileProvider>
-  </BrowserRouter>
+  </ThemeProvider>
 );

@@ -66,6 +66,7 @@ export const GameContainer: React.FC = () => {
   return (
     <EnterGame
       gameID={gameID}
+      game={gameState}
       fetchGame={fetchGame}
       onEnterGame={async () => {
         const seatIndex = random(freeSeats.length - 1);
