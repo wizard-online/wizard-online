@@ -3,17 +3,14 @@ import flow from "lodash/fp/flow";
 
 export const storageKey = "wizard-credentials";
 
-interface CredentialsStore {
-  [key: string]: Credentials;
+export interface CredentialsStore {
+  [gameID: string]: Credentials;
 }
 
-interface Credentials {
+export interface Credentials {
+  playerID: string;
   credentials: string;
   timestamp: number;
-}
-
-function getKey(gameID: string, playerID: string): string {
-  return `${gameID}-${playerID}`;
 }
 
 function cleanStore(store: CredentialsStore): CredentialsStore {
@@ -29,15 +26,27 @@ function cleanStore(store: CredentialsStore): CredentialsStore {
 
 export function addToStore(
   store: CredentialsStore,
-  key: string,
+  gameID: string,
+  playerID: string,
   credentials: string
 ): CredentialsStore {
   return {
     ...store,
-    [key]: {
+    [gameID]: {
+      playerID,
       credentials,
       timestamp: new Date().getTime(),
     },
+  };
+}
+
+export function removeFromStore(
+  store: CredentialsStore,
+  gameID: string
+): CredentialsStore {
+  return {
+    ...store,
+    [gameID]: undefined,
   };
 }
 
@@ -51,20 +60,29 @@ export function setCredentials(
     (value) => value ?? "{}",
     JSON.parse,
     cleanStore,
-    (store) => addToStore(store, getKey(gameID, playerID), credentials),
+    (store) => addToStore(store, gameID, playerID, credentials),
     JSON.stringify,
     (value) => localStorage.setItem(storageKey, value)
   )();
 }
 
-export function getCredentials(
-  gameID: string,
-  playerID: string
-): string | undefined {
+export function unsetCredentials(gameID: string): void {
+  flow(
+    () => localStorage.getItem(storageKey),
+    (value) => value ?? "{}",
+    JSON.parse,
+    cleanStore,
+    (store) => removeFromStore(store, gameID),
+    JSON.stringify,
+    (value) => localStorage.setItem(storageKey, value)
+  )();
+}
+
+export function getCredentials(gameID: string): Credentials | undefined {
   return flow(
     () => localStorage.getItem(storageKey),
     (value) => value ?? "{}",
     JSON.parse,
-    (store: CredentialsStore) => store[getKey(gameID, playerID)]?.credentials
+    (store: CredentialsStore) => store[gameID]
   )();
 }

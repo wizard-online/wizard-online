@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
 import styled from "styled-components";
 import { Form } from "../components/Form";
-import { useProfile } from "../ProfileProvider";
+import { useProfileContext } from "../ProfileProvider";
 
 export const InitProfile: React.FC = () => {
-  const { setProfile } = useProfile();
+  const { setProfile } = useProfileContext();
   const [name, setName] = useState("");
   return (
     <div>

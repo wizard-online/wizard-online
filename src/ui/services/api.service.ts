@@ -6,9 +6,9 @@ const { name, minPlayers, maxPlayers } = wizardGameConfig;
 
 type GameID = string;
 type PlayerCredentials = string;
-interface GameRoom {
+export interface GameRoom {
   roomID: GameID;
-  players: unknown[];
+  players: { id: string; name: string }[];
   setupData?: unknown;
 }
 
@@ -30,7 +30,7 @@ export function createGame(
 
 export function joinGame(
   gameID: GameID,
-  playerID: PlayerID,
+  playerID: string,
   playerName: string
 ): Promise<PlayerCredentials> {
   return post(`/games/${name}/${gameID}/join`, {
@@ -43,7 +43,7 @@ export function joinGame(
 
 export function leaveGame(
   gameID: GameID,
-  playerID: PlayerID,
+  playerID: PlayerID | string,
   credentials: PlayerCredentials
 ): Promise<Response> {
   return post(`/games/${name}/${gameID}/leave`, {

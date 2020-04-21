@@ -4,11 +4,11 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { InitProfile } from "./InitProfile";
 import { CreateGame } from "./CreateGame";
-import { useProfile } from "../ProfileProvider";
-import { EnterGame } from "./EnterGame";
+import { useProfileContext } from "../ProfileProvider";
+import { GameContainer } from "./GameContainer";
 
 export const WizardLobby: React.FC = () => {
-  const { profile } = useProfile();
+  const { profile } = useProfileContext();
   if (!profile) {
     return <InitProfile />;
   }
@@ -24,7 +24,7 @@ export const WizardLobby: React.FC = () => {
           <CreateGame />
         </Route>
         <Route path="/game/:gameID">
-          <EnterGame />
+          <GameContainer />
         </Route>
         <Route path="*">
           <Redirect to="/" />

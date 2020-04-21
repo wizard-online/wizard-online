@@ -13,30 +13,44 @@ beforeEach(() => {
 
 const timestamp = new Date(2020, 2, 19, 15, 17, 11);
 const store = {
-  "test-1": { credentials: "aaa", timestamp: timestamp.getTime() },
-  "test-2": { credentials: "bbb", timestamp: timestamp.getTime() },
-  "test-3": { credentials: "ccc", timestamp: timestamp.getTime() },
+  "test-1": {
+    playerID: "test-p1",
+    credentials: "aaa",
+    timestamp: timestamp.getTime(),
+  },
+  "test-2": {
+    playerID: "test-p2",
+    credentials: "bbb",
+    timestamp: timestamp.getTime(),
+  },
+  "test-3": {
+    playerID: "test-p3",
+    credentials: "ccc",
+    timestamp: timestamp.getTime(),
+  },
 };
 
 describe("addToStore", () => {
-  const key = "test-key";
+  const gameID = "test-game";
+  const playerID = "test-player";
   const credentials = "test-credentials";
 
   test("new store contains given key/credentials", () => {
-    const result = addToStore({}, key, credentials);
-    expect(result).toHaveProperty(key);
-    expect(result[key].credentials).toBe(credentials);
+    const result = addToStore({}, gameID, playerID, credentials);
+    expect(result).toHaveProperty(gameID);
+    expect(result[gameID].credentials).toBe(credentials);
+    expect(result[gameID].playerID).toBe(playerID);
   });
 
   test("new store contains timestamp", () => {
     dateMock.advanceTo(timestamp);
-    const result = addToStore({}, key, credentials);
-    expect(result).toHaveProperty(key);
-    expect(result[key].timestamp).toBe(timestamp.getTime());
+    const result = addToStore({}, gameID, playerID, credentials);
+    expect(result).toHaveProperty(gameID);
+    expect(result[gameID].timestamp).toBe(timestamp.getTime());
   });
 
   test("new store contains all elements of old store", () => {
-    const result = addToStore(store, key, credentials);
+    const result = addToStore(store, gameID, playerID, credentials);
 
     Object.entries(store).forEach(([prop, value]) => {
       expect(result).toHaveProperty(prop);
@@ -50,12 +64,14 @@ describe("getCredentials", () => {
     localStorage.setItem(storageKey, JSON.stringify(store));
   });
   test("gets credentials for existing key", () => {
-    const credentials = getCredentials("test", "1");
-    expect(credentials).toBe("aaa");
+    const credentials = getCredentials("test-1");
+    expect(credentials).toBeDefined();
+    expect(credentials?.credentials).toBe("aaa");
+    expect(credentials?.playerID).toBe("test-p1");
   });
 
   test("returns undefined for non-existing key", () => {
-    const credentials = getCredentials("test", "5");
+    const credentials = getCredentials("test-5");
     expect(credentials).toBeUndefined();
   });
 });
@@ -67,7 +83,11 @@ describe("setCredentials", () => {
     setCredentials("test", "4", "ddd");
     const expected = {
       ...store,
-      "test-4": { credentials: "ddd", timestamp: timestamp.getTime() },
+      test: {
+        playerID: "4",
+        credentials: "ddd",
+        timestamp: timestamp.getTime(),
+      },
     };
     const rawStore = localStorage.getItem(storageKey);
     expect(rawStore).toBeDefined();
@@ -79,7 +99,11 @@ describe("setCredentials", () => {
     dateMock.advanceTo(timestamp);
     setCredentials("test", "4", "ddd");
     const expected = {
-      "test-4": { credentials: "ddd", timestamp: timestamp.getTime() },
+      test: {
+        playerID: "4",
+        credentials: "ddd",
+        timestamp: timestamp.getTime(),
+      },
     };
     const rawStore = localStorage.getItem(storageKey);
     expect(rawStore).toBeDefined();

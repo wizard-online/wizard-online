@@ -35,11 +35,18 @@ export const ProfileProvider: React.FC = ({ children }) => {
   );
 };
 
-export function useProfile(): ProfileProviderContext {
+export function useProfileContext(): ProfileProviderContext {
   const profileContext = useContext(ProfileContext);
   if (!profileContext)
     throw new Error(
-      "useProfile hook is called outside the scope of ProfileProvider"
+      "useProfileContext hook is called outside the scope of ProfileProvider"
     );
   return profileContext;
+}
+
+export function useProfile(): ProfileStore {
+  const { profile } = useProfileContext();
+  if (!profile)
+    throw new Error("useProfile hook is called without a set profile");
+  return profile;
 }
