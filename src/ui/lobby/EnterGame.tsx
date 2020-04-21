@@ -50,9 +50,9 @@ export const EnterGame: React.FC<EnterGameProps> = ({ gameID, startGame }) => {
     return <div>Lade das Spiel...</div>;
   }
 
-  const freeChairs = game.players.filter((player) => !player.name);
+  const freeSeats = game.players.filter((player) => !player.name);
 
-  if (credentialsState && freeChairs.length === 0) {
+  if (credentialsState && freeSeats.length === 0) {
     startGame();
   }
 
@@ -71,17 +71,17 @@ export const EnterGame: React.FC<EnterGameProps> = ({ gameID, startGame }) => {
         {!credentialsState && (
           <Button
             onClick={async () => {
-              const { id } = freeChairs[random(freeChairs.length)];
+              const { id } = freeSeats[random(freeSeats.length)];
               const newCredentials = await joinGame(gameID, id, playerName);
               setCredentials(gameID, id, newCredentials);
               fetchGame();
             }}
-            disabled={!freeChairs.length}
+            disabled={!freeSeats.length}
           >
             Spiel beitreten
           </Button>
         )}
-        {credentialsState && freeChairs.length > 0 && (
+        {credentialsState && freeSeats.length > 0 && (
           <Button
             onClick={async () => {
               await leaveGame(
@@ -92,12 +92,12 @@ export const EnterGame: React.FC<EnterGameProps> = ({ gameID, startGame }) => {
               unsetCredentials(gameID);
               fetchGame();
             }}
-            disabled={!freeChairs.length}
+            disabled={!freeSeats.length}
           >
             Spiel verlassen
           </Button>
         )}
-        {credentialsState && freeChairs.length === 0 && <div>Playing!</div>}
+        {credentialsState && freeSeats.length === 0 && <div>Playing!</div>}
       </div>
     </div>
   );

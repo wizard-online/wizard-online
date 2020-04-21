@@ -20,7 +20,7 @@ export function createGame(
     throw new Error(`invalid number of players ${numPlayers}`);
   }
   const body = {
-    numPlayers,
+    numPlayers: numPlayers.toString(),
     setupData,
   };
   return post(`/games/${name}/create`, body)
