@@ -27,9 +27,9 @@ export const ListGames: React.FC = () => {
           return (
             <li key={gameID}>
               <GameSeats>
-                <Link component={MatLink} to={`/games/${gameID}`}>
+                <MatLink component={Link} to={`/games/${gameID}`}>
                   {sortedSeats.map(({ name }) => name ?? "_").join(", ")}{" "}
-                </Link>
+                </MatLink>
               </GameSeats>
               <SeatInfo>
                 {filledSeats.length} von {players.length} Plätzen besetzt
