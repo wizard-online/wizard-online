@@ -1,8 +1,16 @@
 import React, { useEffect } from "react";
-import { Button } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  InputAdornment,
+  Icon,
+} from "@material-ui/core";
 import styled from "styled-components";
 import { GameRoom } from "../services/api.service";
 import { sortGameSeats } from "../util/game-seats";
+import { useNotify } from "../NotificationsProvider";
 
 interface EnterGameProps {
   game?: GameRoom;
@@ -21,6 +29,7 @@ export const EnterGame: React.FC<EnterGameProps> = ({
   canEnterGame,
   onLeaveGame,
 }) => {
+  const notify = useNotify();
   useEffect(() => {
     const intervalID = setInterval(fetchGame, 1000);
     return () => clearInterval(intervalID);
@@ -35,32 +44,77 @@ export const EnterGame: React.FC<EnterGameProps> = ({
 
   return (
     <div>
-      <h3>
-        {filledSeats.length} von {game.players.length} Plätzen belegt
-      </h3>
+      <Card>
+        <CardContent>
+          <h3>Freunde einladen</h3>
+          <p>Teile den Link um mit deinen Freunden zu spielen:</p>
+          <TextField
+            value={window.location.href}
+            fullWidth
+            variant="outlined"
+            InputProps={{
+              readOnly: true,
+              endAdornment: (
+                <InputAdornment position="start">
+                  <Button
+                    startIcon={<Icon>file_copy</Icon>}
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(
+                          window.location.href
+                        );
+                        notify({
+                          message: "Link wurde in die Zwischenablage kopiert",
+                          icon: "done",
+                        });
+                      } catch (error) {
+                        // ignore
+                      }
+                    }}
+                  >
+                    Kopieren
+                  </Button>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </CardContent>
+      </Card>
+      <Spacer />
+      <Card>
+        <CardContent>
+          <h3>
+            {filledSeats.length} von {game.players.length} Plätzen belegt
+          </h3>
 
-      <SeatList>
-        {sortGameSeats(game.players).map(({ id, name }) => (
-          <Seat key={id}>{name ?? "_"}</Seat>
-        ))}
-      </SeatList>
-      <div>
-        {joined ? (
-          <Button onClick={onLeaveGame}>Spiel verlassen</Button>
-        ) : (
-          <Button
-            onClick={onEnterGame}
-            disabled={!canEnterGame}
-            color="primary"
-            variant="contained"
-          >
-            Spiel beitreten
-          </Button>
-        )}
-      </div>
+          <SeatList>
+            {sortGameSeats(game.players).map(({ id, name }) => (
+              <Seat key={id}>{name ?? "_"}</Seat>
+            ))}
+          </SeatList>
+          <div>
+            {joined ? (
+              <Button onClick={onLeaveGame}>Spiel verlassen</Button>
+            ) : (
+              <Button
+                onClick={onEnterGame}
+                disabled={!canEnterGame}
+                color="primary"
+                variant="contained"
+              >
+                Spiel beitreten
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
+
+const Spacer = styled.div`
+  margin: 15px 0;
+`;
 
 const SeatList = styled.ul`
   list-style-type: none;

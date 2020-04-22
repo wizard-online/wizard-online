@@ -4,7 +4,6 @@ import { GameContext } from "./GameContext";
 import { PlayerID } from "../game/entities/players";
 import { WizardState } from "../game/WizardState";
 import { GameState } from "./GameState";
-import { NotificationsProvider } from "./NotificationsProvider";
 import { GameEvents } from "./GameEvents";
 import { WizardLayout } from "./WizardLayout";
 
@@ -19,11 +18,9 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
         } as GameState,
       }}
     >
-      <NotificationsProvider>
-        <GameEvents>
-          <WizardLayout />
-        </GameEvents>
-      </NotificationsProvider>
+      <GameEvents>
+        <WizardLayout />
+      </GameEvents>
     </GameContext.Provider>
   );
 };
