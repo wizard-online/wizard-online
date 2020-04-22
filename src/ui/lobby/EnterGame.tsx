@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { Button } from "@material-ui/core";
+import styled from "styled-components";
+import range from "lodash/range";
 import { GameRoom } from "../services/api.service";
 
 interface EnterGameProps {
-  gameID: string;
   game?: GameRoom;
   joined?: boolean;
   fetchGame(): void;
@@ -13,7 +14,6 @@ interface EnterGameProps {
 }
 
 export const EnterGame: React.FC<EnterGameProps> = ({
-  gameID,
   game,
   joined,
   fetchGame,
@@ -31,17 +31,24 @@ export const EnterGame: React.FC<EnterGameProps> = ({
     return <div>Lade das Spiel...</div>;
   }
 
+  const filledSeats = game.players.filter(({ name }) => !!name);
+
   return (
     <div>
-      <div>{gameID}</div>
-      <div>{JSON.stringify(game)}</div>
-      <ul>
-        {game.players.map(({ id, name }) => (
-          <li key={id}>
-            {id}: {name}
-          </li>
+      <h3>
+        {filledSeats.length} von {game.players.length} Plätzen belegt
+      </h3>
+
+      <SeatList>
+        {filledSeats
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map(({ id, name }) => (
+            <Seat key={id}>{name}</Seat>
+          ))}
+        {range(game.players.length - filledSeats.length).map((i) => (
+          <Seat key={`empty-${i}`}>_</Seat>
         ))}
-      </ul>
+      </SeatList>
       <div>
         {joined ? (
           <Button onClick={onLeaveGame}>Spiel verlassen</Button>
@@ -59,3 +66,9 @@ export const EnterGame: React.FC<EnterGameProps> = ({
     </div>
   );
 };
+
+const SeatList = styled.ul`
+  list-style-type: none;
+`;
+
+const Seat = styled.li``;
