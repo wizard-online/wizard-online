@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { Link as MatLink } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
+import { Link } from "@material-ui/core";
 import { getAllGames, GameRoom } from "../services/api.service";
 import { sortGameSeats } from "../util/game-seats";
 import { colors } from "../util/colors";
@@ -27,9 +27,9 @@ export const ListGames: React.FC = () => {
           return (
             <li key={gameID}>
               <GameSeats>
-                <MatLink component={Link} to={`/games/${gameID}`}>
+                <Link component={RouterLink} to={`/games/${gameID}`}>
                   {sortedSeats.map(({ name }) => name ?? "_").join(", ")}{" "}
-                </MatLink>
+                </Link>
               </GameSeats>
               <SeatInfo>
                 {filledSeats.length} von {players.length} Plätzen besetzt
@@ -38,6 +38,9 @@ export const ListGames: React.FC = () => {
           );
         })}
       </GameList>
+      <Link component={RouterLink} to="/">
+        Neues Spiel erstellen
+      </Link>
     </>
   );
 };

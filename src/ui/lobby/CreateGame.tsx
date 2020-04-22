@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Select, MenuItem, Button } from "@material-ui/core";
+import { useHistory, Link as RouterLink } from "react-router-dom";
+import { Select, MenuItem, Button, Link } from "@material-ui/core";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
 import { NumPlayers } from "../../game/entities/players";
 import { createGame } from "../services/api.service";
 import { Form } from "../components/Form";
@@ -41,6 +41,9 @@ export const CreateGame: React.FC = () => {
           </FieldContainer>
         </Form>
       </FormContainer>
+      <Link component={RouterLink} to="/games">
+        Alle Spiele anzeigen
+      </Link>
     </div>
   );
 };
