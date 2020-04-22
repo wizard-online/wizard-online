@@ -46,7 +46,12 @@ export const EnterGame: React.FC<EnterGameProps> = ({
         {joined ? (
           <Button onClick={onLeaveGame}>Spiel verlassen</Button>
         ) : (
-          <Button onClick={onEnterGame} disabled={!canEnterGame}>
+          <Button
+            onClick={onEnterGame}
+            disabled={!canEnterGame}
+            color="primary"
+            variant="contained"
+          >
             Spiel beitreten
           </Button>
         )}

@@ -69,11 +69,13 @@ export const GameContainer: React.FC = () => {
       game={gameState}
       fetchGame={fetchGame}
       onEnterGame={async () => {
-        const seatIndex = random(freeSeats.length - 1);
-        const { id } = freeSeats[seatIndex];
-        const newCredentials = await joinGame(gameID, id, name);
-        setCredentials(gameID, id, newCredentials);
-        fetchGame();
+        if (!credentialsState) {
+          const seatIndex = random(freeSeats.length - 1);
+          const { id } = freeSeats[seatIndex];
+          const newCredentials = await joinGame(gameID, id, name);
+          setCredentials(gameID, id, newCredentials);
+          fetchGame();
+        }
       }}
       canEnterGame={freeSeats.length > 0}
       onLeaveGame={async () => {
@@ -87,6 +89,7 @@ export const GameContainer: React.FC = () => {
           fetchGame();
         }
       }}
+      joined={!!credentialsState}
     />
   );
 };
