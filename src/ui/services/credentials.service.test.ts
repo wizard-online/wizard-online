@@ -4,6 +4,7 @@ import {
   getCredentials,
   storageKey,
   setCredentials,
+  CredentialsStore,
 } from "./credentials.service";
 
 beforeEach(() => {
@@ -12,19 +13,19 @@ beforeEach(() => {
 });
 
 const timestamp = new Date(2020, 2, 19, 15, 17, 11);
-const store = {
+const store: CredentialsStore = {
   "test-1": {
-    playerID: "test-p1",
+    playerID: 0,
     credentials: "aaa",
     timestamp: timestamp.getTime(),
   },
   "test-2": {
-    playerID: "test-p2",
+    playerID: 2,
     credentials: "bbb",
     timestamp: timestamp.getTime(),
   },
   "test-3": {
-    playerID: "test-p3",
+    playerID: 1,
     credentials: "ccc",
     timestamp: timestamp.getTime(),
   },
@@ -32,7 +33,7 @@ const store = {
 
 describe("addToStore", () => {
   const gameID = "test-game";
-  const playerID = "test-player";
+  const playerID = 3;
   const credentials = "test-credentials";
 
   test("new store contains given key/credentials", () => {
@@ -67,7 +68,7 @@ describe("getCredentials", () => {
     const credentials = getCredentials("test-1");
     expect(credentials).toBeDefined();
     expect(credentials?.credentials).toBe("aaa");
-    expect(credentials?.playerID).toBe("test-p1");
+    expect(credentials?.playerID).toBe(0);
   });
 
   test("returns undefined for non-existing key", () => {
@@ -80,11 +81,11 @@ describe("setCredentials", () => {
   test("store contains given credentials", () => {
     localStorage.setItem(storageKey, JSON.stringify(store));
     dateMock.advanceTo(timestamp);
-    setCredentials("test", "4", "ddd");
+    setCredentials("test", 4, "ddd");
     const expected = {
       ...store,
       test: {
-        playerID: "4",
+        playerID: 4,
         credentials: "ddd",
         timestamp: timestamp.getTime(),
       },
@@ -97,10 +98,10 @@ describe("setCredentials", () => {
 
   test("store is initialized if not existing before", () => {
     dateMock.advanceTo(timestamp);
-    setCredentials("test", "4", "ddd");
+    setCredentials("test", 4, "ddd");
     const expected = {
       test: {
-        playerID: "4",
+        playerID: 4,
         credentials: "ddd",
         timestamp: timestamp.getTime(),
       },
