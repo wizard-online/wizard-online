@@ -13,9 +13,11 @@ export const TopBar: React.FC = () => {
         <Toolbar>
           <PageTitle>Wizard Online</PageTitle>
           <SpaceFill />
-          {Object.entries(elements).map(([id, element]) => (
-            <HeaderElement key={id}>{element}</HeaderElement>
-          ))}
+          {Object.entries(elements)
+            .sort(([, a], [, b]) => b.position - a.position)
+            .map(([id, { element }]) => (
+              <HeaderElement key={id}>{element}</HeaderElement>
+            ))}
         </Toolbar>
       </AppBar>
       <AppBarSpacer />

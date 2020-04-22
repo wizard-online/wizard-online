@@ -6,10 +6,15 @@ export function useGameHeaderElements(): void {
   const {
     wizardState: { numCards, numPlayers, round },
   } = useGameState();
-  useHeaderElement("game-players", `${numPlayers} Spieler`);
-  useHeaderElement("game-round", `Runde ${numCards} / ${maxCards(numPlayers)}`);
+  useHeaderElement("game-players", 2, `${numPlayers} Spieler`);
+  useHeaderElement(
+    "game-round",
+    3,
+    `Runde ${numCards} / ${maxCards(numPlayers)}`
+  );
   useHeaderElement(
     "game-bids",
+    4,
     round?.bidsMismatch !== undefined
       ? `${round.bidsMismatch > 0 ? "+" : ""}
       ${round.bidsMismatch} Stiche Abweichung 

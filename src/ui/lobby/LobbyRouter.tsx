@@ -7,7 +7,7 @@ import { useProfile } from "../ProfileProvider";
 
 export const LobbyRouter: React.FC = () => {
   const { name } = useProfile();
-  useHeaderElement("profile", name);
+  useHeaderElement("profile", 1, name);
   return (
     <BrowserRouter>
       <Switch>

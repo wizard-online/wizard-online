@@ -1,12 +1,17 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
 
 export interface HeaderElements {
-  [id: string]: string;
+  [id: string]: HeaderElement;
+}
+
+export interface HeaderElement {
+  position: number;
+  element: string;
 }
 
 interface HeaderContext {
   elements: HeaderElements;
-  addElement(id: string, element: string): void;
+  addElement(id: string, element: HeaderElement): void;
   removeElement(id: string): void;
 }
 
@@ -16,7 +21,7 @@ export const HeaderContext = React.createContext<HeaderContext | undefined>(
 
 export const HeaderElementsProvider: React.FC = ({ children }) => {
   const [elements, setElements] = useState<HeaderElements>({});
-  const addElement = useCallback((id: string, element: string) => {
+  const addElement = useCallback((id: string, element: HeaderElement) => {
     setElements((others) => ({
       [id]: element,
       ...others,
@@ -48,10 +53,14 @@ export function useHeaderContext(): HeaderContext {
   return headerContext;
 }
 
-export function useHeaderElement(id: string, element: string): void {
+export function useHeaderElement(
+  id: string,
+  position: number,
+  element: string
+): void {
   const { addElement, removeElement } = useHeaderContext();
   useEffect(() => {
-    addElement(id, element);
+    addElement(id, { position, element });
     return () => removeElement(id);
-  }, [addElement, removeElement, id, element]);
+  }, [addElement, removeElement, id, position, element]);
 }
