@@ -1,5 +1,5 @@
 import React from "react";
-import { InitProfile } from "./InitProfile";
+import { OnBoarding } from "./Onboarding";
 import { useProfileContext } from "../ProfileProvider";
 
 import { LobbyRouter } from "./LobbyRouter";
@@ -7,7 +7,7 @@ import { LobbyRouter } from "./LobbyRouter";
 export const WizardLobby: React.FC = () => {
   const { profile } = useProfileContext();
   if (!profile) {
-    return <InitProfile />;
+    return <OnBoarding />;
   }
 
   return <LobbyRouter />;

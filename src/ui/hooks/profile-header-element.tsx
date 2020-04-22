@@ -1,7 +1,9 @@
 import React, { useMemo } from "react";
-import { Icon } from "@material-ui/core";
+import styled from "styled-components";
+import { Icon, Button } from "@material-ui/core";
 import { useProfile } from "../ProfileProvider";
 import { useHeaderElement } from "../header/HeaderElementsProvider";
+import { colors } from "../util/colors";
 
 export function useProfileHeaderElement(): void {
   const { name } = useProfile();
@@ -11,11 +13,16 @@ export function useProfileHeaderElement(): void {
     useMemo(
       () => (
         <>
-          <Icon>account_circle</Icon>
-          {name}
+          <HeaderButton startIcon={<Icon>account_circle</Icon>}>
+            {name}
+          </HeaderButton>
         </>
       ),
       [name]
     )
   );
 }
+
+const HeaderButton = styled(Button)`
+  color: ${colors.white};
+`;
