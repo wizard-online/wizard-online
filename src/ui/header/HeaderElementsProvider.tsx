@@ -6,8 +6,10 @@ export interface HeaderElements {
 
 export interface HeaderElement {
   position: number;
-  element: string;
+  element: HeaderElementElement;
 }
+
+export type HeaderElementElement = JSX.Element | string;
 
 interface HeaderContext {
   elements: HeaderElements;
@@ -56,7 +58,7 @@ export function useHeaderContext(): HeaderContext {
 export function useHeaderElement(
   id: string,
   position: number,
-  element: string
+  element: HeaderElementElement
 ): void {
   const { addElement, removeElement } = useHeaderContext();
   useEffect(() => {
