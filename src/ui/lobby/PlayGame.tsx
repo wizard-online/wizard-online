@@ -1,4 +1,5 @@
 import React from "react";
+import { AppBar, Toolbar } from "@material-ui/core";
 import { WizardClient } from "../../WizardClient";
 import { PlayerID } from "../../game/entities/players";
 
@@ -14,15 +15,20 @@ export const PlayGame: React.FC<PlayGameProps> = ({
   credentials,
 }) => {
   return (
-    <div>
-      <h1>Playing!</h1>
-      <div>
-        <WizardClient
-          gameID={gameID}
-          playerID={playerID?.toString()}
-          credentials={credentials}
-        />
-      </div>
-    </div>
+    <>
+      {(!playerID || !credentials) && (
+        <AppBar position="static" color="transparent">
+          <Toolbar variant="dense">
+            <i>Zuschauer-Modus</i>
+          </Toolbar>
+        </AppBar>
+      )}
+
+      <WizardClient
+        gameID={gameID}
+        playerID={playerID?.toString()}
+        credentials={credentials}
+      />
+    </>
   );
 };
