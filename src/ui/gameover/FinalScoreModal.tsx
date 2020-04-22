@@ -44,7 +44,7 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
           variant="contained"
           onClick={() => history.push("/")}
         >
-          Zur Lobby
+          Spiel schließen
         </Button>
       </ActionContainer>
     </Container>
