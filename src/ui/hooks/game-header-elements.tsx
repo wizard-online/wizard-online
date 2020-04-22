@@ -8,13 +8,19 @@ export function useGameHeaderElements(): void {
     wizardState: { numCards, numPlayers, round },
   } = useGameState();
 
+  // spacer
+  useHeaderElement(
+    "game-spacer",
+    2,
+    useMemo(() => <div />, [])
+  );
   // players
-  useHeaderElement("game-players", 2, `${numPlayers} Spieler`);
+  useHeaderElement("game-players", 3, `${numPlayers} Spieler`);
 
   // round
   useHeaderElement(
     "game-round",
-    3,
+    4,
     `Runde ${numCards} / ${maxCards(numPlayers)}`
   );
 
@@ -22,7 +28,7 @@ export function useGameHeaderElements(): void {
   const bidsMismatch = round?.bidsMismatch;
   useHeaderElement(
     "game-bids",
-    4,
+    5,
     useMemo(
       () =>
         bidsMismatch !== undefined ? (
