@@ -2,12 +2,10 @@ import React from "react";
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 import { CreateGame } from "./CreateGame";
 import { GameContainer } from "./GameContainer";
-import { useHeaderElement } from "../header/HeaderElementsProvider";
-import { useProfile } from "../ProfileProvider";
+import { useProfileHeaderElement } from "../hooks/profile-header-element";
 
 export const LobbyRouter: React.FC = () => {
-  const { name } = useProfile();
-  useHeaderElement("profile", 1, name);
+  useProfileHeaderElement();
   return (
     <BrowserRouter>
       <Switch>
