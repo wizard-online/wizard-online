@@ -22,12 +22,17 @@ import random from "lodash/random";
 import shuffle from "lodash/shuffle";
 
 import range from "lodash/range";
+import { ThemeProvider } from "styled-components";
 import { wizardGameConfig } from "../game/game";
 import { WizardBoard } from "../ui/WizardBoard";
 import { Suit, Card } from "../game/entities/cards";
 import { getSuitLabel, getCardId } from "../game/entities/cards.utils";
 import { PlayerID } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
+import { theme } from "../ui/util/mui-theme";
+import { NotificationsProvider } from "../ui/NotificationsProvider";
+import { ProfileProvider } from "../ui/ProfileProvider";
+import { HeaderElementsProvider } from "../ui/header/HeaderElementsProvider";
 
 jest.mock("lodash/random");
 jest.mock("lodash/shuffle");
@@ -53,11 +58,19 @@ beforeAll(() => {
 
   renderResult = render(
     <div data-testid="test-root">
-      {ids.map((id) => (
-        <div data-testid={`player${id}`} key={id}>
-          <WizardClient playerID={id.toString()} />
-        </div>
-      ))}
+      <ThemeProvider theme={theme}>
+        {ids.map((id) => (
+          <div data-testid={`player${id}`} key={id}>
+            <NotificationsProvider>
+              <ProfileProvider>
+                <HeaderElementsProvider>
+                  <WizardClient playerID={id.toString()} />
+                </HeaderElementsProvider>
+              </ProfileProvider>
+            </NotificationsProvider>
+          </div>
+        ))}
+      </ThemeProvider>
     </div>
   );
 

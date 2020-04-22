@@ -28,7 +28,10 @@ export const BidRound: React.FC = () => {
   return (
     <>
       {bidRoundOrder.map((playerID) => (
-        <TrickCardBox player={getPlayerName(playerID, gameMetadata)}>
+        <TrickCardBox
+          player={getPlayerName(playerID, gameMetadata)}
+          key={playerID}
+        >
           <h2>{bids[playerID] ?? "_"}</h2>
         </TrickCardBox>
       ))}

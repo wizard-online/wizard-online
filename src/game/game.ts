@@ -13,7 +13,7 @@ function endIf({ numCards, numPlayers }: WizardState): boolean {
 }
 
 export const wizardGameConfig = {
-  name: "Wizard",
+  name: "wizard",
   minPlayers: 3,
   maxPlayers: 6,
 
