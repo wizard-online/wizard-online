@@ -23,6 +23,7 @@ import shuffle from "lodash/shuffle";
 
 import range from "lodash/range";
 import { ThemeProvider } from "styled-components";
+import { BrowserRouter } from "react-router-dom";
 import { wizardGameConfig } from "../game/game";
 import { WizardBoard } from "../ui/WizardBoard";
 import { Suit, Card } from "../game/entities/cards";
@@ -64,7 +65,9 @@ beforeAll(() => {
             <NotificationsProvider>
               <ProfileProvider>
                 <HeaderElementsProvider>
-                  <WizardClient playerID={id.toString()} />
+                  <BrowserRouter>
+                    <WizardClient playerID={id.toString()} />
+                  </BrowserRouter>
                 </HeaderElementsProvider>
               </ProfileProvider>
             </NotificationsProvider>
