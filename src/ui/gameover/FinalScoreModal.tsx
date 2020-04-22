@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, Button } from "@material-ui/core";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 import { ScorePad } from "../score/ScorePad";
 import { useGameState, usePlayerName } from "../GameContext";
 import { getLeader } from "../../game/entities/score.utils";
@@ -31,6 +32,7 @@ interface FinalScoreModalContentProps {
 const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
   winnerID,
 }) => {
+  const history = useHistory();
   const winnerName = usePlayerName(winnerID);
   return (
     <Container data-testid="final-score">
@@ -40,12 +42,7 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
         <Button
           color="primary"
           variant="contained"
-          onClick={() => {
-            const exitButtonElement = document.querySelector(
-              "#game-exit button"
-            ) as HTMLElement | null;
-            exitButtonElement?.click();
-          }}
+          onClick={() => history.push("/")}
         >
           Zur Lobby
         </Button>
