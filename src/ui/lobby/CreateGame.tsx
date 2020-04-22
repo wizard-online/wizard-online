@@ -16,7 +16,7 @@ export const CreateGame: React.FC = () => {
         <Form
           onSubmit={async () => {
             const gameID = await createGame(numPlayers);
-            history.push(`/game/${gameID}`);
+            history.push(`/games/${gameID}`);
           }}
         >
           <FieldContainer>

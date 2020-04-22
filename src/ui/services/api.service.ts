@@ -7,9 +7,15 @@ const { name, minPlayers, maxPlayers } = wizardGameConfig;
 type GameID = string;
 type PlayerCredentials = string;
 export interface GameRoom {
-  roomID: GameID;
-  players: { id: PlayerID; name: string }[];
+  roomID?: GameID;
+  gameID?: GameID;
+  players: GameSeat[];
   setupData?: unknown;
+}
+
+export interface GameSeat {
+  id: PlayerID;
+  name?: string;
 }
 
 export function createGame(
@@ -53,7 +59,16 @@ export function leaveGame(
 }
 
 export function getGame(gameID: GameID): Promise<GameRoom> {
-  return get(`/games/${name}/${gameID}`).then(
-    (response) => response.json() as Promise<GameRoom>
-  );
+  return get(`/games/${name}/${gameID}`)
+    .then((response) => response.json() as Promise<GameRoom>)
+    .then((room) => {
+      console.log(room);
+      return room;
+    });
+}
+
+export function getAllGames(): Promise<GameRoom[]> {
+  return get(`/games/${name}`)
+    .then((response) => response.json())
+    .then(({ rooms }) => rooms as Promise<GameRoom[]>);
 }

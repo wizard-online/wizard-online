@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Button } from "@material-ui/core";
 import styled from "styled-components";
-import range from "lodash/range";
 import { GameRoom } from "../services/api.service";
+import { sortGameSeats } from "../util/game-seats";
 
 interface EnterGameProps {
   game?: GameRoom;
@@ -40,13 +40,8 @@ export const EnterGame: React.FC<EnterGameProps> = ({
       </h3>
 
       <SeatList>
-        {filledSeats
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map(({ id, name }) => (
-            <Seat key={id}>{name}</Seat>
-          ))}
-        {range(game.players.length - filledSeats.length).map((i) => (
-          <Seat key={`empty-${i}`}>_</Seat>
+        {sortGameSeats(game.players).map(({ id, name }) => (
+          <Seat key={id}>{name ?? "_"}</Seat>
         ))}
       </SeatList>
       <div>
