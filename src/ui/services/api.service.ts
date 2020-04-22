@@ -59,12 +59,9 @@ export function leaveGame(
 }
 
 export function getGame(gameID: GameID): Promise<GameRoom> {
-  return get(`/games/${name}/${gameID}`)
-    .then((response) => response.json() as Promise<GameRoom>)
-    .then((room) => {
-      console.log(room);
-      return room;
-    });
+  return get(`/games/${name}/${gameID}`).then(
+    (response) => response.json() as Promise<GameRoom>
+  );
 }
 
 export function getAllGames(): Promise<GameRoom[]> {
