@@ -4,7 +4,7 @@
   "description": "Online platform for playing the Wizard card game",
   "main": "index.tsx",
   "scripts": {
-    "start": "parcel index.html -d dist/app",
+    "start": "parcel public/index.html -d dist/app",
     "build:app": "parcel build index.html -d dist/app",
     "build:server": "parcel build src/server.ts --target node -d dist/server",
     "heroku-postbuild": "yarn run build:server",
