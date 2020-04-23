@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0-alpha.2
+
+- improve bidding slider (#82, #93)
+- add scenario test (#85)
+- highlight who's turn it is (#89)
+- improve card colors (#92)
+- add game notifications (#95)
+- add custom lobby (#98)
+
+Minor changes: #87, #90, #91, #96, #99, #101
+Bugfixes: #80, #81, #83, #86, #88, #100
+
 ## 1.0.0-alpha.1
 
 - show player names (#57)
