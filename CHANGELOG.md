@@ -10,6 +10,7 @@
 - add custom lobby (#98)
 
 Minor changes: #87, #90, #91, #96, #99, #101
+
 Bugfixes: #80, #81, #83, #86, #88, #100
 
 ## 1.0.0-alpha.1
@@ -21,6 +22,7 @@ Bugfixes: #80, #81, #83, #86, #88, #100
 - deployment, error tracking (#62, #64, #66, #67, #68, #69, #70, )
 
 Minor changes: #60, #65
+
 Bugfixes: #55, #56
 
 ## 1.0.0-alpha.0
@@ -36,4 +38,5 @@ Bugfixes: #55, #56
 - design player view (#20, #28)
 
 Minor changes: #11, #19, #29, #30, #33
+
 Bugfixes: #18, #35
