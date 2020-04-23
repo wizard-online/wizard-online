@@ -5,7 +5,7 @@
   "main": "index.tsx",
   "scripts": {
     "start": "parcel public/index.html -d dist/app",
-    "build:app": "parcel build index.html -d dist/app",
+    "build:app": "parcel build public/index.html -d dist/app",
     "build:server": "parcel build src/server.ts --target node -d dist/server",
     "heroku-postbuild": "yarn run build:server",
     "test": "jest",
