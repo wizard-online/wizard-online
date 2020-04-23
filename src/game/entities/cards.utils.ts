@@ -1,29 +1,8 @@
 import flatten from "lodash/flatten";
 import groupBy from "lodash/groupBy";
-import { PlayerID } from "./players";
 import { Suit, SuitLabel, Rank, Card, allSuits, allRanks } from "./cards";
-
-/**
- * gets the human-readable label for a given suit
- *
- * @export
- * @param {Suit} suit
- * @returns {SuitLabel}
- */
-export function getSuitLabel(suit: Suit): SuitLabel {
-  switch (suit) {
-    case Suit.Blue:
-      return SuitLabel.Blue;
-    case Suit.Red:
-      return SuitLabel.Red;
-    case Suit.Yellow:
-      return SuitLabel.Yellow;
-    case Suit.Green:
-      return SuitLabel.Green;
-    default:
-      throw new Error(`given argument is not a suit: ${suit}`);
-  }
-}
+import { checkTrickCards } from "./trick.utils";
+import { TrickCard } from "./trick";
 
 /**
  * checks if a card wins over another card given specified trump and lead suits
@@ -51,6 +30,10 @@ export function cardBeatsOther(
   }
   // Z is higher than all cards but other Zs
   if (card.rank === Rank.Z) {
+    return true;
+  }
+  // all cards win against Ns (except for an N)
+  if (other.rank === Rank.N) {
     return true;
   }
   // => neither card is Z or N
@@ -89,18 +72,26 @@ export function cardBeatsOther(
  * @returns {[Card, PlayerID]}
  */
 export function getTrickWinner(
-  cards: [Card, PlayerID][],
+  cards: TrickCard[],
   trumpSuit: Suit | null
-): [Card, PlayerID] {
+): TrickCard {
   if (cards.length === 0) {
     throw new Error("expected non-empty array of cards");
   }
-  const leadSuit = getLeadSuit(cards.map(([card]) => card));
-  const winner = cards.reduce((winningCard, card, cardIndex) => {
+  if (!checkTrickCards(cards)) {
+    throw new Error("expected no undefined cards");
+  }
+  const leadSuit = getLeadSuit(cards.map(({ card }) => card));
+  const winner = cards.reduce((winningCard, trickCard, cardIndex) => {
     // skip first card
     if (cardIndex === 0) return winningCard;
-    const beaten = cardBeatsOther(card[0], winningCard[0], trumpSuit, leadSuit);
-    return beaten ? card : winningCard;
+    const beaten = cardBeatsOther(
+      trickCard.card,
+      winningCard.card,
+      trumpSuit,
+      leadSuit
+    );
+    return beaten ? trickCard : winningCard;
   }, cards[0]);
   return winner;
 }
@@ -243,4 +234,56 @@ export function sortHand(hand: Card[], trumpSuit?: Suit | null): Card[] {
     .map(([, cardGroup]) => cardGroup.sort((a, b) => a.rank - b.rank));
   // set sorted hand to state
   return flatten(sortedGroups);
+}
+
+/**
+ * gets the human-readable label for a given suit
+ *
+ * @export
+ * @param {Suit} suit
+ * @returns {SuitLabel}
+ */
+export function getSuitLabel(suit: Suit): SuitLabel {
+  switch (suit) {
+    case Suit.Blue:
+      return SuitLabel.Blue;
+    case Suit.Red:
+      return SuitLabel.Red;
+    case Suit.Yellow:
+      return SuitLabel.Yellow;
+    case Suit.Green:
+      return SuitLabel.Green;
+    default:
+      throw new Error(`given argument is not a suit: ${suit}`);
+  }
+}
+
+export function getRankLabel({ rank }: Card): string {
+  switch (rank) {
+    case Rank.Z:
+      return "Z";
+    case Rank.N:
+      return "N";
+    default:
+      return rank.toString();
+  }
+}
+
+export function getCardLabel(card: Card): string {
+  const rankLabel = getRankLabel(card);
+  switch (card.rank) {
+    case Rank.Z:
+    case Rank.N:
+      return rankLabel;
+    default: {
+      const suitLabel = getSuitLabel(card.suit);
+      return `${suitLabel} ${rankLabel}`;
+    }
+  }
+}
+
+export function getCardId(card: Card): string {
+  const rankLabel = getRankLabel(card);
+  const suitLabel = getSuitLabel(card.suit);
+  return `${suitLabel} ${rankLabel}`;
 }

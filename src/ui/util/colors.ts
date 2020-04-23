@@ -13,6 +13,8 @@ export const colors = {
   white: "#ffffff",
   black: "#000000",
   grey: "#aba8af",
+  lightgrey: "#eeeeee",
+  lightTransparentGrey: "rgba(255, 255, 255, 0.3)",
   wood: {
     light: "#deb887",
     medium: "#cdaa7d",
@@ -30,18 +32,18 @@ export const colors = {
   },
   green: {
     light: "#75b370",
-    medium: "#2a6340",
-    dark: "#223320",
+    medium: "#27623e",
+    dark: "#1d3f19",
   },
   red: {
-    light: "#db7a33",
-    medium: "#be5327",
-    dark: "#93331b",
+    light: "#db5733",
+    medium: "#be3c27",
+    dark: "#93261b",
   },
   yellow: {
     light: "#ffe862",
-    medium: "#b97011",
-    dark: "#795a2b",
+    medium: "#cf7e15",
+    dark: "#83630e",
   },
 };
 
@@ -58,9 +60,9 @@ export const cardColors: ColorSetCollection = {
     outline: colors.blue.dark,
   },
   green: {
-    background: colors.green.dark,
+    background: colors.green.medium,
     text: colors.green.light,
-    outline: colors.green.medium,
+    outline: colors.green.dark,
   },
   red: {
     background: colors.red.medium,
@@ -73,7 +75,7 @@ export const cardColors: ColorSetCollection = {
     outline: colors.yellow.dark,
   },
   zn: {
-    background: colors.grey,
+    background: `radial-gradient(circle, ${colors.grey} 50%, ${colors.wizard.dark} 100%)`,
     text: colors.white,
     outline: colors.black,
   },

@@ -1,43 +1,22 @@
 import React from "react";
+import { ThemeProvider } from "@material-ui/core";
 
-import { Lobby, Client } from "boardgame.io/react";
-import { applyMiddleware } from "redux";
-import logger from "redux-logger";
-import styled from "styled-components";
-import { wizardGameConfig } from "./game/game";
-import { WizardBoard } from "./ui/WizardBoard";
-
-// en-/disable console logging of redux actions
-const REDUX_LOGGER = false;
+import { WizardLobby } from "./ui/lobby/WizardLobby";
+import { ProfileProvider } from "./ui/ProfileProvider";
+import { TopBar } from "./ui/lobby/TopBar";
+import { theme } from "./ui/util/mui-theme";
+import { HeaderElementsProvider } from "./ui/header/HeaderElementsProvider";
+import { NotificationsProvider } from "./ui/NotificationsProvider";
 
 export const App: React.FC<{}> = () => (
-  <StyledLobby>
-    <Lobby
-      gameServer={process.env.API_URL}
-      lobbyServer={process.env.API_URL}
-      gameComponents={[
-        {
-          game: wizardGameConfig,
-          board: WizardBoard,
-        },
-      ]}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      clientFactory={(opts: any) => {
-        return Client({
-          enhancer: REDUX_LOGGER ? applyMiddleware(logger) : undefined,
-          ...opts,
-        });
-      }}
-    />{" "}
-  </StyledLobby>
+  <ThemeProvider theme={theme}>
+    <NotificationsProvider>
+      <ProfileProvider>
+        <HeaderElementsProvider>
+          <TopBar />
+          <WizardLobby />
+        </HeaderElementsProvider>
+      </ProfileProvider>
+    </NotificationsProvider>
+  </ThemeProvider>
 );
-
-const StyledLobby = styled.div`
-  padding: 10px;
-  & #lobby-view {
-    padding: 0 !important;
-  }
-  & .hidden {
-    display: none;
-  }
-`;

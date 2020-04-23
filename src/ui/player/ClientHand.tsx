@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { playableCardsInHand } from "../../game/entities/cards.utils";
-import { PlayCard } from "../components/PlayCard";
+import { PlayCard } from "../components/playcard/PlayCard";
 import { Card } from "../../game/entities/cards";
 
 export interface HandCardsProps {
@@ -23,7 +23,7 @@ export const ClientHand: React.FC<HandCardsProps> = ({
       : undefined;
 
   return (
-    <CardsContainer>
+    <CardsContainer data-testid="client-hand">
       {cards.map((card, i) => (
         <PlayingCardContainer key={cardKey(card, i)}>
           <PlayCard
@@ -42,6 +42,7 @@ const CardsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin: 0 -5px;
 `;
 
 const PlayingCardContainer = styled.div`

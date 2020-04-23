@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Trick } from "./Trick";
 import { Deck } from "./Deck";
 import { colors } from "../util/colors";
 import { ActionsContainer } from "../player/actions/ActionsContainer";
 import { useGameState, usePlayerName } from "../GameContext";
+import { TableRound } from "./TableRound";
 
 export const Table: React.FC = () => {
   const {
@@ -17,12 +17,11 @@ export const Table: React.FC = () => {
 
   return (
     <TableContainer>
-      <PlayRow>
+      <PlayRow data-testid="table-play">
         <Deck />
-        <Trick />
-        <SpaceFill />
+        <TableRound />
       </PlayRow>
-      <InfoRow>
+      <InfoRow data-testid="table-info">
         {isTurn && <ActionsContainer phase={phase} />}
         <SpaceFill />
         {isTurn ? (
@@ -50,6 +49,8 @@ const PlayRow = styled.div`
   align-items: center;
   border-bottom: 1px solid ${colors.wood.dark};
   padding-bottom: 25px;
+  min-height: 140px;
+  box-sizing: border-box;
 `;
 
 const InfoRow = styled.div`

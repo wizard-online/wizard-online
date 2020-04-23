@@ -39,6 +39,7 @@ module.exports = {
     "import/no-default-export": "error",
     // No jsx extension: https://github.com/facebook/create-react-app/issues/87#issuecomment-234627904
     "react/jsx-filename-extension": "off",
+    "react/jsx-key": "warn",
     // Use function hoisting to improve code readability
     "no-use-before-define": [
       "error",

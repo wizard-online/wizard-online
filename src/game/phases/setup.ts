@@ -43,11 +43,11 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
   round.hands = hands;
 
   // draw trump card
-  let trumpCard: Card | null = null;
+  let trumpCard: Card | undefined;
   let trumpSuit: Suit | null | undefined = null;
 
   if (round.deck.length > 0) {
-    trumpCard = round.deck.pop() ?? null;
+    trumpCard = round.deck.pop() ?? undefined;
     trumpSuit = trumpCard?.suit ?? null;
     if (trumpCard?.rank === Rank.N) {
       trumpSuit = null;
@@ -78,11 +78,11 @@ function setupRound(wizardState: WizardState): void {
 
 function onBegin(g: WizardState): void {
   // set dealer
-  if (!g.dealer) {
+  if (g.dealer >= 0) {
+    g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
+  } else {
     // draw a dealer at the start of game
     g.dealer = random(0, g.numPlayers - 1) as PlayerID;
-  } else {
-    g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
   }
 }
 
@@ -114,6 +114,12 @@ export const setup: PhaseConfig = {
     order: {
       // returns playOrder index of dealer
       first,
+      next(wizardState: WizardState, ctx: Ctx) {
+        const currentPlayerIndex = ctx.playOrder.findIndex(
+          (playerID) => playerID === ctx.currentPlayer
+        );
+        return (currentPlayerIndex + 1) % ctx.numPlayers;
+      },
     },
     onBegin: onBeginTurn,
   },

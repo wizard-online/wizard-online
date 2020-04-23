@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Suit } from "../../game/entities/cards";
-import { PlayCard } from "../components/PlayCard";
+import { PlayCard } from "../components/playcard/PlayCard";
 import { useGameState } from "../GameContext";
 import { isSetRound } from "../../game/WizardState";
 import { cardColors, ColorSet } from "../util/colors";
@@ -19,7 +19,7 @@ export const Deck: React.FC = () => {
 
   return (
     <DeckContainer trump={color.text}>
-      <CardOutline>
+      <CardOutline disabled={trump.card === undefined}>
         <PlayCard card={trump.card} interactive={false} />
       </CardOutline>
     </DeckContainer>
@@ -39,9 +39,14 @@ const DeckContainer = styled.div<{ trump: string }>`
   margin-right: 25px;
 `;
 
-const CardOutline = styled.div`
-  border-radius: 7px;
-  box-shadow: -2px 2px 2px black;
+const CardOutline = styled.div<{ disabled?: boolean }>`
+  ${({ disabled }) =>
+    disabled
+      ? ""
+      : css`
+          border-radius: 7px;
+          box-shadow: -2px 2px 2px black;
+        `}
 `;
 
 function getColor(suit: Suit | null | undefined): ColorSet {

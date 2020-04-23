@@ -24,5 +24,5 @@ export const useGameState = (): GameState => {
  */
 export function usePlayerName(playerID: PlayerID): string {
   const { gameMetadata } = useGameState();
-  return getPlayerName(playerID, gameMetadata);
+  return getPlayerName(playerID, gameMetadata ?? []);
 }
