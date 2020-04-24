@@ -4,9 +4,11 @@ import { CreateGame } from "./CreateGame";
 import { GameContainer } from "./GameContainer";
 import { useProfileHeaderElement } from "../hooks/profile-header-element";
 import { ListGames } from "./ListGames";
+import { useFeedbackHeaderElement } from "../hooks/feedback-header-element";
 
 export const LobbyRouter: React.FC = () => {
   useProfileHeaderElement();
+  useFeedbackHeaderElement();
   return (
     <BrowserRouter>
       <Switch>
