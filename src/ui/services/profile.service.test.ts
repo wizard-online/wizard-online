@@ -1,14 +1,16 @@
+import * as dateMock from "jest-date-mock";
 import {
-  ProfileStore,
   HandOrderPreference,
   storageKey,
   getProfile,
   setProfile,
   updateProfile,
+  ProfileStoreWithoutId,
 } from "./profile.service";
 
 beforeEach(() => {
   localStorage.clear();
+  dateMock.clear();
 });
 
 const name = "test-name";
@@ -16,7 +18,7 @@ const newName = "test-name-new";
 const handOrderPreference = HandOrderPreference.None;
 const newHandOrderPreference = HandOrderPreference.Sorted;
 
-const profile: ProfileStore = {
+const profile: ProfileStoreWithoutId = {
   name,
   handOrderPreference,
 };
@@ -35,13 +37,35 @@ describe("getProfile", () => {
 describe("setProfile", () => {
   test("new profile is stored", () => {
     setProfile(profile);
-    expect(JSON.parse(localStorage.getItem(storageKey) ?? "")).toEqual(profile);
+    const { id, ...storedProfile } = JSON.parse(
+      localStorage.getItem(storageKey) ?? ""
+    );
+    expect(storedProfile).toEqual(profile);
+  });
+
+  test("creates id", () => {
+    const timestamp = new Date(2020, 2, 17, 17, 17, 17);
+    dateMock.advanceTo(timestamp);
+
+    setProfile(profile);
+    const { id } = JSON.parse(localStorage.getItem(storageKey) ?? "");
+    expect(id).toBe(`${profile.name}_${timestamp.getTime()}`);
   });
 });
 
 describe("updateProfile", () => {
   test("throws error if no existing profile is stored yet", () => {
     expect(() => updateProfile({ name: newName })).toThrow();
+  });
+
+  test("keeps id", () => {
+    const timestamp = new Date(2020, 2, 17, 17, 17, 17);
+    dateMock.advanceTo(timestamp);
+
+    setProfile(profile);
+    updateProfile({ name: newName });
+    const { id } = JSON.parse(localStorage.getItem(storageKey) ?? "");
+    expect(id).toBe(`${profile.name}_${timestamp.getTime()}`);
   });
 
   test.each([

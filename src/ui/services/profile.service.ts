@@ -3,9 +3,12 @@ import flow from "lodash/fp/flow";
 export const storageKey = "wizard-profile";
 
 export interface ProfileStore {
+  id: string;
   name: string;
   handOrderPreference?: HandOrderPreference;
 }
+
+export type ProfileStoreWithoutId = Omit<ProfileStore, "id">;
 
 export enum HandOrderPreference {
   None = "none",
@@ -38,11 +41,12 @@ export function getProfile(): ProfileStore | null {
   )();
 }
 
-export function setProfile(profile: ProfileStore): void {
-  localStorage.setItem(storageKey, JSON.stringify(profile));
+export function setProfile(profile: ProfileStoreWithoutId): void {
+  const id = `${profile.name}_${Date.now()}`;
+  localStorage.setItem(storageKey, JSON.stringify({ ...profile, id }));
 }
 
-export function updateProfile(changes: Partial<ProfileStore>): void {
+export function updateProfile(changes: Partial<ProfileStoreWithoutId>): void {
   flow(
     () => localStorage.getItem(storageKey),
     (value) => {
@@ -52,7 +56,7 @@ export function updateProfile(changes: Partial<ProfileStore>): void {
       return value;
     },
     JSON.parse,
-    (store) => ({ ...store, ...changes }),
+    ({ id, ...store }) => ({ ...store, ...changes, id }),
     JSON.stringify,
     (value) => localStorage.setItem(storageKey, value)
   )();
