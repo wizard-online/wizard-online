@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+Further:
+  [#115](https://github.com/wizard-online/wizard-online/pull/115),
 
 ## [1.0.0-alpha.2] - 2020-04-23
 
