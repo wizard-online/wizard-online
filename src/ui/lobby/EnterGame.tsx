@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { GameRoom } from "../services/api.service";
 import { sortGameSeats } from "../util/game-seats";
 import { useNotify } from "../NotificationsProvider";
+import { copiedGameLinkEventGA } from "../../analytics";
 
 interface EnterGameProps {
   game?: GameRoom;
@@ -67,6 +68,7 @@ export const EnterGame: React.FC<EnterGameProps> = ({
                           message: "Link wurde in die Zwischenablage kopiert",
                           icon: "done",
                         });
+                        copiedGameLinkEventGA();
                       } catch (error) {
                         // ignore
                       }

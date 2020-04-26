@@ -7,6 +7,10 @@ export interface ProfileStore {
   handOrderPreference?: HandOrderPreference;
 }
 
+export interface ProfileStoreWithId extends ProfileStore {
+  id: string;
+}
+
 export enum HandOrderPreference {
   None = "none",
   Sorted = "sorted",
@@ -30,16 +34,17 @@ export function getHandOrderPreferenceLabel(
   }
 }
 
-export function getProfile(): ProfileStore | null {
+export function getProfile(): ProfileStoreWithId | null {
   return flow(
     () => localStorage.getItem(storageKey),
     (value) => value ?? "null",
-    (value) => JSON.parse(value) as ProfileStore
+    (value) => JSON.parse(value) as ProfileStoreWithId
   )();
 }
 
 export function setProfile(profile: ProfileStore): void {
-  localStorage.setItem(storageKey, JSON.stringify(profile));
+  const id = `${profile.name}_${Date.now()}`;
+  localStorage.setItem(storageKey, JSON.stringify({ ...profile, id }));
 }
 
 export function updateProfile(changes: Partial<ProfileStore>): void {
@@ -52,7 +57,7 @@ export function updateProfile(changes: Partial<ProfileStore>): void {
       return value;
     },
     JSON.parse,
-    (store) => ({ ...store, ...changes }),
+    ({ id, ...store }) => ({ ...store, ...changes, id }),
     JSON.stringify,
     (value) => localStorage.setItem(storageKey, value)
   )();
