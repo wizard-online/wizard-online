@@ -4,7 +4,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { WizardState, isSetRound } from "../WizardState";
 import { isValidBid, getBidsMismatch } from "../entities/bid.utils";
 import { Phase } from "./phase";
-import { sortHand } from "../entities/cards.utils";
+import { sortHand, getClientHand } from "../entities/cards.utils";
 
 export function bid(
   { round, numCards, currentPlayer }: WizardState,
@@ -26,7 +26,7 @@ export function sortCards({ currentPlayer, round }: WizardState): void {
   if (!round) return;
   // set sorted hand to state
   round.hands[currentPlayer] = sortHand(
-    round.hands[currentPlayer],
+    getClientHand(round.hands, currentPlayer),
     round.trump?.suit
   );
 }
