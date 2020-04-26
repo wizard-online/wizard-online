@@ -6,7 +6,6 @@ import { useHeaderContext } from "../header/HeaderElementsProvider";
 
 export const TopBar: React.FC = () => {
   const { elements } = useHeaderContext();
-  console.log("render topbar");
   return (
     <>
       <AppBar>
