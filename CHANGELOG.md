@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- add link to feedback form (
+  [#105](https://github.com/wizard-online/wizard-online/pull/105)
+)
+- integrate google analytics (
+  [#114](https://github.com/wizard-online/wizard-online/pull/114)
+)
+
 Further:
   [#115](https://github.com/wizard-online/wizard-online/pull/115),
 
