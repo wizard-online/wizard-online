@@ -20,3 +20,6 @@ export const App: React.FC<{}> = () => (
     </NotificationsProvider>
   </ThemeProvider>
 );
+
+
+// TEST
