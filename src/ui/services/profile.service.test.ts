@@ -5,7 +5,7 @@ import {
   getProfile,
   setProfile,
   updateProfile,
-  ProfileStoreWithoutId,
+  ProfileStore,
 } from "./profile.service";
 
 beforeEach(() => {
@@ -18,7 +18,7 @@ const newName = "test-name-new";
 const handOrderPreference = HandOrderPreference.None;
 const newHandOrderPreference = HandOrderPreference.Sorted;
 
-const profile: ProfileStoreWithoutId = {
+const profile: ProfileStore = {
   name,
   handOrderPreference,
 };

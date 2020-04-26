@@ -3,12 +3,13 @@ import flow from "lodash/fp/flow";
 export const storageKey = "wizard-profile";
 
 export interface ProfileStore {
-  id: string;
   name: string;
   handOrderPreference?: HandOrderPreference;
 }
 
-export type ProfileStoreWithoutId = Omit<ProfileStore, "id">;
+export interface ProfileStoreWithId extends ProfileStore {
+  id: string;
+}
 
 export enum HandOrderPreference {
   None = "none",
@@ -33,20 +34,20 @@ export function getHandOrderPreferenceLabel(
   }
 }
 
-export function getProfile(): ProfileStore | null {
+export function getProfile(): ProfileStoreWithId | null {
   return flow(
     () => localStorage.getItem(storageKey),
     (value) => value ?? "null",
-    (value) => JSON.parse(value) as ProfileStore
+    (value) => JSON.parse(value) as ProfileStoreWithId
   )();
 }
 
-export function setProfile(profile: ProfileStoreWithoutId): void {
+export function setProfile(profile: ProfileStore): void {
   const id = `${profile.name}_${Date.now()}`;
   localStorage.setItem(storageKey, JSON.stringify({ ...profile, id }));
 }
 
-export function updateProfile(changes: Partial<ProfileStoreWithoutId>): void {
+export function updateProfile(changes: Partial<ProfileStore>): void {
   flow(
     () => localStorage.getItem(storageKey),
     (value) => {
