@@ -13,6 +13,7 @@ import {
   canPlayCard,
   getSuitsInHand,
   getTrickWinner,
+  getClientHand,
 } from "../entities/cards.utils";
 import { updateScorePad } from "../entities/score.utils";
 import { playersRound } from "../entities/players.utils";
@@ -38,7 +39,7 @@ export function play(
     g.trick = generateBlankTrickState({ cards: trickPlayerOrder });
   }
 
-  const hand = round.hands[g.currentPlayer];
+  const hand = getClientHand(round.hands, g.currentPlayer);
   if (cardIndex < 0 || cardIndex >= hand.length) {
     return INVALID_MOVE;
   }

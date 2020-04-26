@@ -3,6 +3,7 @@ import groupBy from "lodash/groupBy";
 import { Suit, SuitLabel, Rank, Card, allSuits, allRanks } from "./cards";
 import { checkTrickCards } from "./trick.utils";
 import { TrickCard } from "./trick";
+import { PlayerID } from "./players";
 
 /**
  * checks if a card wins over another card given specified trump and lead suits
@@ -286,4 +287,15 @@ export function getCardId(card: Card): string {
   const rankLabel = getRankLabel(card);
   const suitLabel = getSuitLabel(card.suit);
   return `${suitLabel} ${rankLabel}`;
+}
+
+export function getClientHand(
+  hands: (Card | null)[][],
+  clientID: PlayerID
+): Card[] {
+  const clientHand = hands[clientID];
+  if (clientHand.some((card) => !card)) {
+    throw new Error("client hand contains null values");
+  }
+  return clientHand as Card[];
 }
