@@ -1,5 +1,7 @@
 # Changelog
 
+- add changelog CI check (#115);
+
 ## 1.0.0-alpha.2
 
 - improve bidding slider (#82, #93)
