@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import ReactGA from "react-ga";
 import { AppBar, Toolbar } from "@material-ui/core";
 import { WizardClient } from "../../WizardClient";
 import { PlayerID } from "../../game/entities/players";
+import { startedGameEventGA } from "../../analytics";
 
 export interface PlayGameProps {
   gameID: string;
@@ -18,10 +18,7 @@ export const PlayGame: React.FC<PlayGameProps> = ({
   useEffect(() => {
     // only hit analytics event for one player
     if (playerID === 0) {
-      ReactGA.event({
-        category: "Game",
-        action: "Started Game",
-      });
+      startedGameEventGA();
     }
   }, [playerID]);
   return (

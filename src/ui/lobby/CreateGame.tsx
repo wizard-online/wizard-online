@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ReactGA from "react-ga";
 import { useHistory, Link as RouterLink } from "react-router-dom";
 import { Select, MenuItem, Button, Link } from "@material-ui/core";
 import styled from "styled-components";
 import { NumPlayers } from "../../game/entities/players";
 import { createGame } from "../services/api.service";
 import { Form } from "../components/Form";
+import { createdGameEventGA } from "../../analytics";
 
 export const CreateGame: React.FC = () => {
   const history = useHistory();
@@ -17,12 +17,8 @@ export const CreateGame: React.FC = () => {
         <Form
           onSubmit={async () => {
             const gameID = await createGame(numPlayers);
-            ReactGA.event({
-              category: "Game",
-              action: "Created new game",
-              value: numPlayers,
-            });
             history.push(`/games/${gameID}`);
+            createdGameEventGA(numPlayers);
           }}
         >
           <FieldContainer>

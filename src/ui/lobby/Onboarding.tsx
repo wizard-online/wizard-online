@@ -1,8 +1,8 @@
 import React from "react";
-import ReactGA from "react-ga";
 
 import { useProfileContext } from "../ProfileProvider";
 import { EditProfile } from "./EditProfile";
+import { createdProfileEventGA } from "../../analytics";
 
 export const OnBoarding: React.FC = () => {
   const { setProfile } = useProfileContext();
@@ -13,10 +13,7 @@ export const OnBoarding: React.FC = () => {
       <EditProfile
         onSubmit={(profile) => {
           setProfile(profile);
-          ReactGA.event({
-            category: "User",
-            action: "Created new user profile",
-          });
+          createdProfileEventGA();
         }}
         submitLabel="Los geht's!"
       />
