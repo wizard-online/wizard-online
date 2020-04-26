@@ -31,12 +31,12 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
   );
 
   // handout cards to players
-  const hands = new Array(numPlayers).fill(0).map<Card[]>(() => []);
+  const hands = new Array(numPlayers).fill(0).map<(Card | null)[]>(() => []);
   new Array(numCards).fill(0).forEach(() => {
     players.forEach((player) => {
       const card = round.deck.pop();
 
-      if (!card) throw new Error("deck seems to be empty");
+      if (card === undefined) throw new Error("deck seems to be empty");
       hands[player].push(card);
     });
   });
