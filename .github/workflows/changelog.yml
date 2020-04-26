@@ -1,7 +1,10 @@
 # based on: https://github.com/rails/sprockets/pull/631/files
 name: Check Changelog
 
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
