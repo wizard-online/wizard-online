@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
+import ReactGA from "react-ga";
 import { useParams, useHistory } from "react-router-dom";
 import random from "lodash/random";
 import { EnterGame } from "./EnterGame";
@@ -73,6 +74,10 @@ export const GameContainer: React.FC = () => {
           const { id } = freeSeats[seatIndex];
           const newCredentials = await joinGame(gameID, id, name);
           setCredentials(gameID, id, newCredentials);
+          ReactGA.event({
+            category: "Game",
+            action: "Joined Game",
+          });
           fetchGame();
         }
       }}
@@ -85,6 +90,10 @@ export const GameContainer: React.FC = () => {
             credentialsState.credentials
           );
           unsetCredentials(gameID);
+          ReactGA.event({
+            category: "Game",
+            action: "Left Game",
+          });
           fetchGame();
         }
       }}

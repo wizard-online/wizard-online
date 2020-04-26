@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ReactGA from "react-ga";
 import {
   Button,
   Card,
@@ -63,6 +64,10 @@ export const EnterGame: React.FC<EnterGameProps> = ({
                         await navigator.clipboard.writeText(
                           window.location.href
                         );
+                        ReactGA.event({
+                          category: "User",
+                          action: "Copied game link",
+                        });
                         notify({
                           message: "Link wurde in die Zwischenablage kopiert",
                           icon: "done",

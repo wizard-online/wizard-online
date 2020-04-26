@@ -7,6 +7,7 @@ export function useGameEventsDispatcher(): void {
   const gameState = useGameState();
   const {
     wizardState: { round, trick },
+    ctx: { gameover },
   } = gameState;
   // manage trick-complete event disptach
   const trickIsComplete = trick?.isComplete;
@@ -33,4 +34,16 @@ export function useGameEventsDispatcher(): void {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundIsComplete]);
+
+  const gameIsOver = !!gameover;
+  useEffect(() => {
+    if (gameIsOver) {
+      document.dispatchEvent(
+        new CustomEvent<GameState>(GameEvent.GameOver, {
+          detail: gameState,
+        })
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameIsOver]);
 }
