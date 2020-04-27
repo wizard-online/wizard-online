@@ -11,7 +11,7 @@ export interface GameRoom {
   roomID?: GameID;
   gameID?: GameID;
   players: GameSeat[];
-  setupData?: unknown;
+  setupData?: WizardSetupData;
 }
 
 export interface GameSeat {
