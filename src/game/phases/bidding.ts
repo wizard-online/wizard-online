@@ -7,10 +7,11 @@ import { Phase } from "./phase";
 import { sortHand, getClientHand } from "../entities/cards.utils";
 
 export function bid(
-  { round, numCards, currentPlayer }: WizardState,
+  { round, roundIndex, rounds, currentPlayer }: WizardState,
   ctx: Ctx,
   numberOfTricks: number
 ): "INVALID_MOVE" | void {
+  const numCards = rounds[roundIndex];
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
@@ -38,14 +39,17 @@ function endIf({ round }: WizardState): boolean {
   return !round.bids.includes(null);
 }
 
-function onEnd({ round, numCards }: WizardState): void {
+function onEnd({ round, roundIndex, rounds }: WizardState): void {
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
   if (round.bids.includes(null)) {
     throw new Error("bids are not complete");
   }
-  round.bidsMismatch = getBidsMismatch(round.bids as number[], numCards);
+  round.bidsMismatch = getBidsMismatch(
+    round.bids as number[],
+    rounds[roundIndex]
+  );
 }
 
 export const bidding: PhaseConfig = {

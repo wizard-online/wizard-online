@@ -20,7 +20,7 @@ export function shuffleMove(wizardState: WizardState): void {
 }
 
 export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
-  const { round, numCards, numPlayers, currentPlayer } = wizardState;
+  const { round, roundIndex, rounds, numPlayers, currentPlayer } = wizardState;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
@@ -32,7 +32,7 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
 
   // handout cards to players
   const hands = new Array(numPlayers).fill(0).map<(Card | null)[]>(() => []);
-  new Array(numCards).fill(0).forEach(() => {
+  new Array(rounds[roundIndex]).fill(0).forEach(() => {
     players.forEach((player) => {
       const card = round.deck.pop();
 

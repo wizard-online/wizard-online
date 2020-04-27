@@ -120,7 +120,7 @@ function endIf({ round }: WizardState): boolean {
 }
 
 function onEnd(g: WizardState): void {
-  const { round, numCards, scorePad } = g;
+  const { round, roundIndex, rounds, scorePad } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
@@ -129,11 +129,16 @@ function onEnd(g: WizardState): void {
   }
 
   // calc score
-  g.scorePad = updateScorePad(round.bids, round.trickCount, numCards, scorePad);
+  g.scorePad = updateScorePad(
+    round.bids,
+    round.trickCount,
+    rounds[roundIndex],
+    scorePad
+  );
   // mark current round complete
   round.isComplete = true;
   // increment round
-  g.numCards = numCards + 1;
+  g.roundIndex += 1;
 }
 
 export const playing: PhaseConfig = {

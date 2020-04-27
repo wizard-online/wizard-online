@@ -8,9 +8,10 @@ import { isSetRound } from "../../../game/WizardState";
 
 export const BiddingAction: React.FC = () => {
   const {
-    wizardState: { numCards, currentPlayer, round },
+    wizardState: { roundIndex, rounds, currentPlayer, round },
     moves: { bid, sortCards },
   } = useGameState();
+  const numCards = rounds[roundIndex];
 
   if (!isSetRound(round)) {
     throw new Error("round is not set");
