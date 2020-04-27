@@ -16,7 +16,7 @@ import { CurrentRoundRow } from "./CurrentRoundRow";
 
 export const ScorePad: React.FC = () => {
   const {
-    wizardState: { scorePad, numCards, round },
+    wizardState: { scorePad, roundIndex, rounds, round },
     ctx: { numPlayers, gameover },
     gameMetadata,
   } = useGameState();
@@ -40,7 +40,7 @@ export const ScorePad: React.FC = () => {
             <ScoreRow numCards={n} playerScores={playerScores} key={n} />
           ))}
           {round && !round.isComplete && !gameover && (
-            <CurrentRoundRow numCards={numCards} bids={round.bids} />
+            <CurrentRoundRow numCards={rounds[roundIndex]} bids={round.bids} />
           )}
         </TableBody>
       </Table>

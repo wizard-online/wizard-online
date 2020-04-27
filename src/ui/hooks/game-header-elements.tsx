@@ -5,7 +5,7 @@ import { maxCards } from "../../game/entities/players.utils";
 
 export function useGameHeaderElements(): void {
   const {
-    wizardState: { numCards, numPlayers, round },
+    wizardState: { roundIndex, rounds, numPlayers, round },
   } = useGameState();
 
   // spacer
@@ -21,7 +21,7 @@ export function useGameHeaderElements(): void {
   useHeaderElement(
     "game-round",
     4,
-    `Runde ${numCards} / ${maxCards(numPlayers)}`
+    `Runde ${rounds[roundIndex]} / ${maxCards(numPlayers)}`
   );
 
   // bids mismatch

@@ -23,7 +23,7 @@ describe("handout", () => {
     handoutMove(g, ctx);
     g.round!.hands.forEach((hand) => {
       expect(hand).toBeInstanceOf(Array);
-      expect(hand.length).toBe(g.numCards);
+      expect(hand.length).toBe(g.rounds[g.roundIndex]);
     });
   });
 
@@ -32,7 +32,7 @@ describe("handout", () => {
     const g = generateDefaultWizardState(ctx);
 
     const expectedTrump = g.round!.deck[
-      g.round!.deck.length - g.numCards * ctx.numPlayers - 1
+      g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1
     ];
     handoutMove(g, ctx);
     expect(g.round!.trump.card).toBe(expectedTrump);
@@ -60,7 +60,8 @@ describe("handout", () => {
     testData.forEach(({ suit, rank }) => {
       const ctx = generateCtx();
       const g = generateDefaultWizardState(ctx);
-      const trumpIndex = g.round!.deck.length - g.numCards * ctx.numPlayers - 1;
+      const trumpIndex =
+        g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
       g.round!.deck[trumpIndex] = { suit, rank };
       handoutMove(g, ctx);
       expect(g.round!.trump.suit).toBe(suit);
@@ -70,7 +71,8 @@ describe("handout", () => {
   test("sets trumpSuit to undefined if trump card is a Z", () => {
     const ctx = generateCtx();
     const g = generateDefaultWizardState(ctx);
-    const trumpIndex = g.round!.deck.length - g.numCards * ctx.numPlayers - 1;
+    const trumpIndex =
+      g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
 
     g.round!.deck[trumpIndex] = { suit: Suit.Blue, rank: Rank.Z };
     handoutMove(g, ctx);
@@ -80,7 +82,8 @@ describe("handout", () => {
   test("calls selecting-trump phase when trump card is a Z", () => {
     const ctx = generateCtx();
     const g = generateDefaultWizardState(ctx);
-    const trumpIndex = g.round!.deck.length - g.numCards * ctx.numPlayers - 1;
+    const trumpIndex =
+      g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
 
     g.round!.deck[trumpIndex] = { suit: Suit.Blue, rank: Rank.Z };
     ctx.events!.setPhase = jest.fn();
@@ -91,7 +94,8 @@ describe("handout", () => {
   test("sets trumpSuit to null if turmp card is a N", () => {
     const ctx = generateCtx();
     const g = generateDefaultWizardState(ctx);
-    const trumpIndex = g.round!.deck.length - g.numCards * ctx.numPlayers - 1;
+    const trumpIndex =
+      g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
 
     g.round!.deck[trumpIndex] = { suit: Suit.Yellow, rank: Rank.N };
     handoutMove(g, ctx);
@@ -100,7 +104,7 @@ describe("handout", () => {
 
   test("sets trumpCard and trumpSuit to null in final round", () => {
     const ctx = generateCtx({ numPlayers: 4 });
-    const g = generateDefaultWizardState(ctx, { numCards: 15 });
+    const g = generateDefaultWizardState(ctx, { roundIndex: 14 });
     handoutMove(g, ctx);
     expect(g.round!.trump.card).toBeUndefined();
     expect(g.round!.trump.suit).toBeNull();
@@ -112,7 +116,7 @@ describe("handout", () => {
     const originalLength = g.round!.deck.length;
     handoutMove(g, ctx);
     expect(g.round!.deck.length).toBe(
-      originalLength - ctx.numPlayers * g.numCards - 1
+      originalLength - ctx.numPlayers * g.rounds[g.roundIndex] - 1
     );
   });
 
@@ -120,7 +124,7 @@ describe("handout", () => {
     const ctx = generateCtx();
     const g: WizardState = generateDefaultWizardState(ctx);
 
-    const cardsPlayer1 = range(0, g.numCards).map(
+    const cardsPlayer1 = range(0, g.rounds[g.roundIndex]).map(
       (cardI) =>
         g.round!.deck[g.round!.deck.length - 1 - ctx.numPlayers * cardI]
     );

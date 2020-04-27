@@ -6,6 +6,7 @@ import { Phase } from "./phases/phase";
 import { ScorePad } from "./entities/score";
 import { Card, Suit } from "./entities/cards";
 import { OptionalTrickCard } from "./entities/trick";
+import { generateRounds } from "./entities/round.utils";
 
 /**
  * Describes the Wizard game state used in the g object.
@@ -19,7 +20,8 @@ export interface WizardState {
   // trick-specific state which is resetted after each trick
   trick: WizardTrickState | null;
   // general game state
-  numCards: number;
+  rounds: number[];
+  roundIndex: number;
   dealer: PlayerID;
   currentPlayer: PlayerID;
   scorePad: ScorePad;
@@ -125,7 +127,8 @@ export const generateDefaultWizardState = (
   const trick =
     trickOptions !== null ? generateBlankTrickState(trickOptions) : null;
   const defaultValues = {
-    numCards: 1,
+    roundIndex: 0,
+    rounds: generateRounds(numPlayers),
     dealer: -1 as PlayerID,
     scorePad: [],
     numPlayers,

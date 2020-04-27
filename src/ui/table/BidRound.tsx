@@ -12,7 +12,7 @@ import { colors } from "../util/colors";
 
 export const BidRound: React.FC = () => {
   const {
-    wizardState: { numPlayers, dealer, round, numCards },
+    wizardState: { numPlayers, dealer, round, roundIndex, rounds },
     gameMetadata,
   } = useGameState();
 
@@ -38,7 +38,7 @@ export const BidRound: React.FC = () => {
       <TrickCardBox player="TOTAL">
         <TotalBox>
           <h2>
-            {totalBids} von {numCards}
+            {totalBids} von {rounds[roundIndex]}
           </h2>
         </TotalBox>
       </TrickCardBox>
