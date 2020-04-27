@@ -104,7 +104,7 @@ describe("handout", () => {
 
   test("sets trumpCard and trumpSuit to null in final round", () => {
     const ctx = generateCtx({ numPlayers: 4 });
-    const g = generateDefaultWizardState(ctx, { roundIndex: 14 });
+    const g = generateDefaultWizardState(ctx, {}, { roundIndex: 14 });
     handoutMove(g, ctx);
     expect(g.round!.trump.card).toBeUndefined();
     expect(g.round!.trump.suit).toBeNull();

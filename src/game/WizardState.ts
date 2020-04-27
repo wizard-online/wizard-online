@@ -122,12 +122,12 @@ export function isSetRound(
  */
 export const generateDefaultWizardState = (
   ctx: Ctx,
+  setupData: WizardSetupData = {},
   {
     round: roundOptions,
     trick: trickOptions,
     ...options
-  }: Partial<WizardState> = {},
-  setupData: WizardSetupData = {}
+  }: Partial<WizardState> = {}
 ): WizardState => {
   const config = setupData.config ?? {};
   const numPlayers = ctx.numPlayers as NumPlayers;
