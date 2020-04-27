@@ -76,6 +76,10 @@ export interface Trump {
   suit?: Suit | null;
 }
 
+export interface WizardSetupData {
+  config?: WizardConfig;
+}
+
 /**
  * Checks if a trick is set.
  * Function uses typescript guards:
@@ -122,8 +126,10 @@ export const generateDefaultWizardState = (
     round: roundOptions,
     trick: trickOptions,
     ...options
-  }: Partial<WizardState> = {}
+  }: Partial<WizardState> = {},
+  setupData: WizardSetupData = {}
 ): WizardState => {
+  const config = setupData.config ?? {};
   const numPlayers = ctx.numPlayers as NumPlayers;
   const round =
     roundOptions !== null
@@ -132,7 +138,7 @@ export const generateDefaultWizardState = (
   const trick =
     trickOptions !== null ? generateBlankTrickState(trickOptions) : null;
   const defaultValues = {
-    config: {},
+    config,
     roundIndex: 0,
     rounds: generateRounds(numPlayers),
     dealer: -1 as PlayerID,
