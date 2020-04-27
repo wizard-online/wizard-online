@@ -15,6 +15,7 @@ import { generateRounds } from "./entities/round.utils";
  * @interface WizardState
  */
 export interface WizardState {
+  config: WizardConfig;
   // round-specific state which is resetted after each round
   round: WizardRoundState | null;
   // trick-specific state which is resetted after each trick
@@ -27,6 +28,10 @@ export interface WizardState {
   scorePad: ScorePad;
   numPlayers: NumPlayers;
   phase: Phase;
+}
+
+export interface WizardConfig {
+  tournamentMode?: boolean;
 }
 
 /**
@@ -127,6 +132,7 @@ export const generateDefaultWizardState = (
   const trick =
     trickOptions !== null ? generateBlankTrickState(trickOptions) : null;
   const defaultValues = {
+    config: {},
     roundIndex: 0,
     rounds: generateRounds(numPlayers),
     dealer: -1 as PlayerID,

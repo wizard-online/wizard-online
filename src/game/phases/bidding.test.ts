@@ -24,6 +24,7 @@ function generate({
     currentPlayer: currentPlayer.toString(),
   });
   const g: WizardState = {
+    config: {},
     roundIndex: 0,
     rounds: [numCards],
     scorePad: [],
