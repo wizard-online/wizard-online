@@ -140,7 +140,7 @@ export const generateDefaultWizardState = (
   const defaultValues = {
     config,
     roundIndex: 0,
-    rounds: generateRounds(numPlayers),
+    rounds: generateRounds(numPlayers, config.tournamentMode),
     dealer: -1 as PlayerID,
     scorePad: [],
     numPlayers,
