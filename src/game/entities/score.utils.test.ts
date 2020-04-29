@@ -5,7 +5,7 @@ import {
   getPlayersWithHighestIndividualScore,
   getPlayersWithMostAmountOfHighestIndividualScore,
   getPlayersWithSecondHighestIndividualScore,
-  getLeader,
+  getLeaders,
   transposeMatrix,
 } from "./score.utils";
 
@@ -215,7 +215,7 @@ describe("getLeader", () => {
       testPlayer1,
       testPlayer2,
     ]).map((playerScores, i) => ({ numCards: i + 1, playerScores }));
-    expect(getLeader(scorePad)).toEqual([0]);
+    expect(getLeaders(scorePad)).toEqual([0]);
   });
 
   test("returns all leading players", () => {
@@ -224,6 +224,6 @@ describe("getLeader", () => {
       testPlayer1,
       testPlayer3,
     ]).map((playerScores, i) => ({ numCards: i + 1, playerScores }));
-    expect(getLeader(scorePad)).toEqual([0, 2]);
+    expect(getLeaders(scorePad)).toEqual([0, 2]);
   });
 });

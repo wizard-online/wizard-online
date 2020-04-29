@@ -115,7 +115,7 @@ function abstractGetPlayersWithMaxValue(
   };
 }
 
-export function getLeader(scorePad: ScorePad): PlayerID[] {
+export function getLeaders(scorePad: ScorePad): PlayerID[] {
   if (scorePad.length === 0)
     throw new Error("cannot get leader of empty score pad");
 
