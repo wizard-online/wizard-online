@@ -3,9 +3,10 @@ import { Dialog, DialogTitle, Button } from "@material-ui/core";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { ScorePad } from "../score/ScorePad";
-import { useGameState, usePlayerName } from "../GameContext";
-import { getLeader } from "../../game/entities/score.utils";
+import { useGameState } from "../GameContext";
+import { getLeaders } from "../../game/entities/score.utils";
 import { PlayerID } from "../../game/entities/players";
+import { getPlayerName } from "../../game/entities/players.utils";
 
 export const FinalScoreModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,23 +21,30 @@ export const FinalScoreModal: React.FC = () => {
 
   return (
     <Dialog open={showModal}>
-      {showModal && <FinalScoreModalContent winnerID={getLeader(scorePad)} />}
+      {showModal && <FinalScoreModalContent winnerIDs={getLeaders(scorePad)} />}
     </Dialog>
   );
 };
 
 interface FinalScoreModalContentProps {
-  winnerID: PlayerID;
+  winnerIDs: PlayerID[];
 }
 
 const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
-  winnerID,
+  winnerIDs,
 }) => {
   const history = useHistory();
-  const winnerName = usePlayerName(winnerID);
+  const { gameMetadata } = useGameState();
+
+  const winnerNames = winnerIDs.map((winnerID) =>
+    getPlayerName(winnerID, gameMetadata ?? [])
+  );
   return (
     <Container data-testid="final-score">
-      <DialogTitle>{winnerName} gewinnt!</DialogTitle>
+      <DialogTitle>
+        {winnerNames.join("&")}{" "}
+        {winnerNames.length > 1 ? "gewinnen" : "gewinnt"}!
+      </DialogTitle>
       <ScorePad />
       <ActionContainer>
         <Button
