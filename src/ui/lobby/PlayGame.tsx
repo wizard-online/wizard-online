@@ -23,7 +23,7 @@ export const PlayGame: React.FC<PlayGameProps> = ({
   }, [playerID]);
   return (
     <>
-      {(!playerID || !credentials) && (
+      {(playerID === undefined || !credentials) && (
         <AppBar position="static" color="transparent">
           <Toolbar variant="dense">
             <i>Zuschauer-Modus</i>
