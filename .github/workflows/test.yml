@@ -16,11 +16,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      # git version
-      - name: set git version as environment variable
-        run: |
-          echo "::set-env name=GIT_VERSION::$(git describe)"
-      - run: echo ${{ env.GIT_VERSION }}
       # setup cache
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
