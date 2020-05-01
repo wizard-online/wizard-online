@@ -6,3 +6,5 @@ import "./sentry";
 import "./index.css";
 // bootstrap react app
 import "./bootstrap";
+
+import "./version";
