@@ -7706,6 +7706,11 @@ parcel-bundler@^1.12.3:
     v8-compile-cache "^2.0.0"
     ws "^5.1.1"
 
+parcel-plugin-git-describe@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-git-describe/-/parcel-plugin-git-describe-1.0.0.tgz#353b49e72dfba8f6f92af2ec07b6a03ffb7bb23f"
+  integrity sha512-lCs7lg8ll5cphkAsQwcKKE226Y2bQd3DB/UKOF6b4jwkPkwTOVhsWpBKuOi8H/C+/O9yKCZ9V51DGX5k2dW2pg==
+
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2"
