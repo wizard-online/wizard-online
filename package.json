@@ -82,6 +82,7 @@
     "jest-localstorage-mock": "^2.4.0",
     "nodemon": "^2.0.2",
     "parcel-bundler": "^1.12.3",
+    "parcel-plugin-git-describe": "^1.0.0",
     "prettier": "^2.0.2",
     "stylelint": "^13.2.1",
     "stylelint-config-prettier": "^8.0.1",
