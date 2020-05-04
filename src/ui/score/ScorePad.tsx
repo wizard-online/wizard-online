@@ -3,47 +3,89 @@ import {
   TableContainer,
   Table,
   TableHead,
-  TableCell,
   TableBody,
   TableRow,
 } from "@material-ui/core";
 import range from "lodash/range";
+import styled from "styled-components";
 import { useGameState } from "../GameContext";
-import { getPlayerName } from "../../game/entities/players.utils";
+import { getPlayerName, maxCards } from "../../game/entities/players.utils";
 import { PlayerID } from "../../game/entities/players";
 import { ScoreRow } from "./ScoreRow";
-import { CurrentRoundRow } from "./CurrentRoundRow";
+import { RoundColCell, PlayerColCell } from "./Cells";
+import { ScoreCellProps } from "./ScoreCell";
 
 export const ScorePad: React.FC = () => {
   const {
-    wizardState: { scorePad, roundIndex, rounds, round },
-    ctx: { numPlayers, gameover },
+    wizardState: { scorePad, roundIndex, rounds, round, numPlayers },
     gameMetadata,
   } = useGameState();
   const playerIDs = range(0, numPlayers) as PlayerID[];
+  const currentRound = rounds[roundIndex];
+  const allRounds = range(1, maxCards(numPlayers) + 1);
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>#</TableCell>
-            {playerIDs.map((playerID) => (
-              <TableCell key={playerID}>
-                {getPlayerName(playerID, gameMetadata)}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {scorePad.map(({ numCards: n, playerScores }) => (
-            <ScoreRow numCards={n} playerScores={playerScores} key={n} />
-          ))}
-          {round && !round.isComplete && !gameover && (
-            <CurrentRoundRow numCards={rounds[roundIndex]} bids={round.bids} />
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Container>
+      <StyledTable>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <RoundColCell />
+              {playerIDs.map((playerID) => (
+                <PlayerNameCell key={playerID}>
+                  {getPlayerName(playerID, gameMetadata)}
+                </PlayerNameCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {allRounds.map((numCards) => {
+              const roundScore = scorePad.find(
+                (scoreRow) => scoreRow.numCards === numCards
+              );
+              const isCurrentRound =
+                !!round && !round.isComplete && numCards === currentRound;
+              const playerScores: ScoreCellProps[] =
+                (isCurrentRound
+                  ? round?.bids.map((bid) => ({ bid }))
+                  : roundScore?.playerScores) ?? new Array(numPlayers).fill({});
+              return (
+                <ScoreRow
+                  numCards={numCards}
+                  playerScores={playerScores}
+                  skip={!rounds.includes(numCards)}
+                  current={isCurrentRound}
+                  key={numCards}
+                />
+              );
+            })}
+          </TableBody>
+        </Table>
+      </StyledTable>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  width: fit-content;
+`;
+
+const StyledTable = styled(TableContainer)`
+  border: 1px solid black;
+  border-radius: 5px;
+  width: initial;
+  & .MuiTable-root {
+    width: initial;
+    border: 1px solid black;
+  }
+  & .MuiTableCell-root {
+    border: 1px solid black;
+    border-width: 1px 2px;
+  }
+`;
+
+const PlayerNameCell = styled(PlayerColCell)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;

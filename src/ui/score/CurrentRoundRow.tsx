@@ -1,5 +1,6 @@
 import React from "react";
 import { TableRow, TableCell } from "@material-ui/core";
+import { ScoreCell } from "./ScoreCell";
 
 export interface CurrentRoundRowProps {
   numCards: number;
@@ -17,9 +18,9 @@ export const CurrentRoundRow: React.FC<CurrentRoundRowProps> = ({
       </TableCell>
       {bids.map((bid, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <TableCell key={i}>
+        <ScoreCell key={i}>
           <span>__ | {bid ?? "_"}</span>
-        </TableCell>
+        </ScoreCell>
       ))}
     </TableRow>
   );

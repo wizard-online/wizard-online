@@ -1,49 +1,51 @@
 import React from "react";
-import { TableRow, TableCell, Tooltip } from "@material-ui/core";
-import { Score } from "../../game/entities/score";
+import { TableRow } from "@material-ui/core";
+import styled, { css } from "styled-components";
+import { ScoreCell, ScoreCellProps } from "./ScoreCell";
+import { RoundColCell } from "./Cells";
 
 export interface ScoreRowProps {
   numCards: number;
-  playerScores: Score[];
+  playerScores: ScoreCellProps[];
+  skip?: boolean;
+  current?: boolean;
 }
 
 export const ScoreRow: React.FC<ScoreRowProps> = ({
   numCards,
   playerScores,
+  skip = false,
 }) => {
   return (
-    <TableRow>
-      <TableCell component="th" scope="row">
+    <StyledRow $skip={skip}>
+      <RoundColCell component="th" scope="row">
         {numCards}
-      </TableCell>
-      {playerScores.map(({ bid, tricks, score, total }, i) => (
+      </RoundColCell>
+      {playerScores.map(({ score, bid }, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <TableCell key={i}>
-          <Tooltip
-            arrow
-            title={
-              <>
-                <p>
-                  <b>{bid}</b> Stiche angesagt
-                </p>
-                <p>
-                  <b>{tricks}</b> Stiche gemacht
-                </p>
-                <p>
-                  <b>{score}</b> Punkte in dieser Runde
-                </p>
-                <p>
-                  <b>{total}</b> Punkte insgesamt
-                </p>
-              </>
-            }
-          >
-            <span>
-              <b>{total}</b> | {bid}
-            </span>
-          </Tooltip>
-        </TableCell>
+        <ScoreCell score={score} bid={bid} key={i} />
       ))}
-    </TableRow>
+    </StyledRow>
   );
 };
+
+const strikethrough = css`
+  /* based on https://stackoverflow.com/a/19670807/5025424 */
+  & .MuiTableCell-root {
+    position: relative;
+  }
+  & .MuiTableCell-root:before {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border-bottom: 1px dotted #111;
+    width: 100%;
+    box-shadow: 0 0 2px grey;
+  }
+`;
+
+const StyledRow = styled(TableRow)<{ $skip: boolean }>`
+  ${({ $skip }) => ($skip ? strikethrough : "")}
+  border-top: 1px solid black;
+`;
