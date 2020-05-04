@@ -43,12 +43,17 @@ export const ScorePad: React.FC = () => {
               const roundScore = scorePad.find(
                 (scoreRow) => scoreRow.numCards === numCards
               );
-              const isCurrentRound =
-                !!round && !round.isComplete && numCards === currentRound;
-              const playerScores: ScoreCellProps[] =
-                (isCurrentRound
-                  ? round?.bids.map((bid) => ({ bid }))
-                  : roundScore?.playerScores) ?? new Array(numPlayers).fill({});
+              const isCurrentRound = numCards === currentRound;
+              let playerScores: ScoreCellProps[] = new Array(numPlayers).fill(
+                {}
+              );
+              if (roundScore?.playerScores) {
+                playerScores = roundScore.playerScores;
+              } else if (round && isCurrentRound) {
+                playerScores = round.bids.map((bid) => ({
+                  bid: bid ?? undefined,
+                }));
+              }
               return (
                 <ScoreRow
                   numCards={numCards}

@@ -3,6 +3,7 @@ import { TableRow } from "@material-ui/core";
 import styled, { css } from "styled-components";
 import { ScoreCell, ScoreCellProps } from "./ScoreCell";
 import { RoundColCell } from "./Cells";
+import { colors } from "../util/colors";
 
 export interface ScoreRowProps {
   numCards: number;
@@ -15,9 +16,10 @@ export const ScoreRow: React.FC<ScoreRowProps> = ({
   numCards,
   playerScores,
   skip = false,
+  current = false,
 }) => {
   return (
-    <StyledRow $skip={skip}>
+    <StyledRow $skip={skip} $current={current}>
       <RoundColCell component="th" scope="row">
         {numCards}
       </RoundColCell>
@@ -45,7 +47,17 @@ const strikethrough = css`
   }
 `;
 
-const StyledRow = styled(TableRow)<{ $skip: boolean }>`
+const StyledRow = styled(TableRow)<{ $skip: boolean; $current: boolean }>`
   ${({ $skip }) => ($skip ? strikethrough : "")}
+  ${({ $current }) =>
+    $current
+      ? css`
+          & td,
+          th {
+            font-weight: bold;
+            background-color: ${colors.lightgrey};
+          }
+        `
+      : ""}
   border-top: 1px solid black;
 `;

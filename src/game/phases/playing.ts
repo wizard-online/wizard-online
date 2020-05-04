@@ -137,8 +137,6 @@ function onEnd(g: WizardState): void {
   );
   // mark current round complete
   round.isComplete = true;
-  // increment round
-  g.roundIndex += 1;
 }
 
 export const playing: PhaseConfig = {

@@ -68,6 +68,10 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
 }
 
 function setupRound(wizardState: WizardState): void {
+  // increment roundIndex if not first round
+  if (wizardState.round?.isComplete) {
+    wizardState.roundIndex += 1;
+  }
   // setup (or reset) round
   if (!wizardState.round || wizardState.trick) {
     wizardState.round = generateBlankRoundState(wizardState.numPlayers);
