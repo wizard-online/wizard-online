@@ -1,16 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 import { TableCell } from "@material-ui/core";
+import { colors } from "../util/colors";
 
 export interface ScoreCellProps {
   total?: number;
   bid?: number;
+  score?: number;
   highlight?: boolean;
 }
 
-export const ScoreCell: React.FC<ScoreCellProps> = ({ total, bid }) => {
+export const ScoreCell: React.FC<ScoreCellProps> = ({
+  total,
+  bid,
+  score,
+  highlight,
+}) => {
+  let background = "";
+  if (highlight) {
+    if (score) {
+      background = score > 0 ? colors.green.light : colors.red.light;
+    } else {
+      background = colors.blue.light;
+    }
+  }
   return (
-    <StyledCell>
+    <StyledCell $background={background}>
       <FlexContainer>
         <ScoreBox>{total ?? " "}</ScoreBox>
         <BidBox>{bid ?? " "}</BidBox>
@@ -19,11 +34,12 @@ export const ScoreCell: React.FC<ScoreCellProps> = ({ total, bid }) => {
   );
 };
 
-const StyledCell = styled(TableCell)`
+const StyledCell = styled(TableCell)<{ $background: string }>`
   min-width: 50px;
   max-width: 50px;
   && {
     padding: 0;
+    background-color: ${({ $background }) => $background ?? "inherit"};
   }
 `;
 

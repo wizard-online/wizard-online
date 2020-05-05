@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TableRow } from "@material-ui/core";
 import styled, { css } from "styled-components";
 import { ScoreCell, ScoreCellProps } from "./ScoreCell";
@@ -18,14 +18,26 @@ export const ScoreRow: React.FC<ScoreRowProps> = ({
   skip = false,
   current = false,
 }) => {
+  const [higlightRow, setHighlightRow] = useState(false);
   return (
-    <StyledRow $skip={skip} $current={current}>
-      <RoundColCell component="th" scope="row">
+    <StyledRow
+      $skip={skip}
+      $current={current}
+      onMouseEnter={() => setHighlightRow(!skip)}
+      onMouseLeave={() => setHighlightRow(false)}
+    >
+      <StyledRoundColCell component="th" scope="row" $highlight={higlightRow}>
         {numCards}
-      </RoundColCell>
-      {playerScores.map(({ total, bid }, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <ScoreCell total={total} bid={bid} key={i} />
+      </StyledRoundColCell>
+      {playerScores.map(({ total, score, bid }, i) => (
+        <ScoreCell
+          total={total}
+          score={score}
+          bid={bid}
+          // eslint-disable-next-line react/no-array-index-key
+          key={i}
+          highlight={higlightRow}
+        />
       ))}
     </StyledRow>
   );
@@ -60,4 +72,11 @@ const StyledRow = styled(TableRow)<{ $skip: boolean; $current: boolean }>`
         `
       : ""}
   border-top: 1px solid black;
+`;
+
+const StyledRoundColCell = styled(RoundColCell)<{ $highlight: boolean }>`
+  && {
+    background-color: ${({ $highlight }) =>
+      $highlight ? colors.blue.light : "inherit"};
+  }
 `;
