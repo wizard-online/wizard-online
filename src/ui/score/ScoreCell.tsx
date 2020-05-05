@@ -3,15 +3,16 @@ import styled from "styled-components";
 import { TableCell } from "@material-ui/core";
 
 export interface ScoreCellProps {
-  score?: number;
+  total?: number;
   bid?: number;
+  highlight?: boolean;
 }
 
-export const ScoreCell: React.FC<ScoreCellProps> = ({ score, bid }) => {
+export const ScoreCell: React.FC<ScoreCellProps> = ({ total, bid }) => {
   return (
     <StyledCell>
       <FlexContainer>
-        <ScoreBox>{score ?? " "}</ScoreBox>
+        <ScoreBox>{total ?? " "}</ScoreBox>
         <BidBox>{bid ?? " "}</BidBox>
       </FlexContainer>
     </StyledCell>

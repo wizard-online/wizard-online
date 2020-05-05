@@ -23,9 +23,9 @@ export const ScoreRow: React.FC<ScoreRowProps> = ({
       <RoundColCell component="th" scope="row">
         {numCards}
       </RoundColCell>
-      {playerScores.map(({ score, bid }, i) => (
+      {playerScores.map(({ total, bid }, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <ScoreCell score={score} bid={bid} key={i} />
+        <ScoreCell total={total} bid={bid} key={i} />
       ))}
     </StyledRow>
   );
