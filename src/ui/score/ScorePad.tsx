@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -14,6 +14,7 @@ import { PlayerID } from "../../game/entities/players";
 import { ScoreRow } from "./ScoreRow";
 import { RoundColCell, PlayerColCell } from "./Cells";
 import { ScoreCellProps } from "./ScoreCell";
+import { colors } from "../util/colors";
 
 export const ScorePad: React.FC = () => {
   const {
@@ -23,7 +24,7 @@ export const ScorePad: React.FC = () => {
   const playerIDs = range(0, numPlayers) as PlayerID[];
   const currentRound = rounds[roundIndex];
   const allRounds = range(1, maxCards(numPlayers) + 1);
-
+  const [colHighlighted, setColHighlighted] = useState(-1);
   return (
     <Container>
       <StyledTable>
@@ -32,7 +33,12 @@ export const ScorePad: React.FC = () => {
             <TableRow>
               <RoundColCell />
               {playerIDs.map((playerID) => (
-                <PlayerNameCell key={playerID}>
+                <PlayerNameCell
+                  key={playerID}
+                  $highlight={colHighlighted === playerID}
+                  onMouseEnter={() => setColHighlighted(playerID)}
+                  onMouseLeave={() => setColHighlighted(-1)}
+                >
                   {getPlayerName(playerID, gameMetadata)}
                 </PlayerNameCell>
               ))}
@@ -60,6 +66,7 @@ export const ScorePad: React.FC = () => {
                   playerScores={playerScores}
                   skip={!rounds.includes(numCards)}
                   current={isCurrentRound}
+                  colHighlighted={colHighlighted}
                   key={numCards}
                 />
               );
@@ -89,8 +96,10 @@ const StyledTable = styled(TableContainer)`
   }
 `;
 
-const PlayerNameCell = styled(PlayerColCell)`
+const PlayerNameCell = styled(PlayerColCell)<{ $highlight: boolean }>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: ${({ $highlight }) =>
+    $highlight ? colors.yellow.light : "inherit"};
 `;

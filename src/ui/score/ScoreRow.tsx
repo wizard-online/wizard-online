@@ -10,6 +10,7 @@ export interface ScoreRowProps {
   playerScores: ScoreCellProps[];
   skip?: boolean;
   current?: boolean;
+  colHighlighted?: number;
 }
 
 export const ScoreRow: React.FC<ScoreRowProps> = ({
@@ -17,6 +18,7 @@ export const ScoreRow: React.FC<ScoreRowProps> = ({
   playerScores,
   skip = false,
   current = false,
+  colHighlighted,
 }) => {
   const [higlightRow, setHighlightRow] = useState(false);
   return (
@@ -34,9 +36,9 @@ export const ScoreRow: React.FC<ScoreRowProps> = ({
           total={total}
           score={score}
           bid={bid}
+          highlight={!skip && (higlightRow || i === colHighlighted)}
           // eslint-disable-next-line react/no-array-index-key
           key={i}
-          highlight={higlightRow}
         />
       ))}
     </StyledRow>
