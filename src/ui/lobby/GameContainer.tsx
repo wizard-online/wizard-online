@@ -16,6 +16,7 @@ import {
   leaveGame,
 } from "../services/api.service";
 import { useProfile } from "../ProfileProvider";
+import { joinedGameEventGA, leftGameEventGA } from "../../analytics";
 
 export const GameContainer: React.FC = () => {
   const history = useHistory();
@@ -74,6 +75,7 @@ export const GameContainer: React.FC = () => {
           const newCredentials = await joinGame(gameID, id, name);
           setCredentials(gameID, id, newCredentials);
           fetchGame();
+          joinedGameEventGA();
         }
       }}
       canEnterGame={freeSeats.length > 0}
@@ -86,6 +88,7 @@ export const GameContainer: React.FC = () => {
           );
           unsetCredentials(gameID);
           fetchGame();
+          leftGameEventGA();
         }
       }}
       joined={!!credentialsState}

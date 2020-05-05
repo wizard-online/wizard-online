@@ -1,22 +1,36 @@
 import React, { useState } from "react";
 import { useHistory, Link as RouterLink } from "react-router-dom";
-import { Select, MenuItem, Button, Link } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  Button,
+  Link,
+  Checkbox,
+  FormControlLabel,
+} from "@material-ui/core";
 import styled from "styled-components";
 import { NumPlayers } from "../../game/entities/players";
 import { createGame } from "../services/api.service";
 import { Form } from "../components/Form";
+import { createdGameEventGA } from "../../analytics";
 
 export const CreateGame: React.FC = () => {
   const history = useHistory();
   const [numPlayers, setNumPlayers] = useState<NumPlayers>(3);
+  const [tournamentMode, setTournamentMode] = useState(false);
   return (
     <div>
       <h1>Starte ein Spiel</h1>
       <FormContainer>
         <Form
           onSubmit={async () => {
-            const gameID = await createGame(numPlayers);
+            const gameID = await createGame(numPlayers, {
+              config: {
+                tournamentMode,
+              },
+            });
             history.push(`/games/${gameID}`);
+            createdGameEventGA(numPlayers);
           }}
         >
           <FieldContainer>
@@ -33,6 +47,17 @@ export const CreateGame: React.FC = () => {
                 </MenuItem>
               ))}
             </StyledSelect>
+          </FieldContainer>
+          <FieldContainer>
+            <FormControlLabel
+              label="Wettbewerbs-Modus"
+              control={
+                <Checkbox
+                  checked={tournamentMode}
+                  onChange={(event) => setTournamentMode(event.target.checked)}
+                />
+              }
+            />
           </FieldContainer>
           <FieldContainer>
             <Button type="submit" color="primary" variant="contained">

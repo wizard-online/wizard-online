@@ -1,15 +1,43 @@
 /* eslint-disable no-param-reassign */
+import { Ctx, PlayerID } from "boardgame.io";
 import { generateDefaultWizardState, WizardState } from "./WizardState";
 import { setup } from "./phases/setup";
 import { bidding } from "./phases/bidding";
 import { playing } from "./phases/playing";
-import { maxCards } from "./entities/players.utils";
 import { Phase } from "./phases/phase";
 import { selectingTrump } from "./phases/selecting-trump";
 import { onBeginTurn } from "./turn";
 
-function endIf({ numCards, numPlayers }: WizardState): boolean {
-  return numCards > maxCards(numPlayers);
+function endIf({ roundIndex, rounds, round }: WizardState): boolean {
+  return roundIndex + 1 === rounds.length && !!round?.isComplete;
+}
+
+function playerView(
+  wizardState: WizardState,
+  ctx: Ctx,
+  playerID: PlayerID
+): WizardState {
+  // no changes if no round is set
+  if (!wizardState.round) return wizardState;
+  const {
+    round: { deck, hands },
+    round,
+  } = wizardState;
+
+  return {
+    ...wizardState,
+    round: {
+      ...round,
+      // strip deck cards
+      deck: deck.map(() => null),
+      // strip opponent cards
+      hands: hands.map((hand, index) => {
+        // keep client's hand
+        if (index.toString() === playerID) return hand;
+        return hand.map(() => null);
+      }),
+    },
+  };
 }
 
 export const wizardGameConfig = {
@@ -27,4 +55,5 @@ export const wizardGameConfig = {
     [Phase.Playing]: playing,
   },
   endIf,
+  playerView,
 };

@@ -1,6 +1,7 @@
 import { wizardGameConfig } from "../../game/game";
 import { PlayerID } from "../../game/entities/players";
 import { post, get } from "./fetch.service";
+import { WizardSetupData } from "../../game/WizardState";
 
 const { name, minPlayers, maxPlayers } = wizardGameConfig;
 
@@ -10,7 +11,7 @@ export interface GameRoom {
   roomID?: GameID;
   gameID?: GameID;
   players: GameSeat[];
-  setupData?: unknown;
+  setupData?: WizardSetupData;
 }
 
 export interface GameSeat {
@@ -20,7 +21,7 @@ export interface GameSeat {
 
 export function createGame(
   numPlayers: number,
-  setupData?: unknown
+  setupData?: WizardSetupData
 ): Promise<GameID> {
   if (numPlayers < minPlayers || numPlayers > maxPlayers) {
     throw new Error(`invalid number of players ${numPlayers}`);

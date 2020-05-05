@@ -24,7 +24,9 @@ function generate({
     currentPlayer: currentPlayer.toString(),
   });
   const g: WizardState = {
-    numCards,
+    config: {},
+    roundIndex: 0,
+    rounds: [numCards],
     scorePad: [],
     dealer: 0 as PlayerID,
     numPlayers,

@@ -13,6 +13,7 @@ import {
   canPlayCard,
   getSuitsInHand,
   getTrickWinner,
+  getClientHand,
 } from "../entities/cards.utils";
 import { updateScorePad } from "../entities/score.utils";
 import { playersRound } from "../entities/players.utils";
@@ -38,7 +39,7 @@ export function play(
     g.trick = generateBlankTrickState({ cards: trickPlayerOrder });
   }
 
-  const hand = round.hands[g.currentPlayer];
+  const hand = getClientHand(round.hands, g.currentPlayer);
   if (cardIndex < 0 || cardIndex >= hand.length) {
     return INVALID_MOVE;
   }
@@ -119,7 +120,7 @@ function endIf({ round }: WizardState): boolean {
 }
 
 function onEnd(g: WizardState): void {
-  const { round, numCards, scorePad } = g;
+  const { round, roundIndex, rounds, scorePad } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
@@ -128,11 +129,14 @@ function onEnd(g: WizardState): void {
   }
 
   // calc score
-  g.scorePad = updateScorePad(round.bids, round.trickCount, numCards, scorePad);
+  g.scorePad = updateScorePad(
+    round.bids,
+    round.trickCount,
+    rounds[roundIndex],
+    scorePad
+  );
   // mark current round complete
   round.isComplete = true;
-  // increment round
-  g.numCards = numCards + 1;
 }
 
 export const playing: PhaseConfig = {

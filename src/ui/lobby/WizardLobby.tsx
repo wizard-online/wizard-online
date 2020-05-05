@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import { OnBoarding } from "./Onboarding";
 import { useProfileContext } from "../ProfileProvider";
 
@@ -10,5 +11,9 @@ export const WizardLobby: React.FC = () => {
     return <OnBoarding />;
   }
 
-  return <LobbyRouter />;
+  return (
+    <BrowserRouter>
+      <LobbyRouter />
+    </BrowserRouter>
+  );
 };

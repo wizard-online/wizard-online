@@ -34,11 +34,15 @@ import { theme } from "../ui/util/mui-theme";
 import { NotificationsProvider } from "../ui/NotificationsProvider";
 import { ProfileProvider } from "../ui/ProfileProvider";
 import { HeaderElementsProvider } from "../ui/header/HeaderElementsProvider";
+import { finishedGameEventGA } from "../analytics";
 
 jest.mock("lodash/random");
 jest.mock("lodash/shuffle");
 const randomMock = random as jest.Mock;
 const shuffleMock = shuffle as jest.Mock;
+
+jest.mock("../analytics");
+jest.mock("react-ga");
 
 const WizardClient = Client({
   game: wizardGameConfig,
@@ -284,6 +288,10 @@ rounds.forEach((round) => {
           ).not.toBeInTheDocument();
         });
       });
+
+      test("game over report is not send during game", () => {
+        expect(finishedGameEventGA).not.toHaveBeenCalled();
+      });
     } else {
       test("final score modal is shown after game", () => {
         const finalScoreModals = queryAllByTestId(document.body, "final-score");
@@ -291,6 +299,10 @@ rounds.forEach((round) => {
         finalScoreModals.forEach((modal) => {
           expect(modal).toBeInTheDocument();
         });
+      });
+
+      test("game over reported to analytics", () => {
+        expect(finishedGameEventGA).toHaveBeenLastCalledWith(numPlayers);
       });
     }
   });

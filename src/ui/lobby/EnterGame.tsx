@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { GameRoom } from "../services/api.service";
 import { sortGameSeats } from "../util/game-seats";
 import { useNotify } from "../NotificationsProvider";
+import { copiedGameLinkEventGA } from "../../analytics";
 
 interface EnterGameProps {
   game?: GameRoom;
@@ -46,6 +47,20 @@ export const EnterGame: React.FC<EnterGameProps> = ({
     <div>
       <Card>
         <CardContent>
+          <h3>Spiel-Einstellungen</h3>
+          <ul>
+            <li>Anzahl Spieler: {game.players.length}</li>
+            <li>
+              Wettbewerbsmodus:{" "}
+              {game.setupData?.config?.tournamentMode ? "ein" : "aus"}
+            </li>
+          </ul>
+        </CardContent>
+      </Card>
+      <Spacer />
+
+      <Card>
+        <CardContent>
           <h3>Freunde einladen</h3>
           <p>Teile den Link um mit deinen Freunden zu spielen:</p>
           <TextField
@@ -67,6 +82,7 @@ export const EnterGame: React.FC<EnterGameProps> = ({
                           message: "Link wurde in die Zwischenablage kopiert",
                           icon: "done",
                         });
+                        copiedGameLinkEventGA();
                       } catch (error) {
                         // ignore
                       }
@@ -81,6 +97,7 @@ export const EnterGame: React.FC<EnterGameProps> = ({
         </CardContent>
       </Card>
       <Spacer />
+
       <Card>
         <CardContent>
           <h3>
