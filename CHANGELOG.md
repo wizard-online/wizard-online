@@ -3,18 +3,43 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+
+## [1.0.0-alpha.3] - 2020-05-05
 
 ### Added
+- tournament mode: skipping some rounds (
+  [#123](https://github.com/wizard-online/wizard-online/pull/123)
+)
 - add link to feedback form (
   [#105](https://github.com/wizard-online/wizard-online/pull/105)
 )
 - integrate google analytics (
   [#114](https://github.com/wizard-online/wizard-online/pull/114)
 )
+- special tournament rules to determine winner when equalizing score (
+  [#126](https://github.com/wizard-online/wizard-online/pull/126)
+)
+
+
+### Changed
+- secret state: deck and opponent hands are not send to the client (
+  [#121](https://github.com/wizard-online/wizard-online/pull/121)
+)
+- improve score pad (
+  [#134](https://github.com/wizard-online/wizard-online/pull/134)
+)
+
+### Fixed
+- spectator notice is not shown to player 0 (
+  [#127](https://github.com/wizard-online/wizard-online/pull/127)
+)
 
 Further:
   [#115](https://github.com/wizard-online/wizard-online/pull/115),
+  [#117](https://github.com/wizard-online/wizard-online/pull/117),
+  [#131](https://github.com/wizard-online/wizard-online/pull/131),
+  [#133](https://github.com/wizard-online/wizard-online/pull/133),
+  [#135](https://github.com/wizard-online/wizard-online/pull/135)
 
 ## [1.0.0-alpha.2] - 2020-04-23
 
