@@ -8,8 +8,8 @@ import { Phase } from "./phases/phase";
 import { selectingTrump } from "./phases/selecting-trump";
 import { onBeginTurn } from "./turn";
 
-function endIf({ roundIndex, rounds }: WizardState): boolean {
-  return roundIndex >= rounds.length;
+function endIf({ roundIndex, rounds, round }: WizardState): boolean {
+  return roundIndex + 1 === rounds.length && !!round?.isComplete;
 }
 
 function playerView(
