@@ -10,32 +10,48 @@ import {
   ListItemAvatar,
   Avatar,
   IconButton,
+  Toolbar,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useHeaderElement } from "../header/HeaderElementsProvider";
+import { useHeaderElement, HeaderSpot } from "../header/HeaderElementsProvider";
 import { useProfile } from "../ProfileProvider";
 import { ExternalLink } from "../components/ExternalLink";
 import { packageVersion, gitVersion } from "../../version";
-import { colors } from "../util/colors";
 
 export const SideMenu: React.FC = () => {
   const [open, setOpen] = useState(false);
   const headerButton = useMemo(
     () => (
-      <WhiteIconButton onClick={() => setOpen((prevOpen) => !prevOpen)}>
+      <IconButton
+        onClick={() => setOpen((prevOpen) => !prevOpen)}
+        edge="start"
+        color="inherit"
+      >
         <Icon>menu</Icon>
-      </WhiteIconButton>
+      </IconButton>
     ),
     []
   );
-  useHeaderElement("menu-button", 100, headerButton);
+  useHeaderElement("menu-button", 100, headerButton, HeaderSpot.LEFT);
 
   const { name } = useProfile();
 
   const handleClose = (): void => setOpen(false);
   return (
-    <Drawer open={open} onClose={handleClose} onClick={handleClose}>
+    <Drawer
+      open={open}
+      onClose={handleClose}
+      onClick={handleClose}
+      anchor="left"
+    >
+      <Toolbar>
+        <Spacer />
+        <IconButton>
+          <Icon>navigate_before</Icon>
+        </IconButton>
+      </Toolbar>
+      <Divider />
       <List>
         <ListItem color="primary">
           <ListItemAvatar>
@@ -89,8 +105,4 @@ export const SideMenu: React.FC = () => {
 
 const Spacer = styled.div`
   flex-grow: 1;
-`;
-
-const WhiteIconButton = styled(IconButton)`
-  color: ${colors.white};
 `;
