@@ -39,28 +39,26 @@ export const SideMenu: React.FC = () => {
 
   const handleClose = (): void => setOpen(false);
   return (
-    <Drawer
+    <StyledDrawer
       open={open}
       onClose={handleClose}
       onClick={handleClose}
       anchor="left"
     >
-      <Toolbar>
-        <Spacer />
-        <IconButton>
-          <Icon>navigate_before</Icon>
-        </IconButton>
-      </Toolbar>
-      <Divider />
-      <List>
-        <ListItem color="primary">
+      <StyledToolbar>
+        <ListItem>
           <ListItemAvatar>
             <Avatar>{name[0]}</Avatar>
           </ListItemAvatar>
           <ListItemText>{name}</ListItemText>
         </ListItem>
-      </List>
+        <Spacer />
+        <IconButton>
+          <Icon>navigate_before</Icon>
+        </IconButton>
+      </StyledToolbar>
       <Divider />
+
       <List>
         <ListItem button component={Link} to="/">
           <ListItemIcon>
@@ -81,6 +79,7 @@ export const SideMenu: React.FC = () => {
           button
           component={ExternalLink}
           href={process.env.FEEDBACK_FORM}
+          title="Feedback geben oder Fehler melden"
         >
           <ListItemIcon>
             <Icon>feedback</Icon>
@@ -99,10 +98,23 @@ export const SideMenu: React.FC = () => {
           </ListItemText>
         </ListItem>
       </List>
-    </Drawer>
+    </StyledDrawer>
   );
 };
 
 const Spacer = styled.div`
   flex-grow: 1;
+`;
+
+const StyledToolbar = styled(Toolbar)`
+  padding-left: 0;
+  padding-right: 0;
+`;
+
+const StyledDrawer = styled(Drawer)`
+  & .MuiDrawer-paper {
+    width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
