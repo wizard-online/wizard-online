@@ -38,9 +38,6 @@ export const ListGames: React.FC = () => {
           );
         })}
       </GameList>
-      <Link component={RouterLink} to="/">
-        Neues Spiel erstellen
-      </Link>
     </>
   );
 };

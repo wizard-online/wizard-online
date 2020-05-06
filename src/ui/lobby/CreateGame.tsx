@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useHistory, Link as RouterLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   Select,
   MenuItem,
   Button,
-  Link,
   Checkbox,
   FormControlLabel,
 } from "@material-ui/core";
@@ -66,9 +65,6 @@ export const CreateGame: React.FC = () => {
           </FieldContainer>
         </Form>
       </FormContainer>
-      <Link component={RouterLink} to="/games">
-        Alle Spiele anzeigen
-      </Link>
     </div>
   );
 };
