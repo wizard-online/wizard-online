@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { useHeaderElement } from "../header/HeaderElementsProvider";
 import { useProfile } from "../ProfileProvider";
 import { ExternalLink } from "../components/ExternalLink";
+import { packageVersion, gitVersion } from "../../version";
 
 export const SideMenu: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -67,6 +68,17 @@ export const SideMenu: React.FC = () => {
             <Icon>feedback</Icon>
           </ListItemIcon>
           <ListItemText>Feedback</ListItemText>
+        </ListItem>
+        <ListItem>
+          <ListItemText>
+            <small>
+              Version:
+              <br />
+              {packageVersion}
+              <br />
+              {gitVersion}
+            </small>
+          </ListItemText>
         </ListItem>
       </List>
     </Drawer>
