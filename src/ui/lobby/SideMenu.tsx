@@ -9,6 +9,7 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  IconButton,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -16,14 +17,15 @@ import { useHeaderElement } from "../header/HeaderElementsProvider";
 import { useProfile } from "../ProfileProvider";
 import { ExternalLink } from "../components/ExternalLink";
 import { packageVersion, gitVersion } from "../../version";
+import { colors } from "../util/colors";
 
 export const SideMenu: React.FC = () => {
   const [open, setOpen] = useState(false);
   const headerButton = useMemo(
     () => (
-      <button type="button" onClick={() => setOpen((prevOpen) => !prevOpen)}>
-        Menüü
-      </button>
+      <WhiteIconButton onClick={() => setOpen((prevOpen) => !prevOpen)}>
+        <Icon>menu</Icon>
+      </WhiteIconButton>
     ),
     []
   );
@@ -87,4 +89,8 @@ export const SideMenu: React.FC = () => {
 
 const Spacer = styled.div`
   flex-grow: 1;
+`;
+
+const WhiteIconButton = styled(IconButton)`
+  color: ${colors.white};
 `;
