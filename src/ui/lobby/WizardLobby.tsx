@@ -4,6 +4,7 @@ import { OnBoarding } from "./Onboarding";
 import { useProfileContext } from "../ProfileProvider";
 
 import { LobbyRouter } from "./LobbyRouter";
+import { SideMenu } from "./SideMenu";
 
 export const WizardLobby: React.FC = () => {
   const { profile } = useProfileContext();
@@ -14,6 +15,7 @@ export const WizardLobby: React.FC = () => {
   return (
     <BrowserRouter>
       <LobbyRouter />
+      <SideMenu />
     </BrowserRouter>
   );
 };
