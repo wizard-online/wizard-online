@@ -4,9 +4,15 @@ export interface HeaderElements {
   [id: string]: HeaderElement;
 }
 
+export enum HeaderSpot {
+  LEFT = "left",
+  RIGHT = "right",
+}
+
 export interface HeaderElement {
   position: number;
   element: HeaderElementElement;
+  spot?: HeaderSpot;
 }
 
 export type HeaderElementElement = JSX.Element | string;
@@ -58,11 +64,12 @@ export function useHeaderContext(): HeaderContext {
 export function useHeaderElement(
   id: string,
   position: number,
-  element: HeaderElementElement
+  element: HeaderElementElement,
+  spot: HeaderSpot = HeaderSpot.RIGHT
 ): void {
   const { addElement, removeElement } = useHeaderContext();
   useEffect(() => {
-    addElement(id, { position, element });
+    addElement(id, { position, element, spot });
     return () => removeElement(id);
-  }, [addElement, removeElement, id, position, element]);
+  }, [addElement, removeElement, id, position, element, spot]);
 }
