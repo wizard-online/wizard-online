@@ -1,25 +1,21 @@
 import React from "react";
-import styled from "styled-components";
 import { useGameState } from "../GameContext";
 import { isSetTrick, isSetRound } from "../../game/WizardState";
-import { PlayCard } from "../components/playcard/PlayCard";
-import { getPlayerName } from "../../game/entities/players.utils";
 import { getTrickWinner } from "../../game/entities/cards.utils";
 import { PlayerID } from "../../game/entities/players";
 import { checkTrickCard } from "../../game/entities/trick.utils";
 import { TrickCard } from "../../game/entities/trick";
-import { TrickCardBox } from "./TrickCardBox";
+import { Trick } from "./Trick";
 
 export const CurrentTrick: React.FC = () => {
   const {
     wizardState: { trick, round },
-    gameMetadata,
   } = useGameState();
 
   if (!isSetTrick(trick) || !isSetRound(round))
     return <span>Round or trick is null</span>;
   const { cards } = trick;
-  let winningPlayerID: PlayerID;
+  let winningPlayerID: PlayerID | undefined;
   const playedCardsInTrick = cards.filter((optTrickCard) =>
     checkTrickCard(optTrickCard)
   ) as TrickCard[];
@@ -31,23 +27,5 @@ export const CurrentTrick: React.FC = () => {
     winningPlayerID = player;
   }
 
-  return (
-    <Container>
-      {cards.map(({ card, player }) => (
-        <TrickCardBox
-          player={getPlayerName(player, gameMetadata)}
-          isWinning={player === winningPlayerID}
-          key={player}
-        >
-          <PlayCard card={card} interactive={false} />
-        </TrickCardBox>
-      ))}
-    </Container>
-  );
+  return <Trick cards={cards} winningPlayerID={winningPlayerID} />;
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-`;
