@@ -10,7 +10,7 @@ import { checkTrickCard } from "../../game/entities/trick.utils";
 import { TrickCard } from "../../game/entities/trick";
 import { TrickCardBox } from "./TrickCardBox";
 
-export const Trick: React.FC = () => {
+export const CurrentTrick: React.FC = () => {
   const {
     wizardState: { trick, round },
     gameMetadata,
