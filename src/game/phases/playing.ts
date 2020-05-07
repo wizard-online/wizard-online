@@ -19,7 +19,7 @@ import { updateScorePad } from "../entities/score.utils";
 import { playersRound } from "../entities/players.utils";
 import { Phase } from "./phase";
 import { Rank } from "../entities/cards";
-import { OptionalTrickCard } from "../entities/trick";
+import { OptionalTrickCard, TrickCard } from "../entities/trick";
 import { checkTrickCards } from "../entities/trick.utils";
 
 export function play(
@@ -33,6 +33,9 @@ export function play(
   }
   // as first player, init trick
   if (!g.trick || g.trick.isComplete) {
+    if (g.trick) {
+      round.previousTrick = g.trick.cards as TrickCard[];
+    }
     const trickPlayerOrder = playersRound(g.currentPlayer, g.numPlayers).map(
       (playerID) => ({ player: playerID } as OptionalTrickCard)
     );
