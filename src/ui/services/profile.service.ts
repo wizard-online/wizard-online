@@ -34,11 +34,11 @@ export function getHandOrderPreferenceLabel(
   }
 }
 
-export function getProfile(): ProfileStoreWithId | null {
+export function getProfile(): ProfileStoreWithId | undefined {
   return flow(
     () => localStorage.getItem(storageKey),
     (value) => value ?? "null",
-    (value) => JSON.parse(value) as ProfileStoreWithId
+    (value) => (JSON.parse(value) as ProfileStoreWithId) ?? undefined
   )();
 }
 

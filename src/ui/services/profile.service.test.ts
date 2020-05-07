@@ -29,8 +29,8 @@ describe("getProfile", () => {
     expect(getProfile()).toEqual(profile);
   });
 
-  test("returns null if profile not existing", () => {
-    expect(getProfile()).toBeNull();
+  test("returns undefined if profile not existing", () => {
+    expect(getProfile()).toBeUndefined();
   });
 });
 

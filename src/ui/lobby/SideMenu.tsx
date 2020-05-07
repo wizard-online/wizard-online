@@ -75,6 +75,12 @@ export const SideMenu: React.FC = () => {
       </List>
       <Spacer />
       <List>
+        <ListItem button component={Link} to="/profile">
+          <ListItemIcon>
+            <Icon>edit</Icon>
+          </ListItemIcon>
+          <ListItemText>Profil bearbeiten</ListItemText>
+        </ListItem>
         <ListItem
           button
           component={ExternalLink}

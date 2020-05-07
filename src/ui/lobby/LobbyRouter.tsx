@@ -4,6 +4,7 @@ import { CreateGame } from "./CreateGame";
 import { GameContainer } from "./GameContainer";
 import { ListGames } from "./ListGames";
 import { pageview } from "../../analytics";
+import { Profile } from "./Profile";
 
 export const LobbyRouter: React.FC = () => {
   const history = useHistory();
@@ -22,6 +23,9 @@ export const LobbyRouter: React.FC = () => {
       </Route>
       <Route path="/games/:gameID">
         <GameContainer />
+      </Route>
+      <Route path="/profile">
+        <Profile />
       </Route>
       <Route path="*">
         <Redirect to="/" />
