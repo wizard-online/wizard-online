@@ -33,7 +33,7 @@ export function play(
   }
   // as first player, init trick
   if (!g.trick || g.trick.isComplete) {
-    if (g.trick) {
+    if (g.config.inspectPreviousTrick && g.trick) {
       round.previousTrick = g.trick.cards as TrickCard[];
     }
     const trickPlayerOrder = playersRound(g.currentPlayer, g.numPlayers).map(
