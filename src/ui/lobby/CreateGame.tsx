@@ -17,6 +17,8 @@ export const CreateGame: React.FC = () => {
   const history = useHistory();
   const [numPlayers, setNumPlayers] = useState<NumPlayers>(3);
   const [tournamentMode, setTournamentMode] = useState(false);
+  const [inspectPreviousTrick, setInspectPreviousTrick] = useState(false);
+
   return (
     <div>
       <h1>Starte ein Spiel</h1>
@@ -26,6 +28,7 @@ export const CreateGame: React.FC = () => {
             const gameID = await createGame(numPlayers, {
               config: {
                 tournamentMode,
+                inspectPreviousTrick,
               },
             });
             history.push(`/games/${gameID}`);
@@ -54,6 +57,19 @@ export const CreateGame: React.FC = () => {
                 <Checkbox
                   checked={tournamentMode}
                   onChange={(event) => setTournamentMode(event.target.checked)}
+                />
+              }
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <FormControlLabel
+              label="Letzten Stich betrachten"
+              control={
+                <Checkbox
+                  checked={inspectPreviousTrick}
+                  onChange={(event) =>
+                    setInspectPreviousTrick(event.target.checked)
+                  }
                 />
               }
             />
