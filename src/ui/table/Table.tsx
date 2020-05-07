@@ -5,6 +5,7 @@ import { colors } from "../util/colors";
 import { ActionsContainer } from "../player/actions/ActionsContainer";
 import { useGameState, usePlayerName } from "../GameContext";
 import { TableRound } from "./TableRound";
+import { InspectPreviousTrick } from "./InspectPreviousTrick";
 
 export const Table: React.FC = () => {
   const {
@@ -20,6 +21,7 @@ export const Table: React.FC = () => {
       <PlayRow data-testid="table-play">
         <Deck />
         <TableRound />
+        <InspectPreviousTrick />
       </PlayRow>
       <InfoRow data-testid="table-info">
         {isTurn && <ActionsContainer phase={phase} />}
