@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
 import styled from "styled-components";
 import { Form } from "../components/Form";
-import { useProfileContext } from "../ProfileProvider";
 import { ProfileStore } from "../services/profile.service";
 
 export interface EditProfileProps {
+  defaultProfile?: ProfileStore;
   onSubmit(profile: ProfileStore): void;
   submitLabel: string;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
+  defaultProfile,
   onSubmit,
   submitLabel,
 }) => {
-  const { profile } = useProfileContext();
-  const [name, setName] = useState(profile?.name ?? "");
+  const [name, setName] = useState(defaultProfile?.name ?? "");
   return (
     <FormContainer>
       <Form onSubmit={() => onSubmit({ name })}>
