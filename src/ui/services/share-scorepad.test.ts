@@ -1,5 +1,13 @@
 import { ScorePad } from "../../game/entities/score";
-import { fromScorePad, SharableScorePad, toScorepad } from "./share-scorepad";
+import {
+  fromScorePad,
+  SharableScorePad,
+  toScorepad,
+  FinalResult,
+  SharableFinalResult,
+  sharableResultFromScorePad,
+  sharableResultToScorePad,
+} from "./share-scorepad";
 
 const scorePad: ScorePad = [
   {
@@ -100,14 +108,35 @@ const sharableScorePad: SharableScorePad = [
   ],
 ];
 
-describe("fromScorePad", () => {
-  test("converts to sharable scorepad", () => {
-    expect(fromScorePad(scorePad)).toEqual(sharableScorePad);
-  });
+const date = new Date(2020, 5, 9, 19, 9);
+const playerNames = ["Player-A", "playerb", "Player CCC"];
+
+const finalResult: FinalResult = {
+  date,
+  playerNames,
+  scorePad,
+};
+
+const sharableFinalResult: SharableFinalResult = [
+  date.getTime(),
+  playerNames,
+  sharableScorePad,
+];
+
+test("fromScorePad", () => {
+  expect(fromScorePad(scorePad)).toEqual(sharableScorePad);
 });
 
-describe("toScorePad", () => {
-  test("converts from sharable scorepad", () => {
-    expect(toScorepad(sharableScorePad)).toEqual(scorePad);
-  });
+test("toScorePad", () => {
+  expect(toScorepad(sharableScorePad)).toEqual(scorePad);
+});
+
+test("sharableResultFromScorePad", () => {
+  expect(sharableResultFromScorePad(date, playerNames, scorePad)).toEqual(
+    sharableFinalResult
+  );
+});
+
+test("sharableResultToScorePad", () => {
+  expect(sharableResultToScorePad(sharableFinalResult)).toEqual(finalResult);
 });

@@ -1,5 +1,14 @@
 import { ScorePad, ScoreRow } from "../../game/entities/score";
 
+export interface FinalResult {
+  date: Date;
+  playerNames: PlayerNames;
+  scorePad: ScorePad;
+}
+
+export type SharableFinalResult = [Timestamp, PlayerNames, SharableScorePad];
+export type Timestamp = number;
+export type PlayerNames = string[];
 export type SharableScorePad = SharableScoreRow[];
 export type SharableScoreRow = [number, SharableScore[]];
 export type SharableScore = [number, number];
@@ -29,4 +38,24 @@ export function toScorepad(sharableScorepad: SharableScorePad): ScorePad {
     };
     return [...scorePad, scoreRow];
   }, [] as ScorePad);
+}
+
+export function sharableResultFromScorePad(
+  date: Date,
+  playerNames: PlayerNames,
+  scorePad: ScorePad
+): SharableFinalResult {
+  return [date.getTime(), playerNames, fromScorePad(scorePad)];
+}
+
+export function sharableResultToScorePad([
+  timestamp,
+  playerNames,
+  sharableScorePad,
+]: SharableFinalResult): FinalResult {
+  return {
+    date: new Date(timestamp),
+    playerNames,
+    scorePad: toScorepad(sharableScorePad),
+  };
 }
