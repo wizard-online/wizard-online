@@ -5,6 +5,7 @@ import { GameContainer } from "./GameContainer";
 import { ListGames } from "./ListGames";
 import { pageview } from "../../analytics";
 import { Profile } from "./Profile";
+import { FinalScore } from "./FinalScore";
 
 export const LobbyRouter: React.FC = () => {
   const history = useHistory();
@@ -26,6 +27,9 @@ export const LobbyRouter: React.FC = () => {
       </Route>
       <Route path="/profile">
         <Profile />
+      </Route>
+      <Route path="/game-score/:sharableFinalScore">
+        <FinalScore />
       </Route>
       <Route path="*">
         <Redirect to="/" />
