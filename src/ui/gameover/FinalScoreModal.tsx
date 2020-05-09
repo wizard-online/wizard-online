@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, Button } from "@material-ui/core";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { ScorePad } from "../score/ScorePad";
 import { useGameState } from "../GameContext";
 import { getLeaders } from "../../game/entities/score.utils";
 import { PlayerID } from "../../game/entities/players";
 import { getPlayerName } from "../../game/entities/players.utils";
+import { ScoreContainer } from "../score/ScoreContainer";
 
 export const FinalScoreModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -45,7 +45,7 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
         {winnerNames.join("&")}{" "}
         {winnerNames.length > 1 ? "gewinnen" : "gewinnt"}!
       </DialogTitle>
-      <ScorePad />
+      <ScoreContainer />
       <ActionContainer>
         <Button
           color="primary"
