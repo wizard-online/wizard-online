@@ -7,6 +7,8 @@ import {
   SharableFinalResult,
   sharableResultFromScorePad,
   sharableResultToScorePad,
+  stringify,
+  parse,
 } from "./share-scorepad";
 
 const scorePad: ScorePad = [
@@ -132,11 +134,16 @@ test("toScorePad", () => {
 });
 
 test("sharableResultFromScorePad", () => {
-  expect(sharableResultFromScorePad(date, playerNames, scorePad)).toEqual(
-    sharableFinalResult
-  );
+  expect(sharableResultFromScorePad(finalResult)).toEqual(sharableFinalResult);
 });
 
 test("sharableResultToScorePad", () => {
   expect(sharableResultToScorePad(sharableFinalResult)).toEqual(finalResult);
+});
+
+test("stringify and parse", () => {
+  const encodedString = stringify(finalResult);
+  console.log(JSON.stringify(sharableFinalResult));
+  console.log(encodedString);
+  expect(parse(encodedString)).toEqual(finalResult);
 });

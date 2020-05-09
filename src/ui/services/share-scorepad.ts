@@ -1,3 +1,5 @@
+import URLSafeBase64 from "urlsafe-base64";
+import flow from "lodash/fp/flow";
 import { ScorePad, ScoreRow } from "../../game/entities/score";
 
 export interface FinalResult {
@@ -40,11 +42,11 @@ export function toScorepad(sharableScorepad: SharableScorePad): ScorePad {
   }, [] as ScorePad);
 }
 
-export function sharableResultFromScorePad(
-  date: Date,
-  playerNames: PlayerNames,
-  scorePad: ScorePad
-): SharableFinalResult {
+export function sharableResultFromScorePad({
+  date,
+  playerNames,
+  scorePad,
+}: FinalResult): SharableFinalResult {
   return [date.getTime(), playerNames, fromScorePad(scorePad)];
 }
 
@@ -58,4 +60,22 @@ export function sharableResultToScorePad([
     playerNames,
     scorePad: toScorepad(sharableScorePad),
   };
+}
+
+export function stringify(finalResult: FinalResult): string {
+  return flow(
+    sharableResultFromScorePad,
+    JSON.stringify,
+    (jsonString) => Buffer.from(jsonString, "utf-8"),
+    URLSafeBase64.encode
+  )(finalResult);
+}
+
+export function parse(encodedString: string): FinalResult {
+  return flow(
+    URLSafeBase64.decode,
+    (buffer) => buffer.toString(),
+    JSON.parse,
+    sharableResultToScorePad
+  )(encodedString);
 }
