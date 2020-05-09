@@ -143,7 +143,5 @@ test("sharableResultToScorePad", () => {
 
 test("stringify and parse", () => {
   const encodedString = stringify(finalResult);
-  console.log(JSON.stringify(sharableFinalResult));
-  console.log(encodedString);
   expect(parse(encodedString)).toEqual(finalResult);
 });
