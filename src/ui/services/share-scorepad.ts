@@ -1,4 +1,6 @@
 import URLSafeBase64 from "urlsafe-base64";
+import lzma from "lzma";
+import { encode, decode } from "@msgpack/msgpack";
 import flow from "lodash/fp/flow";
 import { ScorePad, ScoreRow } from "../../game/entities/score";
 
@@ -65,8 +67,11 @@ export function sharableResultToScorePad([
 export function stringify(finalResult: FinalResult): string {
   return flow(
     sharableResultFromScorePad,
-    JSON.stringify,
-    (jsonString) => Buffer.from(jsonString, "utf-8"),
+    encode,
+    (input) => {
+      return lzma.compress(input, 1);
+    },
+    (input) => Buffer.from(input),
     URLSafeBase64.encode
   )(finalResult);
 }
@@ -74,8 +79,8 @@ export function stringify(finalResult: FinalResult): string {
 export function parse(encodedString: string): FinalResult {
   return flow(
     URLSafeBase64.decode,
-    (buffer) => buffer.toString(),
-    JSON.parse,
+    lzma.decompress,
+    decode,
     sharableResultToScorePad
   )(encodedString);
 }
