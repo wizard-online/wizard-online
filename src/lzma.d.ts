@@ -16,12 +16,16 @@ declare module "lzma" {
   ): void;
 
   // synchronous
-  export function decompress(input: Uint16Array): string | Uint8Array;
+  export function decompress(input: Uint8Array): string | Uint8Array;
 
   // asynchronous
   export function decompress(
-    input: Uint16Array,
+    input: Uint8Array,
     onFinish: (result: string | Uint8Array | null, error: Error | null) => void,
     onProgress: (percent: number) => void
   ): void;
+}
+
+declare module "lzma/src/lzma_worker" {
+  export * as LZMA_WORKER from "lzma";
 }

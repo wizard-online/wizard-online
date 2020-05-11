@@ -1,5 +1,5 @@
 import URLSafeBase64 from "urlsafe-base64";
-import lzma from "lzma";
+import { LZMA_WORKER as lzma } from "lzma/src/lzma_worker";
 import { encode, decode } from "@msgpack/msgpack";
 import flow from "lodash/fp/flow";
 import { ScorePad, ScoreRow } from "../../game/entities/score";

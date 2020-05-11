@@ -28,7 +28,7 @@ export const LobbyRouter: React.FC = () => {
       <Route path="/profile">
         <Profile />
       </Route>
-      <Route path="/game-score/:sharableFinalScore">
+      <Route path="/score/:sharableFinalScore">
         <FinalScore />
       </Route>
       <Route path="*">
