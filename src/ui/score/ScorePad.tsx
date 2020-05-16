@@ -116,11 +116,3 @@ const StyledTable = styled(TableContainer)`
     border-width: 1px 2px;
   }
 `;
-
-// const PlayerNameCell = styled(PlayerColCell)<{ $highlight: boolean }>`
-//   white-space: nowrap;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   background-color: ${({ $highlight }) =>
-//     $highlight ? colors.yellow.light : "inherit"};
-// `;
