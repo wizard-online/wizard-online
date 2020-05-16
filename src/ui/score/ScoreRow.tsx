@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { TableRow } from "@material-ui/core";
 import styled, { css } from "styled-components";
-import { ScoreCell, ScoreCellProps } from "./ScoreCell";
-import { RoundColCell } from "./Cells";
+import { RoundColCell, ScoreCell, ScoreCellProps } from "./Cells";
 import { colors } from "../util/colors";
 
 export interface ScoreRowProps {

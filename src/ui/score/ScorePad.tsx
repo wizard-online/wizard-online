@@ -9,9 +9,7 @@ import {
 import range from "lodash/range";
 import styled from "styled-components";
 import { ScoreRow } from "./ScoreRow";
-import { RoundColCell, PlayerColCell } from "./Cells";
-import { ScoreCellProps } from "./ScoreCell";
-import { colors } from "../util/colors";
+import { RoundColCell, PlayerNameCell, ScoreCellProps } from "./Cells";
 import { ScorePad as ScorePadModel } from "../../game/entities/score";
 import { NumPlayers } from "../../game/entities/players";
 import { maxCards } from "../../game/entities/players.utils";
@@ -44,7 +42,7 @@ export const ScorePad: React.FC<ScorePadProps> = ({
               {playerNames.map((playerName, i) => (
                 <PlayerNameCell
                   key={playerName}
-                  $highlight={colHighlighted === i}
+                  highlight={colHighlighted === i}
                   onMouseEnter={() => setColHighlighted(i)}
                   onMouseLeave={() => setColHighlighted(-1)}
                 >
@@ -105,10 +103,10 @@ const StyledTable = styled(TableContainer)`
   }
 `;
 
-const PlayerNameCell = styled(PlayerColCell)<{ $highlight: boolean }>`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  background-color: ${({ $highlight }) =>
-    $highlight ? colors.yellow.light : "inherit"};
-`;
+// const PlayerNameCell = styled(PlayerColCell)<{ $highlight: boolean }>`
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   background-color: ${({ $highlight }) =>
+//     $highlight ? colors.yellow.light : "inherit"};
+// `;
