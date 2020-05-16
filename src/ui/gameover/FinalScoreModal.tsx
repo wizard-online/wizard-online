@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogTitle, Button } from "@material-ui/core";
+import {
+  Dialog,
+  DialogTitle,
+  Button,
+  Card,
+  CardContent,
+} from "@material-ui/core";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useGameState } from "../GameContext";
@@ -8,6 +14,7 @@ import { PlayerID } from "../../game/entities/players";
 import { getPlayerName } from "../../game/entities/players.utils";
 import { ScoreContainer } from "../score/ScoreContainer";
 import { ShareScore } from "./ShareScore";
+import { ExternalLink } from "../components/ExternalLink";
 
 export const FinalScoreModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -53,6 +60,23 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
       <SectionContainer>
         <ScoreContainer />
       </SectionContainer>
+
+      <SectionContainer>
+        <Card>
+          <CardContent>
+            <h3>Hilf mit, Wizzzzard zu verbessern!</h3>
+            <p>
+              Mit deinem Feedback können wir Wizzzzard noch besser machen. Hast
+              du einen Fehler entdeckt, wünschst du dir neue Funktionen oder
+              möchtest uns etwas anderes mitteilen?{" "}
+              <ExternalLink href={process.env.FEEDBACK_FORM}>
+                Dann gib uns Feedback!
+              </ExternalLink>
+            </p>
+          </CardContent>
+        </Card>
+      </SectionContainer>
+
       <SectionContainer>
         <ShareScore
           finalResult={{
