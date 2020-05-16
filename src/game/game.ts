@@ -8,8 +8,10 @@ import { Phase } from "./phases/phase";
 import { selectingTrump } from "./phases/selecting-trump";
 import { onBeginTurn } from "./turn";
 
-function endIf({ roundIndex, rounds, round }: WizardState): boolean {
-  return roundIndex + 1 === rounds.length && !!round?.isComplete;
+function endIf({ roundIndex, rounds, round }: WizardState): number | void {
+  if (roundIndex + 1 === rounds.length && !!round?.isComplete) {
+    return Date.now();
+  }
 }
 
 function playerView(
