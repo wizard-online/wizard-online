@@ -22,6 +22,7 @@ const BaseCell = styled(TableCell)<{ $width: number }>`
 
 const CellContent = styled.div`
   ${cellPadding};
+  text-align: center;
 `;
 
 export const IndexCell: React.FC = ({ children }) => (
