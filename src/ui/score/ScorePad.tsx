@@ -32,17 +32,22 @@ export const ScorePad: React.FC<ScorePadProps> = ({
   const numPlayers = playerNames.length as NumPlayers;
   const allRounds = range(1, maxCards(numPlayers) + 1);
   const [colHighlighted, setColHighlighted] = useState(-1);
+  const [rowHighlighted, setRowHighlighted] = useState(-1);
+  const [highlightAll, setHighlightAll] = useState(false);
   return (
     <Container>
       <StyledTable>
         <Table size="small">
           <TableHead>
             <TableRow>
-              <RoundColCell />
+              <RoundColCell
+                onMouseEnter={() => setHighlightAll(true)}
+                onMouseLeave={() => setHighlightAll(false)}
+              />
               {playerNames.map((playerName, i) => (
                 <PlayerNameCell
                   key={playerName}
-                  highlight={colHighlighted === i}
+                  highlight={colHighlighted === i || highlightAll}
                   onMouseEnter={() => setColHighlighted(i)}
                   onMouseLeave={() => setColHighlighted(-1)}
                 >
@@ -52,7 +57,7 @@ export const ScorePad: React.FC<ScorePadProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {allRounds.map((numCards) => {
+            {allRounds.map((numCards, i) => {
               const roundScore = scorePad.find(
                 (scoreRow) => scoreRow.numCards === numCards
               );
@@ -67,14 +72,23 @@ export const ScorePad: React.FC<ScorePadProps> = ({
                   bid,
                 }));
               }
+              const skip = !rounds.includes(numCards);
               return (
                 <ScoreRow
                   numCards={numCards}
                   playerScores={playerScores}
-                  skip={!rounds.includes(numCards)}
+                  skip={skip}
                   current={isCurrentRound}
-                  colHighlighted={colHighlighted}
+                  colHighlighted={
+                    (!skip &&
+                      (highlightAll || rowHighlighted === i
+                        ? "all"
+                        : colHighlighted)) ||
+                    undefined
+                  }
                   key={numCards}
+                  onMouseEnter={() => setRowHighlighted(i)}
+                  onMouseLeave={() => setRowHighlighted(-1)}
                 />
               );
             })}
