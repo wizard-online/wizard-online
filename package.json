@@ -36,8 +36,13 @@
     "date-fns": "^2.12.0",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
+<<<<<<< HEAD
     "lzma": "^2.3.2",
     "react": "^16.8.6",
+=======
+    "prop-types": "^15.6.0",
+    "react": "^15.6.2 || ^16.0",
+>>>>>>> latest enhancement
     "react-dom": "^16.8.6",
     "react-ga": "^2.7.0",
     "react-is": "^16.13.1",
