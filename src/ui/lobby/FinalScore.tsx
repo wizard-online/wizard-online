@@ -5,12 +5,25 @@ import { parse } from "../services/share-scorepad";
 import { ScorePad } from "../score/ScorePad";
 import { getLeaders } from "../../game/entities/score.utils";
 
+const deDateTimeFormatOptions = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: false,
+};
+const deDateTimeFormat = new Intl.DateTimeFormat(
+  "de-DE",
+  deDateTimeFormatOptions
+);
+
 export const FinalScore: React.FC = () => {
   const { sharableFinalScore } = useParams<{ sharableFinalScore: string }>();
 
   try {
     const { date, playerNames, scorePad } = parse(sharableFinalScore);
-
     const winners = getLeaders(scorePad);
     const winnersNames = winners.map((playerID) => playerNames[playerID]);
     return (
@@ -24,7 +37,7 @@ export const FinalScore: React.FC = () => {
           playerNames={playerNames}
           rounds={scorePad.map(({ numCards }) => numCards)}
         />
-        <h5>{date.toDateString()}</h5>
+        <h5>{deDateTimeFormat.format(date)}</h5>
       </div>
     );
   } catch (error) {
