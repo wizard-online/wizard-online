@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, Button } from "@material-ui/core";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { ScorePad } from "../score/ScorePad";
 import { useGameState } from "../GameContext";
 import { getLeaders } from "../../game/entities/score.utils";
 import { PlayerID } from "../../game/entities/players";
 import { getPlayerName } from "../../game/entities/players.utils";
+import { ScoreContainer } from "../score/ScoreContainer";
+import { ShareScore } from "./ShareScore";
 
 export const FinalScoreModal: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -34,7 +35,11 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
   winnerIDs,
 }) => {
   const history = useHistory();
-  const { gameMetadata } = useGameState();
+  const {
+    gameMetadata,
+    wizardState: { scorePad },
+    ctx: { gameover },
+  } = useGameState();
 
   const winnerNames = winnerIDs.map((winnerID) =>
     getPlayerName(winnerID, gameMetadata ?? [])
@@ -45,8 +50,20 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
         {winnerNames.join("&")}{" "}
         {winnerNames.length > 1 ? "gewinnen" : "gewinnt"}!
       </DialogTitle>
-      <ScorePad />
-      <ActionContainer>
+      <SectionContainer>
+        <ScoreContainer />
+      </SectionContainer>
+      <SectionContainer>
+        <ShareScore
+          finalResult={{
+            date: new Date(gameover),
+            playerNames: (gameMetadata ?? []).map(({ name }) => name),
+            scorePad,
+          }}
+        />
+      </SectionContainer>
+
+      <SectionContainer>
         <Button
           color="primary"
           variant="contained"
@@ -54,7 +71,7 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
         >
           Spiel schließen
         </Button>
-      </ActionContainer>
+      </SectionContainer>
     </Container>
   );
 };
@@ -63,6 +80,6 @@ const Container = styled.div`
   margin: 25px;
 `;
 
-const ActionContainer = styled.div`
+const SectionContainer = styled.div`
   margin: 15px 0;
 `;

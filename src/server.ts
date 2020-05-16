@@ -1,11 +1,11 @@
 import * as Sentry from "@sentry/node";
 import { Server } from "boardgame.io/server";
-import { wizardGameConfig as Wizard } from "./game/game";
+import { loadGameConfig } from "./game/load-game-config";
 
 Sentry.init({ dsn: process.env.SENTRY_SERVER_DSN });
 
 const server = Server({
-  games: [Wizard],
+  games: [loadGameConfig()],
 });
 
 // Start the server

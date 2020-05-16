@@ -8,21 +8,30 @@ import {
 } from "@material-ui/core";
 import range from "lodash/range";
 import styled from "styled-components";
-import { useGameState } from "../GameContext";
-import { getPlayerName, maxCards } from "../../game/entities/players.utils";
-import { PlayerID } from "../../game/entities/players";
 import { ScoreRow } from "./ScoreRow";
 import { RoundColCell, PlayerColCell } from "./Cells";
 import { ScoreCellProps } from "./ScoreCell";
 import { colors } from "../util/colors";
+import { ScorePad as ScorePadModel } from "../../game/entities/score";
+import { NumPlayers } from "../../game/entities/players";
+import { maxCards } from "../../game/entities/players.utils";
 
-export const ScorePad: React.FC = () => {
-  const {
-    wizardState: { scorePad, roundIndex, rounds, round, numPlayers },
-    gameMetadata,
-  } = useGameState();
-  const playerIDs = range(0, numPlayers) as PlayerID[];
-  const currentRound = rounds[roundIndex];
+export interface ScorePadProps {
+  playerNames: string[];
+  scorePad: ScorePadModel;
+  rounds: number[];
+  currentRound?: number;
+  currentRoundBids?: (number | undefined)[];
+}
+
+export const ScorePad: React.FC<ScorePadProps> = ({
+  playerNames,
+  scorePad,
+  rounds,
+  currentRound,
+  currentRoundBids,
+}) => {
+  const numPlayers = playerNames.length as NumPlayers;
   const allRounds = range(1, maxCards(numPlayers) + 1);
   const [colHighlighted, setColHighlighted] = useState(-1);
   return (
@@ -32,14 +41,14 @@ export const ScorePad: React.FC = () => {
           <TableHead>
             <TableRow>
               <RoundColCell />
-              {playerIDs.map((playerID) => (
+              {playerNames.map((playerName, i) => (
                 <PlayerNameCell
-                  key={playerID}
-                  $highlight={colHighlighted === playerID}
-                  onMouseEnter={() => setColHighlighted(playerID)}
+                  key={playerName}
+                  $highlight={colHighlighted === i}
+                  onMouseEnter={() => setColHighlighted(i)}
                   onMouseLeave={() => setColHighlighted(-1)}
                 >
-                  {getPlayerName(playerID, gameMetadata)}
+                  {playerName}
                 </PlayerNameCell>
               ))}
             </TableRow>
@@ -55,9 +64,9 @@ export const ScorePad: React.FC = () => {
               );
               if (roundScore?.playerScores) {
                 playerScores = roundScore.playerScores;
-              } else if (round && isCurrentRound) {
-                playerScores = round.bids.map((bid) => ({
-                  bid: bid ?? undefined,
+              } else if (isCurrentRound && currentRoundBids) {
+                playerScores = currentRoundBids.map((bid) => ({
+                  bid,
                 }));
               }
               return (
