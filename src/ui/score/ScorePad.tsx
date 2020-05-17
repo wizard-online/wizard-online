@@ -73,19 +73,18 @@ export const ScorePad: React.FC<ScorePadProps> = ({
                 }));
               }
               const skip = !rounds.includes(numCards);
+              let thisColHighlighted: number | "all" | undefined;
+              if (!skip) {
+                thisColHighlighted =
+                  highlightAll || rowHighlighted === i ? "all" : colHighlighted;
+              }
               return (
                 <ScoreRow
                   numCards={numCards}
                   playerScores={playerScores}
                   skip={skip}
                   current={isCurrentRound}
-                  colHighlighted={
-                    (!skip &&
-                      (highlightAll || rowHighlighted === i
-                        ? "all"
-                        : colHighlighted)) ||
-                    undefined
-                  }
+                  colHighlighted={thisColHighlighted}
                   key={numCards}
                   onMouseEnter={() => setRowHighlighted(i)}
                   onMouseLeave={() => setRowHighlighted(-1)}
