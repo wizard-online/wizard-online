@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
-import { Button } from "@material-ui/core";
 import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../game/entities/players";
-import { usePlayerName, useGameState } from "../GameContext";
+import { usePlayerName } from "../GameContext";
 import { Blinker } from "../components/Blinker";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import { SettingsContainer } from "./SettingsContainer";
 =======
 import { sortHand, isSorted } from "../util/player-hands";
 import { Card } from "../../game/entities/cards";
 >>>>>>> latest enhancement
+=======
+import { ControlBar } from "./ControlBar";
+>>>>>>> handOrder in profile, switch button
 
 export interface HeaderProps {
   playerID: PlayerID;
@@ -24,20 +27,6 @@ export const Header: React.FC<HeaderProps> = ({
   isClient,
 }) => {
   const playerName = usePlayerName(playerID);
-  const {
-    wizardState: { round },
-  } = useGameState();
-  const cards = round?.hands[playerID];
-  let isHandSorted = false;
-  const showButton = isClient && !isHandSorted;
-
-  if (showButton) {
-    isHandSorted = isSorted(cards as Card[], round?.trump.suit);
-  }
-
-  if (isClient) {
-    console.log("showButton", showButton);
-  }
 
   return (
     <Container>
@@ -46,6 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
         {isClient && <Blinker on={isTurn} />}
       </PlayerTitle>
       <Spacer />
+<<<<<<< HEAD
 <<<<<<< HEAD
       {isClient && <SettingsContainer />}
       <Spacer />
@@ -64,6 +54,10 @@ export const Header: React.FC<HeaderProps> = ({
       )}
       {showButton && <Spacer />}
 >>>>>>> latest enhancement
+=======
+      {isClient && <ControlBar />}
+      <Spacer />
+>>>>>>> handOrder in profile, switch button
       <TrickLabel playerID={playerID} />
     </Container>
   );

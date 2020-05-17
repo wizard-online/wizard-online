@@ -8,7 +8,11 @@ import {
 import styled from "styled-components";
 import merge from "lodash/merge";
 import { Form } from "../components/Form";
-import { ProfileStore } from "../services/profile.service";
+import {
+  ProfileStore,
+  HandOrderPreference,
+  initializePreferences,
+} from "../services/profile.service";
 
 export interface EditProfileProps {
   defaultProfile?: ProfileStore;

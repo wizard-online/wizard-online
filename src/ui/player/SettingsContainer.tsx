@@ -6,6 +6,11 @@ export const SettingsContainer: React.FC = () => {
   const profile = useProfile();
   const { updateProfile } = useProfileContext();
   const turnAlert = profile.preferences?.turnAlert ?? false;
+
+  if (showButton) {
+    isHandSorted = isSorted(cards as Card[], round?.trump.suit);
+  }
+
   return (
     <div>
       <IconButton
@@ -19,6 +24,20 @@ export const SettingsContainer: React.FC = () => {
           {turnAlert ? "notifications" : "notifications_off"}
         </Icon>
       </IconButton>
+
+      {showButton && (
+        <Button
+          onClick={() => {
+            sortHand(cards as Card[], round?.trump.suit);
+            isHandSorted = true;
+          }}
+          type="button"
+          disabled={isHandSorted}
+        >
+          Karten sortieren
+        </Button>
+      )}
+      {showButton && <Spacer />}
     </div>
   );
 };
