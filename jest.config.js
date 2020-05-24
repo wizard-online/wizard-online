@@ -3,6 +3,7 @@ module.exports = {
   testEnvironment: "jsdom",
   setupFiles: ["jest-localstorage-mock", "jest-date-mock"],
   setupFilesAfterEnv: [`<rootDir>/jest.setup.ts`],
+  transformIgnorePatterns: ["/*.mp3/"],
   testPathIgnorePatterns: [
     "<rootDir>/node_modules/",
     "<rootDir>/.cache/",
