@@ -4,6 +4,7 @@ import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../game/entities/players";
 import { usePlayerName } from "../GameContext";
 import { Blinker } from "../components/Blinker";
+import { SettingsContainer } from "./SettingsContainer";
 
 export interface HeaderProps {
   playerID: PlayerID;
@@ -24,6 +25,8 @@ export const Header: React.FC<HeaderProps> = ({
         {playerName}
         {isClient && <Blinker on={isTurn} />}
       </PlayerTitle>
+      <Spacer />
+      {isClient && <SettingsContainer />}
       <Spacer />
       <TrickLabel playerID={playerID} />
     </Container>
