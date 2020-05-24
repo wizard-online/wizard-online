@@ -6,9 +6,23 @@ import { GameState } from "../GameState";
 export function useGameEventsDispatcher(): void {
   const gameState = useGameState();
   const {
-    wizardState: { round, trick },
+    wizardState: { round, trick, currentPlayer },
     ctx: { gameover },
+    clientID,
   } = gameState;
+
+  const isClientTurn = currentPlayer === clientID;
+  useEffect(() => {
+    if (isClientTurn) {
+      document.dispatchEvent(
+        new CustomEvent(GameEvent.ClientTurn, {
+          detail: gameState,
+        })
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isClientTurn]);
+
   // manage trick-complete event disptach
   const trickIsComplete = trick?.isComplete;
   useEffect(() => {
