@@ -2,15 +2,17 @@
 import * as Sentry from "@sentry/node";
 import { Server } from "boardgame.io/server";
 import { PostgresStore } from "bgio-postgres";
+import { StorageCache } from "bgio-storage-cache";
 import { loadGameConfig } from "./game/load-game-config";
 
 require("dotenv").config();
 
 Sentry.init({ dsn: process.env.SENTRY_SERVER_DSN });
 
-let db: PostgresStore | undefined;
+let db: StorageCache | undefined;
 if (process.env.DATABASE_URL) {
-  db = new PostgresStore(process.env.DATABASE_URL!);
+  const postgres = new PostgresStore(process.env.DATABASE_URL!);
+  db = new StorageCache(postgres);
   console.log("using postgresql storage");
 } else {
   console.log("using in-memory storage");
