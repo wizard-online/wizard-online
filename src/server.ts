@@ -2,6 +2,8 @@ import * as Sentry from "@sentry/node";
 import { Server } from "boardgame.io/server";
 import { loadGameConfig } from "./game/load-game-config";
 
+require("dotenv").config();
+
 Sentry.init({ dsn: process.env.SENTRY_SERVER_DSN });
 
 const server = Server({
