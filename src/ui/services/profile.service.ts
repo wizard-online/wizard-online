@@ -1,10 +1,16 @@
+import merge from "lodash/merge";
 import flow from "lodash/fp/flow";
 
 export const storageKey = "wizard-profile";
 
 export interface ProfileStore {
   name: string;
-  handOrderPreference?: HandOrderPreference;
+  preferences?: ProfilePreferences;
+}
+
+export interface ProfilePreferences {
+  handOrder?: HandOrderPreference;
+  turnAlert?: boolean;
 }
 
 export interface ProfileStoreWithId extends ProfileStore {
@@ -34,11 +40,11 @@ export function getHandOrderPreferenceLabel(
   }
 }
 
-export function getProfile(): ProfileStoreWithId | null {
+export function getProfile(): ProfileStoreWithId | undefined {
   return flow(
     () => localStorage.getItem(storageKey),
     (value) => value ?? "null",
-    (value) => JSON.parse(value) as ProfileStoreWithId
+    (value) => (JSON.parse(value) as ProfileStoreWithId) ?? undefined
   )();
 }
 
@@ -57,7 +63,7 @@ export function updateProfile(changes: Partial<ProfileStore>): void {
       return value;
     },
     JSON.parse,
-    ({ id, ...store }) => ({ ...store, ...changes, id }),
+    ({ id, ...store }) => ({ ...merge(store, changes), id }),
     JSON.stringify,
     (value) => localStorage.setItem(storageKey, value)
   )();

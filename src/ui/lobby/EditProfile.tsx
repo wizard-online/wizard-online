@@ -1,32 +1,60 @@
-import React, { useState } from "react";
-import { TextField, Button } from "@material-ui/core";
+import React, { useState, useCallback } from "react";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+} from "@material-ui/core";
 import styled from "styled-components";
+import merge from "lodash/merge";
 import { Form } from "../components/Form";
-import { useProfileContext } from "../ProfileProvider";
 import { ProfileStore } from "../services/profile.service";
 
 export interface EditProfileProps {
+  defaultProfile?: ProfileStore;
   onSubmit(profile: ProfileStore): void;
   submitLabel: string;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
+  defaultProfile,
   onSubmit,
   submitLabel,
 }) => {
-  const { profile } = useProfileContext();
-  const [name, setName] = useState(profile?.name ?? "");
+  const [profile, setProfile] = useState(
+    defaultProfile ?? { name: "", preferences: {} }
+  );
+
+  const updateProfile = useCallback((changes: Partial<ProfileStore>) => {
+    setProfile((previousProfile) => merge({}, previousProfile, changes));
+  }, []);
   return (
     <FormContainer>
-      <Form onSubmit={() => onSubmit({ name })}>
+      <Form onSubmit={() => onSubmit(profile)}>
         <h3>Spieler-Name</h3>
         <FormField>
           <TextField
             label="Name"
             required
             fullWidth
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            value={profile.name}
+            onChange={(event) => updateProfile({ name: event.target.value })}
+          />
+        </FormField>
+        <h3>Einstellungen</h3>
+        <FormField>
+          <FormControlLabel
+            label="Ton wenn am Zug"
+            control={
+              <Checkbox
+                checked={profile.preferences?.turnAlert ?? false}
+                onChange={(event) =>
+                  updateProfile({
+                    preferences: { turnAlert: event.target.checked },
+                  })
+                }
+              />
+            }
           />
         </FormField>
         <FormField>
@@ -34,7 +62,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
             type="submit"
             variant="contained"
             color="primary"
-            disabled={!name}
+            disabled={!profile}
           >
             {submitLabel}
           </Button>

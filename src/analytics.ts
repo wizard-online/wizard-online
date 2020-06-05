@@ -42,6 +42,13 @@ export function copiedGameLinkEventGA(): void {
   });
 }
 
+export function copiedScoreLinkEventGA(): void {
+  ReactGA.event({
+    category: "User",
+    action: "Copied game link",
+  });
+}
+
 export function joinedGameEventGA(): void {
   ReactGA.event({
     category: "Game",

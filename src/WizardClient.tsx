@@ -1,11 +1,11 @@
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 
-import { wizardGameConfig } from "./game/game";
 import { WizardBoard } from "./ui/WizardBoard";
+import { loadGameConfig } from "./game/load-game-config";
 
 export const WizardClient = Client({
-  game: wizardGameConfig,
+  game: loadGameConfig(),
   board: WizardBoard,
   multiplayer: SocketIO({ server: process.env.API_URL }),
   debug:

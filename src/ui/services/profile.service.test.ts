@@ -15,12 +15,12 @@ beforeEach(() => {
 
 const name = "test-name";
 const newName = "test-name-new";
-const handOrderPreference = HandOrderPreference.None;
-const newHandOrderPreference = HandOrderPreference.Sorted;
+const handOrder = HandOrderPreference.None;
+const newHandOrder = HandOrderPreference.Sorted;
 
 const profile: ProfileStore = {
   name,
-  handOrderPreference,
+  preferences: { handOrder },
 };
 
 describe("getProfile", () => {
@@ -29,8 +29,8 @@ describe("getProfile", () => {
     expect(getProfile()).toEqual(profile);
   });
 
-  test("returns null if profile not existing", () => {
-    expect(getProfile()).toBeNull();
+  test("returns undefined if profile not existing", () => {
+    expect(getProfile()).toBeUndefined();
   });
 });
 
@@ -73,21 +73,21 @@ describe("updateProfile", () => {
       update: { name: newName },
       expected: {
         name: newName,
-        handOrderPreference,
+        preferences: { handOrder },
       },
     },
     {
-      update: { handOrderPreference: newHandOrderPreference },
+      update: { preferences: { handOrder: newHandOrder } },
       expected: {
         name,
-        handOrderPreference: newHandOrderPreference,
+        preferences: { handOrder: newHandOrder },
       },
     },
     {
-      update: { name: newName, handOrderPreference: newHandOrderPreference },
+      update: { name: newName, preferences: { handOrder: newHandOrder } },
       expected: {
         name: newName,
-        handOrderPreference: newHandOrderPreference,
+        preferences: { handOrder: newHandOrder },
       },
     },
   ])("updates all given fields and", ({ update, expected }) => {

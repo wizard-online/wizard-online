@@ -2,21 +2,31 @@ import React from "react";
 import { AppBar, Toolbar } from "@material-ui/core";
 import styled from "styled-components";
 import { colors } from "../util/colors";
-import { useHeaderContext } from "../header/HeaderElementsProvider";
+import { useHeaderContext, HeaderSpot } from "../header/HeaderElementsProvider";
 
 export const TopBar: React.FC = () => {
   const { elements } = useHeaderContext();
+  const elementsEntries = Object.entries(elements).sort(
+    ([, a], [, b]) => b.position - a.position
+  );
+  const leftElements = elementsEntries.filter(
+    ([, element]) => element.spot === HeaderSpot.LEFT
+  );
+  const rightElements = elementsEntries.filter(
+    ([, element]) => element.spot !== HeaderSpot.LEFT
+  );
   return (
     <>
       <AppBar>
         <Toolbar>
+          {leftElements.map(([id, { element }]) => (
+            <HeaderElement key={id}>{element}</HeaderElement>
+          ))}
           <PageTitle>Wizard Online</PageTitle>
           <SpaceFill />
-          {Object.entries(elements)
-            .sort(([, a], [, b]) => b.position - a.position)
-            .map(([id, { element }]) => (
-              <HeaderElement key={id}>{element}</HeaderElement>
-            ))}
+          {rightElements.map(([id, { element }]) => (
+            <HeaderElement key={id}>{element}</HeaderElement>
+          ))}
         </Toolbar>
       </AppBar>
       <AppBarSpacer />
@@ -25,7 +35,7 @@ export const TopBar: React.FC = () => {
 };
 
 const PageTitle = styled.h1`
-  margin: 0;
+  margin: 0 12px;
   font-style: italic;
   color: ${colors.white};
   /* text-outline effect only supported with prefix */

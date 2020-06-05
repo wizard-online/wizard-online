@@ -3,6 +3,34 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.4] - 2020-06-05
+
+### Added
+
+- side menu (
+  [#140](https://github.com/wizard-online/wizard-online/pull/140)
+)
+- edit profile page (
+  [#141](https://github.com/wizard-online/wizard-online/pull/141)
+)
+- inspect previous trick mode (
+  [#142](https://github.com/wizard-online/wizard-online/pull/142)
+)
+- share game result via link (
+  [#145](https://github.com/wizard-online/wizard-online/pull/145)
+)
+- feedback link to gameover modal (
+  [#147](https://github.com/wizard-online/wizard-online/pull/147)
+)
+- sound notifcation on turn (
+  [#149](https://github.com/wizard-online/wizard-online/pull/149)
+)
+
+### Changed
+
+- score pad improvements (
+  [#146](https://github.com/wizard-online/wizard-online/pull/146)
+)
 
 ## [1.0.0-alpha.3] - 2020-05-05
 

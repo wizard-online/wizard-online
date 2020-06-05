@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { TableRow } from "@material-ui/core";
 import styled, { css } from "styled-components";
-import { ScoreCell, ScoreCellProps } from "./ScoreCell";
-import { RoundColCell } from "./Cells";
+import { RoundColCell, ScoreCell, ScoreCellProps } from "./Cells";
 import { colors } from "../util/colors";
 
 export interface ScoreRowProps {
@@ -10,7 +9,9 @@ export interface ScoreRowProps {
   playerScores: ScoreCellProps[];
   skip?: boolean;
   current?: boolean;
-  colHighlighted?: number;
+  colHighlighted?: number | "all";
+  onMouseEnter?: (event: React.MouseEvent) => void;
+  onMouseLeave?: (event: React.MouseEvent) => void;
 }
 
 export const ScoreRow: React.FC<ScoreRowProps> = ({
@@ -19,16 +20,22 @@ export const ScoreRow: React.FC<ScoreRowProps> = ({
   skip = false,
   current = false,
   colHighlighted,
+  onMouseEnter,
+  onMouseLeave,
 }) => {
-  const [higlightRow, setHighlightRow] = useState(false);
+  const allHighlighted = colHighlighted === "all";
   return (
     <StyledRow
       $skip={skip}
       $current={current}
-      onMouseEnter={() => setHighlightRow(!skip)}
-      onMouseLeave={() => setHighlightRow(false)}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <StyledRoundColCell component="th" scope="row" $highlight={higlightRow}>
+      <StyledRoundColCell
+        component="th"
+        scope="row"
+        $highlight={allHighlighted}
+      >
         {numCards}
       </StyledRoundColCell>
       {playerScores.map(({ total, score, bid }, i) => (
@@ -36,7 +43,7 @@ export const ScoreRow: React.FC<ScoreRowProps> = ({
           total={total}
           score={score}
           bid={bid}
-          highlight={!skip && (higlightRow || i === colHighlighted)}
+          highlight={!skip && (allHighlighted || i === colHighlighted)}
           // eslint-disable-next-line react/no-array-index-key
           key={i}
         />

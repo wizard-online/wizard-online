@@ -7,7 +7,7 @@ import {
 } from "./services/profile.service";
 
 export interface ProfileProviderContext {
-  profile: ProfileStore | null;
+  profile: ProfileStore | undefined;
   setProfile(profile: ProfileStore): void;
   updateProfile(newProfile: Partial<ProfileStore>): void;
 }

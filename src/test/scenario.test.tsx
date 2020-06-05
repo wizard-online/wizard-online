@@ -58,6 +58,11 @@ beforeAll(() => {
   // mock initial dealer selection
   randomMock.mockReturnValue(scenario.firstDealer);
   shuffleMock.mockReturnValue([]);
+  // mock localStorage
+  localStorage.setItem(
+    "wizard-profile",
+    JSON.stringify({ name: "test-player", preferences: {} })
+  );
 
   const ids = [0, 1, 2, 3];
 
