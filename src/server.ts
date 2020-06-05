@@ -9,20 +9,9 @@ require("dotenv").config();
 Sentry.init({ dsn: process.env.SENTRY_SERVER_DSN });
 
 let db: PostgresStore | undefined;
-if (
-  process.env.DB_HOST &&
-  process.env.DB_NAME &&
-  process.env.DB_USER &&
-  process.env.DB_PASSWORD
-) {
+if (process.env.DATABASE_URL) {
+  db = new PostgresStore(process.env.DATABASE_URL!);
   console.log("using postgresql storage");
-
-  db = new PostgresStore({
-    database: process.env.DB_HOST,
-    username: "postgres",
-    password: "dthosen",
-    host: process.env.DB_HOST,
-  });
 } else {
   console.log("using in-memory storage");
 }
