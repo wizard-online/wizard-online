@@ -29,6 +29,7 @@
     "@msgpack/msgpack": "^1.12.1",
     "@sentry/browser": "^5.15.4",
     "@sentry/node": "^5.15.4",
+    "bgio-postgres": "^1.0.0",
     "boardgame.io": "^0.39.2",
     "core-js": "^3.6.4",
     "date-fns": "^2.12.0",
