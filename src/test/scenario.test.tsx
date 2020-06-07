@@ -48,6 +48,7 @@ const WizardClient = Client({
   game: wizardGameConfig,
   board: WizardBoard,
   numPlayers: 4,
+  // @ts-ignore  - TODO: remove ts-igore as soon as boardgame.io types are fixed
   multiplayer: Local(),
   debug: false,
 });
