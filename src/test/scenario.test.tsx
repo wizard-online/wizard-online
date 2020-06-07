@@ -18,9 +18,6 @@ import {
 import { Client } from "boardgame.io/react";
 import { Local } from "boardgame.io/multiplayer";
 
-import random from "lodash/random";
-import shuffle from "lodash/shuffle";
-
 import range from "lodash/range";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
@@ -36,16 +33,29 @@ import { ProfileProvider } from "../ui/ProfileProvider";
 import { HeaderElementsProvider } from "../ui/header/HeaderElementsProvider";
 import { finishedGameEventGA } from "../analytics";
 
-jest.mock("lodash/random");
-jest.mock("lodash/shuffle");
-const randomMock = random as jest.Mock;
-const shuffleMock = shuffle as jest.Mock;
+const randomMock = jest.fn();
+const shuffleMock = jest.fn();
 
 jest.mock("../analytics");
 jest.mock("react-ga");
 
 const WizardClient = Client({
-  game: wizardGameConfig,
+  game: {
+    ...wizardGameConfig,
+    plugins: [
+      {
+        name: "random",
+        api: () => ({
+          Die: randomMock,
+          Shuffle: shuffleMock,
+          _obj: {
+            getState: () => {},
+            isUsed: () => false,
+          },
+        }),
+      },
+    ],
+  },
   board: WizardBoard,
   numPlayers: 4,
   multiplayer: Local(),
@@ -56,7 +66,7 @@ let renderResult: RenderResult;
 let clients: HTMLElement[];
 beforeAll(() => {
   // mock initial dealer selection
-  randomMock.mockReturnValue(scenario.firstDealer);
+  randomMock.mockReturnValue(scenario.firstDealer + 1);
   shuffleMock.mockReturnValue([]);
   // mock localStorage
   localStorage.setItem(
