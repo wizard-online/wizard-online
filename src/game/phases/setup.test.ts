@@ -5,19 +5,31 @@ import { shuffleMove, handoutMove } from "./setup";
 import { Suit, Rank } from "../entities/cards";
 import { Phase } from "./phase";
 
+const randomMock = jest.fn();
+const shuffleMock = jest.fn();
+shuffleMock.mockImplementation((arr) => [...arr].reverse());
+
+const ctxOptions = {
+  random: {
+    Die: randomMock,
+    Shuffle: shuffleMock,
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} as any;
+
 describe("shuffle", () => {
   test("creates new deck", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
     const originalDeck = g.round!.deck;
-    shuffleMove(g);
+    shuffleMove(g, ctx);
     expect(g.round!.deck).not.toBe(originalDeck);
   });
 });
 
 describe("handout", () => {
   test("gives each player the specified number of hand cards", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
 
     handoutMove(g, ctx);
@@ -28,7 +40,7 @@ describe("handout", () => {
   });
 
   test("sets trump card", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
 
     const expectedTrump = g.round!.deck[
@@ -58,7 +70,7 @@ describe("handout", () => {
       },
     ];
     testData.forEach(({ suit, rank }) => {
-      const ctx = generateCtx();
+      const ctx = generateCtx(ctxOptions);
       const g = generateDefaultWizardState(ctx);
       const trumpIndex =
         g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
@@ -69,7 +81,7 @@ describe("handout", () => {
   });
 
   test("sets trumpSuit to undefined if trump card is a Z", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
     const trumpIndex =
       g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
@@ -80,7 +92,7 @@ describe("handout", () => {
   });
 
   test("calls selecting-trump phase when trump card is a Z", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
     const trumpIndex =
       g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
@@ -92,7 +104,7 @@ describe("handout", () => {
   });
 
   test("sets trumpSuit to null if turmp card is a N", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
     const trumpIndex =
       g.round!.deck.length - g.rounds[g.roundIndex] * ctx.numPlayers - 1;
@@ -103,7 +115,7 @@ describe("handout", () => {
   });
 
   test("sets trumpCard and trumpSuit to null in final round", () => {
-    const ctx = generateCtx({ numPlayers: 4 });
+    const ctx = generateCtx({ ...ctxOptions, numPlayers: 4 });
     const g = generateDefaultWizardState(ctx, {}, { roundIndex: 14 });
     handoutMove(g, ctx);
     expect(g.round!.trump.card).toBeUndefined();
@@ -111,7 +123,7 @@ describe("handout", () => {
   });
 
   test("removes cards from deck when handing them out to players", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
     const originalLength = g.round!.deck.length;
     handoutMove(g, ctx);
@@ -121,7 +133,7 @@ describe("handout", () => {
   });
 
   test("distributes cards one by one", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g: WizardState = generateDefaultWizardState(ctx);
 
     const cardsPlayer1 = range(0, g.rounds[g.roundIndex]).map(
@@ -135,7 +147,7 @@ describe("handout", () => {
   });
 
   test("distributes cards to players in correct order", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g: WizardState = generateDefaultWizardState(ctx);
 
     const playerOrder = [1, 2, 3, 0];
@@ -151,7 +163,7 @@ describe("handout", () => {
   });
 
   test("dispatches endPhase event", () => {
-    const ctx = generateCtx();
+    const ctx = generateCtx(ctxOptions);
     const g = generateDefaultWizardState(ctx);
     const mockEndPhase = jest.fn();
     ctx.events!.endPhase = mockEndPhase;

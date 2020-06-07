@@ -1,4 +1,3 @@
-import shuffle from "lodash/shuffle";
 import { Ctx } from "boardgame.io";
 import { generateCardDeck } from "./entities/cards.utils";
 import { NumPlayers, PlayerID } from "./entities/players";
@@ -135,7 +134,7 @@ export const generateDefaultWizardState = (
   const numPlayers = ctx.numPlayers as NumPlayers;
   const round =
     roundOptions !== null
-      ? generateBlankRoundState(numPlayers, roundOptions)
+      ? generateBlankRoundState(ctx, numPlayers, roundOptions)
       : null;
   const trick =
     trickOptions !== null ? generateBlankTrickState(trickOptions) : null;
@@ -165,6 +164,7 @@ export const generateDefaultWizardState = (
  * @returns {WizardRoundState}
  */
 export function generateBlankRoundState(
+  ctx: Ctx,
   numPlayers: NumPlayers,
   options: Partial<WizardRoundState> = {}
 ): WizardRoundState {
@@ -173,7 +173,7 @@ export function generateBlankRoundState(
     hands: new Array(numPlayers).fill([]),
     trickCount: new Array(numPlayers).fill(null),
     trump: { card: null },
-    deck: shuffle(generateCardDeck()),
+    deck: ctx.random!.Shuffle(generateCardDeck()),
   };
   return {
     ...defaultValues,
