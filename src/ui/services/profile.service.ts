@@ -11,7 +11,7 @@ export const storageKey = "wizard-profile";
 
 export interface ProfileStore {
   name: string;
-  preferences?: ProfilePreferences;
+  preferences: ProfilePreferences;
 }
 
 export interface ProfilePreferences {
@@ -21,10 +21,6 @@ export interface ProfilePreferences {
 
 export interface ProfileStoreWithId extends ProfileStore {
   id: string;
-}
-
-export interface Preferences {
-  handOrderPreference: HandOrderPreference;
 }
 
 export interface MetaHandOrderPreference {
@@ -56,9 +52,10 @@ export const MetaHandOrderPreferences = [
   },
 ];
 
-export function initializePreferences(): Preferences {
+export function initializePreferences(): ProfilePreferences {
   return {
-    handOrderPreference: HandOrderPreference.None,
+    handOrder: HandOrderPreference.None,
+    turnAlert: false,
   };
 }
 

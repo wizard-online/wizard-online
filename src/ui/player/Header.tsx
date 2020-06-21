@@ -4,16 +4,7 @@ import { TrickLabel } from "./TrickLabel";
 import { PlayerID } from "../../game/entities/players";
 import { usePlayerName } from "../GameContext";
 import { Blinker } from "../components/Blinker";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { SettingsContainer } from "./SettingsContainer";
-=======
-import { sortHand, isSorted } from "../util/player-hands";
-import { Card } from "../../game/entities/cards";
->>>>>>> latest enhancement
-=======
-import { ControlBar } from "./ControlBar";
->>>>>>> handOrder in profile, switch button
 
 export interface HeaderProps {
   playerID: PlayerID;
@@ -35,29 +26,8 @@ export const Header: React.FC<HeaderProps> = ({
         {isClient && <Blinker on={isTurn} />}
       </PlayerTitle>
       <Spacer />
-<<<<<<< HEAD
-<<<<<<< HEAD
       {isClient && <SettingsContainer />}
       <Spacer />
-=======
-      {showButton && (
-        <Button
-          onClick={() => {
-            sortHand(cards as Card[], round?.trump.suit);
-            isHandSorted = true;
-          }}
-          type="button"
-          disabled={isHandSorted}
-        >
-          Karten sortieren
-        </Button>
-      )}
-      {showButton && <Spacer />}
->>>>>>> latest enhancement
-=======
-      {isClient && <ControlBar />}
-      <Spacer />
->>>>>>> handOrder in profile, switch button
       <TrickLabel playerID={playerID} />
     </Container>
   );

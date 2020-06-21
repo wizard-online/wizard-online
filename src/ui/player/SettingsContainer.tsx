@@ -1,15 +1,20 @@
 import React from "react";
 import { IconButton, Icon } from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 import { useProfile, useProfileContext } from "../ProfileProvider";
+import { MetaHandOrderPreferences } from "../services/profile.service";
 
 export const SettingsContainer: React.FC = () => {
   const profile = useProfile();
   const { updateProfile } = useProfileContext();
+  const { preferences } = useProfile();
   const turnAlert = profile.preferences?.turnAlert ?? false;
+  const indexOfOrderPreference = MetaHandOrderPreferences.findIndex(
+    (element) => element.handOrderPreference === preferences?.handOrder
+  );
 
-  if (showButton) {
-    isHandSorted = isSorted(cards as Card[], round?.trump.suit);
-  }
+  const { label, icon } = MetaHandOrderPreferences[indexOfOrderPreference];
 
   return (
     <div>
@@ -24,20 +29,27 @@ export const SettingsContainer: React.FC = () => {
           {turnAlert ? "notifications" : "notifications_off"}
         </Icon>
       </IconButton>
-
-      {showButton && (
-        <Button
-          onClick={() => {
-            sortHand(cards as Card[], round?.trump.suit);
-            isHandSorted = true;
-          }}
-          type="button"
-          disabled={isHandSorted}
-        >
-          Karten sortieren
-        </Button>
-      )}
-      {showButton && <Spacer />}
+      <StyledIconButton
+        title={label}
+        size="small"
+        onClick={() => {
+          const { handOrderPreference } = MetaHandOrderPreferences[
+            (indexOfOrderPreference + 1) % MetaHandOrderPreferences.length
+          ];
+          updateProfile({
+            preferences: {
+              ...preferences,
+              handOrder: handOrderPreference,
+            },
+          });
+        }}
+      >
+        <FontAwesomeIcon icon={icon} />
+      </StyledIconButton>
     </div>
   );
 };
+
+const StyledIconButton = styled(IconButton)`
+  width: 35px;
+`;

@@ -1,6 +1,7 @@
 import flatten from "lodash/flatten";
 import groupBy from "lodash/groupBy";
-import { Card, Rank, Suit, equalCards } from "../../game/entities/cards";
+import { Card, Rank, Suit } from "../../game/entities/cards";
+import { HandOrderPreference } from "../services/profile.service";
 
 /**
  * sorts the cards in a hand by the following scheme:
@@ -14,7 +15,17 @@ import { Card, Rank, Suit, equalCards } from "../../game/entities/cards";
  * @param {(Suit | null)} [trumpSuit]
  * @returns {Card[]} the sorted cards
  */
-export function sortHand(hand: Card[], trumpSuit?: Suit | null): Card[] {
+export function sortHand(
+  hand: Card[],
+  trumpSuit?: Suit | null,
+  handOrderPreference?: HandOrderPreference | null
+): Card[] {
+  if (
+    !handOrderPreference ||
+    handOrderPreference === HandOrderPreference.None
+  ) {
+    return hand;
+  }
   // group cards by suit / N / Z
   const groupedHand = groupBy(hand, (card) => {
     if (card.rank === Rank.Z || card.rank === Rank.N) return card.rank;
@@ -35,19 +46,11 @@ export function sortHand(hand: Card[], trumpSuit?: Suit | null): Card[] {
     })
     // sort cards in each group by rank
     .map(([, cardGroup]) => cardGroup.sort((a, b) => a.rank - b.rank));
-  // set sorted hand to state
-  return flatten(sortedGroups);
-}
 
-export function isSorted(hand: Card[], trumpSuit?: Suit | null): boolean {
-  console.log(hand);
-  const sorted = sortHand(hand, trumpSuit);
+  const sortAscending = flatten(sortedGroups);
 
-  return hand.every((card, i) => {
-    console.log(
-      "cards",
-      `hand: ${hand[i].rank},${hand[i].suit}, Sorted: ${sorted[i].rank},${sorted[i].suit}`
-    );
-    return equalCards(card, sorted[i]);
-  });
+  if (handOrderPreference === HandOrderPreference.SortedDescending) {
+    return sortAscending.reverse();
+  }
+  return sortAscending;
 }
