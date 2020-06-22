@@ -52,6 +52,17 @@ export const MetaHandOrderPreferences = [
   },
 ];
 
+export function getNextHandOrderPreference(
+  current: HandOrderPreference
+): MetaHandOrderPreference {
+  const currentIndex = MetaHandOrderPreferences.findIndex(
+    (element) => element.handOrderPreference === current
+  );
+  return MetaHandOrderPreferences[
+    (currentIndex + 1) % MetaHandOrderPreferences.length
+  ];
+}
+
 export function initializePreferences(): ProfilePreferences {
   return {
     handOrder: HandOrderPreference.None,

@@ -3,18 +3,21 @@ import { IconButton, Icon } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { useProfile, useProfileContext } from "../ProfileProvider";
-import { MetaHandOrderPreferences } from "../services/profile.service";
+import {
+  MetaHandOrderPreferences,
+  getNextHandOrderPreference,
+} from "../services/profile.service";
 
 export const SettingsContainer: React.FC = () => {
   const profile = useProfile();
   const { updateProfile } = useProfileContext();
   const { preferences } = useProfile();
   const turnAlert = profile.preferences.turnAlert ?? false;
-  const indexOfOrderPreference = MetaHandOrderPreferences.findIndex(
-    (element) => element.handOrderPreference === preferences.handOrder
-  );
 
-  const { label, icon } = MetaHandOrderPreferences[indexOfOrderPreference];
+  const { label, icon, handOrderPreference } =
+    MetaHandOrderPreferences.find(
+      (element) => element.handOrderPreference === preferences.handOrder
+    ) ?? MetaHandOrderPreferences[0];
 
   return (
     <div>
@@ -33,13 +36,13 @@ export const SettingsContainer: React.FC = () => {
         title={label}
         size="small"
         onClick={() => {
-          const { handOrderPreference } = MetaHandOrderPreferences[
-            (indexOfOrderPreference + 1) % MetaHandOrderPreferences.length
-          ];
+          const { handOrderPreference: handOrder } = getNextHandOrderPreference(
+            handOrderPreference
+          );
           updateProfile({
             preferences: {
               ...preferences,
-              handOrder: handOrderPreference,
+              handOrder,
             },
           });
         }}
