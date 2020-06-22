@@ -9,9 +9,9 @@ export const SettingsContainer: React.FC = () => {
   const profile = useProfile();
   const { updateProfile } = useProfileContext();
   const { preferences } = useProfile();
-  const turnAlert = profile.preferences?.turnAlert ?? false;
+  const turnAlert = profile.preferences.turnAlert ?? false;
   const indexOfOrderPreference = MetaHandOrderPreferences.findIndex(
-    (element) => element.handOrderPreference === preferences?.handOrder
+    (element) => element.handOrderPreference === preferences.handOrder
   );
 
   const { label, icon } = MetaHandOrderPreferences[indexOfOrderPreference];

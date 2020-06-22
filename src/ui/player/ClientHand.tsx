@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { playableCardsInHand } from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
@@ -28,7 +28,11 @@ export const ClientHand: React.FC<HandCardsProps> = ({
   const { wizardState } = useGameState();
   const suit = wizardState?.round?.trump?.suit;
   const { preferences } = useProfile();
-  const sortedCards = sortHand(cards as Card[], suit, preferences?.handOrder);
+  const { handOrder } = preferences;
+  const sortedCards = useMemo(
+    () => sortHand(cards as Card[], suit, handOrder),
+    [cards, suit, handOrder]
+  );
 
   function getIndex(card: Card): number {
     return cards.findIndex((c) => card === c);

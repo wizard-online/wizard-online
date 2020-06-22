@@ -66,8 +66,3 @@ export interface Card {
 export function Card(suit: Suit, rank: Rank): Card {
   return { suit, rank };
 }
-
-export function equalCards(cardA: Card, cardB: Card): boolean {
-  // TODO: Should we see all Ns and all Zs as equal?
-  return cardA.suit === cardB.suit && cardA.rank === cardB.rank;
-}
