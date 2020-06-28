@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { playableCardsInHand } from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
 import { Card } from "../../game/entities/cards";
+import { useProfile } from "../ProfileProvider";
+import { sortHand } from "../util/sort-hands";
+import { useGameState } from "../GameContext";
 
 export interface HandCardsProps {
   cards: (Card | null)[];
@@ -22,15 +25,28 @@ export const ClientHand: React.FC<HandCardsProps> = ({
       ? playableCardsInHand(cards as Card[], lead)
       : undefined;
 
+  const { wizardState } = useGameState();
+  const suit = wizardState?.round?.trump?.suit;
+  const { preferences } = useProfile();
+  const { handOrder } = preferences;
+  const sortedCards = useMemo(
+    () => sortHand(cards as Card[], suit, handOrder),
+    [cards, suit, handOrder]
+  );
+
+  function getIndex(card: Card): number {
+    return cards.findIndex((c) => card === c);
+  }
+
   return (
     <CardsContainer data-testid="client-hand">
-      {cards.map((card, i) => (
-        <PlayingCardContainer key={cardKey(card, i)}>
+      {sortedCards.map((card) => (
+        <PlayingCardContainer key={cardKey(card, getIndex(card))}>
           <PlayCard
             card={card}
             interactive={isInteractive}
-            disabled={playableCards && !playableCards[i]}
-            onClick={() => onClickCard(i)}
+            disabled={playableCards && !playableCards[getIndex(card)]}
+            onClick={() => onClickCard(getIndex(card))}
           />
         </PlayingCardContainer>
       ))}

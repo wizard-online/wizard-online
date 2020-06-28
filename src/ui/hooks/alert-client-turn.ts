@@ -8,7 +8,7 @@ const audioAlert = new Audio(audioAlertFile);
 
 export function useAlertClientTurn(): void {
   const profile = useProfile();
-  const turnAlert = profile.preferences?.turnAlert;
+  const { turnAlert } = profile.preferences;
   const handleClientTurn = useCallback((): void => {
     if (turnAlert) {
       audioAlert.play();

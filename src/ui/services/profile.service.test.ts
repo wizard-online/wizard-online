@@ -16,7 +16,7 @@ beforeEach(() => {
 const name = "test-name";
 const newName = "test-name-new";
 const handOrder = HandOrderPreference.None;
-const newHandOrder = HandOrderPreference.Sorted;
+const newHandOrder = HandOrderPreference.SortedAscending;
 
 const profile: ProfileStore = {
   name,

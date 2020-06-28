@@ -1,11 +1,17 @@
 import merge from "lodash/merge";
 import flow from "lodash/fp/flow";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import {
+  faRandom,
+  faSortNumericUpAlt,
+  faSortNumericDownAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const storageKey = "wizard-profile";
 
 export interface ProfileStore {
   name: string;
-  preferences?: ProfilePreferences;
+  preferences: ProfilePreferences;
 }
 
 export interface ProfilePreferences {
@@ -17,27 +23,51 @@ export interface ProfileStoreWithId extends ProfileStore {
   id: string;
 }
 
+export interface MetaHandOrderPreference {
+  handOrderPreference: HandOrderPreference;
+  label: string;
+  icon: IconDefinition;
+}
 export enum HandOrderPreference {
   None = "none",
-  Sorted = "sorted",
+  SortedAscending = "sortedAscending",
+  SortedDescending = "sortedDescending",
 }
 
-export const handOrderPreferences = [
-  HandOrderPreference.None,
-  HandOrderPreference.Sorted,
+export const MetaHandOrderPreferences = [
+  {
+    handOrderPreference: HandOrderPreference.None,
+    label: "unsortiert",
+    icon: faRandom,
+  },
+  {
+    handOrderPreference: HandOrderPreference.SortedAscending,
+    label: "aufsteigend sortiert",
+    icon: faSortNumericUpAlt,
+  },
+  {
+    handOrderPreference: HandOrderPreference.SortedDescending,
+    label: "absteigend sortiert",
+    icon: faSortNumericDownAlt,
+  },
 ];
 
-export function getHandOrderPreferenceLabel(
-  handOrderPreference: HandOrderPreference
-): string {
-  switch (handOrderPreference) {
-    case HandOrderPreference.None:
-      return "Nicht sortieren";
-    case HandOrderPreference.Sorted:
-      return "Sortieren";
-    default:
-      return "";
-  }
+export function getNextHandOrderPreference(
+  current: HandOrderPreference
+): MetaHandOrderPreference {
+  const currentIndex = MetaHandOrderPreferences.findIndex(
+    (element) => element.handOrderPreference === current
+  );
+  return MetaHandOrderPreferences[
+    (currentIndex + 1) % MetaHandOrderPreferences.length
+  ];
+}
+
+export function initializePreferences(): ProfilePreferences {
+  return {
+    handOrder: HandOrderPreference.None,
+    turnAlert: false,
+  };
 }
 
 export function getProfile(): ProfileStoreWithId | undefined {

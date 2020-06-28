@@ -8,7 +8,10 @@ import {
 import styled from "styled-components";
 import merge from "lodash/merge";
 import { Form } from "../components/Form";
-import { ProfileStore } from "../services/profile.service";
+import {
+  ProfileStore,
+  initializePreferences,
+} from "../services/profile.service";
 
 export interface EditProfileProps {
   defaultProfile?: ProfileStore;
@@ -22,8 +25,13 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   submitLabel,
 }) => {
   const [profile, setProfile] = useState(
-    defaultProfile ?? { name: "", preferences: {} }
+    defaultProfile ?? { name: "", preferences: initializePreferences() }
   );
+
+  if (!profile.preferences) {
+    profile.preferences = initializePreferences();
+  }
+  const { handOrder } = profile.preferences;
 
   const updateProfile = useCallback((changes: Partial<ProfileStore>) => {
     setProfile((previousProfile) => merge({}, previousProfile, changes));
@@ -47,10 +55,10 @@ export const EditProfile: React.FC<EditProfileProps> = ({
             label="Ton wenn am Zug"
             control={
               <Checkbox
-                checked={profile.preferences?.turnAlert ?? false}
+                checked={profile.preferences.turnAlert ?? false}
                 onChange={(event) =>
                   updateProfile({
-                    preferences: { turnAlert: event.target.checked },
+                    preferences: { handOrder, turnAlert: event.target.checked },
                   })
                 }
               />
