@@ -63,18 +63,20 @@ export function getNextHandOrderPreference(
   ];
 }
 
-export function initializePreferences(): ProfilePreferences {
-  return {
+export const initialProfile: ProfileStore = {
+  name: "",
+  preferences: {
     handOrder: HandOrderPreference.None,
     turnAlert: false,
-  };
-}
+  },
+};
 
 export function getProfile(): ProfileStoreWithId | undefined {
   return flow(
     () => localStorage.getItem(storageKey),
     (value) => value ?? "null",
-    (value) => (JSON.parse(value) as ProfileStoreWithId) ?? undefined
+    (value) => JSON.parse(value) ?? undefined,
+    (value) => (value ? { ...initialProfile, ...value } : undefined)
   )();
 }
 
