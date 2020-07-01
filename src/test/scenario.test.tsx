@@ -32,7 +32,7 @@ import { NotificationsProvider } from "../ui/NotificationsProvider";
 import { ProfileProvider } from "../ui/ProfileProvider";
 import { HeaderElementsProvider } from "../ui/header/HeaderElementsProvider";
 import { finishedGameEventGA } from "../analytics";
-import { initializePreferences } from "../ui/services/profile.service";
+import { initialProfile } from "../ui/services/profile.service";
 
 const randomMock = jest.fn();
 const shuffleMock = jest.fn();
@@ -72,10 +72,7 @@ beforeAll(() => {
   // mock localStorage
   localStorage.setItem(
     "wizard-profile",
-    JSON.stringify({
-      name: "test-player",
-      preferences: initializePreferences(),
-    })
+    JSON.stringify({ ...initialProfile, name: "test-player" })
   );
 
   const ids = [0, 1, 2, 3];
