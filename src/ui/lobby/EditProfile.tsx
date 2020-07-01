@@ -8,10 +8,7 @@ import {
 import styled from "styled-components";
 import merge from "lodash/merge";
 import { Form } from "../components/Form";
-import {
-  ProfileStore,
-  initializePreferences,
-} from "../services/profile.service";
+import { ProfileStore, initialProfile } from "../services/profile.service";
 
 export interface EditProfileProps {
   defaultProfile?: ProfileStore;
@@ -24,13 +21,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onSubmit,
   submitLabel,
 }) => {
-  const [profile, setProfile] = useState(
-    defaultProfile ?? { name: "", preferences: initializePreferences() }
-  );
+  const [profile, setProfile] = useState(defaultProfile ?? initialProfile);
 
-  if (!profile.preferences) {
-    profile.preferences = initializePreferences();
-  }
   const { handOrder } = profile.preferences;
 
   const updateProfile = useCallback((changes: Partial<ProfileStore>) => {
