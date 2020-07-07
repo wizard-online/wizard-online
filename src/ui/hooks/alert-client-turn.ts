@@ -10,10 +10,10 @@ export function useAlertClientTurn(): void {
   const { updateProfile } = useProfileContext();
   const profile = useProfile();
   const { turnAlert } = profile.preferences;
-  const handleClientTurn = useCallback((): void => {
+  const handleClientTurn = useCallback(async () => {
     if (turnAlert) {
       try {
-        audioAlert.play();
+        await audioAlert.play();
       } catch (error) {
         updateProfile({ preferences: { turnAlert: false } });
       }
