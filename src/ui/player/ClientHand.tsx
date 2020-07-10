@@ -2,16 +2,18 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 import { playableCardsInHand } from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
-import { Card } from "../../game/entities/cards";
+import { Card, Suit } from "../../game/entities/cards";
 import { useProfile } from "../ProfileProvider";
 import { sortHand } from "../util/sort-hands";
-import { useGameState } from "../GameContext";
+import { HandMeta } from "../../game/WizardState";
 
 export interface HandCardsProps {
-  cards: (Card | null)[];
+  cards: Card[];
   isInteractive: boolean;
   onClickCard?: (cardIndex: number) => void;
   lead?: Card;
+  trumpSuit: Suit | null | undefined;
+  handMeta: HandMeta;
 }
 
 export const ClientHand: React.FC<HandCardsProps> = ({
@@ -19,19 +21,18 @@ export const ClientHand: React.FC<HandCardsProps> = ({
   isInteractive,
   onClickCard = () => {},
   lead,
+  trumpSuit,
+  handMeta,
 }) => {
-  const playableCards =
-    isInteractive && !cards.includes(null)
-      ? playableCardsInHand(cards as Card[], lead)
-      : undefined;
+  const playableCards = isInteractive
+    ? playableCardsInHand(cards as Card[], lead)
+    : undefined;
 
-  const { wizardState } = useGameState();
-  const suit = wizardState?.round?.trump?.suit;
   const { preferences } = useProfile();
   const { handOrder } = preferences;
   const sortedCards = useMemo(
-    () => sortHand(cards as Card[], suit, handOrder),
-    [cards, suit, handOrder]
+    () => sortHand(cards, trumpSuit, handMeta, handOrder),
+    [cards, trumpSuit, handMeta, handOrder]
   );
 
   function getIndex(card: Card): number {
