@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent } from "@material-ui/core";
+import { Card as MatCard, CardContent } from "@material-ui/core";
 import styled from "styled-components";
 
 import { Phase } from "../../game/phases/phase";
@@ -10,6 +10,8 @@ import { Header } from "./Header";
 import { colors } from "../util/colors";
 import { PlayerProps } from "./Player.props";
 import { OpponentHand } from "./OpponentHand";
+import { Card } from "../../game/entities/cards";
+import { HandMeta } from "../../game/WizardState";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const {
@@ -30,10 +32,12 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
             {round &&
               (isClient ? (
                 <ClientHand
-                  cards={round.hands[clientID]}
+                  cards={round.hands[clientID] as Card[]}
                   isInteractive={isTurn && phase === Phase.Playing}
                   onClickCard={(i) => play(i)}
                   lead={trick?.isComplete ? undefined : trick?.lead}
+                  trumpSuit={round.trump.suit}
+                  handMeta={round.handsMeta[clientID] as HandMeta}
                 />
               ) : (
                 <OpponentHand numCards={round.hands[playerID].length} />
@@ -45,7 +49,7 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   );
 };
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(MatCard)`
   flex-grow: 1;
   display: flex;
 `;

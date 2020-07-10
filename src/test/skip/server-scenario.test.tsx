@@ -18,9 +18,6 @@ import {
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 
-import random from "lodash/random";
-import shuffle from "lodash/shuffle";
-
 import range from "lodash/range";
 import { Server } from "boardgame.io/server";
 import { Ctx } from "boardgame.io";
@@ -32,10 +29,8 @@ import { Card, Suit } from "../../game/entities/cards";
 import { getCardId, getSuitLabel } from "../../game/entities/cards.utils";
 import { generateDefaultWizardState } from "../../game/WizardState";
 
-jest.mock("lodash/random");
-jest.mock("lodash/shuffle");
-const randomMock = random as jest.Mock;
-const shuffleMock = shuffle as jest.Mock;
+const randomMock = jest.fn();
+const shuffleMock = jest.fn();
 
 const serverScenarioGameConfig = {
   ...wizardGameConfig,
@@ -45,6 +40,19 @@ const serverScenarioGameConfig = {
       numCards: 14,
     };
   },
+  plugins: [
+    {
+      name: "random",
+      api: () => ({
+        Die: randomMock,
+        Shuffle: shuffleMock,
+        _obj: {
+          getState: () => {},
+          isUsed: () => false,
+        },
+      }),
+    },
+  ],
 };
 
 const WizardClient = Client({

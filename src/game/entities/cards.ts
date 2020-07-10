@@ -46,8 +46,8 @@ export const regularRanks = [
   Rank.Eleven,
   Rank.Twelve,
   Rank.Thirteen,
-];
-export const specialRanks = [Rank.N, Rank.Z];
+] as const;
+export const specialRanks = [Rank.N, Rank.Z] as const;
 export const allRanks = [...regularRanks, ...specialRanks];
 
 export interface Card {

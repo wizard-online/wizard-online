@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { playableCardsInHand } from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
-import { Card } from "../../game/entities/cards";
+import { Card, Suit } from "../../game/entities/cards";
+import { useProfile } from "../ProfileProvider";
+import { sortHand } from "../util/sort-hands";
+import { HandMeta } from "../../game/WizardState";
 
 export interface HandCardsProps {
-  cards: (Card | null)[];
+  cards: Card[];
   isInteractive: boolean;
   onClickCard?: (cardIndex: number) => void;
   lead?: Card;
+  trumpSuit: Suit | null | undefined;
+  handMeta: HandMeta;
 }
 
 export const ClientHand: React.FC<HandCardsProps> = ({
@@ -16,21 +21,33 @@ export const ClientHand: React.FC<HandCardsProps> = ({
   isInteractive,
   onClickCard = () => {},
   lead,
+  trumpSuit,
+  handMeta,
 }) => {
-  const playableCards =
-    isInteractive && !cards.includes(null)
-      ? playableCardsInHand(cards as Card[], lead)
-      : undefined;
+  const playableCards = isInteractive
+    ? playableCardsInHand(cards as Card[], lead)
+    : undefined;
+
+  const { preferences } = useProfile();
+  const { handOrder } = preferences;
+  const sortedCards = useMemo(
+    () => sortHand(cards, trumpSuit, handMeta, handOrder),
+    [cards, trumpSuit, handMeta, handOrder]
+  );
+
+  function getIndex(card: Card): number {
+    return cards.findIndex((c) => card === c);
+  }
 
   return (
     <CardsContainer data-testid="client-hand">
-      {cards.map((card, i) => (
-        <PlayingCardContainer key={cardKey(card, i)}>
+      {sortedCards.map((card) => (
+        <PlayingCardContainer key={cardKey(card, getIndex(card))}>
           <PlayCard
             card={card}
             interactive={isInteractive}
-            disabled={playableCards && !playableCards[i]}
-            onClick={() => onClickCard(i)}
+            disabled={playableCards && !playableCards[getIndex(card)]}
+            onClick={() => onClickCard(getIndex(card))}
           />
         </PlayingCardContainer>
       ))}

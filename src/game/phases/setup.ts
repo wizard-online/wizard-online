@@ -1,22 +1,22 @@
 /* eslint-disable no-param-reassign */
 import { PhaseConfig, Ctx } from "boardgame.io";
-import shuffleUtil from "lodash/shuffle";
-import random from "lodash/random";
 
+import { fromPairs } from "lodash";
 import {
   WizardState,
   isSetRound,
   generateBlankRoundState,
+  HandMeta,
 } from "../WizardState";
 import { playersRound } from "../entities/players.utils";
-import { Card, Rank, Suit } from "../entities/cards";
+import { Card, Rank, Suit, allSuits, allRanks } from "../entities/cards";
 import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";
 import { NumPlayers, PlayerID } from "../entities/players";
 
-export function shuffleMove(wizardState: WizardState): void {
+export function shuffleMove(wizardState: WizardState, ctx: Ctx): void {
   // shuffle deck
-  wizardState.round!.deck = shuffleUtil(wizardState.round!.deck);
+  wizardState.round!.deck = ctx.random!.Shuffle(wizardState.round!.deck);
 }
 
 export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
@@ -41,6 +41,33 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
     });
   });
   round.hands = hands;
+
+  // create hand meta data
+  const handsMeta = hands.map((hand) => {
+    const suits = fromPairs(
+      allSuits.map((suit) => {
+        const cardsOfSuit = hand.filter(
+          (card) =>
+            card?.suit === suit &&
+            card?.rank !== Rank.N &&
+            card?.rank !== Rank.Z
+        );
+        return [suit, cardsOfSuit.length];
+      })
+    );
+    const ranks = fromPairs(
+      allRanks.map((rank) => {
+        const cardsOfRank = hand.filter((card) => card?.rank === rank);
+        return [rank, cardsOfRank.length];
+      })
+    );
+    return {
+      total: hand.length,
+      suits,
+      ranks,
+    } as HandMeta;
+  });
+  round.handsMeta = handsMeta;
 
   // draw trump card
   let trumpCard: Card | undefined;
@@ -67,26 +94,26 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
   }
 }
 
-function setupRound(wizardState: WizardState): void {
+function setupRound(wizardState: WizardState, ctx: Ctx): void {
   // increment roundIndex if not first round
   if (wizardState.round?.isComplete) {
     wizardState.roundIndex += 1;
   }
   // setup (or reset) round
   if (!wizardState.round || wizardState.trick) {
-    wizardState.round = generateBlankRoundState(wizardState.numPlayers);
+    wizardState.round = generateBlankRoundState(ctx, wizardState.numPlayers);
   }
   // reset trick
   wizardState.trick = null;
 }
 
-function onBegin(g: WizardState): void {
+function onBegin(g: WizardState, ctx: Ctx): void {
   // set dealer
   if (g.dealer >= 0) {
     g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
   } else {
     // draw a dealer at the start of game
-    g.dealer = random(0, g.numPlayers - 1) as PlayerID;
+    g.dealer = (ctx.random!.Die(g.numPlayers) - 1) as PlayerID;
   }
 }
 
@@ -96,13 +123,13 @@ function first(g: WizardState, ctx: Ctx): number {
   );
 }
 
-function shuffle(wizardState: WizardState): void {
-  setupRound(wizardState);
-  shuffleMove(wizardState);
+function shuffle(wizardState: WizardState, ctx: Ctx): void {
+  setupRound(wizardState, ctx);
+  shuffleMove(wizardState, ctx);
 }
 
 function handout(wizardState: WizardState, ctx: Ctx): void {
-  setupRound(wizardState);
+  setupRound(wizardState, ctx);
   handoutMove(wizardState, ctx);
 }
 

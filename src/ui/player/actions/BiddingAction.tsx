@@ -9,7 +9,7 @@ import { isSetRound } from "../../../game/WizardState";
 export const BiddingAction: React.FC = () => {
   const {
     wizardState: { roundIndex, rounds, currentPlayer, round },
-    moves: { bid, sortCards },
+    moves: { bid },
   } = useGameState();
   const numCards = rounds[roundIndex];
 
@@ -20,8 +20,6 @@ export const BiddingAction: React.FC = () => {
   const [bidValue, setBidValue] = useState(0);
   const valid = isValidBid(bidValue, numCards, bids, currentPlayer);
 
-  const [isHandSorted, setIsHandSorted] = useState(false);
-
   const marks = range(0, numCards + 1).map((value) => ({
     value,
     label: isValidBid(value, numCards, bids, currentPlayer)
@@ -31,18 +29,6 @@ export const BiddingAction: React.FC = () => {
 
   return (
     <Row>
-      <RowElement>
-        <Button
-          onClick={() => {
-            sortCards();
-            setIsHandSorted(true);
-          }}
-          type="button"
-          disabled={isHandSorted}
-        >
-          Karten sortieren
-        </Button>
-      </RowElement>
       <RowElement>
         <Field>
           <Slider
