@@ -22,7 +22,7 @@ function playerView(
   // no changes if no round is set
   if (!wizardState.round) return wizardState;
   const {
-    round: { deck, hands },
+    round: { deck, hands, handsMeta },
     round,
   } = wizardState;
 
@@ -37,6 +37,11 @@ function playerView(
         // keep client's hand
         if (index.toString() === playerID) return hand;
         return hand.map(() => null);
+      }),
+      handsMeta: handsMeta.map((hand, index) => {
+        // keep client's hand
+        if (index.toString() === playerID) return hand;
+        return null;
       }),
     },
   };
