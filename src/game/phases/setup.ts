@@ -1,13 +1,15 @@
 /* eslint-disable no-param-reassign */
 import { PhaseConfig, Ctx } from "boardgame.io";
 
+import { fromPairs } from "lodash";
 import {
   WizardState,
   isSetRound,
   generateBlankRoundState,
+  HandMeta,
 } from "../WizardState";
 import { playersRound } from "../entities/players.utils";
-import { Card, Rank, Suit } from "../entities/cards";
+import { Card, Rank, Suit, allSuits, allRanks } from "../entities/cards";
 import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";
 import { NumPlayers, PlayerID } from "../entities/players";
@@ -39,6 +41,33 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
     });
   });
   round.hands = hands;
+
+  // create hand meta data
+  const handsMeta = hands.map((hand) => {
+    const suits = fromPairs(
+      allSuits.map((suit) => {
+        const cardsOfSuit = hand.filter(
+          (card) =>
+            card?.suit === suit &&
+            card?.rank !== Rank.N &&
+            card?.rank !== Rank.Z
+        );
+        return [suit, cardsOfSuit.length];
+      })
+    );
+    const ranks = fromPairs(
+      allRanks.map((rank) => {
+        const cardsOfRank = hand.filter((card) => card?.rank === rank);
+        return [rank, cardsOfRank.length];
+      })
+    );
+    return {
+      total: hand.length,
+      suits,
+      ranks,
+    } as HandMeta;
+  });
+  round.handsMeta = handsMeta;
 
   // draw trump card
   let trumpCard: Card | undefined;

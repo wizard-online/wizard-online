@@ -3,7 +3,7 @@ import { generateCardDeck } from "./entities/cards.utils";
 import { NumPlayers, PlayerID } from "./entities/players";
 import { Phase } from "./phases/phase";
 import { ScorePad } from "./entities/score";
-import { Card, Suit } from "./entities/cards";
+import { Card, Suit, Rank } from "./entities/cards";
 import { OptionalTrickCard, TrickCard } from "./entities/trick";
 import { generateRounds } from "./entities/round.utils";
 
@@ -56,12 +56,23 @@ export interface WizardRoundState {
   bids: (number | null)[];
   bidsMismatch?: number;
   hands: (Card | null)[][];
+  handsMeta: (HandMeta | null)[];
   trickCount: number[];
   trump: Trump;
   deck: (Card | null)[];
   previousTrick?: TrickCard[];
   isComplete?: boolean;
 }
+
+export type HandMeta = {
+  total: number;
+  suits: {
+    [suit in Suit]: number;
+  };
+  ranks: {
+    [rank in Rank]: number;
+  };
+};
 
 /**
  * Describes the round's trump suit.
@@ -171,6 +182,7 @@ export function generateBlankRoundState(
   const defaultValues = {
     bids: new Array(numPlayers).fill(null),
     hands: new Array(numPlayers).fill([]),
+    handsMeta: new Array(numPlayers).fill(null),
     trickCount: new Array(numPlayers).fill(null),
     trump: { card: null },
     deck: ctx.random!.Shuffle(generateCardDeck()),

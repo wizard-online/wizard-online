@@ -40,6 +40,7 @@ function generate({
     round: {
       bids: new Array(ctx.numPlayers).fill(0),
       hands,
+      handsMeta: new Array(ctx.numPlayers).fill(null),
       deck: [],
       trump: { card: null },
       trickCount: new Array(ctx.numPlayers).fill(0),
