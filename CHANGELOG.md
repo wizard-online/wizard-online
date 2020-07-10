@@ -3,6 +3,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.5] - 2020-07-10
+
+### Added
+
+- persistent storage using postgres (
+  [#152](https://github.com/wizard-online/wizard-online/pull/152)
+  [#153](https://github.com/wizard-online/wizard-online/pull/153)
+)
+- automatic card sorting (
+  [#158](https://github.com/wizard-online/wizard-online/pull/158)
+)
+
+### Changed
+
+- random: using boardgame functions instead of lodash (
+  [#156](https://github.com/wizard-online/wizard-online/pull/156)
+)
+
+### Fixed
+
+- alert sound not playing in some browser (Safari) (
+  [#162](https://github.com/wizard-online/wizard-online/pull/162)
+)
+
 ## [1.0.0-alpha.4] - 2020-06-05
 
 ### Added
