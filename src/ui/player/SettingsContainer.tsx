@@ -7,12 +7,14 @@ import {
   MetaHandOrderPreferences,
   getNextHandOrderPreference,
 } from "../services/profile.service";
+import { useAlertClient } from "../hooks/alert-client-turn";
 
 export const SettingsContainer: React.FC = () => {
   const profile = useProfile();
   const { updateProfile } = useProfileContext();
   const { preferences } = useProfile();
   const turnAlert = profile.preferences.turnAlert ?? false;
+  const alertClient = useAlertClient();
 
   const { label, icon, handOrderPreference } =
     MetaHandOrderPreferences.find(
@@ -23,9 +25,13 @@ export const SettingsContainer: React.FC = () => {
     <div>
       <IconButton
         size="small"
-        onClick={() =>
-          updateProfile({ preferences: { turnAlert: !turnAlert } })
-        }
+        onClick={() => {
+          updateProfile({ preferences: { turnAlert: !turnAlert } });
+          // if alert is going to be enabled, play alert sound
+          if (!turnAlert) {
+            alertClient();
+          }
+        }}
         title="Ton wenn am Zug"
       >
         <Icon fontSize="small">
