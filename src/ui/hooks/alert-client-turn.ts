@@ -7,17 +7,29 @@ import { useProfile, useProfileContext } from "../ProfileProvider";
 const audioAlert = new Audio(audioAlertFile);
 
 export function useAlertClientTurn(): void {
-  const { updateProfile } = useProfileContext();
   const profile = useProfile();
+  const alert = useAlertClient();
   const { turnAlert } = profile.preferences;
-  const handleClientTurn = useCallback(async () => {
+  const handleClientTurn = useCallback(() => {
     if (turnAlert) {
-      try {
-        await audioAlert.play();
-      } catch (error) {
-        updateProfile({ preferences: { turnAlert: false } });
-      }
+      alert();
     }
-  }, [turnAlert, updateProfile]);
+  }, [turnAlert, alert]);
   useGameEventHandler(GameEvent.ClientTurn, handleClientTurn);
+}
+
+export function useAlertClient(): () => Promise<void> {
+  const { updateProfile } = useProfileContext();
+
+  return useCallback(async () => {
+    try {
+      await audioAlert.play();
+    } catch (error) {
+      updateProfile({ preferences: { turnAlert: false } });
+    }
+  }, [updateProfile]);
+}
+
+export function alertClient(): Promise<void> {
+  return audioAlert.play();
 }
