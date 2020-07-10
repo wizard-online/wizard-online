@@ -1,3 +1,5 @@
+import { Suit } from "./entities/cards";
+
 export const scenarioFinalState = {
   config: {},
   roundIndex: 14,
@@ -921,6 +923,20 @@ export const mockStateExample = {
           rank: 9,
         },
       ],
+    ],
+    handsMeta: [
+      null,
+      null,
+      null,
+      {
+        total: 15,
+        suits: {
+          [Suit.Blue]: 0,
+          [Suit.Green]: 0,
+          [Suit.Red]: 0,
+          [Suit.Yellow]: 0,
+        },
+      },
     ],
     trickCount: [4, 3, 3, 4],
     trump: {
