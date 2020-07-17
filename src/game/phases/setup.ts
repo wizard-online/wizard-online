@@ -145,7 +145,7 @@ export const setup: PhaseConfig = {
     order: {
       // returns playOrder index of dealer
       first,
-      next(wizardState: WizardState, ctx: Ctx) {
+      next(wizardState: WizardState, ctx: Ctx): number {
         const currentPlayerIndex = ctx.playOrder.findIndex(
           (playerID) => playerID === ctx.currentPlayer
         );

@@ -236,7 +236,7 @@ function doRound(
   numPlayers: number,
   action: (playerID: PlayerID) => void
 ): void {
-  getTurnOrder(leader, numPlayers).forEach(action);
+  getTurnOrder(leader, numPlayers).forEach((player) => action(player));
 }
 
 const { numPlayers, firstDealer, rounds } = scenario;
