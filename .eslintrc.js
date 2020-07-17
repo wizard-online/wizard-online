@@ -1,5 +1,5 @@
-// based on https://github.com/iamturns/create-exposed-app/blob/master/.eslintrc.js
-module.exports = {
+  // based on https://github.com/iamturns/create-exposed-app/blob/master/.eslintrc.js
+  module.exports = {
   parser: "@typescript-eslint/parser", // allows to lint typescript
   plugins: [
     "@typescript-eslint", // allows for TypeScript-specific linting rules to run.
@@ -24,7 +24,7 @@ module.exports = {
     jsx: true,
     sourceType: "module",
     useJSXTextNode: true,
-    // project: "./tsconfig.eslint.json",
+    project: "./tsconfig.json",
   },
 
   env: {
@@ -32,7 +32,7 @@ module.exports = {
     browser: true,
     jest: true,
   },
-  ignorePatterns: [".cache/**/*", "dist/**/*"],
+  ignorePatterns: [".cache/**/*", "dist/**/*", ".git/**/*", "node_modules/**/*", ".*.js", "jest.*.js", "jest.*.ts"],
   rules: {  
     // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
     "import/prefer-default-export": "off",
@@ -66,5 +66,8 @@ module.exports = {
     "eslint-comments/no-unlimited-disable": "error",
     "eslint-comments/no-unused-enable": "error",
     "unicorn/filename-case": "off",
+    "unicorn/no-null": "off", // disable because we differ between null and undefined
+    "unicorn/no-reduce": "off",
+    "unicorn/no-useless-undefined": "off"
   },
 };

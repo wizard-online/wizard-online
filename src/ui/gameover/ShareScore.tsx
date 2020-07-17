@@ -46,7 +46,7 @@ export const ShareScore: React.FC<ShareScoreProps> = ({ finalResult }) => {
                         icon: "done",
                       });
                       copiedScoreLinkEventGA();
-                    } catch (error) {
+                    } catch {
                       // ignore
                     }
                   }}

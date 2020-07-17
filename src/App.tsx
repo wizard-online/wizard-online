@@ -8,7 +8,7 @@ import { theme } from "./ui/util/mui-theme";
 import { HeaderElementsProvider } from "./ui/header/HeaderElementsProvider";
 import { NotificationsProvider } from "./ui/NotificationsProvider";
 
-export const App: React.FC<{}> = () => (
+export const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <NotificationsProvider>
       <ProfileProvider>
