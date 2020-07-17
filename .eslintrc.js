@@ -1,5 +1,5 @@
-  // based on https://github.com/iamturns/create-exposed-app/blob/master/.eslintrc.js
-  module.exports = {
+// based on https://github.com/iamturns/create-exposed-app/blob/master/.eslintrc.js
+module.exports = {
   parser: "@typescript-eslint/parser", // allows to lint typescript
   plugins: [
     "@typescript-eslint", // allows for TypeScript-specific linting rules to run.
