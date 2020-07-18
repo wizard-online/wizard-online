@@ -83,7 +83,7 @@ export const EnterGame: React.FC<EnterGameProps> = ({
                           icon: "done",
                         });
                         copiedGameLinkEventGA();
-                      } catch {
+                      } catch (error) {
                         // ignore
                       }
                     }}

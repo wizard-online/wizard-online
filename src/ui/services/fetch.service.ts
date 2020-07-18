@@ -17,10 +17,6 @@ export function get(url: string): Promise<Response> {
   return baseFetch(url, { method: "GET" });
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function post<T extends object>(
-  url: string,
-  body: T
-): Promise<Response> {
+export function post<T extends {}>(url: string, body: T): Promise<Response> {
   return baseFetch(url, { method: "POST", body: JSON.stringify(body) });
 }

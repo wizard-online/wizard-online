@@ -4,7 +4,6 @@ import { State } from "boardgame.io";
 declare module "boardgame.io" {
   export interface State {
     moves: {
-      // eslint-disable-next-line @typescript-eslint/ban-types
       [move: string]: Function;
     };
     playerID: string;

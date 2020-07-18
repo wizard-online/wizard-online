@@ -24,7 +24,7 @@ module.exports = {
     jsx: true,
     sourceType: "module",
     useJSXTextNode: true,
-    project: "./tsconfig.json",
+    // project: "./tsconfig.eslint.json",
   },
 
   env: {
@@ -32,7 +32,7 @@ module.exports = {
     browser: true,
     jest: true,
   },
-  ignorePatterns: [".cache/**/*", "dist/**/*", ".git/**/*", "node_modules/**/*", ".*.js", "jest.*.js", "jest.*.ts"],
+  ignorePatterns: [".cache/**/*", "dist/**/*"],
   rules: {  
     // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
     "import/prefer-default-export": "off",
@@ -66,8 +66,5 @@ module.exports = {
     "eslint-comments/no-unlimited-disable": "error",
     "eslint-comments/no-unused-enable": "error",
     "unicorn/filename-case": "off",
-    "unicorn/no-null": "off", // disable because we differ between null and undefined
-    "unicorn/no-reduce": "off",
-    "unicorn/no-useless-undefined": "off"
   },
 };

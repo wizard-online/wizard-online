@@ -32,7 +32,7 @@ export const GameContainer: React.FC = () => {
       const gameResponse = await getGame(gameID!);
       setGameState(gameResponse);
       setCredentialsState(getCredentials(gameID));
-    } catch {
+    } catch (error) {
       history.replace("/");
     }
   }, [gameID, history]);

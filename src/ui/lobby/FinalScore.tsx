@@ -40,7 +40,7 @@ export const FinalScore: React.FC = () => {
         <h5>{deDateTimeFormat.format(date)}</h5>
       </div>
     );
-  } catch {
+  } catch (error) {
     return (
       <div>
         <h3>Fehlerhafter Link.</h3>

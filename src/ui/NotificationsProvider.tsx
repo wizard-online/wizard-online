@@ -23,7 +23,9 @@ export const NotificationsContext = React.createContext<
 
 export const NotificationsProvider: React.FC = ({ children }) => {
   const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState<Notification | undefined>();
+  const [notification, setNotification] = useState<Notification | undefined>(
+    undefined
+  );
   const queue = useRef<NotificationWithKey[]>([]);
 
   const processQueue = useCallback((): void => {

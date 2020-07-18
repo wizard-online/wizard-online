@@ -9,5 +9,5 @@ export function checkTrickCard(
 export function checkTrickCards(
   optionalTrickCards: OptionalTrickCard[]
 ): optionalTrickCards is TrickCard[] {
-  return optionalTrickCards.every((card) => checkTrickCard(card));
+  return optionalTrickCards.every(checkTrickCard);
 }

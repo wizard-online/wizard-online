@@ -77,7 +77,7 @@ export function play(
   if (trick.cards.filter(({ card }) => !card).length === 0) {
     endTrick(g, ctx);
   } else {
-    ctx.events?.endTurn?.();
+    ctx.events?.endTurn!();
   }
 }
 
@@ -105,7 +105,7 @@ function endTrick(g: WizardState, ctx: Ctx): void {
   const { player } = getTrickWinner(trick.cards, round.trump?.suit || null);
   round.trickCount![player] += 1;
 
-  ctx.events?.endTurn?.({ next: player.toString() });
+  ctx.events?.endTurn!({ next: player.toString() });
 }
 
 function onBegin({ round }: WizardState, { numPlayers }: Ctx): void {
