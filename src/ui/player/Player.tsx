@@ -22,7 +22,6 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
 
   const isTurn = playerID === currentPlayer;
   const isClient = playerID === clientID;
-
   return (
     <StyledCard>
       <PlayerContainer isTurn={isTurn}>
@@ -33,7 +32,11 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
               (isClient ? (
                 <ClientHand
                   cards={round.hands[clientID] as Card[]}
-                  isInteractive={isTurn && phase === Phase.Playing}
+                  isPlayTurn={isTurn && phase === Phase.Playing}
+                  hasPlayed={
+                    !!trick?.cards.find(({ player }) => player === playerID)
+                      ?.card
+                  }
                   onClickCard={(i) => play(i)}
                   lead={trick?.isComplete ? undefined : trick?.lead}
                   trumpSuit={round.trump.suit}

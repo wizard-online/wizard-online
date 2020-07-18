@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { Badge } from "@material-ui/core";
+
 import { playCardBaseStyles } from "./playcard.styles";
 import { ColorSet } from "../../util/colors";
 import { getColor } from "./playcard.utils";
@@ -15,6 +17,7 @@ export interface PlayCardFrontsideProps {
   interactive?: boolean;
   disabled?: boolean;
   onClick?: () => void;
+  preselected?: boolean;
 }
 
 export const PlayCardFrontside: React.FC<PlayCardFrontsideProps> = ({
@@ -22,6 +25,7 @@ export const PlayCardFrontside: React.FC<PlayCardFrontsideProps> = ({
   interactive = true,
   disabled = false,
   onClick = () => {},
+  preselected = false,
 }) => {
   const colorSet = getColor(card);
   const label = getRankLabel(card);
@@ -33,31 +37,26 @@ export const PlayCardFrontside: React.FC<PlayCardFrontsideProps> = ({
       onClick={guardedOnClick}
       isplayable={interactive}
       isdisabled={disabled}
-      colorSet={colorSet}
+      isPreselected={preselected}
       aria-label={getCardLabel(card)}
       data-testid={getCardId(card)}
     >
-      <span>{label}</span>
+      <Badge invisible={!preselected} color="primary" variant="dot">
+        <FrontSideCardContent isdisabled={disabled} colorSet={colorSet}>
+          <span>{label}</span>
+        </FrontSideCardContent>
+      </Badge>
     </FronsideCardBox>
   );
 };
 
 interface FrontsideCardBoxProps {
-  colorSet: ColorSet;
   isplayable: boolean;
   isdisabled: boolean;
+  isPreselected: boolean;
 }
 
 const FronsideCardBox = styled.div<FrontsideCardBoxProps>`
-  ${playCardBaseStyles}
-  font-size: 36px;
-  font-weight: bold;
-  /* colors */
-  background: ${({ colorSet }) => colorSet.background};
-  color: ${({ colorSet }) => colorSet.outline};
-  /* cool outline effect only supported with prefix */
-  -webkit-text-fill-color: ${({ colorSet }) => colorSet.text};
-  -webkit-text-stroke: 2px ${({ colorSet }) => colorSet.outline};
   ${({ isplayable, isdisabled }) =>
     isplayable && !isdisabled
       ? css`
@@ -68,13 +67,36 @@ const FronsideCardBox = styled.div<FrontsideCardBoxProps>`
           }
         `
       : ""}
+  ${({ isPreselected }) =>
+    isPreselected
+      ? css`
+          transform: translate(0, -10px);
+        `
+      : ""}
+`;
+
+interface FrontSideCardContentProps {
+  colorSet: ColorSet;
+  isdisabled: boolean;
+}
+
+const FrontSideCardContent = styled.div<FrontSideCardContentProps>`
+  ${playCardBaseStyles}
+  font-size: 36px;
+  font-weight: bold;
+  /* colors */
+  background: ${({ colorSet }) => colorSet.background};
+  color: ${({ colorSet }) => colorSet.outline};
+  /* cool outline effect only supported with prefix */
+  -webkit-text-fill-color: ${({ colorSet }) => colorSet.text};
+  -webkit-text-stroke: 2px ${({ colorSet }) => colorSet.outline};
+  & span {
+    border-bottom: 2px solid ${({ colorSet }) => colorSet.text};
+  }
   ${({ isdisabled: isDisabled }) =>
     isDisabled
       ? css`
           background-color: #ffffff;
         `
       : ""}
-  & span {
-    border-bottom: 2px solid ${({ colorSet }) => colorSet.text};
-  }
 `;

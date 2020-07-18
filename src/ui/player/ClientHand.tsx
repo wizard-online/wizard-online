@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { playableCardsInHand } from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
@@ -9,7 +9,8 @@ import { HandMeta } from "../../game/WizardState";
 
 export interface HandCardsProps {
   cards: Card[];
-  isInteractive: boolean;
+  isPlayTurn: boolean;
+  hasPlayed?: boolean;
   onClickCard?: (cardIndex: number) => void;
   lead?: Card;
   trumpSuit: Suit | null | undefined;
@@ -18,22 +19,25 @@ export interface HandCardsProps {
 
 export const ClientHand: React.FC<HandCardsProps> = ({
   cards,
-  isInteractive,
+  isPlayTurn,
+  hasPlayed,
   onClickCard = () => {},
   lead,
   trumpSuit,
   handMeta,
 }) => {
-  const playableCards = isInteractive
-    ? playableCardsInHand(cards as Card[], lead)
-    : undefined;
+  const playableCards =
+    lead && !hasPlayed ? playableCardsInHand(cards as Card[], lead) : undefined;
 
   const { preferences } = useProfile();
   const { handOrder } = preferences;
-  const sortedCards = useMemo(
+  const sortedCards = React.useMemo(
     () => sortHand(cards, trumpSuit, handMeta, handOrder),
     [cards, trumpSuit, handMeta, handOrder]
   );
+  const [preselectedCard, setPreselectedCard] = React.useState<
+    Card | undefined
+  >();
 
   function getIndex(card: Card): number {
     return cards.findIndex((c) => card === c);
@@ -45,9 +49,18 @@ export const ClientHand: React.FC<HandCardsProps> = ({
         <PlayingCardContainer key={cardKey(card, getIndex(card))}>
           <PlayCard
             card={card}
-            interactive={isInteractive}
+            interactive={isPlayTurn || (!!lead && !hasPlayed)}
             disabled={playableCards && !playableCards[getIndex(card)]}
-            onClick={() => onClickCard(getIndex(card))}
+            onClick={() => {
+              if (isPlayTurn) {
+                onClickCard(getIndex(card));
+              } else if (preselectedCard === card) {
+                setPreselectedCard(undefined);
+              } else {
+                setPreselectedCard(card);
+              }
+            }}
+            preselected={preselectedCard === card}
           />
         </PlayingCardContainer>
       ))}
