@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { playableCardsInHand } from "../../game/entities/cards.utils";
+import {
+  playableCardsInHand,
+  equalCards,
+} from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
 import { Card, Suit } from "../../game/entities/cards";
 import { useProfile } from "../ProfileProvider";
@@ -54,13 +57,13 @@ export const ClientHand: React.FC<HandCardsProps> = ({
             onClick={() => {
               if (isPlayTurn) {
                 onClickCard(getIndex(card));
-              } else if (preselectedCard === card) {
+              } else if (preselectedCard && equalCards(card, preselectedCard)) {
                 setPreselectedCard(undefined);
               } else {
                 setPreselectedCard(card);
               }
             }}
-            preselected={preselectedCard === card}
+            preselected={preselectedCard && equalCards(card, preselectedCard)}
           />
         </PlayingCardContainer>
       ))}
