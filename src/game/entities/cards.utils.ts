@@ -5,6 +5,18 @@ import { TrickCard } from "./trick";
 import { PlayerID } from "./players";
 
 /**
+ * compares if two cards are equal in their suit and rank
+ *
+ * @export
+ * @param {Card} a
+ * @param {Card} b
+ * @returns {boolean}
+ */
+export function equalCards(a: Card, b: Card): boolean {
+  return a.rank === b.rank && a.suit === b.suit;
+}
+
+/**
  * checks if a card wins over another card given specified trump and lead suits
  *
  * @export

@@ -1,6 +1,9 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
-import { playableCardsInHand } from "../../game/entities/cards.utils";
+import {
+  playableCardsInHand,
+  equalCards,
+} from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
 import { Card, Suit } from "../../game/entities/cards";
 import { useProfile } from "../ProfileProvider";
@@ -9,7 +12,8 @@ import { HandMeta } from "../../game/WizardState";
 
 export interface HandCardsProps {
   cards: Card[];
-  isInteractive: boolean;
+  isPlayTurn: boolean;
+  hasPlayed?: boolean;
   onClickCard?: (cardIndex: number) => void;
   lead?: Card;
   trumpSuit: Suit | null | undefined;
@@ -18,26 +22,59 @@ export interface HandCardsProps {
 
 export const ClientHand: React.FC<HandCardsProps> = ({
   cards,
-  isInteractive,
+  isPlayTurn,
+  hasPlayed,
   onClickCard = () => {},
   lead,
   trumpSuit,
   handMeta,
 }) => {
-  const playableCards = isInteractive
+  const canPreselectCard = !!lead && !hasPlayed;
+  const canSelectCard = isPlayTurn || canPreselectCard;
+  const playableCards = canPreselectCard
     ? playableCardsInHand(cards as Card[], lead)
     : undefined;
 
   const { preferences } = useProfile();
   const { handOrder } = preferences;
-  const sortedCards = useMemo(
+  const sortedCards = React.useMemo(
     () => sortHand(cards, trumpSuit, handMeta, handOrder),
     [cards, trumpSuit, handMeta, handOrder]
   );
+  const [preselectedCard, setPreselectedCard] = React.useState<
+    Card | undefined
+  >();
 
   function getIndex(card: Card): number {
-    return cards.findIndex((c) => card === c);
+    return cards.findIndex((c) => equalCards(card, c));
   }
+
+  function playCard(card: Card): void {
+    onClickCard(getIndex(card));
+    setPreselectedCard(undefined);
+  }
+
+  React.useEffect(() => {
+    if (
+      canPreselectCard &&
+      playableCards?.filter((playable) => playable).length === 1
+    ) {
+      const onlyPlayableCardIndex = playableCards.findIndex(
+        (playable) => playable
+      );
+      const onlyPlayableCard = cards[onlyPlayableCardIndex];
+      setPreselectedCard(onlyPlayableCard);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canPreselectCard]);
+
+  // play preselected card automatically when isPlayTurn becomes true
+  React.useEffect(() => {
+    if (isPlayTurn && preselectedCard) {
+      playCard(preselectedCard);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlayTurn, preselectedCard]);
 
   return (
     <CardsContainer data-testid="client-hand">
@@ -45,9 +82,18 @@ export const ClientHand: React.FC<HandCardsProps> = ({
         <PlayingCardContainer key={cardKey(card, getIndex(card))}>
           <PlayCard
             card={card}
-            interactive={isInteractive}
+            interactive={canSelectCard}
             disabled={playableCards && !playableCards[getIndex(card)]}
-            onClick={() => onClickCard(getIndex(card))}
+            onClick={() => {
+              if (isPlayTurn) {
+                playCard(card);
+              } else if (preselectedCard && equalCards(card, preselectedCard)) {
+                setPreselectedCard(undefined);
+              } else {
+                setPreselectedCard(card);
+              }
+            }}
+            preselected={preselectedCard && equalCards(card, preselectedCard)}
           />
         </PlayingCardContainer>
       ))}
