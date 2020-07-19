@@ -29,8 +29,11 @@ export const ClientHand: React.FC<HandCardsProps> = ({
   trumpSuit,
   handMeta,
 }) => {
-  const playableCards =
-    lead && !hasPlayed ? playableCardsInHand(cards as Card[], lead) : undefined;
+  const canPreselectCard = !!lead && !hasPlayed;
+  const canSelectCard = isPlayTurn || canPreselectCard;
+  const playableCards = canPreselectCard
+    ? playableCardsInHand(cards as Card[], lead)
+    : undefined;
 
   const { preferences } = useProfile();
   const { handOrder } = preferences;
@@ -43,8 +46,35 @@ export const ClientHand: React.FC<HandCardsProps> = ({
   >();
 
   function getIndex(card: Card): number {
-    return cards.findIndex((c) => card === c);
+    return cards.findIndex((c) => equalCards(card, c));
   }
+
+  function playCard(card: Card): void {
+    onClickCard(getIndex(card));
+    setPreselectedCard(undefined);
+  }
+
+  React.useEffect(() => {
+    if (
+      canPreselectCard &&
+      playableCards?.filter((playable) => playable).length === 1
+    ) {
+      const onlyPlayableCardIndex = playableCards.findIndex(
+        (playable) => playable
+      );
+      const onlyPlayableCard = cards[onlyPlayableCardIndex];
+      setPreselectedCard(onlyPlayableCard);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canPreselectCard]);
+
+  // play preselected card automatically when isPlayTurn becomes true
+  React.useEffect(() => {
+    if (isPlayTurn && preselectedCard) {
+      playCard(preselectedCard);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlayTurn, preselectedCard]);
 
   return (
     <CardsContainer data-testid="client-hand">
@@ -52,11 +82,11 @@ export const ClientHand: React.FC<HandCardsProps> = ({
         <PlayingCardContainer key={cardKey(card, getIndex(card))}>
           <PlayCard
             card={card}
-            interactive={isPlayTurn || (!!lead && !hasPlayed)}
+            interactive={canSelectCard}
             disabled={playableCards && !playableCards[getIndex(card)]}
             onClick={() => {
               if (isPlayTurn) {
-                onClickCard(getIndex(card));
+                playCard(card);
               } else if (preselectedCard && equalCards(card, preselectedCard)) {
                 setPreselectedCard(undefined);
               } else {
