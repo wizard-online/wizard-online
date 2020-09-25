@@ -6,24 +6,23 @@ import { useGameState } from "./GameContext";
 export interface SelectedCard {
   selectedCardIndex?: number;
   setSelectedCardIndex: (next?: number) => void;
-  cancelPlay?: () => void;
+  isInitiatingPlay: boolean;
+  play: () => void;
 }
 
 export const SelectedCardContext = React.createContext<SelectedCard>({
   setSelectedCardIndex: () => {},
+  isInitiatingPlay: false,
+  play: () => {},
 });
 
 export const SelectedCardProvider: React.FC = ({ children }) => {
   const [selectedCardIndex, setSelectedCardIndex] = React.useState<
     number | undefined
   >();
+  const [isInitiatingPlay, setIsInitiatingPlay] = React.useState(false);
   const cancelPlayRef = React.useRef<() => void>();
-
-  const updateSelectedCardIndex = (value: number | undefined): void => {
-    setSelectedCardIndex(value);
-    cancelPlayRef.current?.();
-    cancelPlayRef.current = undefined;
-  };
+  const isPreselectedRef = React.useRef<boolean>(false);
 
   const {
     wizardState: { currentPlayer, round, trick },
@@ -43,24 +42,19 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
   const isCardSelected = selectedCardIndex !== undefined;
   const isTurn = clientID === currentPlayer;
 
-  async function playCard(): Promise<void> {
-    try {
-      await dispatchPlayAction();
-      play(selectedCardIndex);
-    } catch {
-      // ignore
-    }
-    updateSelectedCardIndex(undefined);
-  }
+  const updateSelectedCardIndex = (
+    value: number | undefined,
+    isPreselected?: boolean
+  ): void => {
+    setSelectedCardIndex(value);
+    cancelPlayRef.current?.();
+    cancelPlayRef.current = undefined;
+    isPreselectedRef.current = isPreselected ?? !isTurn;
+  };
 
-  function dispatchPlayAction(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const handle = setTimeout(resolve, 1000);
-      cancelPlayRef.current = () => {
-        clearTimeout(handle);
-        reject();
-      };
-    });
+  function playCard(): void {
+    play(selectedCardIndex);
+    updateSelectedCardIndex(undefined);
   }
 
   React.useEffect(() => {
@@ -71,7 +65,7 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
       const onlyPlayableCardIndex = playableCards.findIndex(
         (playable) => playable
       );
-      setSelectedCardIndex(onlyPlayableCardIndex);
+      updateSelectedCardIndex(onlyPlayableCardIndex, true);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,7 +73,11 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     if (isTurn && isCardSelected) {
-      playCard();
+      if (isPreselectedRef.current) {
+        setIsInitiatingPlay(true);
+      } else {
+        playCard();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTurn, isCardSelected]);
@@ -89,7 +87,8 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
       value={{
         selectedCardIndex,
         setSelectedCardIndex: updateSelectedCardIndex,
-        cancelPlay: cancelPlayRef.current,
+        isInitiatingPlay,
+        play: playCard,
       }}
     >
       {children}

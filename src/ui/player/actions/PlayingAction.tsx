@@ -1,20 +1,23 @@
 import React from "react";
-import { Button } from "@material-ui/core";
 import { SelectedCardContext } from "../../SelectedCardContext";
+import { CancelableSubmitButton } from "../../components/playcard/CancelableSubmitButton";
 
 export const PlayingAction: React.FC = () => {
-  const { selectedCardIndex, cancelPlay } = React.useContext(
-    SelectedCardContext
-  );
+  const {
+    selectedCardIndex,
+    setSelectedCardIndex,
+    isInitiatingPlay,
+    play,
+  } = React.useContext(SelectedCardContext);
 
   return selectedCardIndex !== undefined ? (
-    <Button
-      title="Abbrechen"
-      onClick={() => cancelPlay?.()}
-      variant="contained"
-    >
-      Abbrechen
-    </Button>
+    <CancelableSubmitButton
+      timeout={2000}
+      steps={20}
+      onSubmit={play}
+      onCancel={() => setSelectedCardIndex(undefined)}
+      isActive={isInitiatingPlay}
+    />
   ) : (
     <small>Wähle eine Karte</small>
   );
