@@ -7,12 +7,13 @@ export const PlayingAction: React.FC = () => {
     selectedCardIndex,
     setSelectedCardIndex,
     isInitiatingPlay,
+    selectionType,
     play,
   } = React.useContext(SelectedCardContext);
 
   return selectedCardIndex !== undefined && isInitiatingPlay ? (
     <CancelableSubmitButton
-      timeout={2000}
+      timeout={selectionType === "auto" ? 2500 : 1000}
       onSubmit={play}
       onCancel={() => setSelectedCardIndex(undefined)}
       isActive={isInitiatingPlay}

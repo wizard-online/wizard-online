@@ -3,16 +3,24 @@ import { Card } from "../game/entities/cards";
 import { playableCardsInHand } from "../game/entities/cards.utils";
 import { useGameState } from "./GameContext";
 
+enum SelectionType {
+  Normal = "normal",
+  Pre = "pre",
+  Auto = "auto",
+}
+
 export interface SelectedCard {
   selectedCardIndex?: number;
   setSelectedCardIndex: (next?: number) => void;
   isInitiatingPlay: boolean;
+  selectionType: SelectionType;
   play: () => void;
 }
 
 export const SelectedCardContext = React.createContext<SelectedCard>({
   setSelectedCardIndex: () => {},
   isInitiatingPlay: false,
+  selectionType: SelectionType.Normal,
   play: () => {},
 });
 
@@ -22,7 +30,9 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
   >();
   const [isInitiatingPlay, setIsInitiatingPlay] = React.useState(false);
   const cancelPlayRef = React.useRef<() => void>();
-  const [isPreselected, setIsPreselected] = React.useState(false);
+  const [selectionType, setSelectionType] = React.useState<SelectionType>(
+    SelectionType.Normal
+  );
 
   const {
     wizardState: { currentPlayer, round, trick },
@@ -44,12 +54,14 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
 
   const updateSelectedCardIndex = (
     value: number | undefined,
-    _isPreselected?: boolean
+    _selectionType?: SelectionType
   ): void => {
     setSelectedCardIndex(value);
     cancelPlayRef.current?.();
     cancelPlayRef.current = undefined;
-    setIsPreselected(_isPreselected ?? !isTurn);
+    setSelectionType(
+      _selectionType ?? (isTurn ? SelectionType.Normal : SelectionType.Pre)
+    );
   };
 
   function playCard(): void {
@@ -65,7 +77,7 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
       const onlyPlayableCardIndex = playableCards.findIndex(
         (playable) => playable
       );
-      updateSelectedCardIndex(onlyPlayableCardIndex, true);
+      updateSelectedCardIndex(onlyPlayableCardIndex, SelectionType.Auto);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +85,7 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     if (isTurn && isCardSelected) {
-      if (isPreselected) {
+      if (selectionType !== SelectionType.Normal) {
         setIsInitiatingPlay(true);
       } else {
         playCard();
@@ -88,6 +100,7 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
         selectedCardIndex,
         setSelectedCardIndex: updateSelectedCardIndex,
         isInitiatingPlay,
+        selectionType,
         play: playCard,
       }}
     >
