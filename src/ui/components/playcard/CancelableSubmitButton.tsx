@@ -1,9 +1,10 @@
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import React from "react";
+import styled from "styled-components";
+import { TimeoutIndicatorBar } from "../TimeoutIndicatorBar";
 
 export interface CancelableSubmitButtonProps {
   timeout: number;
-  steps: number;
   onSubmit: () => void;
   onCancel?: () => void;
   isActive: boolean;
@@ -11,47 +12,46 @@ export interface CancelableSubmitButtonProps {
 
 export const CancelableSubmitButton: React.FC<CancelableSubmitButtonProps> = ({
   timeout,
-  steps,
   onSubmit,
   onCancel,
   isActive,
 }) => {
-  const [progress, setProgress] = React.useState(0);
-  const startedTimestampRef = React.useRef(Date.now());
   const timeoutHandleRef = React.useRef<number>();
-  const stepDuration = timeout / steps;
-
-  const updateProgress = React.useCallback(() => {
-    const timestamp = Date.now();
-    const diff = timestamp - startedTimestampRef.current;
-    const percent = ((diff + stepDuration) / timeout) * 100;
-    setProgress(percent);
-    if (percent < 100) {
-      setTimeout(() => updateProgress(), stepDuration);
-    }
-  }, [stepDuration, timeout]);
+  const [activated, setActivated] = React.useState(false);
 
   React.useEffect(() => {
-    if (isActive) {
-      startedTimestampRef.current = Date.now();
+    setActivated(isActive);
+  }, [isActive]);
+
+  React.useEffect(() => {
+    if (activated) {
       timeoutHandleRef.current = setTimeout(() => onSubmit(), timeout);
-      updateProgress();
     }
-  }, [isActive, onSubmit, timeout, updateProgress]);
+    return () => {
+      clearTimeout(timeoutHandleRef.current);
+    };
+  }, [activated, onSubmit, timeout]);
 
   return isActive ? (
-    <div>
-      <CircularProgress variant="static" value={progress} />
+    <Container>
       <Button
         title="Abbrechen"
         onClick={() => {
           clearTimeout(timeoutHandleRef.current);
+          setActivated(false);
           onCancel?.();
         }}
         variant="contained"
       >
         Abbrechen
       </Button>
-    </div>
+      <TimeoutIndicatorBar isActive={activated} timeout={timeout} />
+    </Container>
   ) : null;
 };
+
+const Container = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;

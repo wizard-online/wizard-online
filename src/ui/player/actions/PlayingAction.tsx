@@ -13,7 +13,6 @@ export const PlayingAction: React.FC = () => {
   return selectedCardIndex !== undefined ? (
     <CancelableSubmitButton
       timeout={2000}
-      steps={20}
       onSubmit={play}
       onCancel={() => setSelectedCardIndex(undefined)}
       isActive={isInitiatingPlay}

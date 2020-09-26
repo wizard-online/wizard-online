@@ -22,7 +22,7 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
   >();
   const [isInitiatingPlay, setIsInitiatingPlay] = React.useState(false);
   const cancelPlayRef = React.useRef<() => void>();
-  const isPreselectedRef = React.useRef<boolean>(false);
+  const [isPreselected, setIsPreselected] = React.useState(false);
 
   const {
     wizardState: { currentPlayer, round, trick },
@@ -44,12 +44,12 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
 
   const updateSelectedCardIndex = (
     value: number | undefined,
-    isPreselected?: boolean
+    _isPreselected?: boolean
   ): void => {
     setSelectedCardIndex(value);
     cancelPlayRef.current?.();
     cancelPlayRef.current = undefined;
-    isPreselectedRef.current = isPreselected ?? !isTurn;
+    setIsPreselected(_isPreselected ?? !isTurn);
   };
 
   function playCard(): void {
@@ -73,7 +73,7 @@ export const SelectedCardProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     if (isTurn && isCardSelected) {
-      if (isPreselectedRef.current) {
+      if (isPreselected) {
         setIsInitiatingPlay(true);
       } else {
         playCard();
