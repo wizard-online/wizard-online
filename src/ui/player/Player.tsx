@@ -17,7 +17,6 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const {
     wizardState: { currentPlayer, phase, round, trick },
     clientID,
-    moves: { play },
   } = useGameState();
 
   const isTurn = playerID === currentPlayer;
@@ -37,7 +36,6 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
                     !!trick?.cards.find(({ player }) => player === playerID)
                       ?.card
                   }
-                  onClickCard={(i) => play(i)}
                   lead={trick?.isComplete ? undefined : trick?.lead}
                   trumpSuit={round.trump.suit}
                   handMeta={round.handsMeta[clientID] as HandMeta}

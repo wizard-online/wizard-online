@@ -4,6 +4,7 @@ import { Phase } from "../../../game/phases/phase";
 import { SetupAction } from "./SetupAction";
 import { SelectingTrumpAction } from "./SelectingTrumpAction";
 import { BiddingAction } from "./BiddingAction";
+import { PlayingAction } from "./PlayingAction";
 
 export interface ActionsContainerProps {
   phase: Phase;
@@ -17,6 +18,7 @@ export const ActionsContainer: React.FC<ActionsContainerProps> = ({
       {phase === Phase.Setup && <SetupAction />}
       {phase === Phase.SelectingTrump && <SelectingTrumpAction />}
       {phase === Phase.Bidding && <BiddingAction />}
+      {phase === Phase.Playing && <PlayingAction />}
     </Container>
   );
 };
