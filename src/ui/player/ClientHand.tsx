@@ -78,7 +78,7 @@ const CardsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 0 -5px;
+  margin: 10px -5px 0;
 `;
 
 const PlayingCardContainer = styled.div`
