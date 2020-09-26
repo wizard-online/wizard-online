@@ -12,5 +12,6 @@ module.exports = {
     "<rootDir>/.cache/",
     "<rootDir>/dist/",
     "<rootDir>/src/test/skip/",
+    "<rootDir>/src/test/scenario",
   ],
 };

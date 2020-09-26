@@ -6,6 +6,7 @@ import { WizardState } from "../game/WizardState";
 import { GameState } from "./GameState";
 import { GameEvents } from "./GameEvents";
 import { WizardLayout } from "./WizardLayout";
+import { SelectedCardProvider } from "./SelectedCardContext";
 
 export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
   return (
@@ -19,7 +20,9 @@ export const WizardBoard: React.FC<State> = ({ G, playerID, ...rest }) => {
       }}
     >
       <GameEvents>
-        <WizardLayout />
+        <SelectedCardProvider>
+          <WizardLayout />
+        </SelectedCardProvider>
       </GameEvents>
     </GameContext.Provider>
   );

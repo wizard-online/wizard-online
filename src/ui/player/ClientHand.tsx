@@ -9,12 +9,12 @@ import { Card, Suit } from "../../game/entities/cards";
 import { useProfile } from "../ProfileProvider";
 import { sortHand } from "../util/sort-hands";
 import { HandMeta } from "../../game/WizardState";
+import { SelectedCardContext } from "../SelectedCardContext";
 
 export interface HandCardsProps {
   cards: Card[];
   isPlayTurn: boolean;
   hasPlayed?: boolean;
-  onClickCard?: (cardIndex: number) => void;
   lead?: Card;
   trumpSuit: Suit | null | undefined;
   handMeta: HandMeta;
@@ -24,7 +24,6 @@ export const ClientHand: React.FC<HandCardsProps> = ({
   cards,
   isPlayTurn,
   hasPlayed,
-  onClickCard = () => {},
   lead,
   trumpSuit,
   handMeta,
@@ -41,62 +40,36 @@ export const ClientHand: React.FC<HandCardsProps> = ({
     () => sortHand(cards, trumpSuit, handMeta, handOrder),
     [cards, trumpSuit, handMeta, handOrder]
   );
-  const [preselectedCard, setPreselectedCard] = React.useState<
-    Card | undefined
-  >();
+  const { selectedCardIndex, setSelectedCardIndex } = React.useContext(
+    SelectedCardContext
+  );
 
   function getIndex(card: Card): number {
     return cards.findIndex((c) => equalCards(card, c));
   }
 
-  function playCard(card: Card): void {
-    onClickCard(getIndex(card));
-    setPreselectedCard(undefined);
-  }
-
-  React.useEffect(() => {
-    if (
-      canPreselectCard &&
-      playableCards?.filter((playable) => playable).length === 1
-    ) {
-      const onlyPlayableCardIndex = playableCards.findIndex(
-        (playable) => playable
-      );
-      const onlyPlayableCard = cards[onlyPlayableCardIndex];
-      setPreselectedCard(onlyPlayableCard);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canPreselectCard]);
-
-  // play preselected card automatically when isPlayTurn becomes true
-  React.useEffect(() => {
-    if (isPlayTurn && preselectedCard) {
-      playCard(preselectedCard);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlayTurn, preselectedCard]);
-
   return (
     <CardsContainer data-testid="client-hand">
-      {sortedCards.map((card) => (
-        <PlayingCardContainer key={cardKey(card, getIndex(card))}>
-          <PlayCard
-            card={card}
-            interactive={canSelectCard}
-            disabled={playableCards && !playableCards[getIndex(card)]}
-            onClick={() => {
-              if (isPlayTurn) {
-                playCard(card);
-              } else if (preselectedCard && equalCards(card, preselectedCard)) {
-                setPreselectedCard(undefined);
-              } else {
-                setPreselectedCard(card);
-              }
-            }}
-            preselected={preselectedCard && equalCards(card, preselectedCard)}
-          />
-        </PlayingCardContainer>
-      ))}
+      {sortedCards.map((card) => {
+        const index = getIndex(card);
+        return (
+          <PlayingCardContainer key={cardKey(card, index)}>
+            <PlayCard
+              card={card}
+              interactive={canSelectCard}
+              disabled={playableCards && !playableCards[index]}
+              onClick={() => {
+                if (index === selectedCardIndex) {
+                  setSelectedCardIndex(undefined);
+                } else {
+                  setSelectedCardIndex(index);
+                }
+              }}
+              preselected={index === selectedCardIndex}
+            />
+          </PlayingCardContainer>
+        );
+      })}
     </CardsContainer>
   );
 };
@@ -105,7 +78,7 @@ const CardsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 0 -5px;
+  margin: 10px -5px 0;
 `;
 
 const PlayingCardContainer = styled.div`
