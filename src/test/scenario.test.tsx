@@ -59,6 +59,8 @@ const WizardClient = Client({
   },
   board: WizardBoard,
   numPlayers: 4,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   multiplayer: Local(),
   debug: false,
 });

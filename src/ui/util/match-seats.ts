@@ -1,6 +1,6 @@
-import { GameSeat } from "../services/api.service";
+import { MatchSeat } from "../services/api.service";
 
-export function sortGameSeats(seats: GameSeat[]): GameSeat[] {
+export function sortMatchSeats(seats: MatchSeat[]): MatchSeat[] {
   return seats.sort((a, b) => {
     if (!a.name) {
       return 1;

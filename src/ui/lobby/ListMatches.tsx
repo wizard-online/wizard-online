@@ -2,51 +2,51 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@material-ui/core";
-import { getAllGames, GameRoom } from "../services/api.service";
-import { sortGameSeats } from "../util/game-seats";
+import { getAllMatches, Match } from "../services/api.service";
+import { sortMatchSeats } from "../util/match-seats";
 import { colors } from "../util/colors";
 
-export const ListGames: React.FC = () => {
-  const [games, setGames] = useState<GameRoom[]>([]);
-  const fetchGames = useCallback(async () => {
-    const allGames = await getAllGames();
-    setGames(allGames);
+export const ListMatches: React.FC = () => {
+  const [matches, setMatches] = useState<Match[]>([]);
+  const fetchMatches = useCallback(async () => {
+    const allMatches = await getAllMatches();
+    setMatches(allMatches);
   }, []);
   useEffect(() => {
-    fetchGames();
-    const intervalID = setInterval(fetchGames, 2000);
+    fetchMatches();
+    const intervalID = setInterval(fetchMatches, 2000);
     return () => clearInterval(intervalID);
-  }, [fetchGames]);
+  }, [fetchMatches]);
   return (
     <>
       <h2>Alle Spiele</h2>
-      <GameList>
-        {games.map(({ gameID, players }) => {
-          const sortedSeats = sortGameSeats(players);
+      <MatchList>
+        {matches.map(({ matchID, players }) => {
+          const sortedSeats = sortMatchSeats(players);
           const filledSeats = players.filter(({ name }) => !!name);
           return (
-            <li key={gameID}>
-              <GameSeats>
-                <Link component={RouterLink} to={`/games/${gameID}`}>
+            <li key={matchID}>
+              <MatchSeats>
+                <Link component={RouterLink} to={`/matches/${matchID}`}>
                   {sortedSeats.map(({ name }) => name ?? "_").join(", ")}{" "}
                 </Link>
-              </GameSeats>
+              </MatchSeats>
               <SeatInfo>
                 {filledSeats.length} von {players.length} Plätzen besetzt
               </SeatInfo>
             </li>
           );
         })}
-      </GameList>
+      </MatchList>
     </>
   );
 };
 
-const GameList = styled.ul`
+const MatchList = styled.ul`
   list-style-type: none;
 `;
 
-const GameSeats = styled.h4`
+const MatchSeats = styled.h4`
   margin-bottom: 0;
 `;
 
