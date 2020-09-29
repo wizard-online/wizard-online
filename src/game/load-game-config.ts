@@ -1,4 +1,4 @@
-import { Ctx } from "boardgame.io";
+import { Ctx, Game } from "boardgame.io";
 import { WizardState } from "./WizardState";
 import { wizardGameConfig } from "./game";
 import { Phase } from "./phases/phase";
@@ -7,7 +7,7 @@ import { mockStateExample } from "./mock-state";
 
 const mockState = false;
 
-export function loadGameConfig(): unknown {
+export function loadGameConfig(): Game<WizardState> {
   if (mockState) {
     wizardGameConfig.setup = () => mockStateExample as WizardState;
     wizardGameConfig.phases[Phase.Setup].start = false;
