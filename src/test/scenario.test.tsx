@@ -27,7 +27,7 @@ import { Suit, Card } from "../game/entities/cards";
 import { getSuitLabel, getCardId } from "../game/entities/cards.utils";
 import { PlayerID } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
-import { theme } from "../ui/util/mui-theme";
+import { getWizardTheme } from "../ui/util/mui-theme";
 import { NotificationsProvider } from "../ui/NotificationsProvider";
 import { ProfileProvider } from "../ui/ProfileProvider";
 import { HeaderElementsProvider } from "../ui/header/HeaderElementsProvider";
@@ -81,7 +81,7 @@ beforeAll(() => {
 
   renderResult = render(
     <div data-testid="test-root">
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={getWizardTheme()}>
         {ids.map((id) => (
           <div data-testid={`player${id}`} key={id}>
             <NotificationsProvider>
