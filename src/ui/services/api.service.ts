@@ -1,3 +1,4 @@
+import type { LobbyAPI } from "boardgame.io";
 import { wizardGameConfig } from "../../game/game";
 import { PlayerID } from "../../game/entities/players";
 import { post, get } from "./fetch.service";
@@ -5,24 +6,27 @@ import { WizardSetupData } from "../../game/WizardState";
 
 const { name, minPlayers, maxPlayers } = wizardGameConfig;
 
-type GameID = string;
+type MatchID = string;
 type PlayerCredentials = string;
-export interface GameRoom {
-  roomID?: GameID;
-  gameID?: GameID;
-  players: GameSeat[];
-  setupData?: WizardSetupData;
+// export interface Match {
+//   matchID?: MatchID;
+//   gameID?: MatchID;
+//   players: MatchSeat[];
+//   setupData?: WizardSetupData;
+// }
+export interface Match extends LobbyAPI.Match {
+  players: MatchSeat[];
 }
 
-export interface GameSeat {
+export interface MatchSeat {
   id: PlayerID;
   name?: string;
 }
 
-export function createGame(
+export function createMatch(
   numPlayers: number,
   setupData?: WizardSetupData
-): Promise<GameID> {
+): Promise<MatchID> {
   if (numPlayers < minPlayers || numPlayers > maxPlayers) {
     throw new Error(`invalid number of players ${numPlayers}`);
   }
@@ -31,42 +35,42 @@ export function createGame(
     setupData,
   };
   return post(`/games/${name}/create`, body)
-    .then((response) => response.json())
-    .then((json) => json.gameID as GameID);
+    .then<LobbyAPI.CreatedMatch>((response) => response.json())
+    .then((json) => json.matchID);
 }
 
-export function joinGame(
-  gameID: GameID,
+export function joinMatch(
+  matchID: MatchID,
   playerID: PlayerID,
   playerName: string
 ): Promise<PlayerCredentials> {
-  return post(`/games/${name}/${gameID}/join`, {
+  return post(`/games/${name}/${matchID}/join`, {
     playerID: playerID.toString(),
     playerName,
   })
-    .then((response) => response.json())
-    .then((json) => json.playerCredentials as PlayerCredentials);
+    .then<LobbyAPI.JoinedMatch>((response) => response.json())
+    .then((json) => json.playerCredentials);
 }
 
-export function leaveGame(
-  gameID: GameID,
+export function leaveMatch(
+  matchID: MatchID,
   playerID: PlayerID,
   credentials: PlayerCredentials
 ): Promise<Response> {
-  return post(`/games/${name}/${gameID}/leave`, {
+  return post(`/games/${name}/${matchID}/leave`, {
     playerID: playerID.toString(),
     credentials,
   });
 }
 
-export function getGame(gameID: GameID): Promise<GameRoom> {
-  return get(`/games/${name}/${gameID}`).then(
-    (response) => response.json() as Promise<GameRoom>
+export function getMatch(matchID: MatchID): Promise<Match> {
+  return get(`/games/${name}/${matchID}`).then<Match>((response) =>
+    response.json()
   );
 }
 
-export function getAllGames(): Promise<GameRoom[]> {
+export function getAllMatches(): Promise<Match[]> {
   return get(`/games/${name}`)
     .then((response) => response.json())
-    .then(({ rooms }) => rooms as Promise<GameRoom[]>);
+    .then<Match[]>(({ matches }) => matches);
 }

@@ -11,7 +11,7 @@ export function useNotifyTrickComplete(): void {
   const notify = useNotify();
 
   const handleTrickComplete = useCallback(
-    ({ wizardState: { round, trick }, gameMetadata, clientID }: GameState) => {
+    ({ wizardState: { round, trick }, matchData, clientID }: GameState) => {
       const trickCards = trick?.cards.filter(checkTrickCard);
       const trumpSuit = round?.trump.suit ?? null;
 
@@ -22,7 +22,7 @@ export function useNotifyTrickComplete(): void {
         if (player === clientID) {
           message = "Du gewinnst den Stich!";
         } else {
-          const trickWinnerName = getPlayerName(player, gameMetadata);
+          const trickWinnerName = getPlayerName(player, matchData);
           message = `${trickWinnerName} gewinnt den Stich!`;
         }
 

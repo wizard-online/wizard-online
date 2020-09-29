@@ -23,6 +23,6 @@ export const useGameState = (): GameState => {
  * @returns {string} the player name
  */
 export function usePlayerName(playerID: PlayerID): string {
-  const { gameMetadata } = useGameState();
-  return getPlayerName(playerID, gameMetadata ?? []);
+  const { matchData } = useGameState();
+  return getPlayerName(playerID, matchData ?? []);
 }

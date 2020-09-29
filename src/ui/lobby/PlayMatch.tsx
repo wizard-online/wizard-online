@@ -4,14 +4,14 @@ import { WizardClient } from "../../WizardClient";
 import { PlayerID } from "../../game/entities/players";
 import { startedGameEventGA } from "../../analytics";
 
-export interface PlayGameProps {
-  gameID: string;
+export interface PlayMatchProps {
+  matchID: string;
   playerID?: PlayerID;
   credentials?: string;
 }
 
-export const PlayGame: React.FC<PlayGameProps> = ({
-  gameID,
+export const PlayMatch: React.FC<PlayMatchProps> = ({
+  matchID,
   playerID,
   credentials,
 }) => {
@@ -32,7 +32,7 @@ export const PlayGame: React.FC<PlayGameProps> = ({
       )}
 
       <WizardClient
-        gameID={gameID}
+        matchID={matchID}
         playerID={playerID?.toString()}
         credentials={credentials}
       />

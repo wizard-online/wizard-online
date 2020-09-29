@@ -12,9 +12,9 @@ export function pageview(location?: { pathname: string }): void {
   const pathname = location?.pathname ?? window.location.pathname;
   let analyticsPath = pathname;
 
-  // remove gameID param from /games/<gameID> URLs
-  if (pathname.match(/games\/[\w-]+/i)) {
-    analyticsPath = "/games/game-id";
+  // remove matchID param from /matches/<matchID> URLs
+  if (pathname.match(/matches\/[\w-]+/i)) {
+    analyticsPath = "/matches/match-id";
   }
   ReactGA.pageview(analyticsPath);
 }

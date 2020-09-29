@@ -66,7 +66,7 @@ export const SideMenu: React.FC = () => {
           </ListItemIcon>
           <ListItemText>Neues Spiel erstellen</ListItemText>
         </ListItem>
-        <ListItem button component={Link} to="/games">
+        <ListItem button component={Link} to="/matches">
           <ListItemIcon>
             <Icon>view_list</Icon>
           </ListItemIcon>

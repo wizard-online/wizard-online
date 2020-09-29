@@ -8,40 +8,40 @@ import {
   Icon,
 } from "@material-ui/core";
 import styled from "styled-components";
-import { GameRoom } from "../services/api.service";
-import { sortGameSeats } from "../util/game-seats";
+import { Match } from "../services/api.service";
+import { sortMatchSeats } from "../util/match-seats";
 import { useNotify } from "../NotificationsProvider";
 import { copiedGameLinkEventGA } from "../../analytics";
 
-interface EnterGameProps {
-  game?: GameRoom;
+interface EnterMatchProps {
+  match?: Match;
   joined?: boolean;
-  fetchGame(): void;
-  onEnterGame(): void;
-  canEnterGame: boolean;
-  onLeaveGame(): void;
+  fetchMatch(): void;
+  onEnterMatch(): void;
+  canEnterMatch: boolean;
+  onLeaveMatch(): void;
 }
 
-export const EnterGame: React.FC<EnterGameProps> = ({
-  game,
+export const EnterMatch: React.FC<EnterMatchProps> = ({
+  match,
   joined,
-  fetchGame,
-  onEnterGame,
-  canEnterGame,
-  onLeaveGame,
+  fetchMatch,
+  onEnterMatch,
+  canEnterMatch,
+  onLeaveMatch,
 }) => {
   const notify = useNotify();
   useEffect(() => {
-    const intervalID = setInterval(fetchGame, 1000);
+    const intervalID = setInterval(fetchMatch, 1000);
     return () => clearInterval(intervalID);
-  }, [fetchGame]);
+  }, [fetchMatch]);
 
-  // show loading screen until game is available
-  if (!game) {
+  // show loading screen until match is available
+  if (!match) {
     return <div>Lade das Spiel...</div>;
   }
 
-  const filledSeats = game.players.filter(({ name }) => !!name);
+  const filledSeats = match.players.filter(({ name }) => !!name);
 
   return (
     <div>
@@ -49,10 +49,10 @@ export const EnterGame: React.FC<EnterGameProps> = ({
         <CardContent>
           <h3>Spiel-Einstellungen</h3>
           <ul>
-            <li>Anzahl Spieler: {game.players.length}</li>
+            <li>Anzahl Spieler: {match.players.length}</li>
             <li>
               Wettbewerbsmodus:{" "}
-              {game.setupData?.config?.tournamentMode ? "ein" : "aus"}
+              {match.setupData?.config?.tournamentMode ? "ein" : "aus"}
             </li>
           </ul>
         </CardContent>
@@ -101,21 +101,21 @@ export const EnterGame: React.FC<EnterGameProps> = ({
       <Card>
         <CardContent>
           <h3>
-            {filledSeats.length} von {game.players.length} Plätzen belegt
+            {filledSeats.length} von {match.players.length} Plätzen belegt
           </h3>
 
           <SeatList>
-            {sortGameSeats(game.players).map(({ id, name }) => (
+            {sortMatchSeats(match.players).map(({ id, name }) => (
               <Seat key={id}>{name ?? "_"}</Seat>
             ))}
           </SeatList>
           <div>
             {joined ? (
-              <Button onClick={onLeaveGame}>Spiel verlassen</Button>
+              <Button onClick={onLeaveMatch}>Spiel verlassen</Button>
             ) : (
               <Button
-                onClick={onEnterGame}
-                disabled={!canEnterGame}
+                onClick={onEnterMatch}
+                disabled={!canEnterMatch}
                 color="primary"
                 variant="contained"
               >

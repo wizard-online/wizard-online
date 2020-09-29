@@ -13,7 +13,7 @@ import { colors } from "../util/colors";
 export const BidRound: React.FC = () => {
   const {
     wizardState: { numPlayers, dealer, round, roundIndex, rounds },
-    gameMetadata,
+    matchData,
   } = useGameState();
 
   if (!isSetRound(round)) {
@@ -29,7 +29,7 @@ export const BidRound: React.FC = () => {
     <>
       {bidRoundOrder.map((playerID) => (
         <TrickCardBox
-          player={getPlayerName(playerID, gameMetadata)}
+          player={getPlayerName(playerID, matchData)}
           key={playerID}
         >
           <h2>{bids[playerID] ?? "_"}</h2>

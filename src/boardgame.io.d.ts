@@ -8,10 +8,10 @@ declare module "boardgame.io" {
       [move: string]: Function;
     };
     playerID: string;
-    gameMetadata: GameMetadatum[];
+    matchData: MatchData[];
   }
 
-  export interface GameMetadatum {
+  export interface MatchData {
     id: number;
     name: string;
   }
