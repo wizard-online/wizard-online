@@ -22,7 +22,7 @@ const newHandOrder = HandOrderPreference.SortedAscending;
 const profile: ProfileStore = {
   name,
   character: WizardCharacter.Human,
-  preferences: { handOrder },
+  preferences: { handOrder, turnAlert: false },
 };
 
 describe("getProfile", () => {
@@ -75,21 +75,24 @@ describe("updateProfile", () => {
       update: { name: newName },
       expected: {
         name: newName,
-        preferences: { handOrder },
+        character: "human",
+        preferences: { handOrder, turnAlert: false },
       },
     },
     {
       update: { preferences: { handOrder: newHandOrder } },
       expected: {
         name,
-        preferences: { handOrder: newHandOrder },
+        character: "human",
+        preferences: { handOrder: newHandOrder, turnAlert: false },
       },
     },
     {
       update: { name: newName, preferences: { handOrder: newHandOrder } },
       expected: {
         name: newName,
-        preferences: { handOrder: newHandOrder },
+        character: "human",
+        preferences: { handOrder: newHandOrder, turnAlert: false },
       },
     },
   ])("updates all given fields and", ({ update, expected }) => {
