@@ -4,11 +4,16 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  RadioGroup,
+  Radio,
+  FormControl,
+  FormLabel,
 } from "@material-ui/core";
 import styled from "styled-components";
 import merge from "lodash/merge";
 import { Form } from "../components/Form";
 import { ProfileStore, initialProfile } from "../services/profile.service";
+import { characters, WizardCharacter } from "../util/character-theme";
 
 export interface EditProfileProps {
   defaultProfile?: ProfileStore;
@@ -31,7 +36,6 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   return (
     <FormContainer>
       <Form onSubmit={() => onSubmit(profile)}>
-        <h3>Spieler-Name</h3>
         <FormField>
           <TextField
             label="Name"
@@ -41,6 +45,46 @@ export const EditProfile: React.FC<EditProfileProps> = ({
             onChange={(event) => updateProfile({ name: event.target.value })}
           />
         </FormField>
+
+        <FormField>
+          <FormControl required>
+            <FormLabel>Charakter</FormLabel>
+            <RadioGroup>
+              {Object.keys(characters).map((characterKey) => {
+                const character = characters[characterKey as WizardCharacter];
+                return (
+                  <FormControlLabel
+                    value={characterKey}
+                    control={<ColoredRadio $color={character.color.medium} />}
+                    label={character.label}
+                    key={characterKey}
+                  />
+                );
+              })}
+              {/* <FormControlLabel
+                value="human"
+                control={<ColoredRadio $color={colors.blue.medium} />}
+                label="Mensch"
+              />
+              <FormControlLabel
+                value="dwarf"
+                control={<ColoredRadio $color={colors.red.medium} />}
+                label="Zwerg"
+              />
+              <FormControlLabel
+                value="elf"
+                control={<ColoredRadio $color={colors.green.medium} />}
+                label="Elfe"
+              />
+              <FormControlLabel
+                value="giant"
+                control={<ColoredRadio $color={colors.yellow.medium} />}
+                label="Riese"
+              /> */}
+            </RadioGroup>
+          </FormControl>
+        </FormField>
+
         <h3>Einstellungen</h3>
         <FormField>
           <FormControlLabel
@@ -82,5 +126,13 @@ const FormContainer = styled.div`
 
 const FormField = styled.div`
   display: flex;
-  margin: 10px;
+  margin: 0 10px;
+  padding: 20px 0;
+  float: "left";
+`;
+
+const ColoredRadio = styled(Radio)<{ $color: string }>`
+  &.MuiRadio-root {
+    color: ${({ $color }) => $color};
+  }
 `;
