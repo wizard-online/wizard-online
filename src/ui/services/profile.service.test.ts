@@ -1,4 +1,5 @@
 import * as dateMock from "jest-date-mock";
+import { WizardCharacter } from "../util/character-theme";
 import {
   HandOrderPreference,
   storageKey,
@@ -20,6 +21,7 @@ const newHandOrder = HandOrderPreference.SortedAscending;
 
 const profile: ProfileStore = {
   name,
+  character: WizardCharacter.Human,
   preferences: { handOrder },
 };
 
