@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "../util/colors";
@@ -11,10 +12,16 @@ export const TimeoutIndicatorBar: React.FC<TimeoutIndicatorBarProps> = ({
   timeout,
   isActive,
 }) => {
+  const theme = useTheme();
+
   const timeoutInSeconds = (timeout / 1000).toFixed(2);
   return (
     <Container>
-      <Progress $isRunning={isActive} $timeout={timeoutInSeconds} />
+      <Progress
+        $isRunning={isActive}
+        $timeout={timeoutInSeconds}
+        $color={theme.palette.primary.main}
+      />
     </Container>
   );
 };
@@ -25,8 +32,12 @@ const Container = styled.div`
   /* width: 100%; */
 `;
 
-const Progress = styled.div<{ $isRunning: boolean; $timeout: string }>`
-  background-color: ${colors.green.medium};
+const Progress = styled.div<{
+  $isRunning: boolean;
+  $timeout: string;
+  $color: string;
+}>`
+  background-color: ${({ $color }) => $color};
   height: 100%;
   ${({ $isRunning, $timeout }) =>
     $isRunning
