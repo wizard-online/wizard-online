@@ -130,6 +130,5 @@ export function isValidProfile(
     typeof (profile as ProfileStoreWithId).preferences === "object"
   );
 
-  console.log("isValidProfile", isValid, profile);
   return isValid;
 }

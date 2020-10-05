@@ -14,7 +14,6 @@ import merge from "lodash/merge";
 import { Form } from "../components/Form";
 import {
   initialProfilePreferences,
-  isValidProfile,
   ProfileStore,
 } from "../services/profile.service";
 import { characters, WizardCharacter } from "../util/character-theme";
@@ -30,12 +29,15 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onSubmit,
   submitLabel,
 }) => {
-  const [profile, setProfile] = useState(
-    defaultProfile ?? {
-      name: "",
-      character: null,
-      preferences: initialProfilePreferences,
-    }
+  const [profile, setProfile] = useState<ProfileStore>(
+    merge(
+      {
+        name: "",
+        character: null,
+        preferences: initialProfilePreferences,
+      },
+      defaultProfile
+    )
   );
 
   const { handOrder } = profile.preferences;
@@ -45,13 +47,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   }, []);
   return (
     <FormContainer>
-      <Form
-        onSubmit={() => {
-          if (isValidProfile(profile)) {
-            onSubmit(profile);
-          }
-        }}
-      >
+      <Form onSubmit={() => onSubmit(profile)}>
         <FormField>
           <TextField
             label="Name"
