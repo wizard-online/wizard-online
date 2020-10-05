@@ -7,23 +7,29 @@ import { useGameState } from "../GameContext";
 import { ClientHand } from "./ClientHand";
 import { Header } from "./Header";
 
-import { colors } from "../util/colors";
+import { colors, ColorTripleTone } from "../util/colors";
 import { PlayerProps } from "./Player.props";
 import { OpponentHand } from "./OpponentHand";
 import { Card } from "../../game/entities/cards";
 import { HandMeta } from "../../game/WizardState";
+import { characters } from "../util/character-theme";
 
 export const Player: React.FC<PlayerProps> = ({ playerID }) => {
   const {
     wizardState: { currentPlayer, phase, round, trick },
     clientID,
+    matchData,
   } = useGameState();
-
+  const playerData = (matchData ?? []).find(({ id }) => id === playerID);
+  const playerColor =
+    (playerData?.data?.character &&
+      characters[playerData.data.character]?.color) ??
+    characters.human.color;
   const isTurn = playerID === currentPlayer;
   const isClient = playerID === clientID;
   return (
     <StyledCard>
-      <PlayerContainer isTurn={isTurn}>
+      <PlayerContainer $isTurn={isTurn} $color={playerColor}>
         <CardContent>
           <Header playerID={playerID} isTurn={isTurn} isClient={isClient} />
           <HandContainer>
@@ -55,12 +61,19 @@ const StyledCard = styled(MatCard)`
   display: flex;
 `;
 
-const PlayerContainer = styled.div<{ isTurn: boolean }>`
+const PlayerContainer = styled.div<{
+  $isTurn: boolean;
+  $color: ColorTripleTone;
+}>`
   flex-grow: 1;
   border-style: solid;
-  border-width: ${({ isTurn }) => (isTurn ? `2px` : `1px`)};
-  border-color: ${({ isTurn }) =>
-    isTurn ? colors.red.medium : colors.wizard.green};
+  border-width: ${({ $isTurn }) => ($isTurn ? `3px` : `2px`)};
+  border-color: ${({ $color }) => $color.medium};
+  background: ${colors.white};
+  background: ${({ $color, $isTurn }) =>
+    $isTurn
+      ? `linear-gradient(0deg, ${$color.light} 0%, ${colors.white} 15%)`
+      : "transparent"};
   border-radius: 4px;
 `;
 

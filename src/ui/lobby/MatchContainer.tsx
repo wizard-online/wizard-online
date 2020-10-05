@@ -20,7 +20,7 @@ import { joinedGameEventGA, leftGameEventGA } from "../../analytics";
 
 export const MatchContainer: React.FC = () => {
   const history = useHistory();
-  const { name } = useProfile();
+  const { name, character } = useProfile();
   const { matchID } = useParams<{ matchID: string }>();
   const [matchState, setMatchState] = useState<Match | undefined>();
   const [credentialsState, setCredentialsState] = useState<
@@ -72,7 +72,7 @@ export const MatchContainer: React.FC = () => {
         if (!credentialsState) {
           const seatIndex = random(freeSeats.length - 1);
           const { id } = freeSeats[seatIndex];
-          const newCredentials = await joinMatch(matchID, id, name);
+          const newCredentials = await joinMatch(matchID, id, name, character);
           setCredentials(matchID, id, newCredentials);
           fetchMatch();
           joinedGameEventGA();
