@@ -5,10 +5,11 @@ import { useProfileContext } from "../ProfileProvider";
 
 import { LobbyRouter } from "./LobbyRouter";
 import { SideMenu } from "./SideMenu";
+import { isValidProfile } from "../services/profile.service";
 
 export const WizardLobby: React.FC = () => {
   const { profile } = useProfileContext();
-  if (!profile) {
+  if (!isValidProfile(profile)) {
     return <OnBoarding />;
   }
 

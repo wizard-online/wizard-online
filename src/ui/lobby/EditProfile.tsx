@@ -12,7 +12,11 @@ import {
 import styled from "styled-components";
 import merge from "lodash/merge";
 import { Form } from "../components/Form";
-import { ProfileStore, initialProfile } from "../services/profile.service";
+import {
+  initialProfilePreferences,
+  isValidProfile,
+  ProfileStore,
+} from "../services/profile.service";
 import { characters, WizardCharacter } from "../util/character-theme";
 
 export interface EditProfileProps {
@@ -26,7 +30,13 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onSubmit,
   submitLabel,
 }) => {
-  const [profile, setProfile] = useState(defaultProfile ?? initialProfile);
+  const [profile, setProfile] = useState(
+    defaultProfile ?? {
+      name: "",
+      character: null,
+      preferences: initialProfilePreferences,
+    }
+  );
 
   const { handOrder } = profile.preferences;
 
@@ -35,7 +45,13 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   }, []);
   return (
     <FormContainer>
-      <Form onSubmit={() => onSubmit(profile)}>
+      <Form
+        onSubmit={() => {
+          if (isValidProfile(profile)) {
+            onSubmit(profile);
+          }
+        }}
+      >
         <FormField>
           <TextField
             label="Name"
@@ -49,7 +65,14 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         <FormField>
           <FormControl required>
             <FormLabel>Charakter</FormLabel>
-            <RadioGroup>
+            <RadioGroup
+              value={profile.character}
+              onChange={(event) =>
+                updateProfile({
+                  character: event.target.value as WizardCharacter,
+                })
+              }
+            >
               {Object.keys(characters).map((characterKey) => {
                 const character = characters[characterKey as WizardCharacter];
                 return (
@@ -61,26 +84,6 @@ export const EditProfile: React.FC<EditProfileProps> = ({
                   />
                 );
               })}
-              {/* <FormControlLabel
-                value="human"
-                control={<ColoredRadio $color={colors.blue.medium} />}
-                label="Mensch"
-              />
-              <FormControlLabel
-                value="dwarf"
-                control={<ColoredRadio $color={colors.red.medium} />}
-                label="Zwerg"
-              />
-              <FormControlLabel
-                value="elf"
-                control={<ColoredRadio $color={colors.green.medium} />}
-                label="Elfe"
-              />
-              <FormControlLabel
-                value="giant"
-                control={<ColoredRadio $color={colors.yellow.medium} />}
-                label="Riese"
-              /> */}
             </RadioGroup>
           </FormControl>
         </FormField>

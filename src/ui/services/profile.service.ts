@@ -6,11 +6,13 @@ import {
   faSortNumericUpAlt,
   faSortNumericDownAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { WizardCharacter } from "../util/character-theme";
 
 export const storageKey = "wizard-profile";
 
 export interface ProfileStore {
   name: string;
+  character: WizardCharacter;
   preferences: ProfilePreferences;
 }
 
@@ -63,12 +65,9 @@ export function getNextHandOrderPreference(
   ];
 }
 
-export const initialProfile: ProfileStore = {
-  name: "",
-  preferences: {
-    handOrder: HandOrderPreference.None,
-    turnAlert: false,
-  },
+export const initialProfilePreferences: ProfilePreferences = {
+  handOrder: HandOrderPreference.None,
+  turnAlert: false,
 };
 
 export function getProfile(): ProfileStoreWithId | undefined {
@@ -76,13 +75,27 @@ export function getProfile(): ProfileStoreWithId | undefined {
     () => localStorage.getItem(storageKey),
     (value) => value ?? "null",
     (value) => JSON.parse(value) ?? undefined,
-    (value) => (value ? { ...initialProfile, ...value } : undefined)
+    (value) => {
+      try {
+        return {
+          ...value,
+          preferences: {
+            ...initialProfilePreferences,
+            ...(value.preferences ?? {}),
+          },
+        };
+      } catch {
+        return undefined;
+      }
+    }
   )();
 }
 
 export function setProfile(profile: ProfileStore): void {
-  const id = `${profile.name}_${Date.now()}`;
-  localStorage.setItem(storageKey, JSON.stringify({ ...profile, id }));
+  localStorage.setItem(
+    storageKey,
+    JSON.stringify({ id: `${profile.name}_${Date.now()}`, ...profile })
+  );
 }
 
 export function updateProfile(changes: Partial<ProfileStore>): void {
@@ -99,4 +112,24 @@ export function updateProfile(changes: Partial<ProfileStore>): void {
     JSON.stringify,
     (value) => localStorage.setItem(storageKey, value)
   )();
+}
+
+export function isValidProfile(
+  profile: unknown
+): profile is ProfileStoreWithId {
+  const isValid = !!(
+    profile &&
+    typeof profile === "object" &&
+    (profile as ProfileStoreWithId).name &&
+    typeof (profile as ProfileStoreWithId).name === "string" &&
+    (profile as ProfileStoreWithId).id &&
+    typeof (profile as ProfileStoreWithId).id === "string" &&
+    (profile as ProfileStoreWithId).character &&
+    typeof (profile as ProfileStoreWithId).character === "string" &&
+    (profile as ProfileStoreWithId).preferences &&
+    typeof (profile as ProfileStoreWithId).preferences === "object"
+  );
+
+  console.log("isValidProfile", isValid, profile);
+  return isValid;
 }
