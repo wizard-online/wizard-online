@@ -3,6 +3,7 @@ import { wizardGameConfig } from "../../game/game";
 import { PlayerID } from "../../game/entities/players";
 import { post, get } from "./fetch.service";
 import { WizardSetupData } from "../../game/WizardState";
+import { WizardCharacter } from "../util/character-theme";
 
 const { name, minPlayers, maxPlayers } = wizardGameConfig;
 
@@ -42,11 +43,13 @@ export function createMatch(
 export function joinMatch(
   matchID: MatchID,
   playerID: PlayerID,
-  playerName: string
+  playerName: string,
+  character: WizardCharacter
 ): Promise<PlayerCredentials> {
   return post(`/games/${name}/${matchID}/join`, {
     playerID: playerID.toString(),
     playerName,
+    data: { character },
   })
     .then<LobbyAPI.JoinedMatch>((response) => response.json())
     .then((json) => json.playerCredentials);

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useTheme } from "@material-ui/core";
 import { useGameState } from "../GameContext";
 import { isSetRound } from "../../game/WizardState";
 import {
@@ -8,9 +9,9 @@ import {
   getPlayerName,
 } from "../../game/entities/players.utils";
 import { TrickCardBox } from "./TrickCardBox";
-import { colors } from "../util/colors";
 
 export const BidRound: React.FC = () => {
+  const theme = useTheme();
   const {
     wizardState: { numPlayers, dealer, round, roundIndex, rounds },
     matchData,
@@ -36,7 +37,7 @@ export const BidRound: React.FC = () => {
         </TrickCardBox>
       ))}
       <TrickCardBox player="TOTAL">
-        <TotalBox>
+        <TotalBox $color={theme.palette.primary.main}>
           <h2>
             {totalBids} von {rounds[roundIndex]}
           </h2>
@@ -46,6 +47,6 @@ export const BidRound: React.FC = () => {
   );
 };
 
-const TotalBox = styled.div`
-  color: ${colors.wizard.green};
+const TotalBox = styled.div<{ $color: string }>`
+  color: ${({ $color }) => $color};
 `;

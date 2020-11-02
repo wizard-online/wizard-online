@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { State } from "boardgame.io";
+import { WizardCharacter } from "./ui/util/character-theme";
 
 declare module "boardgame.io" {
   export interface State {
@@ -14,6 +15,9 @@ declare module "boardgame.io" {
   export interface MatchData {
     id: number;
     name: string;
+    data?: {
+      character: WizardCharacter;
+    };
   }
 
   export interface EventsAPI {

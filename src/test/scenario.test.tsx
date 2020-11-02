@@ -27,12 +27,11 @@ import { Suit, Card } from "../game/entities/cards";
 import { getSuitLabel, getCardId } from "../game/entities/cards.utils";
 import { PlayerID } from "../game/entities/players";
 import { scenario, RoundScenario } from "./scenario.data";
-import { theme } from "../ui/util/mui-theme";
+import { getWizardTheme } from "../ui/util/mui-theme";
 import { NotificationsProvider } from "../ui/NotificationsProvider";
 import { ProfileProvider } from "../ui/ProfileProvider";
 import { HeaderElementsProvider } from "../ui/header/HeaderElementsProvider";
 import { finishedGameEventGA } from "../analytics";
-import { initialProfile } from "../ui/services/profile.service";
 
 const randomMock = jest.fn();
 const shuffleMock = jest.fn();
@@ -74,14 +73,14 @@ beforeAll(() => {
   // mock localStorage
   localStorage.setItem(
     "wizard-profile",
-    JSON.stringify({ ...initialProfile, name: "test-player" })
+    JSON.stringify({ name: "test-player", character: "human", preferences: {} })
   );
 
   const ids = [0, 1, 2, 3];
 
   renderResult = render(
     <div data-testid="test-root">
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={getWizardTheme()}>
         {ids.map((id) => (
           <div data-testid={`player${id}`} key={id}>
             <NotificationsProvider>
