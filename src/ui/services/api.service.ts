@@ -9,12 +9,7 @@ const { name, minPlayers, maxPlayers } = wizardGameConfig;
 
 type MatchID = string;
 type PlayerCredentials = string;
-// export interface Match {
-//   matchID?: MatchID;
-//   gameID?: MatchID;
-//   players: MatchSeat[];
-//   setupData?: WizardSetupData;
-// }
+
 export interface Match extends LobbyAPI.Match {
   players: MatchSeat[];
 }
@@ -72,8 +67,28 @@ export function getMatch(matchID: MatchID): Promise<Match> {
   );
 }
 
-export function getAllMatches(): Promise<Match[]> {
-  return get(`/games/${name}`)
+export interface MatchFilterOptions {
+  isGameover?: boolean;
+  updatedAfter?: Date;
+  updatedBefore?: Date;
+}
+
+export function getAllMatches({
+  isGameover,
+  updatedAfter,
+  updatedBefore,
+}: MatchFilterOptions = {}): Promise<Match[]> {
+  const preparedOptions = {
+    isGameover,
+    updatedAfter: updatedAfter?.getTime(),
+    updatedBefore: updatedBefore?.getTime(),
+  };
+
+  const query = Object.entries(preparedOptions)
+    .filter(([, value]) => value !== undefined)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("&");
+  return get(`/games/${name}?${query}`)
     .then((response) => response.json())
     .then<Match[]>(({ matches }) => matches);
 }

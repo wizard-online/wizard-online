@@ -70,7 +70,7 @@ export const SideMenu: React.FC = () => {
           <ListItemIcon>
             <Icon>view_list</Icon>
           </ListItemIcon>
-          <ListItemText>Alle Spiele anzeigen</ListItemText>
+          <ListItemText>Aktuelle Spiele anzeigen</ListItemText>
         </ListItem>
       </List>
       <Spacer />
