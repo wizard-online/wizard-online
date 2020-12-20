@@ -13,7 +13,7 @@
     "lint": "yarn run lint:es && yarn run lint:style",
     "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
     "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
-    "server:watch": "parcel src/server.ts --target node -d dist/server",
+    "server:watch": "parcel src/server/index.ts --target node -d dist/server",
     "server:serve": "nodemon dist/server/server.js -w dist/server",
     "dev-server": "concurrently --kill-others -n \"parcel,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"yarn run server:watch\" \"yarn run server:serve\""
   },
