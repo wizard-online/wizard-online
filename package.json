@@ -49,6 +49,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "regenerator-runtime": "^0.13.5",
+    "sequelize": "^6.3.5",
     "styled-components": "^5.0.1",
     "urlsafe-base64": "^1.0.0"
   },
