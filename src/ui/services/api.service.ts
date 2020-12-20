@@ -37,14 +37,15 @@ export function createMatch(
 
 export function joinMatch(
   matchID: MatchID,
-  playerID: PlayerID,
+  seatID: PlayerID,
   playerName: string,
+  userID: string,
   character: WizardCharacter
 ): Promise<PlayerCredentials> {
   return post(`/games/${name}/${matchID}/join`, {
-    playerID: playerID.toString(),
+    playerID: seatID.toString(),
     playerName,
-    data: { character },
+    data: { character, userID },
   })
     .then<LobbyAPI.JoinedMatch>((response) => response.json())
     .then((json) => json.playerCredentials);

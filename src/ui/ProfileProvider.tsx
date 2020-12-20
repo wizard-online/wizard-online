@@ -4,10 +4,11 @@ import {
   setProfile as setProfileStorage,
   updateProfile as updateProfileStorage,
   ProfileStore,
+  ProfileStoreWithId,
 } from "./services/profile.service";
 
 export interface ProfileProviderContext {
-  profile: ProfileStore | undefined;
+  profile: ProfileStoreWithId | undefined;
   setProfile(profile: ProfileStore): void;
   updateProfile(newProfile: Partial<ProfileStore>): void;
 }
@@ -47,7 +48,7 @@ export function useProfileContext(): ProfileProviderContext {
   return profileContext;
 }
 
-export function useProfile(): ProfileStore {
+export function useProfile(): ProfileStoreWithId {
   const { profile } = useProfileContext();
   if (!profile)
     throw new Error("useProfile hook is called without a set profile");
