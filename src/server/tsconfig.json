@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "newLine": "LF",
+    "outDir": "./dist/server/",
+    "sourceMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+}
