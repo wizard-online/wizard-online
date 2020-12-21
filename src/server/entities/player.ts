@@ -1,4 +1,4 @@
-import { DataTypes, Model, ModelAttributes } from "sequelize";
+import { DataTypes, Model, ModelAttributes } from "bgio-postgres/lib/sequelize";
 
 export class Player extends Model {
   public id!: string;
