@@ -1,5 +1,5 @@
 import range from "lodash/range";
-import { MatchData } from "boardgame.io";
+import type { MatchData } from "boardgame.io";
 import { PlayerID, NumPlayers, MaxCards, DECKSIZE } from "./players";
 
 export function maxCards(numPlayers: NumPlayers): MaxCards {

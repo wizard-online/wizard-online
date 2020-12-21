@@ -16,6 +16,7 @@ declare module "boardgame.io" {
     id: number;
     name: string;
     data?: {
+      userID: string;
       character: WizardCharacter;
     };
   }
