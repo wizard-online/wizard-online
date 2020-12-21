@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/node";
 import { Server } from "boardgame.io/server";
 import { PostgresStore } from "bgio-postgres";
 import { StorageCache } from "bgio-storage-cache";
-import { loadGameConfig } from "../game/load-game-config";
+import { loadGameConfig } from "../shared/load-game-config";
 import { ServerPostgres } from "./server-postgres";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
