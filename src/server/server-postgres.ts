@@ -1,6 +1,6 @@
 import { PostgresStore } from "bgio-postgres";
 import { LogEntry, Server, State } from "boardgame.io";
-import { Async } from "boardgame.io/dist/types/packages/internal";
+import { Async } from "boardgame.io/internal";
 import {
   CreateGameOpts,
   CreateMatchOpts,
