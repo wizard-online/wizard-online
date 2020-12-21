@@ -2995,9 +2995,9 @@ better-assert@~1.0.0:
     callsite "1.0.0"
 
 bgio-postgres@^1.0.10:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/bgio-postgres/-/bgio-postgres-1.0.11.tgz#86ad3b4af3b21cf2f109b119d220229ca77be9ee"
-  integrity sha512-RI5/tZ3VLEFicYsr2beneR510aXostAkAQFa3aYrlMYnk22a1hKP9SClzEH+xixadO4lMWtC42EasfJvRetVuA==
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/bgio-postgres/-/bgio-postgres-1.0.12.tgz#e76d55fbe6221ffdc23bf1d8ffab77d627557426"
+  integrity sha512-l3qmvEeCKPbnGhbnsym5WTkO/fB+4K+vMtUnmLEMeKV53n2XyFy171IrfF3IsZ8tkdn4u0KClU46XVSk6lClIA==
   dependencies:
     pg "^8.2.1"
     pg-hstore "^2.3.3"
