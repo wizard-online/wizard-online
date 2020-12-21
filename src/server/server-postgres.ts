@@ -74,6 +74,14 @@ export class ServerPostgres extends Async {
    * Update the game metadata.
    */
   setMetadata(matchID: string, metadata: Server.MatchData): Promise<void> {
+    Object.values(metadata.players)
+      .filter((player) => player.data?.userID !== undefined)
+      .forEach((player) =>
+        Player.upsert({
+          id: player.data.userID,
+          name: player.name,
+        })
+      );
     return this.postgres.setMetadata(matchID, metadata);
   }
 
