@@ -101,5 +101,6 @@
   },
   "engines": {
     "node": ">=12.x"
-  }
+  },
+  "browserslist": "> 0.25%"
 }
