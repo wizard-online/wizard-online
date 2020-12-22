@@ -3038,10 +3038,10 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.9.tgz#26d556829458f9d1e81fc48952493d0ba3507828"
   integrity sha512-E6QoYqCKZfgatHTdHzs1RRKP7ip4vvm+EyRUeE2RF0NblwVvb0p6jSVeNTOFxPn26QXN2o6SMfNxKp6kU8zQaw==
 
-boardgame.io@^0.42.2:
-  version "0.42.2"
-  resolved "https://registry.yarnpkg.com/boardgame.io/-/boardgame.io-0.42.2.tgz#3e395fb73810fa4e14692504ec1c4afdbb44fc2b"
-  integrity sha512-VIsLpPyTwFjrKEhG6h6Xj6qib1bw2i7tegSEfha4jSD3YLJzGuLSW595mys8wAL6CMt5nv/KhW0enCBkmN8mog==
+boardgame.io@^0.41.0:
+  version "0.41.1"
+  resolved "https://registry.yarnpkg.com/boardgame.io/-/boardgame.io-0.41.1.tgz#7b99325be5000e49a712423ca1fb35c6a2e4e37c"
+  integrity sha512-K6KYbAyBtwVF7nQZS93+CdZ08Fo4TnQ2ylS91TyNa/eKQKHBmA1AHe7UhyoCBpDGmyF34NF3NNMaKWMBeRhyBA==
   dependencies:
     "@koa/cors" "^2.2.1"
     "@types/koa" "^2.11.3"
@@ -3052,7 +3052,6 @@ boardgame.io@^0.42.2:
     koa-router "^7.2.1"
     koa-socket-2 "^1.0.17"
     lru-cache "^4.1.1"
-    p-queue "^6.6.2"
     prop-types "^15.5.10"
     react-cookies "^0.1.0"
     redux "^4.0.0"
@@ -4983,11 +4982,6 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
-
-eventemitter3@^4.0.4:
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
-  integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
 events@^3.0.0:
   version "3.1.0"
@@ -8157,21 +8151,6 @@ p-locate@^4.1.0:
   integrity sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==
   dependencies:
     p-limit "^2.2.0"
-
-p-queue@^6.6.2:
-  version "6.6.2"
-  resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-6.6.2.tgz#2068a9dcf8e67dd0ec3e7a2bcb76810faa85e426"
-  integrity sha512-RwFpb72c/BhQLEXIZ5K2e+AhgNVmIejGlTgiB9MzZ0e93GRvqZ7uSi0dvRF7/XIXDeNkra2fNHBxTyPDGySpjQ==
-  dependencies:
-    eventemitter3 "^4.0.4"
-    p-timeout "^3.2.0"
-
-p-timeout@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-3.2.0.tgz#c7e17abc971d2a7962ef83626b35d635acf23dfe"
-  integrity sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==
-  dependencies:
-    p-finally "^1.0.0"
 
 p-try@^1.0.0:
   version "1.0.0"
