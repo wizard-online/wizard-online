@@ -9,12 +9,35 @@ import {
   ListGamesOpts,
   ListMatchesOpts,
 } from "boardgame.io/dist/types/src/server/db/base";
-import { Player, playerAttributes } from "./entities/Player";
+import { Match } from "bgio-postgres/lib/src/db/entities/match";
+import { initPlayer, Player } from "./entities/Player";
+import { WizardState } from "../shared/WizardState";
+import { getLeaders } from "../shared/entities/score.utils";
+import { PlayerID } from "../shared/entities/players";
+import {
+  initMatchPlayerRound,
+  MatchPlayerRound,
+} from "./entities/match-player-round";
 
 export class ServerPostgres extends Async {
   constructor(private postgres: PostgresStore) {
     super();
-    Player.init(playerAttributes, { sequelize: postgres.sequelize });
+    initPlayer(postgres.sequelize);
+    initMatchPlayerRound(postgres.sequelize);
+
+    MatchPlayerRound.belongsTo(Player, {
+      foreignKey: "playerId",
+    });
+    Player.hasMany(MatchPlayerRound, {
+      foreignKey: "playerId",
+    });
+
+    MatchPlayerRound.belongsTo(Match, {
+      foreignKey: "matchId",
+    });
+    Match.hasMany(MatchPlayerRound, {
+      foreignKey: "matchId",
+    });
   }
 
   /**

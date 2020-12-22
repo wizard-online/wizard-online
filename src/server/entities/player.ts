@@ -1,12 +1,21 @@
-import { DataTypes, Model, ModelAttributes } from "bgio-postgres/lib/sequelize";
+import {
+  DataTypes,
+  Model,
+  ModelAttributes,
+  Sequelize,
+} from "bgio-postgres/lib/sequelize";
 
-export class Player extends Model {
+interface PlayerAttributes {
+  id: string;
+  name: string;
+}
+export class Player extends Model implements PlayerAttributes {
   public id!: string;
 
   public name!: string;
 }
 
-export const playerAttributes: ModelAttributes = {
+export const playerAttributes: ModelAttributes<Player, PlayerAttributes> = {
   id: {
     type: DataTypes.STRING,
     unique: true,
@@ -16,3 +25,7 @@ export const playerAttributes: ModelAttributes = {
     type: DataTypes.STRING,
   },
 };
+
+export function initPlayer(sequelize: Sequelize): void {
+  Player.init(playerAttributes, { sequelize });
+}
