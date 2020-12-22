@@ -97,6 +97,7 @@ export class ServerPostgres extends Async {
    * Update the game metadata.
    */
   setMetadata(matchID: string, metadata: Server.MatchData): Promise<void> {
+    // upsert players
     Object.values(metadata.players)
       .filter((player) => player.data?.userID !== undefined)
       .forEach((player) =>
@@ -105,6 +106,49 @@ export class ServerPostgres extends Async {
           name: player.name,
         })
       );
+
+    if (metadata.gameover !== undefined) {
+      Match.findByPk(matchID)
+        .then((match) => {
+          if (!match) {
+            throw `Could not find match with id ${matchID}`;
+          }
+          const wizardState: WizardState = match.state.G;
+
+          const playerUserIDs = Object.values(metadata.players).reduce(
+            (acc, player) => ({ ...acc, [player.id]: player.data.userID }),
+            {} as Record<number, string>
+          );
+
+          const leaders = getLeaders(wizardState.scorePad);
+
+          const matchPlayerRounds = wizardState.scorePad.flatMap(
+            (scoreRow, i) => {
+              const isFinalRound = i + 1 === wizardState.scorePad.length;
+              return scoreRow.playerScores.map((score, player) => ({
+                matchId: matchID,
+                round: scoreRow.numCards,
+                playerId: playerUserIDs[player],
+                bid: score.bid,
+                tricks: score.tricks,
+                score: score.score,
+                total: score.total,
+                winner:
+                  isFinalRound && leaders.includes(player as PlayerID)
+                    ? true
+                    : undefined,
+                negative: isFinalRound && score.total < 0 ? true : undefined,
+              }));
+            }
+          );
+
+          MatchPlayerRound.bulkCreate(matchPlayerRounds, { validate: true });
+        })
+        .catch((error) =>
+          console.warn("Could not insert MatchPlayerRounds:", error)
+        );
+    }
+
     return this.postgres.setMetadata(matchID, metadata);
   }
 
