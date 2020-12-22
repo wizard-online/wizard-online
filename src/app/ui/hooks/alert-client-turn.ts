@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import audioAlertFile from "../../assets/kalimba.mp3";
+import audioAlertFile from "../../../assets/kalimba.mp3";
 import { useGameEventHandler } from "./game-event-handler";
 import { GameEvent } from "../util/game-events";
 import { useProfile, useProfileContext } from "../ProfileProvider";
