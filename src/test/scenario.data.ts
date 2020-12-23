@@ -1,5 +1,5 @@
-import { NumPlayers, PlayerID } from "../game/entities/players";
-import { Card, Suit, Rank } from "../game/entities/cards";
+import { NumPlayers, PlayerID } from "../shared/entities/players";
+import { Card, Suit, Rank } from "../shared/entities/cards";
 
 export interface GameScenario {
   numPlayers: NumPlayers;

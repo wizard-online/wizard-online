@@ -18,5 +18,5 @@
     "esModuleInterop": true
   },
   "include": ["src/**/*"],
-  "exclude": [".git", "node_modules", ".cache", "dist"]
+  "exclude": [".git", "node_modules", ".cache", "dist", "src/server/**/*"]
 }

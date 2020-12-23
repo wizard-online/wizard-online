@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { State } from "boardgame.io";
-import { WizardCharacter } from "./ui/util/character-theme";
+// import { State } from "boardgame.io";
+import { WizardCharacter } from "./app/ui/util/character-theme";
 
 declare module "boardgame.io" {
-  export interface State {
-    moves: {
-      // eslint-disable-next-line @typescript-eslint/ban-types
-      [move: string]: Function;
-    };
-    playerID: string;
-    matchData: MatchData[];
-  }
-
-  export interface MatchData {
+  // export interface State {
+  //   moves: {
+  //     // eslint-disable-next-line @typescript-eslint/ban-types
+  //     [move: string]: Function;
+  //   };
+  //   playerID: string;
+  //   matchData: MatchData[];
+  // }
+  export interface PlayerMetadata {
     id: number;
-    name: string;
+    name?: string;
     data?: {
+      userID: string;
       character: WizardCharacter;
     };
   }

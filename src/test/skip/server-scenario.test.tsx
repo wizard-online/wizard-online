@@ -21,13 +21,13 @@ import { SocketIO } from "boardgame.io/multiplayer";
 import range from "lodash/range";
 import { Server } from "boardgame.io/server";
 import { Ctx } from "boardgame.io";
-import { wizardGameConfig } from "../../game/game";
-import { WizardBoard } from "../../ui/WizardBoard";
-import { PlayerID } from "../../game/entities/players";
+import { wizardGameConfig } from "../../shared/game";
+import { WizardBoard } from "../../app/ui/WizardBoard";
+import { PlayerID } from "../../shared/entities/players";
 import { scenario, RoundScenario } from "../scenario.data";
-import { Card, Suit } from "../../game/entities/cards";
-import { getCardId, getSuitLabel } from "../../game/entities/cards.utils";
-import { generateDefaultWizardState } from "../../game/WizardState";
+import { Card, Suit } from "../../shared/entities/cards";
+import { getCardId, getSuitLabel } from "../../shared/entities/cards.utils";
+import { generateDefaultWizardState } from "../../shared/WizardState";
 
 const randomMock = jest.fn();
 const shuffleMock = jest.fn();
@@ -67,7 +67,8 @@ const server = Server({
   games: [serverScenarioGameConfig],
 });
 
-let runningServer: unknown;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let runningServer: any;
 
 beforeAll(async () => {
   runningServer = await server.run(8000, () =>
