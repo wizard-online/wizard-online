@@ -10,7 +10,7 @@ import {
   ListMatchesOpts,
 } from "boardgame.io/dist/types/src/server/db/base";
 import { Match } from "bgio-postgres/lib/src/db/entities/match";
-import { initPlayer, Player } from "./entities/Player";
+import { initPlayer, Player } from "./entities/player";
 import { WizardState } from "../shared/WizardState";
 import { getLeaders } from "../shared/entities/score.utils";
 import { PlayerID } from "../shared/entities/players";
