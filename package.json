@@ -32,7 +32,7 @@
     "@msgpack/msgpack": "^1.12.1",
     "@sentry/browser": "^5.15.4",
     "@sentry/node": "^5.15.4",
-    "bgio-postgres": "^1.0.10",
+    "bgio-postgres": "^1.0.13",
     "bgio-storage-cache": "^0.1.2",
     "boardgame.io": "^0.41.0",
     "core-js": "^3.6.4",
