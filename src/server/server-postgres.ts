@@ -90,32 +90,15 @@ export class ServerPostgres extends Async {
     state: State,
     deltalog?: LogEntry[]
   ): Promise<void> {
-    return this.postgres.setState(matchID, state, deltalog);
-  }
-
-  /**
-   * Update the game metadata.
-   */
-  setMetadata(matchID: string, metadata: Server.MatchData): Promise<void> {
-    // upsert players
-    Object.values(metadata.players)
-      .filter((player) => player.data?.userID !== undefined)
-      .forEach((player) =>
-        Player.upsert({
-          id: player.data.userID,
-          name: player.name,
-        })
-      );
-
-    if (metadata.gameover !== undefined) {
+    if (state.ctx.gameover !== undefined) {
       Match.findByPk(matchID)
         .then((match) => {
           if (!match) {
             throw `Could not find match with id ${matchID}`;
           }
-          const wizardState: WizardState = match.state.G;
+          const wizardState: WizardState = state.G;
 
-          const playerUserIDs = Object.values(metadata.players).reduce(
+          const playerUserIDs = Object.values(match.players).reduce(
             (acc, player) => ({ ...acc, [player.id]: player.data.userID }),
             {} as Record<number, string>
           );
@@ -148,6 +131,23 @@ export class ServerPostgres extends Async {
           console.warn("Could not insert MatchPlayerRounds:", error)
         );
     }
+
+    return this.postgres.setState(matchID, state, deltalog);
+  }
+
+  /**
+   * Update the game metadata.
+   */
+  setMetadata(matchID: string, metadata: Server.MatchData): Promise<void> {
+    // upsert players
+    Object.values(metadata.players)
+      .filter((player) => player.data?.userID !== undefined)
+      .forEach((player) =>
+        Player.upsert({
+          id: player.data.userID,
+          name: player.name,
+        })
+      );
 
     return this.postgres.setMetadata(matchID, metadata);
   }
