@@ -17,7 +17,7 @@ export const PlayersContainer: React.FC<PlayersContainerProps> = ({
     ctx: { playOrder },
   } = useGameState();
   const clientPlayOrderIndex = playOrder.findIndex(
-    (element) => element === clientID.toString()
+    (element) => element === clientID?.toString()
   );
 
   const offset = upper ? 0 : Math.ceil(playOrder.length / 2);
