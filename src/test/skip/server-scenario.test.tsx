@@ -67,6 +67,7 @@ const server = Server({
   games: [serverScenarioGameConfig],
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let runningServer: any;
 
 beforeAll(async () => {

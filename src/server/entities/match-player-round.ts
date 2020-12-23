@@ -4,8 +4,6 @@ import {
   ModelAttributes,
   Sequelize,
 } from "bgio-postgres/lib/sequelize";
-import { Match } from "bgio-postgres/lib/src/db/entities/match";
-import { Player } from "./player";
 
 export class MatchPlayerRound extends Model {
   public matchId!: string;

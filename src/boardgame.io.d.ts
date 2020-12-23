@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { State } from "boardgame.io";
+// import { State } from "boardgame.io";
 import { WizardCharacter } from "./app/ui/util/character-theme";
 
 declare module "boardgame.io" {
