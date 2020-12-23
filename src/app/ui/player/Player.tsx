@@ -2,6 +2,7 @@ import React from "react";
 import { Card as MatCard, CardContent } from "@material-ui/core";
 import styled from "styled-components";
 
+import { PlayerMetadata } from "boardgame.io";
 import { Phase } from "../../../shared/phases/phase";
 import { useGameState } from "../GameContext";
 import { ClientHand } from "./ClientHand";
@@ -20,7 +21,9 @@ export const Player: React.FC<PlayerProps> = ({ playerID }) => {
     clientID,
     matchData,
   } = useGameState();
-  const playerData = (matchData ?? []).find(({ id }) => id === playerID);
+  const playerData: PlayerMetadata | undefined = (matchData ?? []).find(
+    ({ id }) => id === playerID
+  );
   const playerColor =
     (playerData?.data?.character &&
       characters[playerData.data.character]?.color) ??

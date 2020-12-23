@@ -1,5 +1,5 @@
+import { FilteredMetadata } from "boardgame.io";
 import range from "lodash/range";
-import type { MatchData } from "boardgame.io";
 import { PlayerID, NumPlayers, MaxCards, DECKSIZE } from "./players";
 
 export function maxCards(numPlayers: NumPlayers): MaxCards {
@@ -49,7 +49,7 @@ export function nextPlayer(
  */
 export function getPlayerName(
   playerID: PlayerID,
-  matchData: MatchData[],
+  matchData: FilteredMetadata | undefined,
   truncate = 0
 ): string {
   const playerMetadata = (matchData ?? []).find(({ id }) => id === playerID);

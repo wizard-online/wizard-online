@@ -18,7 +18,7 @@ export const WizardBoard: React.FC<BoardProps<WizardState>> = ({
       value={{
         gamestate: {
           wizardState: G as WizardState,
-          clientID: PlayerID(playerID),
+          clientID: playerID !== null ? PlayerID(playerID) : null,
           ...rest,
         } as GameState,
       }}

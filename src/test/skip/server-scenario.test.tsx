@@ -67,7 +67,7 @@ const server = Server({
   games: [serverScenarioGameConfig],
 });
 
-let runningServer: unknown;
+let runningServer: any;
 
 beforeAll(async () => {
   runningServer = await server.run(8000, () =>

@@ -81,7 +81,9 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
         <ShareScore
           finalResult={{
             date: new Date(gameover),
-            playerNames: (matchData ?? []).map(({ name }) => name),
+            playerNames: (matchData ?? []).map(
+              ({ name, id }) => name ?? id.toString()
+            ),
             scorePad,
           }}
         />

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { PlayerMetadata } from "boardgame.io";
 import { GameState } from "./GameState";
 import { getPlayerName } from "../../shared/entities/players.utils";
 import { PlayerID } from "../../shared/entities/players";
@@ -32,6 +33,8 @@ export function usePlayerCharacter(
   playerID: PlayerID
 ): WizardCharacter | undefined {
   const { matchData } = useGameState();
-  const playerMetadata = (matchData ?? []).find(({ id }) => id === playerID);
+  const playerMetadata: PlayerMetadata | undefined = (matchData ?? []).find(
+    ({ id }) => id === playerID
+  );
   return playerMetadata?.data?.character;
 }

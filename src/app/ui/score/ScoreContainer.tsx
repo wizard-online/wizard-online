@@ -19,7 +19,8 @@ export const ScoreContainer: React.FC = () => {
             scorePad={scorePad}
             rounds={rounds}
             playerNames={
-              matchData?.map(({ name }) => name) ?? range(0, numPlayers)
+              matchData?.map(({ name, id }) => name ?? id.toString()) ??
+              range(0, numPlayers).map((el) => el.toString())
             }
             currentRound={rounds[roundIndex]}
             currentRoundBids={round?.bids.map((bid) => bid ?? undefined)}

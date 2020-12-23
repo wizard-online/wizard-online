@@ -96,6 +96,7 @@ export class ServerPostgres extends Async {
           if (!match) {
             throw `Could not find match with id ${matchID}`;
           }
+          //
           const wizardState: WizardState = state.G;
 
           const playerUserIDs = Object.values(match.players).reduce(
