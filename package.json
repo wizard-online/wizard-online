@@ -100,7 +100,7 @@
     "typescript": "^3.4.3"
   },
   "engines": {
-    "node": ">=12.x"
+    "node": ">=14.x"
   },
   "browserslist": "> 0.25%"
 }
