@@ -14,28 +14,25 @@ import { initPlayer, Player } from "./entities/player";
 import { WizardState } from "../shared/WizardState";
 import { getLeaders } from "../shared/entities/score.utils";
 import { PlayerID } from "../shared/entities/players";
-import {
-  initMatchPlayerRound,
-  MatchPlayerRound,
-} from "./entities/match-player-round";
+import { initScoreCell, ScoreCell } from "./entities/score-cell";
 
 export class ServerPostgres extends Async {
   constructor(private postgres: PostgresStore) {
     super();
     initPlayer(postgres.sequelize);
-    initMatchPlayerRound(postgres.sequelize);
+    initScoreCell(postgres.sequelize);
 
-    MatchPlayerRound.belongsTo(Player, {
+    ScoreCell.belongsTo(Player, {
       foreignKey: "playerId",
     });
-    Player.hasMany(MatchPlayerRound, {
+    Player.hasMany(ScoreCell, {
       foreignKey: "playerId",
     });
 
-    MatchPlayerRound.belongsTo(Match, {
+    ScoreCell.belongsTo(Match, {
       foreignKey: "matchId",
     });
-    Match.hasMany(MatchPlayerRound, {
+    Match.hasMany(ScoreCell, {
       foreignKey: "matchId",
     });
   }
@@ -126,7 +123,7 @@ export class ServerPostgres extends Async {
             }
           );
 
-          MatchPlayerRound.bulkCreate(matchPlayerRounds, { validate: true });
+          ScoreCell.bulkCreate(matchPlayerRounds, { validate: true });
         })
         .catch((error) =>
           console.warn("Could not insert MatchPlayerRounds:", error)

@@ -5,7 +5,7 @@ import {
   Sequelize,
 } from "bgio-postgres/lib/sequelize";
 
-export class MatchPlayerRound extends Model {
+export class ScoreCell extends Model {
   public matchId!: string;
 
   public round!: number;
@@ -25,7 +25,7 @@ export class MatchPlayerRound extends Model {
   public negative?: boolean;
 }
 
-export const matchPlayerResultAttributes: ModelAttributes = {
+export const scoreCellAttributes: ModelAttributes = {
   matchId: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -58,6 +58,6 @@ export const matchPlayerResultAttributes: ModelAttributes = {
   },
 };
 
-export function initMatchPlayerRound(sequelize: Sequelize): void {
-  MatchPlayerRound.init(matchPlayerResultAttributes, { sequelize });
+export function initScoreCell(sequelize: Sequelize): void {
+  ScoreCell.init(scoreCellAttributes, { sequelize });
 }
