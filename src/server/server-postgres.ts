@@ -1,4 +1,3 @@
-import { PostgresStore } from "bgio-postgres";
 import { LogEntry, Server, State } from "boardgame.io";
 import { Async } from "boardgame.io/internal";
 import {
@@ -9,7 +8,8 @@ import {
   ListGamesOpts,
   ListMatchesOpts,
 } from "boardgame.io/dist/types/src/server/db/base";
-import { Match } from "bgio-postgres/lib/src/db/entities/match";
+import { PostgresStore } from "bgio-postgres";
+import { Match } from "bgio-postgres/lib/entities";
 import { initPlayer, Player } from "./entities/player";
 import { WizardState } from "../shared/WizardState";
 import { getLeaders } from "../shared/entities/score.utils";
