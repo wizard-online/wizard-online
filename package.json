@@ -12,7 +12,7 @@
   "scripts": {
     "start": "parcel public/index.html -d dist/app",
     "build:app": "parcel build public/index.html -d dist/app",
-    "build:server": "parcel build src/server.ts --target node -d dist/server",
+    "build:server": "parcel build src/server/index.ts --target node -d dist/server",
     "heroku-postbuild": "yarn run build:server",
     "test": "jest",
     "type-check": "tsc --noEmit",
