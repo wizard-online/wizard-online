@@ -43,13 +43,13 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
 }) => {
   const history = useHistory();
   const {
-    gameMetadata,
+    matchData,
     wizardState: { scorePad },
     ctx: { gameover },
   } = useGameState();
 
   const winnerNames = winnerIDs.map((winnerID) =>
-    getPlayerName(winnerID, gameMetadata ?? [])
+    getPlayerName(winnerID, matchData ?? [])
   );
   return (
     <Container data-testid="final-score">
@@ -81,7 +81,7 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
         <ShareScore
           finalResult={{
             date: new Date(gameover),
-            playerNames: (gameMetadata ?? []).map(({ name }) => name),
+            playerNames: (matchData ?? []).map(({ name }) => name),
             scorePad,
           }}
         />

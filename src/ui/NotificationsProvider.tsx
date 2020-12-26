@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useContext } from "react";
+import React from "react";
 import { Snackbar, SnackbarCloseReason, Icon } from "@material-ui/core";
 import styled from "styled-components";
 import { colors } from "./util/colors";
@@ -22,20 +22,20 @@ export const NotificationsContext = React.createContext<
 >(undefined);
 
 export const NotificationsProvider: React.FC = ({ children }) => {
-  const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState<Notification | undefined>(
-    undefined
-  );
-  const queue = useRef<NotificationWithKey[]>([]);
+  const [show, setShow] = React.useState(false);
+  const [notification, setNotification] = React.useState<
+    Notification | undefined
+  >();
+  const queue = React.useRef<NotificationWithKey[]>([]);
 
-  const processQueue = useCallback((): void => {
+  const processQueue = React.useCallback((): void => {
     if (queue.current.length > 0) {
       setNotification(queue.current.shift());
       setShow(true);
     }
   }, []);
 
-  const notify = useCallback(
+  const notify = React.useCallback(
     (newNotification: Notification): void => {
       queue.current.push({ ...newNotification, key: new Date().getTime() });
       if (show) {
@@ -98,7 +98,7 @@ const NotificationMessage = styled.div`
 `;
 
 export function useNotify(): Notify {
-  const notificationsContext = useContext(NotificationsContext);
+  const notificationsContext = React.useContext(NotificationsContext);
   if (!notificationsContext)
     throw new Error(
       "useNotify hook is called outside the scope of NotificationProvider"

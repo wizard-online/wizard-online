@@ -9,11 +9,11 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import { NumPlayers } from "../../game/entities/players";
-import { createGame } from "../services/api.service";
+import { createMatch } from "../services/api.service";
 import { Form } from "../components/Form";
 import { createdGameEventGA } from "../../analytics";
 
-export const CreateGame: React.FC = () => {
+export const CreateMatch: React.FC = () => {
   const history = useHistory();
   const [numPlayers, setNumPlayers] = useState<NumPlayers>(3);
   const [tournamentMode, setTournamentMode] = useState(false);
@@ -25,13 +25,13 @@ export const CreateGame: React.FC = () => {
       <FormContainer>
         <Form
           onSubmit={async () => {
-            const gameID = await createGame(numPlayers, {
+            const matchID = await createMatch(numPlayers, {
               config: {
                 tournamentMode,
                 inspectPreviousTrick,
               },
             });
-            history.push(`/games/${gameID}`);
+            history.push(`/matches/${matchID}`);
             createdGameEventGA(numPlayers);
           }}
         >

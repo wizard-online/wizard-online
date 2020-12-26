@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { State } from "boardgame.io";
+import { WizardCharacter } from "./ui/util/character-theme";
 
 declare module "boardgame.io" {
   export interface State {
     moves: {
+      // eslint-disable-next-line @typescript-eslint/ban-types
       [move: string]: Function;
     };
     playerID: string;
-    gameMetadata: GameMetadatum[];
+    matchData: MatchData[];
   }
 
-  export interface GameMetadatum {
+  export interface MatchData {
     id: number;
     name: string;
+    data?: {
+      character: WizardCharacter;
+    };
   }
 
   export interface EventsAPI {

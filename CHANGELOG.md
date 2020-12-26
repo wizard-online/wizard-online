@@ -3,6 +3,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.6] - 2020-12-26
+
+### Added
+
+- pre- and auto-selection of cards (
+  [#169](https://github.com/wizard-online/wizard-online/pull/169)
+  [#172](https://github.com/wizard-online/wizard-online/pull/172)
+)
+- player characters and corresponding themes (
+  [#174](https://github.com/wizard-online/wizard-online/pull/174)
+)
+
+## Changed
+
+- only show latest matches in list (
+  [#177](https://github.com/wizard-online/wizard-online/pull/177)
+)
+
+
 ## [1.0.0-alpha.5] - 2020-07-10
 
 ### Added

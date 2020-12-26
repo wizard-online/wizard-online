@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React from "react";
 import {
   getProfile as getProfileStorage,
   setProfile as setProfileStorage,
@@ -17,15 +17,18 @@ export const ProfileContext = React.createContext<
 >(undefined);
 
 export const ProfileProvider: React.FC = ({ children }) => {
-  const [profileState, setProfileState] = useState(getProfileStorage());
-  const setProfile = useCallback((profile: ProfileStore) => {
+  const [profileState, setProfileState] = React.useState(getProfileStorage());
+  const setProfile = React.useCallback((profile: ProfileStore) => {
     setProfileStorage(profile);
     setProfileState(getProfileStorage());
   }, []);
-  const updateProfile = useCallback((newProfile: Partial<ProfileStore>) => {
-    updateProfileStorage(newProfile);
-    setProfileState(getProfileStorage());
-  }, []);
+  const updateProfile = React.useCallback(
+    (newProfile: Partial<ProfileStore>) => {
+      updateProfileStorage(newProfile);
+      setProfileState(getProfileStorage());
+    },
+    []
+  );
   return (
     <ProfileContext.Provider
       value={{ profile: profileState, updateProfile, setProfile }}
@@ -36,7 +39,7 @@ export const ProfileProvider: React.FC = ({ children }) => {
 };
 
 export function useProfileContext(): ProfileProviderContext {
-  const profileContext = useContext(ProfileContext);
+  const profileContext = React.useContext(ProfileContext);
   if (!profileContext)
     throw new Error(
       "useProfileContext hook is called outside the scope of ProfileProvider"

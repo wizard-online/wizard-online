@@ -13,6 +13,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
   interactive = true,
   disabled = false,
   onClick = () => {},
+  preselected = false,
 }) => {
   if (card === undefined) {
     return <PlayCardPlaceholder />;
@@ -26,6 +27,7 @@ export const PlayCard: React.FC<PlayCardProps> = ({
       interactive={interactive}
       disabled={disabled}
       onClick={onClick}
+      preselected={preselected}
     />
   );
 };

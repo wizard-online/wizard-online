@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import random from "lodash/random";
-import { EnterGame } from "./EnterGame";
-import { PlayGame } from "./PlayGame";
+import { EnterMatch } from "./EnterMatch";
+import { PlayMatch } from "./PlayMatch";
 import {
   getCredentials,
   Credentials,
@@ -10,84 +10,84 @@ import {
   unsetCredentials,
 } from "../services/credentials.service";
 import {
-  GameRoom,
-  getGame,
-  joinGame,
-  leaveGame,
+  Match,
+  getMatch,
+  joinMatch,
+  leaveMatch,
 } from "../services/api.service";
 import { useProfile } from "../ProfileProvider";
 import { joinedGameEventGA, leftGameEventGA } from "../../analytics";
 
-export const GameContainer: React.FC = () => {
+export const MatchContainer: React.FC = () => {
   const history = useHistory();
-  const { name } = useProfile();
-  const { gameID } = useParams<{ gameID: string }>();
-  const [gameState, setGameState] = useState<GameRoom | undefined>();
+  const { name, character } = useProfile();
+  const { matchID } = useParams<{ matchID: string }>();
+  const [matchState, setMatchState] = useState<Match | undefined>();
   const [credentialsState, setCredentialsState] = useState<
     Credentials | undefined
   >();
 
-  const fetchGame = useCallback(async () => {
+  const fetchMatch = useCallback(async () => {
     try {
-      const gameResponse = await getGame(gameID!);
-      setGameState(gameResponse);
-      setCredentialsState(getCredentials(gameID));
-    } catch (error) {
+      const matchResponse = await getMatch(matchID!);
+      setMatchState(matchResponse);
+      setCredentialsState(getCredentials(matchID));
+    } catch {
       history.replace("/");
     }
-  }, [gameID, history]);
+  }, [matchID, history]);
 
   useEffect(() => {
-    fetchGame();
-  }, [fetchGame]);
+    fetchMatch();
+  }, [fetchMatch]);
 
-  if (!gameState) {
+  if (!matchState) {
     return <div>Spiel wird geladen...</div>;
   }
 
-  const freeSeats = gameState.players.filter((player) => !player.name);
+  const freeSeats = matchState.players.filter((player) => !player.name);
   const playing = !freeSeats.length;
 
   if (playing) {
-    const credentialsStore = getCredentials(gameID);
+    const credentialsStore = getCredentials(matchID);
     if (credentialsStore) {
       const { playerID, credentials } = credentialsStore;
       return (
-        <PlayGame
-          gameID={gameID}
+        <PlayMatch
+          matchID={matchID}
           playerID={playerID}
           credentials={credentials}
         />
       );
     }
-    // spectate game
-    return <PlayGame gameID={gameID} />;
+    // spectate match
+    return <PlayMatch matchID={matchID} />;
   }
 
   return (
-    <EnterGame
-      game={gameState}
-      fetchGame={fetchGame}
-      onEnterGame={async () => {
+    <EnterMatch
+      match={matchState}
+      fetchMatch={fetchMatch}
+      onEnterMatch={async () => {
         if (!credentialsState) {
           const seatIndex = random(freeSeats.length - 1);
           const { id } = freeSeats[seatIndex];
-          const newCredentials = await joinGame(gameID, id, name);
-          setCredentials(gameID, id, newCredentials);
-          fetchGame();
+          const newCredentials = await joinMatch(matchID, id, name, character);
+          setCredentials(matchID, id, newCredentials);
+          fetchMatch();
           joinedGameEventGA();
         }
       }}
-      canEnterGame={freeSeats.length > 0}
-      onLeaveGame={async () => {
+      canEnterMatch={freeSeats.length > 0}
+      onLeaveMatch={async () => {
         if (credentialsState) {
-          await leaveGame(
-            gameID,
+          await leaveMatch(
+            matchID,
             credentialsState.playerID,
             credentialsState.credentials
           );
-          unsetCredentials(gameID);
-          fetchGame();
+          unsetCredentials(matchID);
+          fetchMatch();
           leftGameEventGA();
         }
       }}

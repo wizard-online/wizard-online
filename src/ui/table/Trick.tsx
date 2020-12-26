@@ -13,12 +13,12 @@ export interface TrickProps {
 }
 
 export const Trick: React.FC<TrickProps> = ({ cards, winningPlayerID }) => {
-  const { gameMetadata } = useGameState();
+  const { matchData } = useGameState();
   return (
     <Container>
       {cards.map(({ card, player }) => (
         <TrickCardBox
-          player={getPlayerName(player, gameMetadata)}
+          player={getPlayerName(player, matchData)}
           isWinning={player === winningPlayerID}
           key={player}
         >

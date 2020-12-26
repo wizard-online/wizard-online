@@ -1,10 +1,16 @@
-import { createMuiTheme } from "@material-ui/core";
-import { colors } from "./colors";
+import { createMuiTheme, Theme } from "@material-ui/core";
+import { colors, ColorTripleTone } from "./colors";
 
-export const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: colors.wizard.green,
+export function getWizardTheme(
+  { medium: main, light, dark }: ColorTripleTone = colors.green
+): Theme {
+  return createMuiTheme({
+    palette: {
+      primary: {
+        main,
+        light,
+        dark,
+      },
     },
-  },
-});
+  });
+}

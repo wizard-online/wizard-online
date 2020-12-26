@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
-import { CreateGame } from "./CreateGame";
-import { GameContainer } from "./GameContainer";
-import { ListGames } from "./ListGames";
+import { CreateMatch } from "./CreateMatch";
+import { MatchContainer } from "./MatchContainer";
+import { ListMatches } from "./ListMatches";
 import { pageview } from "../../analytics";
 import { Profile } from "./Profile";
 import { FinalScore } from "./FinalScore";
@@ -17,13 +17,13 @@ export const LobbyRouter: React.FC = () => {
   return (
     <Switch>
       <Route exact path="/">
-        <CreateGame />
+        <CreateMatch />
       </Route>
-      <Route exact path="/games">
-        <ListGames />
+      <Route exact path="/matches">
+        <ListMatches />
       </Route>
-      <Route path="/games/:gameID">
-        <GameContainer />
+      <Route path="/matches/:matchID">
+        <MatchContainer />
       </Route>
       <Route path="/profile">
         <Profile />

@@ -1,16 +1,20 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
-import { playableCardsInHand } from "../../game/entities/cards.utils";
+import {
+  playableCardsInHand,
+  equalCards,
+} from "../../game/entities/cards.utils";
 import { PlayCard } from "../components/playcard/PlayCard";
 import { Card, Suit } from "../../game/entities/cards";
 import { useProfile } from "../ProfileProvider";
 import { sortHand } from "../util/sort-hands";
 import { HandMeta } from "../../game/WizardState";
+import { SelectedCardContext } from "../SelectedCardContext";
 
 export interface HandCardsProps {
   cards: Card[];
-  isInteractive: boolean;
-  onClickCard?: (cardIndex: number) => void;
+  isPlayTurn: boolean;
+  hasPlayed?: boolean;
   lead?: Card;
   trumpSuit: Suit | null | undefined;
   handMeta: HandMeta;
@@ -18,39 +22,54 @@ export interface HandCardsProps {
 
 export const ClientHand: React.FC<HandCardsProps> = ({
   cards,
-  isInteractive,
-  onClickCard = () => {},
+  isPlayTurn,
+  hasPlayed,
   lead,
   trumpSuit,
   handMeta,
 }) => {
-  const playableCards = isInteractive
+  const canPreselectCard = !!lead && !hasPlayed;
+  const canSelectCard = isPlayTurn || canPreselectCard;
+  const playableCards = canPreselectCard
     ? playableCardsInHand(cards as Card[], lead)
     : undefined;
 
   const { preferences } = useProfile();
   const { handOrder } = preferences;
-  const sortedCards = useMemo(
+  const sortedCards = React.useMemo(
     () => sortHand(cards, trumpSuit, handMeta, handOrder),
     [cards, trumpSuit, handMeta, handOrder]
   );
+  const { selectedCardIndex, setSelectedCardIndex } = React.useContext(
+    SelectedCardContext
+  );
 
   function getIndex(card: Card): number {
-    return cards.findIndex((c) => card === c);
+    return cards.findIndex((c) => equalCards(card, c));
   }
 
   return (
     <CardsContainer data-testid="client-hand">
-      {sortedCards.map((card) => (
-        <PlayingCardContainer key={cardKey(card, getIndex(card))}>
-          <PlayCard
-            card={card}
-            interactive={isInteractive}
-            disabled={playableCards && !playableCards[getIndex(card)]}
-            onClick={() => onClickCard(getIndex(card))}
-          />
-        </PlayingCardContainer>
-      ))}
+      {sortedCards.map((card) => {
+        const index = getIndex(card);
+        return (
+          <PlayingCardContainer key={cardKey(card, index)}>
+            <PlayCard
+              card={card}
+              interactive={canSelectCard}
+              disabled={playableCards && !playableCards[index]}
+              onClick={() => {
+                if (index === selectedCardIndex) {
+                  setSelectedCardIndex(undefined);
+                } else {
+                  setSelectedCardIndex(index);
+                }
+              }}
+              preselected={index === selectedCardIndex}
+            />
+          </PlayingCardContainer>
+        );
+      })}
     </CardsContainer>
   );
 };
@@ -59,7 +78,7 @@ const CardsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 0 -5px;
+  margin: 10px -5px 0;
 `;
 
 const PlayingCardContainer = styled.div`

@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "../util/colors";
@@ -12,7 +13,8 @@ export const TrickCardBox: React.FC<TrickCardProps> = ({
   children,
   isWinning = false,
 }) => {
-  const outlineColor = isWinning ? colors.wizard.green : "transparent";
+  const theme = useTheme();
+  const outlineColor = isWinning ? theme.palette.primary.main : "transparent";
 
   return (
     <Container outlineColor={outlineColor}>

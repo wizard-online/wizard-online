@@ -24,7 +24,7 @@ export function useAlertClient(): () => Promise<void> {
   return useCallback(async () => {
     try {
       await audioAlert.play();
-    } catch (error) {
+    } catch {
       updateProfile({ preferences: { turnAlert: false } });
     }
   }, [updateProfile]);

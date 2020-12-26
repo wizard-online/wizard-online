@@ -5,6 +5,12 @@ export interface ColorSet {
   shadow?: string;
 }
 
+export interface ColorTripleTone {
+  light: string;
+  medium: string;
+  dark: string;
+}
+
 export interface ColorSetCollection {
   [item: string]: ColorSet;
 }

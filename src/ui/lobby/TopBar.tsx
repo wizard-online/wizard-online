@@ -1,11 +1,12 @@
 import React from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Theme, Toolbar, useTheme } from "@material-ui/core";
 import styled from "styled-components";
 import { colors } from "../util/colors";
 import { useHeaderContext, HeaderSpot } from "../header/HeaderElementsProvider";
 
 export const TopBar: React.FC = () => {
   const { elements } = useHeaderContext();
+  const theme = useTheme();
   const elementsEntries = Object.entries(elements).sort(
     ([, a], [, b]) => b.position - a.position
   );
@@ -22,7 +23,7 @@ export const TopBar: React.FC = () => {
           {leftElements.map(([id, { element }]) => (
             <HeaderElement key={id}>{element}</HeaderElement>
           ))}
-          <PageTitle>Wizard Online</PageTitle>
+          <PageTitle $theme={theme}>Wizard Online</PageTitle>
           <SpaceFill />
           {rightElements.map(([id, { element }]) => (
             <HeaderElement key={id}>{element}</HeaderElement>
@@ -34,14 +35,15 @@ export const TopBar: React.FC = () => {
   );
 };
 
-const PageTitle = styled.h1`
+const PageTitle = styled.h1<{ $theme: Theme }>`
   margin: 0 12px;
   font-style: italic;
   color: ${colors.white};
   /* text-outline effect only supported with prefix */
   -webkit-text-fill-color: ${colors.wizard.darker};
-  -webkit-text-stroke: 1.5px ${colors.wizard.green};
-  text-shadow: 0 0 12px ${colors.white};
+  -webkit-text-stroke: 0.5px ${({ $theme }) => $theme.palette.primary.light};
+  text-shadow: 0 0 12px ${colors.white},
+    0 0 5px ${({ $theme }) => $theme.palette.primary.light};
 `;
 
 const SpaceFill = styled.div`

@@ -8,7 +8,7 @@ import { useGameState } from "../GameContext";
 export const ScoreContainer: React.FC = () => {
   const {
     wizardState: { scorePad, roundIndex, rounds, round, numPlayers },
-    gameMetadata,
+    matchData,
   } = useGameState();
   return (
     <Card>
@@ -19,7 +19,7 @@ export const ScoreContainer: React.FC = () => {
             scorePad={scorePad}
             rounds={rounds}
             playerNames={
-              gameMetadata?.map(({ name }) => name) ?? range(0, numPlayers)
+              matchData?.map(({ name }) => name) ?? range(0, numPlayers)
             }
             currentRound={rounds[roundIndex]}
             currentRoundBids={round?.bids.map((bid) => bid ?? undefined)}
