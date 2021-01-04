@@ -6,7 +6,7 @@ The famous trick-taking card game for quarantine time and more!
 ## Installation
 
 ```sh
-> git clone https://github.com/janKir/react-ts-parcel.git
+> git clone git@github.com:wizard-online/wizard-online.git
 > cd react-ts-parcel
 > yarn
 ```
