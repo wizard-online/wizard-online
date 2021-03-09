@@ -13,7 +13,15 @@ Sentry.init({ dsn: process.env.SENTRY_SERVER_DSN });
 
 let db: StorageCache | undefined;
 if (process.env.DATABASE_URL) {
-  const postgres = new PostgresStore(process.env.DATABASE_URL!);
+  const postgres = new PostgresStore(process.env.DATABASE_URL!, {
+    // fix SSL error https://stackoverflow.com/a/64960461
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  });
   const serverPostgres = new ServerPostgres(postgres);
   db = new StorageCache(serverPostgres);
   console.log("using postgresql storage");
