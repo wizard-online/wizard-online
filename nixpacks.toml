@@ -1,2 +1,2 @@
 [phases.setup]
-nixPkgs = ['python3', 'nodejs', 'yarn']
+nixPkgs = ['python3', 'nodejs', 'yarn', 'gcc', 'gnumake']
