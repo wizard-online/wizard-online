@@ -1,6 +1,6 @@
 # Wizard Online
 
-The famous trick-taking card game for quarantine time and more!
+The famous trick-taking card game for quarantine time and more!!!
 
 
 ## Installation

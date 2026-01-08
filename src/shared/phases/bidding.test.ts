@@ -1,7 +1,7 @@
 import { Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 
-import { bid } from "./bidding";
+import { bid, bidding } from "./bidding";
 import { WizardState } from "../WizardState";
 import { generateCtx } from "../../test/utils/ctx";
 import { NumPlayers, PlayerID } from "../entities/players";
@@ -48,7 +48,12 @@ function generate({
   };
 }
 
-describe("predict", () => {
+describe("bidding", () => {
+  it("should throw if round is not set", () => {
+    const { ctx, g } = generate({ bids: [1, null, null, null] });
+    expect(() => bid({ ...g, round: null }, ctx, 2)).toThrow();
+  });
+
   test("invalid when prediction below 0", () => {
     const { ctx, g } = generate({ bids: [1, null, null, null] });
     expect(bid(g, ctx, -1)).toBe(INVALID_MOVE);
@@ -109,5 +114,49 @@ describe("predict", () => {
     ctx.events!.endTurn = mockEndTurn;
     bid(g, ctx, 2);
     expect(mockEndTurn).toBeCalled();
+  });
+});
+
+describe("bidding endIf", () => {
+  it("should throw if round is not set", () => {
+    const { g, ctx } = generate({ bids: [1, 2, 3, null] });
+    expect(() => bidding.endIf!({ ...g, round: null }, ctx)).toThrow();
+  });
+
+  it.each([
+    [[null, null, null, null]],
+    [[1, null, null, null]],
+    [[1, 2, null, null]],
+    [[1, 2, 3, null]],
+    [[null, 2, 3, 4]],
+  ])("should return false if some bids are still null", (bids) => {
+    const { g, ctx } = generate({ bids });
+    expect(bidding.endIf!(g, ctx)).toBe(false);
+  });
+
+  it("should return true if all bids are set", () => {
+    const { g, ctx } = generate({ bids: [1, 2, 3, 0] });
+    expect(bidding.endIf!(g, ctx)).toBe(true);
+  });
+});
+
+describe("bidding onEnd", () => {
+  it("should throw if round is not set", () => {
+    const { g, ctx } = generate({ bids: [1, 2, 3, 0] });
+    expect(() => bidding.onEnd!({ ...g, round: null }, ctx)).toThrow();
+  });
+
+  it("should throw if bids are not complete", () => {
+    const { g, ctx } = generate({ bids: [1, 2, 3, null] });
+    expect(() => bidding.onEnd!(g, ctx)).toThrow();
+  });
+
+  it.each([
+    [[1, 2, 3, 0], 3, 3],
+    [[0, 0, 0, 0], 1, -1],
+  ])("should set the bids mismatch", (bids, numCards, mismatch) => {
+    const { g, ctx } = generate({ bids, numCards });
+    bidding.onEnd!(g, ctx);
+    expect(g.round?.bidsMismatch).toBe(mismatch);
   });
 });
