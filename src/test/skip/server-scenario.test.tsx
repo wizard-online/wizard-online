@@ -202,7 +202,7 @@ function testIsTurn(playerID: PlayerID, numPlayers: number): void {
         console.log(
           `expected to be the turn of player ${playerID}, but found player ${pID}`
         );
-        throw new Error(error);
+        throw new Error(error instanceof Error ? error.message : String(error));
       }
     });
   expect(queryByText(clients[playerID], /du bist am zug/i)).toBeInTheDocument();
@@ -223,7 +223,7 @@ function testCorrectHandout({ moves }: RoundScenario): void {
         //     ) ?? undefined
         //   )
         // );
-        throw new Error(error);
+        throw new Error(error instanceof Error ? error.message : String(error));
       }
     });
   });

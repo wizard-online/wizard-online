@@ -13,7 +13,7 @@ const deDateTimeFormatOptions = {
   hour: "numeric",
   minute: "numeric",
   hour12: false,
-};
+} as const;
 const deDateTimeFormat = new Intl.DateTimeFormat(
   "de-DE",
   deDateTimeFormatOptions
