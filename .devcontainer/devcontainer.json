@@ -1,6 +1,6 @@
 {
 	"name": "Wizzzzard",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -17,7 +17,8 @@
 					"dbaeumer.vscode-eslint",
 					"stylelint.vscode-stylelint",
 					"mhutchie.git-graph",
-					"eamodio.gitlens"
+					"eamodio.gitlens",
+					"TypeScriptTeam.native-preview"
 				]
 			}
 		},
