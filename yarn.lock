@@ -2034,6 +2034,54 @@
   dependencies:
     eslint-visitor-keys "^1.1.0"
 
+"@typescript/native-preview-darwin-arm64@7.0.0-dev.20260109.1":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview-darwin-arm64/-/native-preview-darwin-arm64-7.0.0-dev.20260109.1.tgz#dfb8b58130a032377fcfa599d3d4e4be9afbf472"
+  integrity sha512-rEY7JFH9JhIQ7SCjD+cpwPhIBLzNOgA7IVkfIcOpbWTmtOufx0sTZejR5B2b81x2fLCJDPZGpUv71wD1LP45iA==
+
+"@typescript/native-preview-darwin-x64@7.0.0-dev.20260109.1":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview-darwin-x64/-/native-preview-darwin-x64-7.0.0-dev.20260109.1.tgz#f5030608475d63b11dee7e59acb5c7bfa8e801c3"
+  integrity sha512-zBrxf4LYMhLGimvEZHJjtpYnpSqV4Q0rOkXEi8I5durn9NaGIBTOebBYXwF8/na6Pufdqd+vI1KQYxkm2G02pw==
+
+"@typescript/native-preview-linux-arm64@7.0.0-dev.20260109.1":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview-linux-arm64/-/native-preview-linux-arm64-7.0.0-dev.20260109.1.tgz#7d8a72af7b21e58059a32941ef06deb4f9eaaae7"
+  integrity sha512-WeDI+wrA1GqBFwFzj9i/zXlOuUaJdKidg6Jgry1P1TNpsHYW5YiKoNcpFirm1Fq3Dnav5cAa66z6VK5lvz7tgQ==
+
+"@typescript/native-preview-linux-arm@7.0.0-dev.20260109.1":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview-linux-arm/-/native-preview-linux-arm-7.0.0-dev.20260109.1.tgz#d01e457efea451007e3e2eac72470abe674d7fa7"
+  integrity sha512-J8kHoVttxNeMq1wdT12HPe6i/524svbdw1RsMBgb+kbqTfFFElSK7rbeZFuTfzpEA0/c6y2MY96qLP07Fq4zEw==
+
+"@typescript/native-preview-linux-x64@7.0.0-dev.20260109.1":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview-linux-x64/-/native-preview-linux-x64-7.0.0-dev.20260109.1.tgz#15df7359547c6a412a9eaeeaba9655be76fdba45"
+  integrity sha512-D0nuBsJTIfc1JD2HyoMKqc2Wpe0tMAP92hgwap6E3iTlKFMW9ayd7KLUjLz6EFxxw9LRw2sjECT1VvjCjAJ4GQ==
+
+"@typescript/native-preview-win32-arm64@7.0.0-dev.20260109.1":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview-win32-arm64/-/native-preview-win32-arm64-7.0.0-dev.20260109.1.tgz#f0d7658f7c9f97ae724c458af5a389b97c5fec3b"
+  integrity sha512-nv365W1TiJEAAJ/NiBaKE9hSvG7U7ipuAoaSdr6HzdyMVouArq2DxxLo06mzDMOjNdc6U7vAIkLB52CcK3Y8ZQ==
+
+"@typescript/native-preview-win32-x64@7.0.0-dev.20260109.1":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview-win32-x64/-/native-preview-win32-x64-7.0.0-dev.20260109.1.tgz#e017ffc30dbfce581bb3ba7f3f2a90643b539312"
+  integrity sha512-da44CbC8ktr741ISLvCQlz3Gv2UqO2M+rB585xCFNjcz+0IyOKkBGr9eR++f6uy46/QKFK4w44x0cK71PVqk9g==
+
+"@typescript/native-preview@^7.0.0-dev":
+  version "7.0.0-dev.20260109.1"
+  resolved "https://registry.yarnpkg.com/@typescript/native-preview/-/native-preview-7.0.0-dev.20260109.1.tgz#bdbb2616c89995deb4c3ce1020b602b7a831aa17"
+  integrity sha512-27XQhOQWcGp7/nOS1NbEoC4vA2dZOmG5X+OP4e5KX2uAUc2cjE1Scn1Nnv9D7wU2ZBA+/wrqqvJqidCPFRlq+A==
+  optionalDependencies:
+    "@typescript/native-preview-darwin-arm64" "7.0.0-dev.20260109.1"
+    "@typescript/native-preview-darwin-x64" "7.0.0-dev.20260109.1"
+    "@typescript/native-preview-linux-arm" "7.0.0-dev.20260109.1"
+    "@typescript/native-preview-linux-arm64" "7.0.0-dev.20260109.1"
+    "@typescript/native-preview-linux-x64" "7.0.0-dev.20260109.1"
+    "@typescript/native-preview-win32-arm64" "7.0.0-dev.20260109.1"
+    "@typescript/native-preview-win32-x64" "7.0.0-dev.20260109.1"
+
 abab@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.3.tgz#623e2075e02eb2d3f2475e49f99c91846467907a"
@@ -11067,10 +11115,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.4.3:
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
-  integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+typescript@^5.9.3:
+  version "5.9.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.3.tgz#5b4f59e15310ab17a216f5d6cf53ee476ede670f"
+  integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 uncss@^0.17.2:
   version "0.17.3"

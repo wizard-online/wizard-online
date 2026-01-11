@@ -275,7 +275,7 @@ export const scenario: GameScenario = {
           bid: 1,
           play: [
             C(R, 7),
-            C(Y, 19),
+            C(Y, 10),
             C(B, 4),
             C(G, 13),
             C(G, 7),

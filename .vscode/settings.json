@@ -1,9 +1,10 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "editor.formatOnSave": false,
   "files.eol": "\n",
   "editor.tabSize": 2,
-  "jest.pathToConfig": "jest.config.quickrun.js"
+  "jest.pathToConfig": "jest.config.quickrun.js",
+  "typescript.experimental.useTsgo": true
 }
