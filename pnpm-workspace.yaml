@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - core-js
+  - core-js-pure
+  - deasync
+  - fsevents
+  - nodemon
+  - parcel-bundler
