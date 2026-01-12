@@ -17,12 +17,12 @@
     "test:coverage": "jest --coverage --collectCoverageFrom=src/**/*.{ts,tsx,js}",
     "type-check": "tsc --noEmit",
     "type-check:native": "tsgo --noEmit",
-    "lint": "yarn lint:es && yarn lint:style",
+    "lint": "pnpm lint:es && pnpm lint:style",
     "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
     "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
     "server:watch": "parcel src/server/index.ts --target node -d dist/server",
     "server:serve": "nodemon dist/server/index.js -w dist/server",
-    "server": "concurrently --kill-others -n \"parcel,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"yarn run server:watch\" \"yarn run server:serve\""
+    "server": "concurrently --kill-others -n \"parcel,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"pnpm server:watch\" \"pnpm server:serve\""
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.9.2",
