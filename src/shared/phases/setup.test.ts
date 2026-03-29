@@ -100,7 +100,7 @@ describe("handout", () => {
     g.round!.deck[trumpIndex] = { suit: Suit.Blue, rank: Rank.Z };
     ctx.events!.setPhase = jest.fn();
     handoutMove(g, ctx);
-    expect(ctx.events!.setPhase).toBeCalledWith(Phase.SelectingTrump);
+    expect(ctx.events!.setPhase).toHaveBeenCalledWith(Phase.SelectingTrump);
   });
 
   test("sets trumpSuit to null if turmp card is a N", () => {
@@ -170,6 +170,6 @@ describe("handout", () => {
     ctx.events!.setPhase = mockEndPhase;
     handoutMove(g, ctx);
 
-    expect(mockEndPhase).toBeCalled();
+    expect(mockEndPhase).toHaveBeenCalled();
   });
 });

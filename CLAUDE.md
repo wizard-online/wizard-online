@@ -19,7 +19,7 @@ pnpm run build:server       # build server to dist/server/
 ```
 
 ## Test setup
-- Framework: Jest 25 + ts-jest + @testing-library/react 10
+- Framework: Jest 29 + ts-jest 29 + @testing-library/react 12 + @testing-library/jest-dom 6
 - `pnpm test` runs unit tests (ts-jest); `pnpm test:scenario` runs the integration test (babel-jest)
 - **`src/test/scenario.test.tsx`** runs via `jest.scenario.config.js` (separate from unit tests — long-running, ~60s)
 - Active unit tests live in `src/shared/` and `src/app/ui/services/`
@@ -32,7 +32,7 @@ pnpm run build:server       # build server to dist/server/
 |-------|------|--------|
 | 0 | Re-enable scenario.test.tsx, establish test baseline | **DONE** |
 | 1 | Remove legacy `babel-preset-env`, update `@babel/*` packages | **DONE** |
-| 2 | Jest 25→29, ts-jest, babel-jest, @testing-library stack | TODO |
+| 2 | Jest 25→29, ts-jest, babel-jest, @testing-library stack | **DONE** |
 | 3 | dotenv 8→16, date-fns 2→latest, redux 4→5, sentry 5→8 | TODO |
 | 4 | React 16→18, MUI v4→v5, react-router-dom v5→v6, react-ga→react-ga4 | TODO |
 | 5 | boardgame.io 0.41→0.50 (highest risk — do last) | TODO |
@@ -41,7 +41,7 @@ pnpm run build:server       # build server to dist/server/
 ### Constraints
 - Do NOT upgrade boardgame.io until Phase 5 — every other phase must be done and green first
 - Do NOT upgrade React and react-router-dom independently — do them together in Phase 4
-- Phase 4 requires @testing-library/react 14 (done in Phase 2) before React 18
+- Phase 4 requires upgrading @testing-library/react 12→14 alongside React 18 (v14 needs React 18 peer dep; v12 installed in Phase 2 as last React 16-compatible version)
 
 ### Security vulnerabilities (as of 2026-03-29)
 187 total: **20 critical, 80 high**, 69 moderate, 18 low.
