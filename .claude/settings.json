@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(pnpm test:*)",
-      "Bash(pnpm lint:es)"
+      "Bash(pnpm lint:es)",
+      "Bash(pnpm audit:*)",
+      "Bash(npm show:*)",
+      "Bash(pnpm test:scenario)",
+      "Bash(wc -l /workspaces/wizard-online/src/shared/**/*.ts /workspaces/wizard-online/src/test/*.tsx)",
+      "Bash(mkdir -p /workspaces/wizard-online/docs)",
+      "Bash(mkdir -p /workspaces/wizard-online/src/test/acceptance)",
+      "Bash(pnpm run:*)"
     ]
   }
 }
