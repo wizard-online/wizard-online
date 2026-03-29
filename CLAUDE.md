@@ -31,7 +31,7 @@ pnpm run build:server       # build server to dist/server/
 | Phase | Goal | Status |
 |-------|------|--------|
 | 0 | Re-enable scenario.test.tsx, establish test baseline | **DONE** |
-| 1 | Remove legacy `babel-preset-env`, update `@babel/*` packages | TODO |
+| 1 | Remove legacy `babel-preset-env`, update `@babel/*` packages | **DONE** |
 | 2 | Jest 25→29, ts-jest, babel-jest, @testing-library stack | TODO |
 | 3 | dotenv 8→16, date-fns 2→latest, redux 4→5, sentry 5→8 | TODO |
 | 4 | React 16→18, MUI v4→v5, react-router-dom v5→v6, react-ga→react-ga4 | TODO |
@@ -48,8 +48,9 @@ pnpm run build:server       # build server to dist/server/
 Root causes:
 - `sequelize` via `bgio-postgres` — 3 critical SQL injection CVEs (fixed by Phase 5 or bgio-postgres update)
 - `xmlhttprequest-ssl` via `boardgame.io` socket.io-client — 2 critical CVEs (fixed by Phase 5)
-- `@babel/traverse` via `@babel/core` — critical RCE (fixed by Phase 1)
-- `babel-traverse` via legacy `babel-preset-env` v1.7 — critical RCE (fixed by Phase 1, remove the package)
+- `@babel/traverse` via `parcel-bundler` — critical RCE (remaining; fixed by Phase 6 when Parcel is upgraded)
+- ~~`@babel/traverse` via `@babel/core` — critical RCE (fixed in Phase 1)~~
+- ~~`babel-traverse` via legacy `babel-preset-env` v1.7 — critical RCE (fixed in Phase 1, package removed)~~
 
 ## Architecture notes
 - Game logic lives in `src/shared/` — shared between client and server
