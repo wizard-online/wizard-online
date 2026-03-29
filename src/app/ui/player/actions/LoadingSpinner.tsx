@@ -30,7 +30,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
       return () => {
         if (timeoutHandleRef.current) {
-          clearTimeout(timeoutHandleRef.current);
+          window.clearTimeout(timeoutHandleRef.current);
           timeoutHandleRef.current = undefined;
         }
         setProgress(0);
@@ -44,7 +44,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     if (show && progress < 100) {
       setProgress(progress + stepSize);
 
-      timeoutHandleRef.current = setTimeout(
+      timeoutHandleRef.current = window.setTimeout(
         () => triggerIncrement(),
         msPerStep
       );
