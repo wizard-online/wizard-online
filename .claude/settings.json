@@ -9,7 +9,9 @@
       "Bash(wc -l /workspaces/wizard-online/src/shared/**/*.ts /workspaces/wizard-online/src/test/*.tsx)",
       "Bash(mkdir -p /workspaces/wizard-online/docs)",
       "Bash(mkdir -p /workspaces/wizard-online/src/test/acceptance)",
-      "Bash(pnpm run:*)"
+      "Bash(pnpm run:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(pnpm update:*)"
     ]
   }
 }
