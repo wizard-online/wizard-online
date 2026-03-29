@@ -15,7 +15,7 @@ module.exports = {
   extends: [
     "plugin:@typescript-eslint/recommended",
     "airbnb-typescript", // use airbnb ruleset for typescript as base
-    "airbnb/hooks", // add lint rules for use of react hooks
+    "plugin:react-hooks/recommended", // add lint rules for use of react hooks
     "plugin:jest/recommended", // use recommended jest rules
     "plugin:unicorn/recommended", // use recommended rules of unicorn ruleset
     "plugin:prettier/recommended", // extend eslint-config-prettier rules
@@ -26,7 +26,7 @@ module.exports = {
     jsx: true,
     sourceType: "module",
     useJSXTextNode: true,
-    project: "./tsconfig.json",
+    project: ["./tsconfig.app.json", "./tsconfig.server.json", "./tsconfig.test.json"],
   },
 
   env: {
@@ -34,7 +34,7 @@ module.exports = {
     browser: true,
     jest: true,
   },
-  ignorePatterns: [".cache/**/*", "dist/**/*", ".git/**/*", "node_modules/**/*", ".*.js", "jest.*.js", "jest.*.ts"],
+  ignorePatterns: [".cache/**/*", "dist/**/*", ".git/**/*", "node_modules/**/*", ".*.js", "jest.*.js", "jest.*.ts", "src/test/**/*.d.ts"],
   rules: {  
     // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
     "import/prefer-default-export": "off",
