@@ -36,7 +36,7 @@ import { finishedGameEventGA } from "../app/analytics";
 const randomMock = jest.fn();
 const shuffleMock = jest.fn();
 
-jest.mock("../analytics");
+jest.mock("../app/analytics");
 jest.mock("react-ga");
 
 const WizardClient = Client({
@@ -151,6 +151,12 @@ function playMove(playerID: PlayerID, card: Card): void {
   fireEvent.click(cardButton);
   // test card removed from hand
   const clientHand = getByTestId(clients[playerID], "client-hand");
+  // If the card is still in hand, it was pre-selected (auto/pre selection type).
+  // Clicking a pre-selected card deselects it; clicking again re-selects with
+  // Normal type, which triggers immediate play via the SelectedCardContext effect.
+  if (queryByTestId(clientHand, cardTestId)) {
+    fireEvent.click(cardButton);
+  }
   expect(queryByTestId(clientHand, cardTestId)).not.toBeInTheDocument();
   // test card added on table
   const tablePlay = getByTestId(clients[playerID], "table-play");

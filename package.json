@@ -14,6 +14,7 @@
     "build:app": "parcel build public/index.html -d dist/app",
     "build:server": "parcel build src/server/index.ts --target node --no-minify -d dist/server",
     "test": "jest",
+    "test:scenario": "jest --config jest.scenario.config.js",
     "test:coverage": "jest --coverage --collectCoverageFrom=src/**/*.{ts,tsx,js}",
     "type-check": "tsc --build tsconfig.json  --noEmit",
     "type-check:native": "tsgo --build tsconfig.json --noEmit",
