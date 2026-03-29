@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { Icon, Button } from "@material-ui/core";
+import { Icon, Button } from "@mui/material";
 import { useProfile } from "../ProfileProvider";
 import { useHeaderElement } from "../header/HeaderElementsProvider";
 import { colors } from "../util/colors";

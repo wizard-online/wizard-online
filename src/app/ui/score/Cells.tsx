@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { TableCell } from "@material-ui/core";
+import { TableCell } from "@mui/material";
 import { colors } from "../util/colors";
 
 const cellWidth = 80;
@@ -25,7 +25,7 @@ const CellContent = styled.div`
   text-align: center;
 `;
 
-export const IndexCell: React.FC = ({ children }) => (
+export const IndexCell: React.FC<React.PropsWithChildren> = ({ children }) => (
   <BaseCell component="th" scope="row" $width={indexCellWidth}>
     <CellContent>{children}</CellContent>
   </BaseCell>
@@ -45,12 +45,9 @@ export interface PlayerNameCellProps {
   onMouseLeave?: (event: React.MouseEvent) => void;
 }
 
-export const PlayerNameCell: React.FC<PlayerNameCellProps> = ({
-  children,
-  highlight,
-  onMouseEnter,
-  onMouseLeave,
-}) => (
+export const PlayerNameCell: React.FC<React.PropsWithChildren<
+  PlayerNameCellProps
+>> = ({ children, highlight, onMouseEnter, onMouseLeave }) => (
   <BaseCell
     component="th"
     $width={cellWidth}

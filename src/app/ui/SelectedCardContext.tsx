@@ -24,7 +24,9 @@ export const SelectedCardContext = React.createContext<SelectedCard>({
   play: () => {},
 });
 
-export const SelectedCardProvider: React.FC = ({ children }) => {
+export const SelectedCardProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [selectedCardIndex, setSelectedCardIndex] = React.useState<
     number | undefined
   >();

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar } from "@mui/material";
 import { WizardClient } from "../../WizardClient";
 import { PlayerID } from "../../../shared/entities/players";
 import { startedGameEventGA } from "../../analytics";

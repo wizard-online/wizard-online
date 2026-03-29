@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
-import { Link, Icon, IconButton } from "@material-ui/core";
+import { Link, Icon, IconButton } from "@mui/material";
 import { subHours } from "date-fns";
 import { getAllMatches, Match } from "../services/api.service";
 import { sortMatchSeats } from "../util/match-seats";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent } from "@material-ui/core";
+import { Card, CardContent } from "@mui/material";
 import styled from "styled-components";
 import range from "lodash/range";
 import { ScorePad } from "./ScorePad";

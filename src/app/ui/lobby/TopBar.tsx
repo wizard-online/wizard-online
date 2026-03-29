@@ -1,5 +1,6 @@
 import React from "react";
-import { AppBar, Theme, Toolbar, useTheme } from "@material-ui/core";
+import { AppBar, Toolbar } from "@mui/material";
+import { Theme, useTheme } from "@mui/material/styles";
 import styled from "styled-components";
 import { colors } from "../util/colors";
 import { useHeaderContext, HeaderSpot } from "../header/HeaderElementsProvider";

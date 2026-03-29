@@ -2,7 +2,7 @@
 
 ## Project summary
 Online multiplayer implementation of the Wizard card game (trick-taking, 3–6 players).
-- **Frontend:** React 16 + Material UI v4 + React Router v5 + styled-components
+- **Frontend:** React 18 + MUI v7 + React Router v6 + styled-components
 - **Game framework:** boardgame.io 0.41.0 (client: `boardgame.io/react`, server: `boardgame.io/server`)
 - **Backend:** Node.js server with PostgreSQL via `bgio-postgres` (optional — falls back to in-memory)
 - **Build:** Parcel 1.x (bundler) + Babel (transpiler) + TypeScript 5.x (type-check only)
@@ -19,7 +19,7 @@ pnpm run build:server       # build server to dist/server/
 ```
 
 ## Test setup
-- Framework: Jest 29 + ts-jest 29 + @testing-library/react 12 + @testing-library/jest-dom 6
+- Framework: Jest 29 + ts-jest 29 + @testing-library/react 14 + @testing-library/jest-dom 6
 - `pnpm test` runs unit tests (ts-jest); `pnpm test:scenario` runs the integration test (babel-jest)
 - **`src/test/scenario.test.tsx`** runs via `jest.scenario.config.js` (separate from unit tests — long-running, ~60s)
 - Active unit tests live in `src/shared/` and `src/app/ui/services/`
@@ -34,14 +34,14 @@ pnpm run build:server       # build server to dist/server/
 | 1 | Remove legacy `babel-preset-env`, update `@babel/*` packages | **DONE** |
 | 2 | Jest 25→29, ts-jest, babel-jest, @testing-library stack | **DONE** |
 | 3 | dotenv 8→16, date-fns 2→4, remove unused redux, sentry 5→8 | **DONE** |
-| 4 | React 16→18, MUI v4→v5, react-router-dom v5→v6, react-ga→react-ga4 | TODO |
+| 4 | React 16→18, MUI v4→v7, react-router-dom v5→v6, react-ga→react-ga4 | **DONE** |
 | 5 | boardgame.io 0.41→0.50 (highest risk — do last) | TODO |
 | 6 | Parcel 1→2 or migrate to Vite (optional) | TODO |
 
 ### Constraints
 - Do NOT upgrade boardgame.io until Phase 5 — every other phase must be done and green first
 - Do NOT upgrade React and react-router-dom independently — do them together in Phase 4
-- Phase 4 requires upgrading @testing-library/react 12→14 alongside React 18 (v14 needs React 18 peer dep; v12 installed in Phase 2 as last React 16-compatible version)
+- ~~Phase 4 requires upgrading @testing-library/react 12→14 alongside React 18 (v14 needs React 18 peer dep; v12 installed in Phase 2 as last React 16-compatible version)~~ (done)
 
 ### Security vulnerabilities (as of 2026-03-29)
 187 total: **20 critical, 80 high**, 69 moderate, 18 low.

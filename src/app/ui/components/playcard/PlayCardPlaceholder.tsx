@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { playCardBaseStyles } from "./playcard.styles";
 import { colors } from "../../util/colors";
 
-export const PlayCardPlaceholder: React.FC = ({ children }) => {
+export const PlayCardPlaceholder: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   return <PlaceholderContainer>{children}</PlaceholderContainer>;
 };
 

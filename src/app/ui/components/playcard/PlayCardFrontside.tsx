@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { Badge } from "@material-ui/core";
+import { Badge } from "@mui/material";
 
 import { playCardBaseStyles } from "./playcard.styles";
 import { ColorSet } from "../../util/colors";

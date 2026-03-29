@@ -1,5 +1,5 @@
 import React from "react";
-import { Chip } from "@material-ui/core";
+import { Chip } from "@mui/material";
 import styled from "styled-components";
 import { PlayerProps } from "./Player.props";
 import { useGameState } from "../GameContext";
@@ -23,7 +23,7 @@ export const TrickLabel: React.FC<PlayerProps> = ({ playerID }) => {
             <BidValue>{bidValue ?? "_"}</BidValue>
           </>
         }
-        variant={bidValue !== null ? "outlined" : "default"}
+        variant={bidValue !== null ? "outlined" : "filled"}
       />
     </div>
   );

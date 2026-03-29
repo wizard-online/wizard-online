@@ -27,7 +27,9 @@ export const HeaderContext = React.createContext<HeaderContext | undefined>(
   undefined
 );
 
-export const HeaderElementsProvider: React.FC = ({ children }) => {
+export const HeaderElementsProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [elements, setElements] = useState<HeaderElements>({});
   const addElement = useCallback((id: string, element: HeaderElement) => {
     setElements((others) => ({

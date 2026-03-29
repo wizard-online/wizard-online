@@ -17,7 +17,9 @@ export const ProfileContext = React.createContext<
   ProfileProviderContext | undefined
 >(undefined);
 
-export const ProfileProvider: React.FC = ({ children }) => {
+export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [profileState, setProfileState] = React.useState(getProfileStorage());
   const setProfile = React.useCallback((profile: ProfileStore) => {
     setProfileStorage(profile);

@@ -5,7 +5,7 @@ import { useNotifyRoundComplete } from "./hooks/notify-round-complete";
 import { useGameOverAnalytics } from "./hooks/game-over-analytics";
 import { useAlertClientTurn } from "./hooks/alert-client-turn";
 
-export const GameEvents: React.FC = ({ children }) => {
+export const GameEvents: React.FC<React.PropsWithChildren> = ({ children }) => {
   useGameEventsDispatcher();
   useAlertClientTurn();
   useNotifyTrickComplete();

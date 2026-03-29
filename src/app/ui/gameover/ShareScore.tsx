@@ -6,7 +6,7 @@ import {
   Icon,
   Card,
   CardContent,
-} from "@material-ui/core";
+} from "@mui/material";
 import { stringify, FinalResult } from "../services/share-scorepad";
 import { useNotify } from "../NotificationsProvider";
 import { copiedScoreLinkEventGA } from "../../analytics";
