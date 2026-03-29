@@ -3,7 +3,7 @@ module.exports = {
     ecmaVersion: 2019,
     jsx: false,
     sourceType: "module",
-    project: "./tsconfig.json",
+    project: "../../tsconfig.server.json",
     tsconfigRootDir: __dirname
   },
   rules: {

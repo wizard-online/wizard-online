@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ['python3', 'nodejs', 'yarn', 'gcc', 'gnumake']
+nixPkgs = ['python3', 'nodejs', 'pnpm', 'gcc', 'gnumake']
 
 [phases.build]
-cmds = ['yarn build:server']
+cmds = ['pnpm build:server']

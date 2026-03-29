@@ -61,5 +61,11 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# Pnpm
+.pnpm-store/
+
+# Typescript build info
+*.tsbuildinfo
+
 # dotenv environment variables file
 .env

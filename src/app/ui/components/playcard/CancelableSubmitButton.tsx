@@ -25,10 +25,10 @@ export const CancelableSubmitButton: React.FC<CancelableSubmitButtonProps> = ({
 
   React.useEffect(() => {
     if (activated) {
-      timeoutHandleRef.current = setTimeout(() => onSubmit(), timeout);
+      timeoutHandleRef.current = window.setTimeout(() => onSubmit(), timeout);
     }
     return () => {
-      clearTimeout(timeoutHandleRef.current);
+      window.clearTimeout(timeoutHandleRef.current);
     };
   }, [activated, onSubmit, timeout]);
 

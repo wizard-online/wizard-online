@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./lib/",
+    "jsx": "react",
+    "lib": ["es2017", "dom"],
+    "types": [],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/app/**/*", "src/shared/**/*", "src/version.ts"],
+  "exclude": [".git", "node_modules", "**/*.test.ts", "**/*.test.tsx", "src/test"]
+}
