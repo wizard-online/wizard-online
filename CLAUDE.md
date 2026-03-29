@@ -33,7 +33,7 @@ pnpm run build:server       # build server to dist/server/
 | 0 | Re-enable scenario.test.tsx, establish test baseline | **DONE** |
 | 1 | Remove legacy `babel-preset-env`, update `@babel/*` packages | **DONE** |
 | 2 | Jest 25→29, ts-jest, babel-jest, @testing-library stack | **DONE** |
-| 3 | dotenv 8→16, date-fns 2→latest, redux 4→5, sentry 5→8 | TODO |
+| 3 | dotenv 8→16, date-fns 2→4, remove unused redux, sentry 5→8 | **DONE** |
 | 4 | React 16→18, MUI v4→v5, react-router-dom v5→v6, react-ga→react-ga4 | TODO |
 | 5 | boardgame.io 0.41→0.50 (highest risk — do last) | TODO |
 | 6 | Parcel 1→2 or migrate to Vite (optional) | TODO |

@@ -1,4 +1,4 @@
-import differenceInDays from "date-fns/differenceInDays";
+import { differenceInDays } from "date-fns";
 import flow from "lodash/fp/flow";
 import { PlayerID } from "../../../shared/entities/players";
 
