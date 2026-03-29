@@ -149,11 +149,7 @@ describe("Group B: Suit-following rules", () => {
       currentPlayer: 1 as PlayerID,
       round: {
         bids: [0, 0, 0],
-        hands: [
-          [],
-          [c(Suit.Blue, Rank.Three), c(Suit.Red, Rank.Seven)],
-          [],
-        ],
+        hands: [[], [c(Suit.Blue, Rank.Three), c(Suit.Red, Rank.Seven)], []],
         trickCount: [0, 0, 0],
       },
       trick: {
@@ -177,11 +173,7 @@ describe("Group B: Suit-following rules", () => {
       currentPlayer: 1 as PlayerID,
       round: {
         bids: [0, 0, 0],
-        hands: [
-          [],
-          [c(Suit.Blue, Rank.Three), c(Suit.Green, Rank.Two)],
-          [],
-        ],
+        hands: [[], [c(Suit.Blue, Rank.Three), c(Suit.Green, Rank.Two)], []],
         trickCount: [0, 0, 0],
         trump: { card: c(Suit.Green, Rank.One), suit: Suit.Green },
       },
@@ -206,11 +198,7 @@ describe("Group B: Suit-following rules", () => {
       currentPlayer: 1 as PlayerID,
       round: {
         bids: [0, 0, 0],
-        hands: [
-          [],
-          [c(Suit.Red, Rank.Three), c(Suit.Yellow, Rank.Seven)],
-          [],
-        ],
+        hands: [[], [c(Suit.Red, Rank.Three), c(Suit.Yellow, Rank.Seven)], []],
         trickCount: [0, 0, 0],
       },
       trick: {
@@ -234,11 +222,7 @@ describe("Group B: Suit-following rules", () => {
       currentPlayer: 1 as PlayerID,
       round: {
         bids: [0, 0, 0],
-        hands: [
-          [],
-          [NULL_CARD(Suit.Blue), c(Suit.Blue, Rank.Three)],
-          [],
-        ],
+        hands: [[], [NULL_CARD(Suit.Blue), c(Suit.Blue, Rank.Three)], []],
         trickCount: [0, 0, 0],
       },
       trick: {
@@ -262,11 +246,7 @@ describe("Group B: Suit-following rules", () => {
       currentPlayer: 1 as PlayerID,
       round: {
         bids: [0, 0, 0],
-        hands: [
-          [],
-          [WIZARD(Suit.Blue), c(Suit.Blue, Rank.Three)],
-          [],
-        ],
+        hands: [[], [WIZARD(Suit.Blue), c(Suit.Blue, Rank.Three)], []],
         trickCount: [0, 0, 0],
       },
       trick: {

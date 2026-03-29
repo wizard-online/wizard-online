@@ -12,7 +12,7 @@ import {
   selectingTrump,
 } from "../../shared/phases/selecting-trump";
 import { setup } from "../../shared/phases/setup";
-import { PhaseConfig } from "boardgame.io";
+import { Ctx, PhaseConfig } from "boardgame.io";
 
 const phaseMap: Record<string, PhaseConfig> = {
   [Phase.Bidding]: bidding,
@@ -23,7 +23,9 @@ const phaseMap: Record<string, PhaseConfig> = {
 
 export class GameRunner {
   private g: WizardState;
+
   private numPlayers: NumPlayers;
+
   private _roundComplete = false;
 
   constructor(initialState: WizardState, numPlayers: NumPlayers) {
@@ -112,7 +114,7 @@ export class GameRunner {
     }
   }
 
-  private _buildCtx() {
+  private _buildCtx(): Ctx {
     return generateCtx({
       numPlayers: this.numPlayers,
       currentPlayer: this.g.currentPlayer.toString(),
@@ -123,17 +125,14 @@ export class GameRunner {
     });
   }
 
-  private _handleTurnEnd(
-    endTurnSpy: jest.Mock,
-    endPhaseSpy: jest.Mock
-  ): void {
+  private _handleTurnEnd(endTurnSpy: jest.Mock, endPhaseSpy: jest.Mock): void {
     const endTurnCalled = endTurnSpy.mock.calls.length > 0;
     const endPhaseCalled = endPhaseSpy.mock.calls.length > 0;
 
     if (endTurnCalled) {
       const args = endTurnSpy.mock.calls[0];
       if (args.length > 0 && args[0] && typeof args[0].next === "string") {
-        this.g.currentPlayer = parseInt(args[0].next, 10) as PlayerID;
+        this.g.currentPlayer = Number.parseInt(args[0].next, 10) as PlayerID;
       } else {
         this.g.currentPlayer = nextPlayer(
           this.g.currentPlayer,

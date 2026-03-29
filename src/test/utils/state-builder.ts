@@ -60,7 +60,9 @@ export interface BuildStateOptions {
  * shared array references. Callers providing hands should always supply explicit
  * distinct arrays.
  */
-export function buildState(options: BuildStateOptions = {}): {
+export function buildState(
+  options: BuildStateOptions = {}
+): {
   g: WizardState;
   ctx: Ctx;
 } {
