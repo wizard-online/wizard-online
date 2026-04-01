@@ -130,7 +130,7 @@ const FormField = styled.div`
   display: flex;
   margin: 0 10px;
   padding: 20px 0;
-  float: "left";
+  float: left;
 `;
 
 const ColoredRadio = styled(Radio)<{ $color: string }>`

@@ -11,6 +11,7 @@
   "main": "index.tsx",
   "scripts": {
     "start": "vite",
+    "start:server": "tsx watch src/server/index.ts",
     "build:app": "vite build",
     "build:server": "tsc -p tsconfig.server.json",
     "test": "jest",
@@ -20,10 +21,7 @@
     "type-check:native": "tsgo --build tsconfig.json --noEmit",
     "lint": "pnpm lint:es && pnpm lint:style",
     "lint:es": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
-    "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\"",
-    "server:watch": "tsc -p tsconfig.server.json --watch",
-    "server:serve": "nodemon dist/server/src/server/index.js -w dist/server",
-    "server": "concurrently --kill-others -n \"tsc,nodemon\" -p \"{time}-{name}\" -t \"HH:mm:ss\" \"pnpm server:watch\" \"pnpm server:serve\""
+    "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx,js}\""
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.29.2",
@@ -72,7 +70,6 @@
     "@typescript-eslint/parser": "^7.18.0",
     "@typescript/native-preview": "^7.0.0-dev",
     "babel-jest": "^29.7.0",
-    "concurrently": "^5.1.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^9.1.0",
@@ -88,13 +85,12 @@
     "jest-date-mock": "^1.0.8",
     "jest-environment-jsdom": "^29.7.0",
     "jest-localstorage-mock": "^2.4.0",
-    "nodemon": "^2.0.2",
+    "postcss-styled-syntax": "^0.7.1",
     "prettier": "^2.0.2",
-    "stylelint": "^13.2.1",
-    "stylelint-config-prettier": "^8.0.1",
-    "stylelint-config-recommended": "^3.0.0",
-    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint": "^16.18.0",
+    "stylelint-config-recommended": "^15.0.0",
     "ts-jest": "^29.4.6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite": "^6.4.1"
   },
@@ -104,7 +100,13 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18.3.28",
-      "@types/react-dom": "^18.3.7"
+      "@types/react-dom": "^18.3.7",
+      "@babel/traverse": ">=7.23.2",
+      "lodash": ">=4.17.21",
+      "cross-spawn": ">=7.0.5",
+      "flatted": ">=3.4.2",
+      "picomatch": ">=2.3.2",
+      "hosted-git-info": ">=2.8.9"
     }
   }
 }

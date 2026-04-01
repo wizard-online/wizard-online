@@ -5,7 +5,7 @@ Online multiplayer implementation of the Wizard card game (trick-taking, 3–6 p
 - **Frontend:** React 18 + MUI v7 + React Router v6 + styled-components
 - **Game framework:** boardgame.io 0.41.0 (client: `boardgame.io/react`, server: `boardgame.io/server`)
 - **Backend:** Node.js server with PostgreSQL via `bgio-postgres` (optional — falls back to in-memory)
-- **Build:** Parcel 1.x (bundler) + Babel (transpiler) + TypeScript 5.x (type-check only)
+- **Build:** Vite 6 (frontend bundler + dev server) + tsc (server build) + TypeScript 5.x
 - **Package manager:** pnpm
 
 ## Key commands
@@ -36,19 +36,18 @@ pnpm run build:server       # build server to dist/server/
 | 3 | dotenv 8→16, date-fns 2→4, remove unused redux, sentry 5→8 | **DONE** |
 | 4 | React 16→18, MUI v4→v7, react-router-dom v5→v6, react-ga→react-ga4 | **DONE** |
 | 5 | boardgame.io 0.41→0.50 (highest risk — do last) | TODO |
-| 6 | Parcel 1→2 or migrate to Vite (optional) | TODO |
+| 6 | Parcel 1→Vite (frontend), tsc (server) | **DONE** |
 
 ### Constraints
-- Do NOT upgrade boardgame.io until Phase 5 — every other phase must be done and green first
-- Do NOT upgrade React and react-router-dom independently — do them together in Phase 4
-- ~~Phase 4 requires upgrading @testing-library/react 12→14 alongside React 18 (v14 needs React 18 peer dep; v12 installed in Phase 2 as last React 16-compatible version)~~ (done)
+- Phases 0–4 and 6 are complete — only Phase 5 (boardgame.io upgrade) remains
+- boardgame.io 0.41→0.50 is the highest-risk upgrade due to breaking API changes across versions
 
 ### Security vulnerabilities (as of 2026-03-29)
 187 total: **20 critical, 80 high**, 69 moderate, 18 low.
 Root causes:
 - `sequelize` via `bgio-postgres` — 3 critical SQL injection CVEs (fixed by Phase 5 or bgio-postgres update)
 - `xmlhttprequest-ssl` via `boardgame.io` socket.io-client — 2 critical CVEs (fixed by Phase 5)
-- `@babel/traverse` via `parcel-bundler` — critical RCE (remaining; fixed by Phase 6 when Parcel is upgraded)
+- ~~`@babel/traverse` via `parcel-bundler` — critical RCE (fixed in Phase 6 — Parcel removed, migrated to Vite)~~
 - ~~`@babel/traverse` via `@babel/core` — critical RCE (fixed in Phase 1)~~
 - ~~`babel-traverse` via legacy `babel-preset-env` v1.7 — critical RCE (fixed in Phase 1, package removed)~~
 
