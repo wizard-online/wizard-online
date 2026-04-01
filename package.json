@@ -36,7 +36,7 @@
     "@sentry/node": "^8.55.1",
     "bgio-postgres": "^1.0.13",
     "bgio-storage-cache": "^0.1.2",
-    "boardgame.io": "^0.41.0",
+    "boardgame.io": "^0.50.2",
     "core-js": "^3.6.4",
     "date-fns": "^4.1.0",
     "dotenv": "^16.6.1",

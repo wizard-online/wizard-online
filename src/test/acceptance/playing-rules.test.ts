@@ -1,3 +1,4 @@
+import { FnContext } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { buildState, c, WIZARD, NULL_CARD } from "../utils/state-builder";
 import { GameRunner } from "../utils/game-runner";
@@ -6,6 +7,21 @@ import { Phase } from "../../shared/phases/phase";
 import { PlayerID } from "../../shared/entities/players";
 import { play } from "../../shared/phases/playing";
 import { updateScorePad } from "../../shared/entities/score.utils";
+import { WizardState } from "../../shared/WizardState";
+import { EventsAPI } from "../../shared/boardgame.io.types";
+
+function mockEvents(): EventsAPI {
+  return {
+    endGame: () => {},
+    endPhase: () => {},
+    endStage: () => {},
+    endTurn: () => {},
+    pass: () => {},
+    setActivePlayers: () => {},
+    setPhase: () => {},
+    setStage: () => {},
+  };
+}
 
 describe("Group A: Trick winner determination", () => {
   test("A1: Highest trump wins the trick", () => {
@@ -141,9 +157,24 @@ describe("Group A: Trick winner determination", () => {
   });
 });
 
+function buildPlayContext(g: WizardState): FnContext<WizardState> {
+  const { ctx } = buildState({
+    numPlayers: g.numPlayers,
+    currentPlayer: g.currentPlayer,
+    phase: g.phase,
+  });
+  return {
+    G: g,
+    ctx,
+    events: mockEvents(),
+    random: {} as FnContext<WizardState>["random"],
+    log: { setMetadata: () => {} },
+  } as FnContext<WizardState>;
+}
+
 describe("Group B: Suit-following rules", () => {
   test("B6: Different suit when holding lead suit -> INVALID_MOVE", () => {
-    const { g, ctx } = buildState({
+    const { g } = buildState({
       numPlayers: 3,
       phase: Phase.Playing,
       currentPlayer: 1 as PlayerID,
@@ -162,12 +193,12 @@ describe("Group B: Suit-following rules", () => {
       },
     });
 
-    const result = play(g, ctx, 1); // Red 7, wrong suit
+    const result = play(buildPlayContext(g), 1); // Red 7, wrong suit
     expect(result).toBe(INVALID_MOVE);
   });
 
   test("B7: Trump when holding lead suit -> INVALID_MOVE", () => {
-    const { g, ctx } = buildState({
+    const { g } = buildState({
       numPlayers: 3,
       phase: Phase.Playing,
       currentPlayer: 1 as PlayerID,
@@ -187,12 +218,12 @@ describe("Group B: Suit-following rules", () => {
       },
     });
 
-    const result = play(g, ctx, 1); // Green 2 = trump, but has Blue
+    const result = play(buildPlayContext(g), 1); // Green 2 = trump, but has Blue
     expect(result).toBe(INVALID_MOVE);
   });
 
   test("B8: Any card allowed when out of lead suit", () => {
-    const { g, ctx } = buildState({
+    const { g } = buildState({
       numPlayers: 3,
       phase: Phase.Playing,
       currentPlayer: 1 as PlayerID,
@@ -211,12 +242,12 @@ describe("Group B: Suit-following rules", () => {
       },
     });
 
-    const result = play(g, ctx, 1); // Yellow 7, not lead suit but no Blue in hand
+    const result = play(buildPlayContext(g), 1); // Yellow 7, not lead suit but no Blue in hand
     expect(result).not.toBe(INVALID_MOVE);
   });
 
   test("B9: Null always allowed regardless of hand", () => {
-    const { g, ctx } = buildState({
+    const { g } = buildState({
       numPlayers: 3,
       phase: Phase.Playing,
       currentPlayer: 1 as PlayerID,
@@ -235,12 +266,12 @@ describe("Group B: Suit-following rules", () => {
       },
     });
 
-    const result = play(g, ctx, 0); // Null card
+    const result = play(buildPlayContext(g), 0); // Null card
     expect(result).not.toBe(INVALID_MOVE);
   });
 
   test("B9b: Wizard always allowed regardless of hand", () => {
-    const { g, ctx } = buildState({
+    const { g } = buildState({
       numPlayers: 3,
       phase: Phase.Playing,
       currentPlayer: 1 as PlayerID,
@@ -259,7 +290,7 @@ describe("Group B: Suit-following rules", () => {
       },
     });
 
-    const result = play(g, ctx, 0); // Wizard card
+    const result = play(buildPlayContext(g), 0); // Wizard card
     expect(result).not.toBe(INVALID_MOVE);
   });
 });

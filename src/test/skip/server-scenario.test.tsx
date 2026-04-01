@@ -20,7 +20,6 @@ import { SocketIO } from "boardgame.io/multiplayer";
 
 import range from "lodash/range";
 import { Server } from "boardgame.io/server";
-import { Ctx } from "boardgame.io";
 import { wizardGameConfig } from "../../shared/game";
 import { WizardBoard } from "../../app/ui/WizardBoard";
 import { PlayerID } from "../../shared/entities/players";
@@ -34,11 +33,9 @@ const shuffleMock = jest.fn();
 
 const serverScenarioGameConfig = {
   ...wizardGameConfig,
-  setup(ctx: Ctx) {
-    return {
-      ...generateDefaultWizardState(ctx),
-      numCards: 14,
-    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup({ ctx, random }: any) {
+    return generateDefaultWizardState({ ctx, random });
   },
   plugins: [
     {
@@ -46,8 +43,8 @@ const serverScenarioGameConfig = {
       api: () => ({
         Die: randomMock,
         Shuffle: shuffleMock,
-        _obj: {
-          getState: () => {},
+        _private: {
+          getState: () => ({ seed: "0" }),
           isUsed: () => false,
         },
       }),

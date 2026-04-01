@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Ctx, PlayerID } from "boardgame.io";
+import { PlayerID } from "boardgame.io";
 import { generateDefaultWizardState, WizardState } from "./WizardState";
 import { setup } from "./phases/setup";
 import { bidding } from "./phases/bidding";
@@ -8,17 +8,20 @@ import { Phase } from "./phases/phase";
 import { selectingTrump } from "./phases/selecting-trump";
 import { onBeginTurn } from "./turn";
 
-function endIf({ roundIndex, rounds, round }: WizardState): number | void {
+function endIf({ G }: { G: WizardState }): number | void {
+  const { roundIndex, rounds, round } = G;
   if (roundIndex + 1 === rounds.length && !!round?.isComplete) {
     return Date.now();
   }
 }
 
-function playerView(
-  wizardState: WizardState,
-  ctx: Ctx,
-  playerID: PlayerID
-): WizardState {
+function playerView({
+  G: wizardState,
+  playerID,
+}: {
+  G: WizardState;
+  playerID: PlayerID | null;
+}): WizardState {
   // no changes if no round is set
   if (!wizardState.round) return wizardState;
   const {
