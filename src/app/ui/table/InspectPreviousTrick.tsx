@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IconButton, Icon, Dialog } from "@material-ui/core";
+import { IconButton, Icon, Dialog } from "@mui/material";
 import styled from "styled-components";
 import { useGameState } from "../GameContext";
 import { Trick } from "./Trick";

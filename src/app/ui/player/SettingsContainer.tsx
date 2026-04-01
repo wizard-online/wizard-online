@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Icon } from "@material-ui/core";
+import { IconButton, Icon } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { useProfile, useProfileContext } from "../ProfileProvider";

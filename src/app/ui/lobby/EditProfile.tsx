@@ -8,7 +8,7 @@ import {
   Radio,
   FormControl,
   FormLabel,
-} from "@material-ui/core";
+} from "@mui/material";
 import styled from "styled-components";
 import merge from "lodash/merge";
 import { Form } from "../components/Form";

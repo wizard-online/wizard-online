@@ -113,7 +113,7 @@ describe("bidding", () => {
     const mockEndTurn = jest.fn();
     ctx.events!.endTurn = mockEndTurn;
     bid(g, ctx, 2);
-    expect(mockEndTurn).toBeCalled();
+    expect(mockEndTurn).toHaveBeenCalled();
   });
 });
 

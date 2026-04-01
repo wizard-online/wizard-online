@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material/styles";
 import { useGameState } from "../GameContext";
 import { isSetRound } from "../../../shared/WizardState";
 import {

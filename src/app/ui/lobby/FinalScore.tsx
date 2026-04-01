@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { parse } from "../services/share-scorepad";
 import { ScorePad } from "../score/ScorePad";
 import { getLeaders } from "../../../shared/entities/score.utils";
@@ -20,10 +20,10 @@ const deDateTimeFormat = new Intl.DateTimeFormat(
 );
 
 export const FinalScore: React.FC = () => {
-  const { sharableFinalScore } = useParams<{ sharableFinalScore: string }>();
+  const { sharableFinalScore } = useParams();
 
   try {
-    const { date, playerNames, scorePad } = parse(sharableFinalScore);
+    const { date, playerNames, scorePad } = parse(sharableFinalScore!);
     const winners = getLeaders(scorePad);
     const winnersNames = winners.map((playerID) => playerNames[playerID]);
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@mui/material";
 
 export interface LoadingSpinnerProps {
   duration: number;
@@ -55,7 +55,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   return show ? (
     <CircularProgress
       color="secondary"
-      variant="static"
+      variant="determinate"
       value={progress}
       size={15}
       thickness={8}

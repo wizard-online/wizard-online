@@ -5,7 +5,7 @@ import {
   TableHead,
   TableBody,
   TableRow,
-} from "@material-ui/core";
+} from "@mui/material";
 import range from "lodash/range";
 import styled from "styled-components";
 import { ScoreRow } from "./ScoreRow";

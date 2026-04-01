@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  Button,
-  Card,
-  CardContent,
-} from "@material-ui/core";
+import { Dialog, DialogTitle, Button, Card, CardContent } from "@mui/material";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGameState } from "../GameContext";
 import { getLeaders } from "../../../shared/entities/score.utils";
 import { PlayerID } from "../../../shared/entities/players";
@@ -41,7 +35,7 @@ interface FinalScoreModalContentProps {
 const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
   winnerIDs,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     matchData,
     wizardState: { scorePad },
@@ -93,7 +87,7 @@ const FinalScoreModalContent: React.FC<FinalScoreModalContentProps> = ({
         <Button
           color="primary"
           variant="contained"
-          onClick={() => history.push("/")}
+          onClick={() => navigate("/")}
         >
           Spiel schließen
         </Button>

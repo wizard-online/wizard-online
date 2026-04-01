@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Select,
   MenuItem,
   Button,
   Checkbox,
   FormControlLabel,
-} from "@material-ui/core";
+} from "@mui/material";
 import styled from "styled-components";
 import { NumPlayers } from "../../../shared/entities/players";
 import { createMatch } from "../services/api.service";
@@ -14,7 +14,7 @@ import { Form } from "../components/Form";
 import { createdGameEventGA } from "../../analytics";
 
 export const CreateMatch: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [numPlayers, setNumPlayers] = useState<NumPlayers>(3);
   const [tournamentMode, setTournamentMode] = useState(false);
   const [inspectPreviousTrick, setInspectPreviousTrick] = useState(false);
@@ -31,7 +31,7 @@ export const CreateMatch: React.FC = () => {
                 inspectPreviousTrick,
               },
             });
-            history.push(`/matches/${matchID}`);
+            navigate(`/matches/${matchID}`);
             createdGameEventGA(numPlayers);
           }}
         >
@@ -41,7 +41,7 @@ export const CreateMatch: React.FC = () => {
               onChange={(event) =>
                 setNumPlayers(event.target.value as NumPlayers)
               }
-              placeholder="Anzahl der Spieler"
+              label="Anzahl der Spieler"
             >
               {[3, 4, 5, 6].map((num) => (
                 <MenuItem value={num} key={num}>

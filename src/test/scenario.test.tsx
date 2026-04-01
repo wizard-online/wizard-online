@@ -37,7 +37,7 @@ const randomMock = jest.fn();
 const shuffleMock = jest.fn();
 
 jest.mock("../app/analytics");
-jest.mock("react-ga");
+jest.mock("react-ga4");
 
 const WizardClient = Client({
   game: {

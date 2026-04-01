@@ -6,7 +6,7 @@ import {
   FormControl,
   FormLabel,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import styled from "styled-components";
 import { useGameState } from "../../GameContext";
 import { getSuitLabel } from "../../../../shared/entities/cards.utils";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, Button, Slider } from "@material-ui/core";
+import { FormControl, Button, Slider } from "@mui/material";
 import styled from "styled-components";
 import range from "lodash/range";
 import { useGameState } from "../../GameContext";

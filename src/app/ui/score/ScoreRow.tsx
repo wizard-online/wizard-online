@@ -1,5 +1,5 @@
 import React from "react";
-import { TableRow } from "@material-ui/core";
+import { TableRow } from "@mui/material";
 import styled, { css } from "styled-components";
 import { RoundColCell, ScoreCell, ScoreCellProps } from "./Cells";
 import { colors } from "../util/colors";

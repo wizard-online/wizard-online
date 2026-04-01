@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material/styles";
 import React from "react";
 import styled from "styled-components";
 import { colors } from "../util/colors";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Snackbar, SnackbarCloseReason, Icon } from "@material-ui/core";
+import { Snackbar, SnackbarCloseReason, Icon } from "@mui/material";
 import styled from "styled-components";
 import { colors } from "./util/colors";
 
@@ -21,7 +21,9 @@ export const NotificationsContext = React.createContext<
   NotificationsProviderContext | undefined
 >(undefined);
 
-export const NotificationsProvider: React.FC = ({ children }) => {
+export const NotificationsProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [show, setShow] = React.useState(false);
   const [notification, setNotification] = React.useState<
     Notification | undefined
@@ -53,14 +55,13 @@ export const NotificationsProvider: React.FC = ({ children }) => {
       <Snackbar
         open={show}
         autoHideDuration={5000}
-        // eslint-disable-next-line no-empty-pattern
-        onClose={({}, reason: SnackbarCloseReason) => {
+        onClose={(_, reason: SnackbarCloseReason) => {
           if (reason === "clickaway") {
             return;
           }
           setShow(false);
         }}
-        onExited={processQueue}
+        TransitionProps={{ onExited: processQueue }}
       >
         <NotificationContainer>
           {notification?.icon && (

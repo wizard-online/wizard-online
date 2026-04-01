@@ -3,6 +3,7 @@ import {
   Drawer,
   List,
   ListItem,
+  ListItemButton,
   Divider,
   ListItemIcon,
   Icon,
@@ -11,7 +12,7 @@ import {
   Avatar,
   IconButton,
   Toolbar,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useHeaderElement, HeaderSpot } from "../header/HeaderElementsProvider";
@@ -60,29 +61,28 @@ export const SideMenu: React.FC = () => {
       <Divider />
 
       <List>
-        <ListItem button component={Link} to="/">
+        <ListItemButton component={Link} to="/">
           <ListItemIcon>
             <Icon>add</Icon>
           </ListItemIcon>
           <ListItemText>Neues Spiel erstellen</ListItemText>
-        </ListItem>
-        <ListItem button component={Link} to="/matches">
+        </ListItemButton>
+        <ListItemButton component={Link} to="/matches">
           <ListItemIcon>
             <Icon>view_list</Icon>
           </ListItemIcon>
           <ListItemText>Aktuelle Spiele anzeigen</ListItemText>
-        </ListItem>
+        </ListItemButton>
       </List>
       <Spacer />
       <List>
-        <ListItem button component={Link} to="/profile">
+        <ListItemButton component={Link} to="/profile">
           <ListItemIcon>
             <Icon>edit</Icon>
           </ListItemIcon>
           <ListItemText>Profil bearbeiten</ListItemText>
-        </ListItem>
-        <ListItem
-          button
+        </ListItemButton>
+        <ListItemButton
           component={ExternalLink}
           href={process.env.FEEDBACK_FORM}
           title="Feedback geben oder Fehler melden"
@@ -91,7 +91,7 @@ export const SideMenu: React.FC = () => {
             <Icon>feedback</Icon>
           </ListItemIcon>
           <ListItemText>Feedback</ListItemText>
-        </ListItem>
+        </ListItemButton>
         <ListItem>
           <ListItemText>
             <small>

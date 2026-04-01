@@ -1,8 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { initializeGA } from "./analytics";
 
 initializeGA();
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+const root = createRoot(document.querySelector("#root")!);
+root.render(<App />);
