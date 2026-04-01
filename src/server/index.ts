@@ -37,6 +37,16 @@ const server = Server({
   db,
 });
 
+// Health check endpoint for Coolify
+server.app.use(async (ctx, next) => {
+  if (ctx.path === "/health" && ctx.method === "GET") {
+    ctx.status = 200;
+    ctx.body = "ok";
+    return;
+  }
+  await next();
+});
+
 // Start the server
 try {
   server.run(Number.parseInt(process.env.PORT || "8000", 10), () =>
