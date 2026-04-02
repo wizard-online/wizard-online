@@ -32,10 +32,13 @@ export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
     },
     []
   );
+  const contextValue = React.useMemo(
+    () => ({ profile: profileState, updateProfile, setProfile }),
+    [profileState, updateProfile, setProfile]
+  );
+
   return (
-    <ProfileContext.Provider
-      value={{ profile: profileState, updateProfile, setProfile }}
-    >
+    <ProfileContext.Provider value={contextValue}>
       {children}
     </ProfileContext.Provider>
   );

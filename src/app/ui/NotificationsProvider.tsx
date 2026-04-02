@@ -49,8 +49,10 @@ export const NotificationsProvider: React.FC<React.PropsWithChildren> = ({
     [processQueue, show]
   );
 
+  const contextValue = React.useMemo(() => ({ notify }), [notify]);
+
   return (
-    <NotificationsContext.Provider value={{ notify }}>
+    <NotificationsContext.Provider value={contextValue}>
       {children}
       <Snackbar
         open={show}

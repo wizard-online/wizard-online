@@ -16,8 +16,9 @@ import { PlayerID } from "../entities/players";
 import { EventsAPI, RandomAPI } from "../boardgame.io.types";
 
 export function shuffleMove(wizardState: WizardState, random: RandomAPI): void {
+  if (!isSetRound(wizardState.round)) return;
   // shuffle deck
-  wizardState.round!.deck = random.Shuffle(wizardState.round!.deck);
+  wizardState.round.deck = random.Shuffle(wizardState.round.deck);
 }
 
 export function handoutMove(wizardState: WizardState, events: EventsAPI): void {

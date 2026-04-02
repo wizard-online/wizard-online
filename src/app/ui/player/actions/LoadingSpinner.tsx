@@ -29,6 +29,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
     return () => {
       if (timeoutHandleRef.current) {
+        // eslint-disable-next-line unicorn/prefer-global-this
         window.clearTimeout(timeoutHandleRef.current);
         timeoutHandleRef.current = undefined;
       }
@@ -40,6 +41,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     if (show && progress < 100) {
       setProgress(progress + stepSize);
 
+      // eslint-disable-next-line unicorn/prefer-global-this -- window.setTimeout returns number; globalThis resolves to Node's Timeout
       timeoutHandleRef.current = window.setTimeout(
         () => triggerIncrement(),
         msPerStep

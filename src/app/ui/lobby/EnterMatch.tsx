@@ -64,7 +64,7 @@ export const EnterMatch: React.FC<EnterMatchProps> = ({
           <h3>Freunde einladen</h3>
           <p>Teile den Link um mit deinen Freunden zu spielen:</p>
           <TextField
-            value={window.location.href}
+            value={globalThis.location.href}
             fullWidth
             variant="outlined"
             InputProps={{
@@ -76,7 +76,7 @@ export const EnterMatch: React.FC<EnterMatchProps> = ({
                     onClick={async () => {
                       try {
                         await navigator.clipboard.writeText(
-                          window.location.href
+                          globalThis.location.href
                         );
                         notify({
                           message: "Link wurde in die Zwischenablage kopiert",

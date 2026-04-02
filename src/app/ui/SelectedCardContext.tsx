@@ -98,6 +98,7 @@ export const SelectedCardProvider: React.FC<React.PropsWithChildren> = ({
 
   return (
     <SelectedCardContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         selectedCardIndex,
         setSelectedCardIndex: updateSelectedCardIndex,

@@ -12,8 +12,11 @@ export const WizardBoard: React.FC<BoardProps<WizardState>> = ({
   G,
   playerID,
   ...rest
+  // boardgame.io re-renders this component on every state change with new prop references,
+  // so memoizing the context value would prevent updates from reaching consumers
 }) => (
   <GameContext.Provider
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     value={{
       gamestate: {
         wizardState: G,

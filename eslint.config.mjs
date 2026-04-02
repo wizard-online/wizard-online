@@ -10,6 +10,7 @@ import jestPlugin from "eslint-plugin-jest";
 import unicornPlugin from "eslint-plugin-unicorn";
 import eslintComments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import tseslint from "typescript-eslint";
+import testingLibrary from "eslint-plugin-testing-library";
 
 const gitignorePath = path.resolve(".", ".gitignore");
 
@@ -45,6 +46,18 @@ export default defineConfig([
     },
   },
 
+  // Testing Library — scoped to test files
+  {
+    files: ["**/*.test.{ts,tsx}", "**/test/**/*.{ts,tsx}"],
+    ...testingLibrary.configs["flat/react"],
+    rules: {
+      ...testingLibrary.configs["flat/react"].rules,
+      "testing-library/no-render-in-lifecycle": "off",
+      "testing-library/prefer-screen-queries": "off",
+      "testing-library/prefer-presence-queries": "off",
+    },
+  },
+
   // Unicorn
   unicornPlugin.configs["flat/recommended"],
 
@@ -64,7 +77,7 @@ export default defineConfig([
       "react/prop-types": "off",
       "react/function-component-definition": "off",
       "react/require-default-props": "off",
-      "react/jsx-no-constructed-context-values": "off",
+      "react/jsx-no-constructed-context-values": "error",
       "react/jsx-no-useless-fragment": "error",
 
       // TypeScript (non-type-aware — safe for all files)
@@ -74,7 +87,7 @@ export default defineConfig([
       ],
       "@typescript-eslint/no-implied-eval": "off",
       "@typescript-eslint/only-throw-error": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-non-null-assertion": "error",
       "@typescript-eslint/no-use-before-define": "off",
       "@typescript-eslint/no-redeclare": "off",
       "@typescript-eslint/consistent-indexed-object-style": "error",
@@ -86,7 +99,7 @@ export default defineConfig([
       "consistent-return": "off",
       "no-use-before-define": "off",
       "no-underscore-dangle": "off",
-      "no-console": "off",
+      "no-console": "error",
       "no-promise-executor-return": "error",
       "arrow-body-style": "error",
 
@@ -94,7 +107,10 @@ export default defineConfig([
       "@eslint-community/eslint-comments/no-duplicate-disable": "error",
       "@eslint-community/eslint-comments/no-unlimited-disable": "error",
       "@eslint-community/eslint-comments/no-unused-enable": "error",
-      "@eslint-community/eslint-comments/disable-enable-pair": "off",
+      "@eslint-community/eslint-comments/disable-enable-pair": [
+        "error",
+        { allowWholeFile: true },
+      ],
 
       // Unicorn — all off
       "unicorn/prevent-abbreviations": "off",
@@ -120,7 +136,7 @@ export default defineConfig([
       "unicorn/prefer-regexp-test": "error",
       "unicorn/explicit-length-check": "off",
       "unicorn/consistent-existence-index-check": "error",
-      "unicorn/prefer-global-this": "off",
+      "unicorn/prefer-global-this": "error",
     },
   },
 
@@ -157,7 +173,7 @@ export default defineConfig([
     },
   },
 
-  // Test files — allow devDependencies imports
+  // Test files — allow devDependencies imports, console, and non-null assertions
   {
     files: ["**/*.test.{ts,tsx}", "**/test/**/*.{ts,tsx}"],
     rules: {
@@ -165,6 +181,8 @@ export default defineConfig([
         "error",
         { devDependencies: true },
       ],
+      "no-console": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
     },
   },
   {

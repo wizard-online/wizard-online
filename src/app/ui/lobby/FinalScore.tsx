@@ -22,8 +22,19 @@ const deDateTimeFormat = new Intl.DateTimeFormat(
 export const FinalScore: React.FC = () => {
   const { sharableFinalScore } = useParams();
 
+  if (!sharableFinalScore) {
+    return (
+      <div>
+        <h3>Fehlerhafter Link.</h3>
+        <Button component={Link} to="/">
+          Zur Startseite
+        </Button>
+      </div>
+    );
+  }
+
   try {
-    const { date, playerNames, scorePad } = parse(sharableFinalScore!);
+    const { date, playerNames, scorePad } = parse(sharableFinalScore);
     const winners = getLeaders(scorePad);
     const winnersNames = winners.map((playerID) => playerNames[playerID]);
     return (

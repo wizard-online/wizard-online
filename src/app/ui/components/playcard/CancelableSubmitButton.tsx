@@ -25,10 +25,12 @@ export const CancelableSubmitButton: React.FC<CancelableSubmitButtonProps> = ({
 
   React.useEffect(() => {
     if (activated) {
+      /* eslint-disable unicorn/prefer-global-this -- window.setTimeout returns number; globalThis resolves to Node's Timeout */
       timeoutHandleRef.current = window.setTimeout(() => onSubmit(), timeout);
     }
     return () => {
       window.clearTimeout(timeoutHandleRef.current);
+      /* eslint-enable unicorn/prefer-global-this */
     };
   }, [activated, onSubmit, timeout]);
 
@@ -37,7 +39,8 @@ export const CancelableSubmitButton: React.FC<CancelableSubmitButtonProps> = ({
       <Button
         title="Abbrechen"
         onClick={() => {
-          clearTimeout(timeoutHandleRef.current);
+          // eslint-disable-next-line unicorn/prefer-global-this
+          window.clearTimeout(timeoutHandleRef.current);
           setActivated(false);
           onCancel?.();
         }}
