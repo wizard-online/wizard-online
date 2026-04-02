@@ -10,5 +10,5 @@ module.exports = {
       "<rootDir>/src/test/mocks/fileMock.js",
   },
   testMatch: ["<rootDir>/src/test/scenario.test.tsx"],
-  testTimeout: 30000,
+  testTimeout: 30_000,
 };
