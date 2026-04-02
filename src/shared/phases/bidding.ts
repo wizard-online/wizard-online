@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
-import { Ctx, PhaseConfig } from "boardgame.io";
+import { FnContext } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { WizardState, isSetRound } from "../WizardState";
 import { isValidBid, getBidsMismatch } from "../entities/bid.utils";
 import { Phase } from "./phase";
 
 export function bid(
-  { round, roundIndex, rounds, currentPlayer }: WizardState,
-  ctx: Ctx,
+  { G, ctx, events }: FnContext<WizardState>,
   numberOfTricks: number
 ): "INVALID_MOVE" | void {
+  const { round, roundIndex, rounds, currentPlayer } = G;
   const numCards = rounds[roundIndex];
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -19,17 +19,19 @@ export function bid(
   }
 
   round.bids[Number.parseInt(ctx.currentPlayer, 10)] = numberOfTricks;
-  ctx.events!.endTurn!();
+  events.endTurn();
 }
 
-function endIf({ round }: WizardState): boolean {
+function endIf({ G }: FnContext<WizardState>): boolean {
+  const { round } = G;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
   return !round.bids.includes(null);
 }
 
-function onEnd({ round, roundIndex, rounds }: WizardState): void {
+function onEnd({ G }: FnContext<WizardState>): void {
+  const { round, roundIndex, rounds } = G;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
@@ -42,7 +44,7 @@ function onEnd({ round, roundIndex, rounds }: WizardState): void {
   );
 }
 
-export const bidding: PhaseConfig = {
+export const bidding = {
   moves: {
     bid,
   },

@@ -10,16 +10,6 @@ const defaultCtx: Ctx = {
   playOrderPos: 0,
   phase: Phase.Setup,
   activePlayers: null,
-  events: {
-    endGame: () => {},
-    endPhase: () => {},
-    endStage: () => {},
-    endTurn: () => {},
-    pass: () => {},
-    setActivePlayers: () => {},
-    setPhase: () => {},
-    setStage: () => {},
-  },
 };
 
 export function generateCtx(options: Partial<Ctx> = {}): Ctx {

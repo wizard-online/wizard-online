@@ -1,4 +1,5 @@
 import { INVALID_MOVE } from "boardgame.io/core";
+import { FnContext } from "boardgame.io";
 import { WizardState } from "../../shared/WizardState";
 import { NumPlayers, PlayerID } from "../../shared/entities/players";
 import { Phase } from "../../shared/phases/phase";
@@ -12,14 +13,49 @@ import {
   selectingTrump,
 } from "../../shared/phases/selecting-trump";
 import { setup } from "../../shared/phases/setup";
-import { Ctx, PhaseConfig } from "boardgame.io";
+import { EventsAPI, RandomAPI } from "../../shared/boardgame.io.types";
 
-const phaseMap: Record<string, PhaseConfig> = {
-  [Phase.Bidding]: bidding,
-  [Phase.Playing]: playing,
-  [Phase.SelectingTrump]: selectingTrump,
-  [Phase.Setup]: setup,
+interface TestPhaseConfig {
+  endIf?(context: FnContext<WizardState>): boolean | void;
+  onEnd?(context: FnContext<WizardState>): void;
+  onBegin?(context: FnContext<WizardState>): void;
+  next?: string;
+}
+
+const phaseMap: Record<string, TestPhaseConfig> = {
+  [Phase.Bidding]: bidding as TestPhaseConfig,
+  [Phase.Playing]: playing as TestPhaseConfig,
+  [Phase.SelectingTrump]: selectingTrump as TestPhaseConfig,
+  [Phase.Setup]: setup as TestPhaseConfig,
 };
+
+function buildMockEvents(overrides: Partial<EventsAPI> = {}): EventsAPI {
+  return {
+    endGame: () => {},
+    endPhase: () => {},
+    endStage: () => {},
+    endTurn: () => {},
+    pass: () => {},
+    setActivePlayers: () => {},
+    setPhase: () => {},
+    setStage: () => {},
+    ...overrides,
+  };
+}
+
+function buildMockRandom(): RandomAPI {
+  const noop = (() => 0) as RandomAPI["D4"];
+  return {
+    D4: noop,
+    D6: noop,
+    D10: noop,
+    D12: noop,
+    D20: noop,
+    Die: noop as RandomAPI["Die"],
+    Number: () => 0,
+    Shuffle: <T>(arr: T[]) => arr,
+  };
+}
 
 export class GameRunner {
   private g: WizardState;
@@ -51,12 +87,14 @@ export class GameRunner {
 
   bid(playerID: PlayerID, amount: number): void {
     this._assertCurrentPlayer(playerID);
-    const ctx = this._buildCtx();
     const endTurnSpy = jest.fn();
     const endPhaseSpy = jest.fn();
-    ctx.events = { ...ctx.events, endTurn: endTurnSpy, endPhase: endPhaseSpy };
+    const context = this._buildFnContext({
+      endTurn: endTurnSpy,
+      endPhase: endPhaseSpy,
+    });
 
-    const result = bid(this.g, ctx, amount);
+    const result = bid(context, amount);
     if (result === INVALID_MOVE) {
       throw new Error("Move returned INVALID_MOVE");
     }
@@ -66,10 +104,12 @@ export class GameRunner {
 
   play(playerID: PlayerID, card: Card): void {
     this._assertCurrentPlayer(playerID);
-    const ctx = this._buildCtx();
     const endTurnSpy = jest.fn();
     const endPhaseSpy = jest.fn();
-    ctx.events = { ...ctx.events, endTurn: endTurnSpy, endPhase: endPhaseSpy };
+    const context = this._buildFnContext({
+      endTurn: endTurnSpy,
+      endPhase: endPhaseSpy,
+    });
 
     // Find card index in filtered (non-null) hand
     const rawHand = this.g.round!.hands[playerID];
@@ -83,7 +123,7 @@ export class GameRunner {
       );
     }
 
-    const result = play(this.g, ctx, filteredIndex);
+    const result = play(context, filteredIndex);
     if (result === INVALID_MOVE) {
       throw new Error("Move returned INVALID_MOVE");
     }
@@ -93,12 +133,14 @@ export class GameRunner {
 
   selectTrump(playerID: PlayerID, suit: Suit): void {
     this._assertCurrentPlayer(playerID);
-    const ctx = this._buildCtx();
     const endTurnSpy = jest.fn();
     const endPhaseSpy = jest.fn();
-    ctx.events = { ...ctx.events, endTurn: endTurnSpy, endPhase: endPhaseSpy };
+    const context = this._buildFnContext({
+      endTurn: endTurnSpy,
+      endPhase: endPhaseSpy,
+    });
 
-    const result = selectTrump(this.g.round ? this.g : this.g, ctx, suit);
+    const result = selectTrump(context, suit);
     if (result === INVALID_MOVE) {
       throw new Error("Move returned INVALID_MOVE");
     }
@@ -114,8 +156,10 @@ export class GameRunner {
     }
   }
 
-  private _buildCtx(): Ctx {
-    return generateCtx({
+  private _buildFnContext(
+    eventOverrides: Partial<EventsAPI> = {}
+  ): FnContext<WizardState> {
+    const ctx = generateCtx({
       numPlayers: this.numPlayers,
       currentPlayer: this.g.currentPlayer.toString(),
       phase: this.g.phase,
@@ -123,6 +167,13 @@ export class GameRunner {
         i.toString()
       ),
     });
+    return {
+      G: this.g,
+      ctx,
+      events: buildMockEvents(eventOverrides),
+      random: buildMockRandom(),
+      log: { setMetadata: () => {} },
+    } as FnContext<WizardState>;
   }
 
   private _handleTurnEnd(endTurnSpy: jest.Mock, endPhaseSpy: jest.Mock): void {
@@ -157,11 +208,11 @@ export class GameRunner {
       return;
     }
 
-    const ctx = this._buildCtx();
+    const context = this._buildFnContext();
 
-    if (currentPhaseConfig.endIf(this.g, ctx)) {
+    if (currentPhaseConfig.endIf(context)) {
       if (currentPhaseConfig.onEnd) {
-        currentPhaseConfig.onEnd(this.g, ctx);
+        currentPhaseConfig.onEnd(context);
       }
 
       if (this.g.phase === Phase.Playing) {
@@ -173,7 +224,7 @@ export class GameRunner {
         this.g.phase = currentPhaseConfig.next as Phase;
         const nextPhaseConfig = phaseMap[this.g.phase];
         if (nextPhaseConfig && nextPhaseConfig.onBegin) {
-          nextPhaseConfig.onBegin(this.g, ctx);
+          nextPhaseConfig.onBegin(context);
         }
       }
     }

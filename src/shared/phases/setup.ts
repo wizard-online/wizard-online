@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { PhaseConfig, Ctx } from "boardgame.io";
+import { FnContext } from "boardgame.io";
 
 import { fromPairs } from "lodash";
 import {
@@ -13,13 +13,14 @@ import { Card, Rank, Suit, allSuits, allRanks } from "../entities/cards";
 import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";
 import { NumPlayers, PlayerID } from "../entities/players";
+import { EventsAPI, RandomAPI } from "../boardgame.io.types";
 
-export function shuffleMove(wizardState: WizardState, ctx: Ctx): void {
+export function shuffleMove(wizardState: WizardState, random: RandomAPI): void {
   // shuffle deck
-  wizardState.round!.deck = ctx.random!.Shuffle(wizardState.round!.deck);
+  wizardState.round!.deck = random.Shuffle(wizardState.round!.deck);
 }
 
-export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
+export function handoutMove(wizardState: WizardState, events: EventsAPI): void {
   const { round, roundIndex, rounds, numPlayers, currentPlayer } = wizardState;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -88,52 +89,56 @@ export function handoutMove(wizardState: WizardState, ctx: Ctx): void {
 
   // go to next phase
   if (trumpSuit === undefined) {
-    ctx.events!.setPhase!(Phase.SelectingTrump);
+    events.setPhase(Phase.SelectingTrump);
   } else {
-    ctx.events!.endPhase!();
+    events.endPhase();
   }
 }
 
-function setupRound(wizardState: WizardState, ctx: Ctx): void {
+function setupRound(wizardState: WizardState, random: RandomAPI): void {
   // increment roundIndex if not first round
   if (wizardState.round?.isComplete) {
     wizardState.roundIndex += 1;
   }
   // setup (or reset) round
   if (!wizardState.round || wizardState.trick) {
-    wizardState.round = generateBlankRoundState(ctx, wizardState.numPlayers);
+    wizardState.round = generateBlankRoundState(random, wizardState.numPlayers);
   }
   // reset trick
   wizardState.trick = null;
 }
 
-function onBegin(g: WizardState, ctx: Ctx): void {
+function onBegin({ G: g, random }: FnContext<WizardState>): void {
   // set dealer
   if (g.dealer >= 0) {
     g.dealer = ((g.dealer + 1) % g.numPlayers) as PlayerID;
   } else {
     // draw a dealer at the start of game
-    g.dealer = (ctx.random!.Die(g.numPlayers) - 1) as PlayerID;
+    g.dealer = (random.Die(g.numPlayers) - 1) as PlayerID;
   }
 }
 
-function first(g: WizardState, ctx: Ctx): number {
+function first({ G: g, ctx }: FnContext<WizardState>): number {
   return ctx.playOrder.findIndex(
     (playerID) => playerID === g.dealer.toString()
   );
 }
 
-function shuffle(wizardState: WizardState, ctx: Ctx): void {
-  setupRound(wizardState, ctx);
-  shuffleMove(wizardState, ctx);
+function shuffle({ G: wizardState, random }: FnContext<WizardState>): void {
+  setupRound(wizardState, random);
+  shuffleMove(wizardState, random);
 }
 
-function handout(wizardState: WizardState, ctx: Ctx): void {
-  setupRound(wizardState, ctx);
-  handoutMove(wizardState, ctx);
+function handout({
+  G: wizardState,
+  events,
+  random,
+}: FnContext<WizardState>): void {
+  setupRound(wizardState, random);
+  handoutMove(wizardState, events);
 }
 
-export const setup: PhaseConfig = {
+export const setup = {
   onBegin,
   moves: {
     shuffle,
@@ -145,7 +150,7 @@ export const setup: PhaseConfig = {
     order: {
       // returns playOrder index of dealer
       first,
-      next(wizardState: WizardState, ctx: Ctx): number {
+      next({ ctx }: FnContext<WizardState>): number {
         const currentPlayerIndex = ctx.playOrder.findIndex(
           (playerID) => playerID === ctx.currentPlayer
         );

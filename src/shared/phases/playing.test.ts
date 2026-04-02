@@ -1,4 +1,4 @@
-import { Ctx } from "boardgame.io";
+import { FnContext } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 
 import { WizardState } from "../WizardState";
@@ -8,6 +8,7 @@ import { Phase } from "./phase";
 import { Card, Suit } from "../entities/cards";
 import { OptionalTrickCard } from "../entities/trick";
 import { play } from "./playing";
+import { EventsAPI } from "../boardgame.io.types";
 
 interface GenerateOptions {
   numPlayers?: NumPlayers;
@@ -17,14 +18,28 @@ interface GenerateOptions {
   numCards?: number;
 }
 
+function mockEvents(overrides: Partial<EventsAPI> = {}): EventsAPI {
+  return {
+    endGame: () => {},
+    endPhase: () => {},
+    endStage: () => {},
+    endTurn: () => {},
+    pass: () => {},
+    setActivePlayers: () => {},
+    setPhase: () => {},
+    setStage: () => {},
+    ...overrides,
+  };
+}
+
 function generate({
   hands,
   trick,
   currentPlayer,
   numPlayers = 3,
   numCards = 3,
-}: GenerateOptions): { g: WizardState; ctx: Ctx } {
-  const ctx: Ctx = generateCtx({
+}: GenerateOptions): { g: WizardState; context: FnContext<WizardState> } {
+  const ctx = generateCtx({
     turn: currentPlayer + 1,
     currentPlayer: currentPlayer.toString(),
   });
@@ -50,10 +65,14 @@ function generate({
       lead: trick?.[0].card,
     },
   };
-  return {
-    g,
+  const context: FnContext<WizardState> = {
+    G: g,
     ctx,
-  };
+    events: mockEvents(),
+    random: {} as FnContext<WizardState>["random"],
+    log: { setMetadata: () => {} },
+  } as FnContext<WizardState>;
+  return { g, context };
 }
 
 let scenario1: GenerateOptions;
@@ -84,61 +103,70 @@ beforeEach(() => {
 
 describe("play", () => {
   test("invalid if card index is < 0", () => {
-    const { g, ctx } = generate(scenario1);
+    const { context } = generate(scenario1);
 
-    expect(play(g, ctx, -1)).toBe(INVALID_MOVE);
+    expect(play(context, -1)).toBe(INVALID_MOVE);
   });
   test("invalid if card index is >= cards on hand", () => {
-    const { g, ctx } = generate(scenario1);
+    const { context } = generate(scenario1);
 
-    expect(play(g, ctx, 3)).toBe(INVALID_MOVE);
+    expect(play(context, 3)).toBe(INVALID_MOVE);
   });
   test("invalid if card cannot be played", () => {
-    const { g, ctx } = generate(scenario1);
+    const { context } = generate(scenario1);
 
-    expect(play(g, ctx, 1)).toBe(INVALID_MOVE);
-    expect(play(g, ctx, 2)).toBe(INVALID_MOVE);
+    expect(play(context, 1)).toBe(INVALID_MOVE);
+    expect(play(context, 2)).toBe(INVALID_MOVE);
   });
 
   test("adds card to trick", () => {
-    const { g, ctx } = generate(scenario1);
+    const { g, context } = generate(scenario1);
     const cardPlayed = g.round?.hands[1][0];
-    play(g, ctx, 0);
+    play(context, 0);
     expect(g.trick?.cards[1].card).toBe(cardPlayed);
   });
 
   test("removes card from hand", () => {
-    const { g, ctx } = generate(scenario1);
+    const { g, context } = generate(scenario1);
     const cardPlayed = g.round?.hands[1][0];
-    play(g, ctx, 0);
+    play(context, 0);
     expect(g.round?.hands[1].length).toBe(2);
     expect(g.round?.hands[1].findIndex((card) => card === cardPlayed)).toBe(-1);
   });
 
   test("last card completes trick", () => {
-    const { g, ctx } = generate(scenario1);
+    const { g, context } = generate(scenario1);
     // player 1
-    play(g, ctx, 0);
+    play(context, 0);
     // player 2 completes trick
     g.currentPlayer = 2;
-    ctx.currentPlayer = "2";
-    play(g, ctx, 1);
+    context.ctx = generateCtx({
+      ...context.ctx,
+      currentPlayer: "2",
+    });
+    play(context, 1);
     expect(g.trick?.isComplete).toBe(true);
   });
 
   test("first player can play any card", () => {
-    const { g, ctx } = generate(scenario1);
+    const { g, context } = generate(scenario1);
     // player 1
-    play(g, ctx, 0);
+    play(context, 0);
     // player 2 completes trick
     g.currentPlayer = 2;
-    ctx.currentPlayer = "2";
-    play(g, ctx, 1);
+    context.ctx = generateCtx({
+      ...context.ctx,
+      currentPlayer: "2",
+    });
+    play(context, 1);
     // next player 0
-    ctx.currentPlayer = "0";
     g.currentPlayer = 0;
+    context.ctx = generateCtx({
+      ...context.ctx,
+      currentPlayer: "0",
+    });
     // plays other suit that previous trick's lead color
-    const playReturn = play(g, ctx, 1);
+    const playReturn = play(context, 1);
     expect(playReturn).toBeUndefined();
   });
 });

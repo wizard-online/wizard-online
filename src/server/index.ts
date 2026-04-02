@@ -32,9 +32,14 @@ if (process.env.DATABASE_URL) {
   console.log("using in-memory storage");
 }
 
+const origins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : undefined;
+
 const server = Server({
   games: [loadGameConfig()],
   db,
+  origins,
 });
 
 // Health check endpoint for Coolify

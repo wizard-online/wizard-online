@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { PhaseConfig, Ctx } from "boardgame.io";
+import { FnContext } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import flatten from "lodash/flatten";
 
@@ -21,10 +21,10 @@ import { Phase } from "./phase";
 import { Rank } from "../entities/cards";
 import { OptionalTrickCard, TrickCard } from "../entities/trick";
 import { checkTrickCards } from "../entities/trick.utils";
+import { EventsAPI } from "../boardgame.io.types";
 
 export function play(
-  g: WizardState,
-  ctx: Ctx,
+  { G: g, events }: FnContext<WizardState>,
   cardIndex: number
 ): void | typeof INVALID_MOVE {
   const { round } = g;
@@ -75,13 +75,13 @@ export function play(
   // pass turn to next player
   // as last player, find trick taker, increment trick count, and cleanup trick
   if (trick.cards.filter(({ card }) => !card).length === 0) {
-    endTrick(g, ctx);
+    endTrick(g, events);
   } else {
-    ctx.events?.endTurn?.();
+    events.endTurn();
   }
 }
 
-function endTrick(g: WizardState, ctx: Ctx): void {
+function endTrick(g: WizardState, events: EventsAPI): void {
   const { round, trick } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -105,24 +105,26 @@ function endTrick(g: WizardState, ctx: Ctx): void {
   const { player } = getTrickWinner(trick.cards, round.trump?.suit || null);
   round.trickCount![player] += 1;
 
-  ctx.events?.endTurn?.({ next: player.toString() });
+  events.endTurn({ next: player.toString() });
 }
 
-function onBegin({ round }: WizardState, { numPlayers }: Ctx): void {
+function onBegin({ G, ctx }: FnContext<WizardState>): void {
+  const { round } = G;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
-  round.trickCount = new Array(numPlayers).fill(0);
+  round.trickCount = new Array(ctx.numPlayers).fill(0);
 }
 
-function endIf({ round }: WizardState): boolean {
+function endIf({ G }: FnContext<WizardState>): boolean {
+  const { round } = G;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
   }
   return flatten(round.hands).length === 0;
 }
 
-function onEnd(g: WizardState): void {
+function onEnd({ G: g }: FnContext<WizardState>): void {
   const { round, roundIndex, rounds, scorePad } = g;
   if (!isSetRound(round)) {
     throw new Error("round is not set");
@@ -142,7 +144,7 @@ function onEnd(g: WizardState): void {
   round.isComplete = true;
 }
 
-export const playing: PhaseConfig = {
+export const playing = {
   moves: {
     play,
   },

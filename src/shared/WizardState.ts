@@ -6,6 +6,7 @@ import { ScorePad } from "./entities/score";
 import { Card, Suit, Rank } from "./entities/cards";
 import { OptionalTrickCard, TrickCard } from "./entities/trick";
 import { generateRounds } from "./entities/round.utils";
+import { RandomAPI } from "./boardgame.io.types";
 
 /**
  * Describes the Wizard game state used in the g object.
@@ -133,7 +134,7 @@ export function isSetRound(
  * @returns {WizardState}
  */
 export const generateDefaultWizardState = (
-  ctx: Ctx,
+  { ctx, random }: { ctx: Ctx; random: RandomAPI },
   setupData: WizardSetupData = {},
   {
     round: roundOptions,
@@ -145,7 +146,7 @@ export const generateDefaultWizardState = (
   const numPlayers = ctx.numPlayers as NumPlayers;
   const round =
     roundOptions !== null
-      ? generateBlankRoundState(ctx, numPlayers, roundOptions)
+      ? generateBlankRoundState(random, numPlayers, roundOptions)
       : null;
   const trick =
     trickOptions !== null ? generateBlankTrickState(trickOptions) : null;
@@ -175,7 +176,7 @@ export const generateDefaultWizardState = (
  * @returns {WizardRoundState}
  */
 export function generateBlankRoundState(
-  ctx: Ctx,
+  random: RandomAPI,
   numPlayers: NumPlayers,
   options: Partial<WizardRoundState> = {}
 ): WizardRoundState {
@@ -185,7 +186,7 @@ export function generateBlankRoundState(
     handsMeta: new Array(numPlayers).fill(null),
     trickCount: new Array(numPlayers).fill(null),
     trump: { card: null },
-    deck: ctx.random!.Shuffle(generateCardDeck()),
+    deck: random.Shuffle(generateCardDeck()),
   };
   return {
     ...defaultValues,

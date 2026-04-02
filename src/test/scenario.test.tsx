@@ -48,8 +48,8 @@ const WizardClient = Client({
         api: () => ({
           Die: randomMock,
           Shuffle: shuffleMock,
-          _obj: {
-            getState: () => {},
+          _private: {
+            getState: () => ({ seed: "0" }),
             isUsed: () => false,
           },
         }),
