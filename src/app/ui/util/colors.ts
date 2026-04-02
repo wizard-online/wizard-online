@@ -11,9 +11,7 @@ export interface ColorTripleTone {
   dark: string;
 }
 
-export interface ColorSetCollection {
-  [item: string]: ColorSet;
-}
+export type ColorSetCollection = Record<string, ColorSet>;
 
 export const colors = {
   white: "#ffffff",

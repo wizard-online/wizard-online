@@ -12,12 +12,13 @@ import { playersRound } from "../entities/players.utils";
 import { Card, Rank, Suit, allSuits, allRanks } from "../entities/cards";
 import { Phase } from "./phase";
 import { onBeginTurn } from "../turn";
-import { NumPlayers, PlayerID } from "../entities/players";
+import { PlayerID } from "../entities/players";
 import { EventsAPI, RandomAPI } from "../boardgame.io.types";
 
 export function shuffleMove(wizardState: WizardState, random: RandomAPI): void {
+  if (!isSetRound(wizardState.round)) return;
   // shuffle deck
-  wizardState.round!.deck = random.Shuffle(wizardState.round!.deck);
+  wizardState.round.deck = random.Shuffle(wizardState.round.deck);
 }
 
 export function handoutMove(wizardState: WizardState, events: EventsAPI): void {
@@ -26,10 +27,7 @@ export function handoutMove(wizardState: WizardState, events: EventsAPI): void {
     throw new Error("round is not set");
   }
 
-  const players = playersRound(
-    (currentPlayer + 1) % numPlayers,
-    numPlayers as NumPlayers
-  );
+  const players = playersRound((currentPlayer + 1) % numPlayers, numPlayers);
 
   // handout cards to players
   const hands = new Array(numPlayers).fill(0).map<(Card | null)[]>(() => []);

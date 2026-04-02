@@ -3,7 +3,7 @@ import { Card } from "../../shared/entities/cards";
 import { playableCardsInHand } from "../../shared/entities/cards.utils";
 import { useGameState } from "./GameContext";
 
-enum SelectionType {
+export enum SelectionType {
   Normal = "normal",
   Pre = "pre",
   Auto = "auto",
@@ -32,7 +32,7 @@ export const SelectedCardProvider: React.FC<React.PropsWithChildren> = ({
   >();
   const [isInitiatingPlay, setIsInitiatingPlay] = React.useState(false);
   const cancelPlayRef = React.useRef<() => void>();
-  const [selectionType, setSelectionType] = React.useState<SelectionType>(
+  const [selectionType, setSelectionType] = React.useState(
     SelectionType.Normal
   );
 
@@ -98,6 +98,7 @@ export const SelectedCardProvider: React.FC<React.PropsWithChildren> = ({
 
   return (
     <SelectedCardContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         selectedCardIndex,
         setSelectedCardIndex: updateSelectedCardIndex,

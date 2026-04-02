@@ -22,6 +22,9 @@ export const MatchContainer: React.FC = () => {
   const navigate = useNavigate();
   const { id, name, character } = useProfile();
   const { matchID } = useParams<{ matchID: string }>();
+
+  if (!matchID) throw new Error("matchID route parameter is missing");
+
   const [matchState, setMatchState] = useState<Match | undefined>();
   const [credentialsState, setCredentialsState] = useState<
     Credentials | undefined
@@ -29,9 +32,9 @@ export const MatchContainer: React.FC = () => {
 
   const fetchMatch = useCallback(async () => {
     try {
-      const matchResponse = await getMatch(matchID!);
+      const matchResponse = await getMatch(matchID);
       setMatchState(matchResponse);
-      setCredentialsState(getCredentials(matchID!));
+      setCredentialsState(getCredentials(matchID));
     } catch {
       navigate("/", { replace: true });
     }
@@ -49,19 +52,19 @@ export const MatchContainer: React.FC = () => {
   const playing = !freeSeats.length;
 
   if (playing) {
-    const credentialsStore = getCredentials(matchID!);
+    const credentialsStore = getCredentials(matchID);
     if (credentialsStore) {
       const { playerID, credentials } = credentialsStore;
       return (
         <PlayMatch
-          matchID={matchID!}
+          matchID={matchID}
           playerID={playerID}
           credentials={credentials}
         />
       );
     }
     // spectate match
-    return <PlayMatch matchID={matchID!} />;
+    return <PlayMatch matchID={matchID} />;
   }
 
   return (
@@ -73,13 +76,13 @@ export const MatchContainer: React.FC = () => {
           const seatIndex = random(freeSeats.length - 1);
           const { id: seatID } = freeSeats[seatIndex];
           const newCredentials = await joinMatch(
-            matchID!,
+            matchID,
             seatID,
             name,
             id,
             character
           );
-          setCredentials(matchID!, seatID, newCredentials);
+          setCredentials(matchID, seatID, newCredentials);
           fetchMatch();
           joinedGameEventGA();
         }
@@ -88,11 +91,11 @@ export const MatchContainer: React.FC = () => {
       onLeaveMatch={async () => {
         if (credentialsState) {
           await leaveMatch(
-            matchID!,
+            matchID,
             credentialsState.playerID,
             credentialsState.credentials
           );
-          unsetCredentials(matchID!);
+          unsetCredentials(matchID);
           fetchMatch();
           leftGameEventGA();
         }

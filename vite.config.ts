@@ -1,9 +1,12 @@
+/* eslint-disable import-x/no-default-export */
 import { defineConfig, loadEnv, Plugin } from "vite";
-import { execSync } from "child_process";
+import { execSync } from "node:child_process";
 
 function getGitDescribe(): string {
   try {
-    return execSync("git describe --always --dirty", { encoding: "utf-8" }).trim();
+    return execSync("git describe --always --dirty", {
+      encoding: "utf8",
+    }).trim();
   } catch {
     return "unknown";
   }
@@ -27,11 +30,11 @@ function envReplacePlugin(envValues: Record<string, string>): Plugin {
       // Only transform source files, not node_modules
       if (id.includes("node_modules")) return;
       let result = code;
-      for (const { search, replace } of replacements) {
+      replacements.forEach(({ search, replace }) => {
         // Also handle process.env.X! (TypeScript non-null assertion)
-        result = result.split(search + "!").join(replace);
+        result = result.split(`${search}!`).join(replace);
         result = result.split(search).join(replace);
-      }
+      });
       if (result !== code) return { code: result, map: null };
     },
   };

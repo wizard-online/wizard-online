@@ -31,7 +31,7 @@ export const ClientHand: React.FC<HandCardsProps> = ({
   const canPreselectCard = !!lead && !hasPlayed;
   const canSelectCard = isPlayTurn || canPreselectCard;
   const playableCards = canPreselectCard
-    ? playableCardsInHand(cards as Card[], lead)
+    ? playableCardsInHand(cards, lead)
     : undefined;
 
   const { preferences } = useProfile();

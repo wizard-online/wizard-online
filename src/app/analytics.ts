@@ -9,11 +9,11 @@ export function initializeGA(): void {
 }
 
 export function pageview(pathname?: string): void {
-  const page = pathname ?? window.location.pathname;
+  const page = pathname ?? globalThis.location.pathname;
   let analyticsPath = page;
 
   // remove matchID param from /matches/<matchID> URLs
-  if (page.match(/matches\/[\w-]+/i)) {
+  if (/matches\/[\w-]+/i.test(page)) {
     analyticsPath = "/matches/match-id";
   }
   ReactGA.send({ hitType: "pageview", page: analyticsPath });

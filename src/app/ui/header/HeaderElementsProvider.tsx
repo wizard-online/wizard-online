@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
 
-export interface HeaderElements {
-  [id: string]: HeaderElement;
-}
+export type HeaderElements = Record<string, HeaderElement>;
 
 export enum HeaderSpot {
   LEFT = "left",
@@ -40,14 +38,13 @@ export const HeaderElementsProvider: React.FC<React.PropsWithChildren> = ({
   const removeElement = useCallback((id: string) => {
     setElements(({ [id]: element, ...others }) => others);
   }, []);
+  const contextValue = React.useMemo(
+    () => ({ elements, addElement, removeElement }),
+    [elements, addElement, removeElement]
+  );
+
   return (
-    <HeaderContext.Provider
-      value={{
-        elements,
-        addElement,
-        removeElement,
-      }}
-    >
+    <HeaderContext.Provider value={contextValue}>
       {children}
     </HeaderContext.Provider>
   );

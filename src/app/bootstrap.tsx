@@ -5,5 +5,7 @@ import { initializeGA } from "./analytics";
 
 initializeGA();
 
-const root = createRoot(document.querySelector("#root")!);
+const rootElement = document.querySelector("#root");
+if (!rootElement) throw new Error("Root element #root not found");
+const root = createRoot(rootElement);
 root.render(<App />);

@@ -65,15 +65,11 @@ export interface WizardRoundState {
   isComplete?: boolean;
 }
 
-export type HandMeta = {
+export interface HandMeta {
   total: number;
-  suits: {
-    [suit in Suit]: number;
-  };
-  ranks: {
-    [rank in Rank]: number;
-  };
-};
+  suits: Record<Suit, number>;
+  ranks: Record<Rank, number>;
+}
 
 /**
  * Describes the round's trump suit.

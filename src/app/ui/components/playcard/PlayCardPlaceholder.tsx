@@ -5,9 +5,7 @@ import { colors } from "../../util/colors";
 
 export const PlayCardPlaceholder: React.FC<React.PropsWithChildren> = ({
   children,
-}) => {
-  return <PlaceholderContainer>{children}</PlaceholderContainer>;
-};
+}) => <PlaceholderContainer>{children}</PlaceholderContainer>;
 
 const PlaceholderContainer = styled.div`
   ${playCardBaseStyles}

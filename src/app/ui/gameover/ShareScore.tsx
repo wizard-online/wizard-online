@@ -19,7 +19,7 @@ export const ShareScore: React.FC<ShareScoreProps> = ({ finalResult }) => {
   const notify = useNotify();
 
   const compressedData = stringify(finalResult);
-  const scoreUrl = `${window.location.protocol}//${window.location.host}/score/${compressedData}`;
+  const scoreUrl = `${globalThis.location.protocol}//${globalThis.location.host}/score/${compressedData}`;
   return (
     <Card>
       <CardContent>

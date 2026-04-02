@@ -10,7 +10,7 @@ import { EventsAPI } from "../boardgame.io.types";
 
 interface GenerateOptions {
   numPlayers?: NumPlayers;
-  bids?: Array<number | null>;
+  bids?: (number | null)[];
   numCards?: number;
 }
 
@@ -141,7 +141,7 @@ describe("bidding endIf", () => {
   it("should throw if round is not set", () => {
     const { context, g } = generate({ bids: [1, 2, 3, null] });
     context.G = { ...g, round: null };
-    expect(() => bidding.endIf!(context)).toThrow();
+    expect(() => bidding.endIf(context)).toThrow();
   });
 
   it.each([
@@ -152,12 +152,12 @@ describe("bidding endIf", () => {
     [[null, 2, 3, 4]],
   ])("should return false if some bids are still null", (bids) => {
     const { context } = generate({ bids });
-    expect(bidding.endIf!(context)).toBe(false);
+    expect(bidding.endIf(context)).toBe(false);
   });
 
   it("should return true if all bids are set", () => {
     const { context } = generate({ bids: [1, 2, 3, 0] });
-    expect(bidding.endIf!(context)).toBe(true);
+    expect(bidding.endIf(context)).toBe(true);
   });
 });
 
@@ -165,12 +165,12 @@ describe("bidding onEnd", () => {
   it("should throw if round is not set", () => {
     const { context, g } = generate({ bids: [1, 2, 3, 0] });
     context.G = { ...g, round: null };
-    expect(() => bidding.onEnd!(context)).toThrow();
+    expect(() => bidding.onEnd(context)).toThrow();
   });
 
   it("should throw if bids are not complete", () => {
     const { context } = generate({ bids: [1, 2, 3, null] });
-    expect(() => bidding.onEnd!(context)).toThrow();
+    expect(() => bidding.onEnd(context)).toThrow();
   });
 
   it.each([
@@ -178,7 +178,7 @@ describe("bidding onEnd", () => {
     [[0, 0, 0, 0], 1, -1],
   ])("should set the bids mismatch", (bids, numCards, mismatch) => {
     const { context, g } = generate({ bids, numCards });
-    bidding.onEnd!(context);
+    bidding.onEnd(context);
     expect(g.round?.bidsMismatch).toBe(mismatch);
   });
 });
