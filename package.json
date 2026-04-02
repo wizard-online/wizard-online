@@ -13,6 +13,7 @@
     "start": "pnpm start:app",
     "start:app": "vite",
     "start:server": "concurrently -k -n \"tsc,node\" -p \"{time}-{name}\" -t \"HH:mm:ss\" -c \"magenta,cyan\" \"pnpm build:server:watch\" \"pnpm preview:server:watch\"",
+    "start:all": "concurrently -k -n \"app,tsc,node\" -p \"{time}-{name}\" -t \"HH:mm:ss\" -c \"bgYellow,magenta,cyan\" \"pnpm start:app\" \"pnpm build:server:watch\" \"pnpm preview:server:watch\"",
     "prestart:server": "pnpm build:server",
     "start:db": "docker-compose up",
     "preview:app": "vite preview",
