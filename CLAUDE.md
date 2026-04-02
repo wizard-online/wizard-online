@@ -35,12 +35,12 @@ pnpm run build:server       # build server to dist/server/
 | 2 | Jest 25→29, ts-jest, babel-jest, @testing-library stack | **DONE** |
 | 3 | dotenv 8→16, date-fns 2→4, remove unused redux, sentry 5→8 | **DONE** |
 | 4 | React 16→18, MUI v4→v7, react-router-dom v5→v6, react-ga→react-ga4 | **DONE** |
-| 5 | boardgame.io 0.41→0.50 (highest risk — do last) | TODO |
+| 5 | boardgame.io 0.41→0.50 (highest risk — do last) | **DONE** |
 | 6 | Parcel 1→Vite (frontend), tsc (server) | **DONE** |
 
 ### Constraints
-- Phases 0–4 and 6 are complete — only Phase 5 (boardgame.io upgrade) remains
-- boardgame.io 0.41→0.50 is the highest-risk upgrade due to breaking API changes across versions
+- All phases (0–6) are complete — dependency upgrade project is finished
+- boardgame.io 0.50.2 uses new callback signatures: `({ G, ctx, events, random, ... }, ...args)` instead of `(G, ctx, ...args)`
 
 ### Security vulnerabilities (as of 2026-03-29)
 187 total: **20 critical, 80 high**, 69 moderate, 18 low.

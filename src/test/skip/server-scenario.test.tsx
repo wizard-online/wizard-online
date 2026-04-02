@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable jest/expect-expect */
 import React from "react";
 // import from "@testing-library/react/pure" to prevent automatic dom cleanup after each test
@@ -33,7 +32,7 @@ const shuffleMock = jest.fn();
 
 const serverScenarioGameConfig = {
   ...wizardGameConfig,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   setup({ ctx, random }: any) {
     return generateDefaultWizardState({ ctx, random });
   },
@@ -64,7 +63,6 @@ const server = Server({
   games: [serverScenarioGameConfig],
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let runningServer: any;
 
 beforeAll(async () => {

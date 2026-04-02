@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { PlayerID } from "boardgame.io";
 import { generateDefaultWizardState, WizardState } from "./WizardState";
 import { setup } from "./phases/setup";

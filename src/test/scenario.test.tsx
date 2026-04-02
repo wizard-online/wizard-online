@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable jest/expect-expect */
 import React from "react";
 // import from "@testing-library/react/pure" to prevent automatic dom cleanup after each test
@@ -58,7 +57,7 @@ const WizardClient = Client({
   },
   board: WizardBoard,
   numPlayers: 4,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
   // @ts-ignore
   multiplayer: Local(),
   debug: false,

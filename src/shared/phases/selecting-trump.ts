@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { FnContext } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { WizardState, isSetRound } from "../WizardState";

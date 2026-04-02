@@ -10,7 +10,6 @@ export const ExternalLink = React.forwardRef<
       target="_blank"
       rel="noopener noreferrer"
       ref={ref}
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
     >
       {children}

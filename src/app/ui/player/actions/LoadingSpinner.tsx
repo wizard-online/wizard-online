@@ -22,23 +22,19 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     setIncrementCounter((prev) => prev + 1);
   }
 
-  React.useEffect(
-    () => {
-      if (show) {
-        triggerIncrement();
-      }
+  React.useEffect(() => {
+    if (show) {
+      triggerIncrement();
+    }
 
-      return () => {
-        if (timeoutHandleRef.current) {
-          window.clearTimeout(timeoutHandleRef.current);
-          timeoutHandleRef.current = undefined;
-        }
-        setProgress(0);
-      };
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [show, duration]
-  );
+    return () => {
+      if (timeoutHandleRef.current) {
+        window.clearTimeout(timeoutHandleRef.current);
+        timeoutHandleRef.current = undefined;
+      }
+      setProgress(0);
+    };
+  }, [show, duration]);
 
   React.useEffect(() => {
     if (show && progress < 100) {
