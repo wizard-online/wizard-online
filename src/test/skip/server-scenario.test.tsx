@@ -240,7 +240,9 @@ function nextPlayer(currentPlayer: PlayerID, numPlayers: number): PlayerID {
 }
 
 async function sleep(ms = 500): Promise<void> {
-  await new Promise((r) => setTimeout(r, ms));
+  await new Promise<void>((r) => {
+    setTimeout(r, ms);
+  });
 }
 
 const { numPlayers, rounds } = scenario;

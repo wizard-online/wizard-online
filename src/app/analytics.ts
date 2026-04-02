@@ -13,7 +13,7 @@ export function pageview(pathname?: string): void {
   let analyticsPath = page;
 
   // remove matchID param from /matches/<matchID> URLs
-  if (page.match(/matches\/[\w-]+/i)) {
+  if (/matches\/[\w-]+/i.test(page)) {
     analyticsPath = "/matches/match-id";
   }
   ReactGA.send({ hitType: "pageview", page: analyticsPath });

@@ -11,7 +11,7 @@ Sentry.init({ dsn: process.env.SENTRY_SERVER_DSN });
 
 let db: StorageCache | undefined;
 if (process.env.DATABASE_URL) {
-  const postgres = new PostgresStore(process.env.DATABASE_URL!, {
+  const postgres = new PostgresStore(process.env.DATABASE_URL, {
     dialectOptions:
       process.env.DB_DISABLE_SSL === "true"
         ? {}

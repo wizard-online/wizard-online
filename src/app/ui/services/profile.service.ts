@@ -81,7 +81,7 @@ export function getProfile(): ProfileStoreWithId | undefined {
           ...value,
           preferences: {
             ...initialProfilePreferences,
-            ...(value.preferences ?? {}),
+            ...value.preferences,
           },
         };
       } catch {

@@ -6,9 +6,9 @@ export interface BlinkerProps {
   on: boolean;
 }
 
-export const Blinker: React.FC<BlinkerProps> = ({ on }) => {
-  return <BlinkContainer isBlinking={on} />;
-};
+export const Blinker: React.FC<BlinkerProps> = ({ on }) => (
+  <BlinkContainer isBlinking={on} />
+);
 
 const blinking = keyframes`
   0% {background-color: ${colors.blue.light}}

@@ -12,15 +12,13 @@ export interface ActionsContainerProps {
 
 export const ActionsContainer: React.FC<ActionsContainerProps> = ({
   phase,
-}) => {
-  return (
-    <Container>
-      {phase === Phase.Setup && <SetupAction />}
-      {phase === Phase.SelectingTrump && <SelectingTrumpAction />}
-      {phase === Phase.Bidding && <BiddingAction />}
-      {phase === Phase.Playing && <PlayingAction />}
-    </Container>
-  );
-};
+}) => (
+  <Container>
+    {phase === Phase.Setup && <SetupAction />}
+    {phase === Phase.SelectingTrump && <SelectingTrumpAction />}
+    {phase === Phase.Bidding && <BiddingAction />}
+    {phase === Phase.Playing && <PlayingAction />}
+  </Container>
+);
 
 const Container = styled.div``;

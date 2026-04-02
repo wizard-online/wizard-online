@@ -33,7 +33,7 @@ export const BiddingAction: React.FC = () => {
         <Field>
           <Slider
             value={bidValue}
-            onChange={(_, newValue) => setBidValue(newValue as number)}
+            onChange={(_, newValue) => setBidValue(newValue)}
             step={1}
             min={0}
             max={numCards}

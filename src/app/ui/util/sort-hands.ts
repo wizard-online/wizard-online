@@ -41,8 +41,8 @@ export function sortHand(
       if (keyA === Rank.N.toString() || keyB === Rank.Z.toString()) return -1;
       if (keyA === Rank.Z.toString() || keyB === Rank.N.toString()) return 1;
       // always sort trump beside Z
-      if (keyA === trumpSuit) return 1;
-      if (keyB === trumpSuit) return -1;
+      if (keyA === (trumpSuit as string)) return 1;
+      if (keyB === (trumpSuit as string)) return -1;
       // sort by number of cards of suit (in the original hand)
       return handMeta.suits[keyA as Suit] - handMeta.suits[keyB as Suit];
     })

@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
 
-export interface HeaderElements {
-  [id: string]: HeaderElement;
-}
+export type HeaderElements = Record<string, HeaderElement>;
 
 export enum HeaderSpot {
   LEFT = "left",

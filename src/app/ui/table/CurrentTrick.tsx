@@ -4,7 +4,6 @@ import { isSetTrick, isSetRound } from "../../../shared/WizardState";
 import { getTrickWinner } from "../../../shared/entities/cards.utils";
 import { PlayerID } from "../../../shared/entities/players";
 import { checkTrickCard } from "../../../shared/entities/trick.utils";
-import { TrickCard } from "../../../shared/entities/trick";
 import { Trick } from "./Trick";
 
 export const CurrentTrick: React.FC = () => {
@@ -18,7 +17,7 @@ export const CurrentTrick: React.FC = () => {
   let winningPlayerID: PlayerID | undefined;
   const playedCardsInTrick = cards.filter((optTrickCard) =>
     checkTrickCard(optTrickCard)
-  ) as TrickCard[];
+  );
   if (playedCardsInTrick.length > 0) {
     const { player } = getTrickWinner(
       playedCardsInTrick,

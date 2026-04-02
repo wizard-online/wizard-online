@@ -12,11 +12,9 @@ export function useProfileHeaderElement(): void {
     1,
     useMemo(
       () => (
-        <>
-          <HeaderButton startIcon={<Icon>account_circle</Icon>}>
-            {name}
-          </HeaderButton>
-        </>
+        <HeaderButton startIcon={<Icon>account_circle</Icon>}>
+          {name}
+        </HeaderButton>
       ),
       [name]
     )

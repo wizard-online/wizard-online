@@ -9,9 +9,7 @@ export interface GameScenario {
 
 export interface RoundScenario {
   numCards: number;
-  moves: {
-    [playerID: number]: PlayerMoves;
-  };
+  moves: Record<number, PlayerMoves>;
   trickWinners: PlayerID[];
   trumpCard?: Card;
   trumpSuit?: Suit;

@@ -39,7 +39,7 @@ export const NotificationsProvider: React.FC<React.PropsWithChildren> = ({
 
   const notify = React.useCallback(
     (newNotification: Notification): void => {
-      queue.current.push({ ...newNotification, key: new Date().getTime() });
+      queue.current.push({ ...newNotification, key: Date.now() });
       if (show) {
         setShow(false);
       } else {

@@ -4,9 +4,7 @@ import { PlayerID } from "../../../shared/entities/players";
 
 export const storageKey = "wizard-credentials";
 
-export interface CredentialsStore {
-  [gameID: string]: Credentials;
-}
+export type CredentialsStore = Record<string, Credentials>;
 
 export interface Credentials {
   playerID: PlayerID;
@@ -36,7 +34,7 @@ export function addToStore(
     [gameID]: {
       playerID,
       credentials,
-      timestamp: new Date().getTime(),
+      timestamp: Date.now(),
     },
   };
 }

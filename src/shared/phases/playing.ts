@@ -68,7 +68,7 @@ export function play(
   const trickPlayerIndex = trick.cards.findIndex(
     ({ player }) => player === g.currentPlayer
   );
-  if (!(trickPlayerIndex >= 0)) {
+  if (!(trickPlayerIndex !== -1)) {
     throw new Error("current player does not exist in the trick");
   }
   trick.cards[trickPlayerIndex].card = cardPlayed;
@@ -103,7 +103,7 @@ function endTrick(g: WizardState, events: EventsAPI): void {
     );
   }
   const { player } = getTrickWinner(trick.cards, round.trump?.suit || null);
-  round.trickCount![player] += 1;
+  round.trickCount[player] += 1;
 
   events.endTurn({ next: player.toString() });
 }

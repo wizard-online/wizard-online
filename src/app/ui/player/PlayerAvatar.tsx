@@ -14,17 +14,13 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
   name,
   character,
   size = 70,
-}) => {
-  return (
-    <Avatar
-      alt="Avatar"
-      src={
-        name && character ? getAvatarUrl(name, character) : AvatarPlaceholder
-      }
-      $size={size}
-    />
-  );
-};
+}) => (
+  <Avatar
+    alt="Avatar"
+    src={name && character ? getAvatarUrl(name, character) : AvatarPlaceholder}
+    $size={size}
+  />
+);
 
 const Avatar = styled.img<{ $size: number }>`
   width: ${({ $size }) => $size}px;

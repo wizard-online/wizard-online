@@ -12,22 +12,20 @@ export const WizardBoard: React.FC<BoardProps<WizardState>> = ({
   G,
   playerID,
   ...rest
-}) => {
-  return (
-    <GameContext.Provider
-      value={{
-        gamestate: {
-          wizardState: G as WizardState,
-          clientID: playerID !== null ? PlayerID(playerID) : null,
-          ...rest,
-        } as GameState,
-      }}
-    >
-      <GameEvents>
-        <SelectedCardProvider>
-          <WizardLayout />
-        </SelectedCardProvider>
-      </GameEvents>
-    </GameContext.Provider>
-  );
-};
+}) => (
+  <GameContext.Provider
+    value={{
+      gamestate: {
+        wizardState: G,
+        clientID: playerID !== null ? PlayerID(playerID) : null,
+        ...rest,
+      } as GameState,
+    }}
+  >
+    <GameEvents>
+      <SelectedCardProvider>
+        <WizardLayout />
+      </SelectedCardProvider>
+    </GameEvents>
+  </GameContext.Provider>
+);

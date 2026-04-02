@@ -64,9 +64,9 @@ export default defineConfig([
       'react/function-component-definition': 'off',
       'react/require-default-props': 'off',
       'react/jsx-no-constructed-context-values': 'off',
-      'react/jsx-no-useless-fragment': 'off',
+      'react/jsx-no-useless-fragment': 'error',
 
-      // TypeScript
+      // TypeScript (non-type-aware — safe for all files)
       '@typescript-eslint/explicit-function-return-type': [
         'error',
         { allowExpressions: true, allowTypedFunctionExpressions: true },
@@ -76,12 +76,9 @@ export default defineConfig([
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       '@typescript-eslint/no-redeclare': 'off',
-      '@typescript-eslint/consistent-indexed-object-style': 'off',
-      '@typescript-eslint/consistent-type-definitions': 'off',
-      '@typescript-eslint/no-unnecessary-type-arguments': 'off',
-      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
-      '@typescript-eslint/no-unsafe-enum-comparison': 'off',
-      '@typescript-eslint/array-type': 'off',
+      '@typescript-eslint/consistent-indexed-object-style': 'error',
+      '@typescript-eslint/consistent-type-definitions': 'error',
+      '@typescript-eslint/array-type': 'error',
       '@typescript-eslint/no-require-imports': 'off',
 
       // Core
@@ -89,8 +86,8 @@ export default defineConfig([
       'no-use-before-define': 'off',
       'no-underscore-dangle': 'off',
       'no-console': 'off',
-      'no-promise-executor-return': 'off',
-      'arrow-body-style': 'off',
+      'no-promise-executor-return': 'error',
+      'arrow-body-style': 'error',
 
       // ESLint comments
       '@eslint-community/eslint-comments/no-duplicate-disable': 'error',
@@ -114,15 +111,25 @@ export default defineConfig([
       'unicorn/no-negated-condition': 'off',
       'unicorn/prefer-module': 'off',
       'unicorn/no-array-reduce': 'off',
-      'unicorn/no-useless-fallback-in-spread': 'off',
-      'unicorn/prefer-date-now': 'off',
+      'unicorn/no-useless-fallback-in-spread': 'error',
+      'unicorn/prefer-date-now': 'error',
       'unicorn/no-array-callback-reference': 'off',
       'unicorn/prefer-native-coercion-functions': 'off',
       'unicorn/no-unnecessary-polyfills': 'off',
-      'unicorn/prefer-regexp-test': 'off',
+      'unicorn/prefer-regexp-test': 'error',
       'unicorn/explicit-length-check': 'off',
-      'unicorn/consistent-existence-index-check': 'off',
+      'unicorn/consistent-existence-index-check': 'error',
       'unicorn/prefer-global-this': 'off',
+    },
+  },
+
+  // Type-aware TS rules — only for .ts/.tsx (require type information)
+  {
+    files: ['**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-unnecessary-type-arguments': 'error',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+      '@typescript-eslint/no-unsafe-enum-comparison': 'error',
     },
   },
 

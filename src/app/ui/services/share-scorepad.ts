@@ -68,9 +68,7 @@ export function stringify(finalResult: FinalResult): string {
   return flow(
     sharableResultFromScorePad,
     encode,
-    (input) => {
-      return lzma.compress(input, 1);
-    },
+    (input) => lzma.compress(input, 1),
     (input) => Buffer.from(input),
     URLSafeBase64.encode
   )(finalResult);
