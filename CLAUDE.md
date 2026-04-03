@@ -37,9 +37,10 @@ pnpm run build:server       # build server to dist/server/
 | 4 | React 16→18, MUI v4→v7, react-router-dom v5→v6, react-ga→react-ga4 | **DONE** |
 | 5 | boardgame.io 0.41→0.50 (highest risk — do last) | **DONE** |
 | 6 | Parcel 1→Vite (frontend), tsc (server) | **DONE** |
+| 7 | ESLint 8→9 (flat config) | **DONE** |
 
 ### Constraints
-- All phases (0–6) are complete — dependency upgrade project is finished
+- All phases (0–7) are complete — dependency upgrade project is finished
 - boardgame.io 0.50.2 uses new callback signatures: `({ G, ctx, events, random, ... }, ...args)` instead of `(G, ctx, ...args)`
 
 ### Security vulnerabilities (as of 2026-03-29)

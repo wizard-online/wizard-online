@@ -113,7 +113,14 @@
       "cross-spawn": ">=7.0.5",
       "flatted": ">=3.4.2",
       "picomatch": ">=2.3.2",
-      "hosted-git-info": ">=2.8.9"
+      "hosted-git-info": ">=2.8.9",
+      "ws": ">=7.5.10",
+      "socket.io-parser": ">=4.2.6",
+      "svelte": ">=4.2.19",
+      "minimatch": ">=9.0.7",
+      "brace-expansion": ">=2.0.3",
+      "js-yaml": ">=3.14.2",
+      "sugarss": ">=4.0.0"
     }
   }
 }
