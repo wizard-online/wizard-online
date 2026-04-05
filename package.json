@@ -120,7 +120,8 @@
       "minimatch": ">=9.0.7",
       "brace-expansion": ">=2.0.3",
       "js-yaml": ">=3.14.2",
-      "sugarss": ">=4.0.0"
+      "sugarss": ">=4.0.0",
+      "underscore": ">=1.13.8 "
     }
   }
 }

@@ -20,6 +20,7 @@ overrides:
   brace-expansion: '>=2.0.3'
   js-yaml: '>=3.14.2'
   sugarss: '>=4.0.0'
+  underscore: '>=1.13.8 '
 
 importers:
 
@@ -5384,8 +5385,8 @@ packages:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
     engines: {node: '>= 0.4'}
 
-  underscore@1.12.0:
-    resolution: {integrity: sha512-21rQzss/XPMjolTiIezSu3JAjgagXKROtNrYFEOWK109qY1Uv2tVjPTZ1ci2HgvQDA16gHYSthQIJfB+XId/rQ==}
+  underscore@1.13.8:
+    resolution: {integrity: sha512-DXtD3ZtEQzc7M8m4cXotyHR+FAS18C64asBYY5vqZexfYryNNnDc02W4hKg3rdQuqOYas1jkseX0+nZXjTXnvQ==}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
     resolution: {integrity: sha512-dA8WbNeb2a6oQzAQ55YlT5vQAWGV9WXOsi3SskE3bcCdM0P4SDd+24zS/OCacdRq5BkdsRj9q3Pg6YyQoxIGqg==}
@@ -10832,7 +10833,7 @@ snapshots:
 
   pg-hstore@2.3.3:
     dependencies:
-      underscore: 1.12.0
+      underscore: 1.13.8
 
   pg-int8@1.0.1: {}
 
@@ -11777,7 +11778,7 @@ snapshots:
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
-  underscore@1.12.0: {}
+  underscore@1.13.8: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
