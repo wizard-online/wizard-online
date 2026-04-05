@@ -42,7 +42,7 @@
     "@mui/material": "^7.3.9",
     "@sentry/browser": "^8.55.1",
     "@sentry/node": "^8.55.1",
-    "bgio-postgres": "^1.0.15",
+    "bgio-postgres": "^1.0.16",
     "bgio-storage-cache": "^0.3.2",
     "boardgame.io": "^0.50.2",
     "core-js": "^3.6.4",
