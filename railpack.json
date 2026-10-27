@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "packages": {
+    "node": "22"
+  },
+  "steps": {
+    "build": {
+      "commands": ["pnpm build:server"]
+    }
+  },
+  "deploy": {
+    "startCommand": "node dist/server/src/server/index.js"
+  }
+}
